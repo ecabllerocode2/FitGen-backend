@@ -18,15 +18,13 @@ const corsOptions = {
     credentials: true,
 };
 
-// 1. Usar el middleware CORS
+// 1. Usar el middleware CORS (Este es el que debe manejar el OPTIONS preflight)
 app.use(cors(corsOptions)); 
 
 // 2. Middleware para parsear cuerpos JSON
 app.use(express.json());
 
-// 💡 3. MANEJAR OPTIONS DE FORMA EXPLÍCITA (SOLUCIÓN AL 405)
-// Esto intercepta la pre-solicitud de CORS y garantiza que devuelva 204.
-app.options('*', cors(corsOptions));
+// 💡 3. SE ELIMINA LA LÍNEA app.options('*', ...) que causaba el PathError.
 
 
 // --- RUTAS DE API ---
