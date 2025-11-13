@@ -1,0 +1,19 @@
+# Dependencias
+/node_modules
+
+# Archivos de Firebase Admin - ¡CRUCIAL!
+serviceAccountKey.json
+
+# Archivos de entorno local
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+/dist
+/build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

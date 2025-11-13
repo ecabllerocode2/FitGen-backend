@@ -1,0 +1,30 @@
+{
+  "name": "fitgen-backend",
+  "version": "1.0.0",
+  "description": "Serverless Functions for the FitGen PWA",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "deploy": "vercel --prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fitness",
+    "llm",
+    "serverless"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "vercel": "^32.5.0"
+  }
+}
