@@ -10,13 +10,24 @@ import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
 const app = express();
 const PORT = 3000;
 
-// 💡 CORRECCIÓN CORS: Permite peticiones desde el frontend (PWA) de Codespaces o Vercel.
-app.use(cors({ 
-    origin: '*', // Permite todas las fuentes (necesario para Codespaces -> Vercel)
-    methods: ['GET', 'POST', 'OPTIONS'], // Asegura que POST y OPTIONS estén permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'] // Crucial para el token de autenticación de Firebase
-})); 
-app.use(express.json());       // Middleware para parsear cuerpos JSON
+// 💡 CORRECCIÓN CORS: Definición más robusta para Vercel
+const corsOptions = {
+    origin: '*', // Permite todas las fuentes (vital para Codespaces -> Vercel)
+    methods: ['GET', 'POST', 'OPTIONS'], // ¡Asegurar que OPTIONS esté explícito!
+    allowedHeaders: ['Content-Type', 'Authorization'], // Crucial para el token
+    credentials: true,
+};
+
+// 1. Usar el middleware CORS
+app.use(cors(corsOptions)); 
+
+// 2. Middleware para parsear cuerpos JSON
+app.use(express.json());
+
+// 💡 3. MANEJAR OPTIONS DE FORMA EXPLÍCITA (SOLUCIÓN AL 405)
+// Esto intercepta la pre-solicitud de CORS y garantiza que devuelva 204.
+app.options('*', cors(corsOptions));
+
 
 // --- RUTAS DE API ---
 // Ruta existente
@@ -36,10 +47,15 @@ app.get('/', (req, res) => {
     });
 });
 
-// Inicio del Servidor
-app.listen(PORT, () => {
-    console.log(`\n============================================`);
-    console.log(`Servidor Express iniciado en: http://localhost:${PORT}`);
-    console.log(`Ejecute 'npm run dev' para el reinicio automático.`);
-    console.log(`============================================\n`);
-});
+// Inicio del Servidor (Solo para desarrollo local)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`\n============================================`);
+        console.log(`Servidor Express iniciado en: http://localhost:${PORT}`);
+        console.log(`Ejecute 'npm run dev' para el reinicio automático.`);
+        console.log(`============================================\n`);
+    });
+}
+
+// 💡 Exportar la app para Vercel (Esta es la línea que Vercel busca para ejecutar la Serverless Function)
+export default app;
