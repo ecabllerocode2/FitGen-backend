@@ -10,8 +10,12 @@ import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
 const app = express();
 const PORT = 3000;
 
-// Configuración Global de Express
-app.use(cors({ origin: '*' })); // Permite peticiones desde el frontend (PWA)
+// 💡 CORRECCIÓN CORS: Permite peticiones desde el frontend (PWA) de Codespaces o Vercel.
+app.use(cors({ 
+    origin: '*', // Permite todas las fuentes (necesario para Codespaces -> Vercel)
+    methods: ['GET', 'POST', 'OPTIONS'], // Asegura que POST y OPTIONS estén permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'] // Crucial para el token de autenticación de Firebase
+})); 
 app.use(express.json());       // Middleware para parsear cuerpos JSON
 
 // --- RUTAS DE API ---
@@ -25,7 +29,7 @@ app.post('/api/admin/aprobar-usuario', aprobarUsuarioHandler);
 app.get('/', (req, res) => {
     res.status(200).json({ 
         status: 'OK',
-        message: 'FitGen Backend Express/Nodemon operativo.',
+        message: 'FitGen Backend Express/Nodemon operativo. CORS configurado.',
         dbStatus: db ? 'Firestore conectado' : 'Firestore ERROR',
         // 💡 CAMBIO 3: Actualizar el mensaje de bienvenida
         availableEndpoints: ['POST /api/profile/save', 'POST /api/admin/aprobar-usuario']
