@@ -47,10 +47,14 @@ export default async function handler(req, res) {
         const { goal } = req.body;
         
         // 2. CONSTRUIR EL PROMPT PARA EL LLM
-        // Aseguramos que la frase sea corta, motivacional, y dirigida a la meta del usuario
         const goalDescription = goal || 'tu meta de fitness';
         
-        const prompt = `Eres un coach de fitness conciso e inspirador. Genera una sola frase motivacional muy corta y poderosa (máximo 15 palabras) dirigida a un atleta. Su meta actual es: ${goalDescription}. El nombre del atleta es ${name}. Debes hablarle por su nombre.`;
+        // 💡 CORRECCIÓN CRÍTICA: Añadimos un Nonce (cacheBuster) al prompt.
+        // Esto garantiza que el string del prompt sea ÚNICO en cada llamada,
+        // forzando al LLM o a la caché de OpenRouter a generar una nueva respuesta.
+        const cacheBuster = Date.now(); 
+
+        const prompt = `Eres un coach de fitness conciso e inspirador. Genera una sola frase motivacional muy corta y poderosa (máximo 15 palabras) dirigida a un atleta. Su meta actual es: ${goalDescription}. El nombre del atleta es ${name}. Debes hablarle por su nombre. (Nonce: ${cacheBuster})`;
 
         // 3. LLAMADA A LA API DE OPENROUTER
         const openRouterResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
