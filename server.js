@@ -6,9 +6,8 @@ import cors from 'cors';
 import { db, auth } from './lib/firebaseAdmin.js';
 import saveProfileHandler from './api/profile/save.js';
 import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
-
-// 💡 CAMBIO 1: Importar el handler de la frase motivacional
 import motivationHandler from './api/profile/motivation.js';
+import mesocycleGenerateHandler from './api/mesocycle/generate.js';
 
 const app = express();
 const PORT = 3000;
@@ -39,7 +38,7 @@ app.post('/api/admin/aprobar-usuario', aprobarUsuarioHandler);
 app.post('/api/profile/motivation', motivationHandler);
 
 //generacion del mesocyclo
-app.post('/api/mesocycle/generate', motivationHandler);
+app.post('/api/mesocycle/generate', mesocycleGenerateHandler);
 
 
 
