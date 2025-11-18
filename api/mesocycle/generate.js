@@ -153,7 +153,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'mistralai/mistral-small-3.2-24b-instruct:free', // Buen rendimiento y bajo costo para JSON
+                model: 'openai/gpt-4o-mini', // Buen rendimiento y bajo costo para JSON
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
