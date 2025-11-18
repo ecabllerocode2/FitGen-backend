@@ -1,42 +1,38 @@
+// api/profile/save.js
+// Este endpoint maneja la lógica para guardar/actualizar el perfil de usuario en Firestore.
+
 import { db, auth } from '../../lib/firebaseAdmin.js';
 
+// La función 'handler' se exporta directamente, sin Express.
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido. Solo POST.' });
     }
 
-    // Asegúrate de que el Frontend envíe userId y userEmail en el body
     const { userId: bodyUserId, userEmail: bodyUserEmail, profileData } = req.body;
     let userId;
     let userEmail;
     
-    // --- Lógica de Extracción de Usuario (Simplificada Temporalmente) ---
+    // --- Lógica de Extracción de Usuario (Verificación obligatoria de token) ---
     const authHeader = req.headers.authorization;
     const idToken = authHeader ? authHeader.split('Bearer ')[1] : null;
 
-    if (idToken) {
-        try {
-            const decodedToken = await auth.verifyIdToken(idToken);
-            userId = decodedToken.uid;
-            userEmail = decodedToken.email || null;
-        } catch (error) {
-            // Si el token falla, usamos el body (RESTAURAR para producción)
-            console.warn('Advertencia: La verificación del token de Firebase falló, usando userId/email del cuerpo. RESTAURAR para producción.', error.message);
-            userId = bodyUserId;
-            userEmail = bodyUserEmail;
-        }
-    } else {
-        // Si no hay token, usamos los datos del cuerpo (REQUERIR token en producción)
-        userId = bodyUserId;
-        userEmail = bodyUserEmail;
+    if (!idToken) {
+        return res.status(401).json({ error: 'Autorización requerida. Falta el token de Firebase.' });
     }
 
-    if (!userId) {
-        return res.status(401).json({ error: 'Faltan datos de usuario (userId) para continuar.' });
+    try {
+        // Usa Firebase Admin SDK para validar el token ID del Frontend
+        const decodedToken = await auth.verifyIdToken(idToken);
+        userId = decodedToken.uid;
+        userEmail = decodedToken.email || null;
+    } catch (error) {
+        console.error('Error de verificación del token de Firebase:', error.message);
+        return res.status(401).json({ error: 'Token de autenticación inválido o expirado.' });
     }
     // -------------------------------------------------------------------
     
-    // Validación de datos (Igual que antes)
+    // Validación de datos 
     const requiredKeys = ['name', 'age', 'experienceLevel', 'trainingDaysPerWeek', 'availableEquipment', 'initialWeight', 'fitnessGoal'];
     const missingKeys = requiredKeys.filter(key => !profileData.hasOwnProperty(key));
 
@@ -54,12 +50,12 @@ export default async function handler(req, res) {
     try {
         const userRef = db.collection('users').doc(userId);
         
-        // 💡 CAMBIOS CLAVE: Inicializar el plan como 'free'
+        // Guardar la data
         await userRef.set({
             userId: userId,
             email: userEmail, 
-            plan: 'free', // <<< AHORA TODOS SON FREE POR DEFECTO
-            status: 'approved', // Mantenemos 'approved' para dar acceso TOTAL al Dashboard temporalmente
+            plan: 'free', 
+            status: 'approved', 
             profileData: profileData,
             lastProfileUpdate: new Date().toISOString(),
             createdAt: new Date().toISOString()
@@ -70,7 +66,7 @@ export default async function handler(req, res) {
 
         return res.status(200).json({ 
             success: true, 
-            message: 'Perfil guardado exitosamente. Usuario inicializado como FREE con acceso total temporal.', 
+            message: 'Perfil guardado exitosamente. Usuario inicializado como FREE.', 
             userId: userId 
         });
 
