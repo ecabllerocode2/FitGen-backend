@@ -10,7 +10,7 @@ import fetch from 'node-fetch';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // Modelo LLM gratuito y eficiente recomendado
-const LLM_MODEL = 'mistralai/mistral-small-3.2-24b-instruct:free'; 
+const LLM_MODEL = 'google/gemini-2.0-flash-exp:free'; 
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
