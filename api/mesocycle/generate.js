@@ -5,8 +5,7 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 // Las claves de entorno se acceden directamente en Vercel
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
-// Definición estricta del JSON de salida para la planificación
-// ... (MESOCYCLE_SCHEMA - Omitido por brevedad, se mantiene igual) ...
+// Definición estricta del JSON de salida para la planificación (Se mantiene igual)
 const MESOCYCLE_SCHEMA = {
     type: "OBJECT",
     properties: {
@@ -67,27 +66,21 @@ const MESOCYCLE_SCHEMA = {
 };
 
 // --- FUNCIÓN DE HELPERS DE CORS ---
-// En Vercel, a menudo se usa un middleware, pero podemos hacerlo manual para ser explícitos.
-// Esto es necesario para que el preflight request (OPTIONS) funcione.
 const setCORSHeaders = (res) => {
-    // Permite cualquier origen (debe ser más estricto en Prod)
     res.setHeader('Access-Control-Allow-Origin', '*'); 
-    // Métodos permitidos para CORS
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    // Headers que el cliente puede enviar
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 }
 
 // ----------------------------------------------------
-// 1. FUNCIÓN PRINCIPAL DEL ENDPOINT
+// 1. FUNCIÓN PRINCIPAL DEL ENDPOINT (CORREGIDA)
 // ----------------------------------------------------
 export default async function handler(req, res) {
     
     setCORSHeaders(res);
     
-    // **CORRECCIÓN CLAVE: Manejar la solicitud OPTIONS (CORS Preflight)**
+    // Manejar OPTIONS (CORS Preflight)
     if (req.method === 'OPTIONS') {
-        // Responder con 200 OK y headers de CORS para permitir la solicitud POST.
         return res.status(200).end(); 
     }
     
@@ -104,7 +97,7 @@ export default async function handler(req, res) {
     const idToken = authHeader ? authHeader.split('Bearer ')[1] : null;
     let userId;
 
-    // --- Lógica de Autenticación de Firebase Admin (Esencial en el Backend) ---
+    // Lógica de Autenticación de Firebase Admin
     if (!idToken) {
         return res.status(401).json({ error: 'Falta el token de autenticación (Bearer Token).' });
     }
@@ -116,7 +109,6 @@ export default async function handler(req, res) {
         console.error('Error de verificación de Token de Firebase Admin:', error.message);
         return res.status(401).json({ error: 'Token de autenticación inválido o expirado.', details: error.message });
     }
-    // -------------------------------------------------------------------
     
     console.log(`Iniciando generación de mesociclo para el usuario: ${userId}`);
 
@@ -126,7 +118,7 @@ export default async function handler(req, res) {
         const userDoc = await userDocRef.get();
 
         if (!userDoc.exists) {
-            return res.status(404).json({ error: 'Perfil de usuario no encontrado. Asegúrate de que el Onboarding haya sido completado.' });
+            return res.status(404).json({ error: 'Perfil de usuario no encontrado.' });
         }
 
         const rawData = userDoc.data();
@@ -138,13 +130,13 @@ export default async function handler(req, res) {
 
         // 2. CONSTRUIR EL PROMPT PARA EL LLM
         
-        // Convertimos el perfil a string para incluirlo fácilmente en el prompt
         const profileString = JSON.stringify(profileData, null, 2);
+        // Generamos el string del esquema JSON para incluirlo en el prompt
+        const schemaString = JSON.stringify(MESOCYCLE_SCHEMA, null, 2); // <-- Nuevo
 
-        // Mensaje de sistema (Persona del LLM)
         const systemPrompt = `Eres un planificador de entrenamiento deportivo experto en periodización. Tu tarea es generar un plan de entrenamiento (Mesociclo) de 4 semanas, estructurado en microciclos semanales. DEBES SEGUIR LAS REGLAS ESTRICTAMENTE.`;
 
-        // Mensaje del usuario (Contexto + Instrucción)
+        // Modificación del userPrompt para incluir el esquema y forzar la salida.
         const userPrompt = `Basándote en el perfil del usuario a continuación, genera un Mesociclo de 4 semanas. 
         
         REGLAS CRÍTICAS DE GENERACIÓN:
@@ -153,14 +145,19 @@ export default async function handler(req, res) {
         3. El Mesociclo debe priorizar el 'fitnessGoal' ('${profileData.fitnessGoal}') y el 'focusArea' ('${profileData.focusArea}').
         4. El plan de entrenamiento DEBE ser realista con el 'availableEquipment' (${profileData.availableEquipment.join(', ')}).
         5. El Mesociclo debe incluir NOTAS IMPORTANTES sobre la 'intensityRpe' y evitar movimientos que agraven las 'injuriesOrLimitations' ('${profileData.injuriesOrLimitations || "ninguna"}').
-        6. NO DEBES incluir NINGÚN EJERCICIO Específico. SÓLO el enfoque de la sesión (sessionFocus), como 'Tren Superior - Empuje' o 'Full Body A'. El endpoint posterior se encargará de seleccionar los ejercicios.
+        6. NO DEBES incluir NINGÚN EJERCICIO Específico. SÓLO el enfoque de la sesión (sessionFocus).
         
         DATOS DEL PERFIL DEL USUARIO:
         ---
         ${profileString}
         ---
         
-        Genera la respuesta como un objeto JSON que se ajuste exactamente al siguiente esquema.`;
+        Genera la respuesta como un **objeto JSON válido** que se ajuste **exactamente** al siguiente esquema JSON:
+        ---
+        ${schemaString} 
+        ---
+        
+        TU RESPUESTA DEBE CONTENER EXCLUSIVAMENTE EL BLOQUE JSON COMPLETO, SIN NINGÚN TEXTO INTRODUCTORIO, EXPLICACIÓN O MARCADORES DE CÓDIGO (EJ. \`\`\`).`; // <-- Instrucción de fuerza
         
         // 3. LLAMADA A LA API DE OPENROUTER (Generación de JSON)
         
@@ -177,15 +174,18 @@ export default async function handler(req, res) {
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
                 ],
-                // Forzamos la salida JSON
-                response_format: { type: "json_object", schema: MESOCYCLE_SCHEMA } 
+                // **CORRECCIÓN CRÍTICA:** Eliminamos 'schema' de response_format
+                response_format: { type: "json_object" } 
             }),
         });
 
         if (!openRouterResponse.ok) {
             const errorText = await openRouterResponse.text();
-            console.error('Error de OpenRouter:', errorText);
-            return res.status(502).json({ error: 'Fallo la comunicación con el servicio de IA.', details: errorText });
+            console.error('Error de OpenRouter (raw):', errorText);
+            return res.status(502).json({ 
+                error: 'Fallo la comunicación con el servicio de IA.', 
+                details: errorText.substring(0, 500) // Truncar para seguridad
+            });
         }
 
         const openRouterResult = await openRouterResponse.json();
@@ -196,32 +196,33 @@ export default async function handler(req, res) {
         let mesocycleData;
 
         try {
-            mesocycleData = JSON.parse(mesocycleJsonString);
+            // Quitamos posibles saltos de línea y espacios en blanco
+            const trimmedJsonString = mesocycleJsonString.trim();
+            mesocycleData = JSON.parse(trimmedJsonString);
         } catch (e) {
             console.error('Error al parsear el JSON generado por el LLM:', mesocycleJsonString);
-            return res.status(500).json({ error: 'El LLM devolvió un JSON inválido o incompleto.' });
+            return res.status(500).json({ error: 'El LLM devolvió un JSON inválido o incompleto.', llmOutput: mesocycleJsonString.substring(0, 500) });
         }
 
-        // 5. GUARDADO DEL MESOCICLO EN FIRESTORE (Corregido según la arquitectura)
+        // 5. GUARDADO DEL MESOCICLO EN FIRESTORE
         
         const currentMesocycleData = {
             startDate: new Date().toISOString().substring(0, 10), 
             endDate: null, 
             progress: 0.0, 
             currentWeek: 1, 
-            mesocyclePlan: mesocycleData, // Contiene la estructura JSON generada por el LLM
+            mesocyclePlan: mesocycleData, 
             llmModelUsed: 'openai/gpt-4o-mini', 
             generationDate: new Date().toISOString()
         };
 
-        // Guardamos el objeto como un campo anidado en el documento users/{userId}
+        // Guardamos el objeto como un campo anidado
         await userDocRef.set({
             currentMesocycle: currentMesocycleData,
             planStatus: 'active' 
         }, { merge: true });
 
         // 6. RESPUESTA EXITOSA
-        // **IMPORTANTE**: Devolver 200 para confirmar al frontend
         return res.status(200).json({
             success: true,
             message: 'Mesociclo generado y guardado exitosamente.',
