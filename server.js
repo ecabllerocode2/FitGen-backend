@@ -1,11 +1,14 @@
+// 📄 server.js (Corregido)
+
 import express from 'express';
 import cors from 'cors';
 // Nota: Importar db y auth aquí asegura que Firebase Admin se inicialice al iniciar el servidor
 import { db, auth } from './lib/firebaseAdmin.js'; 
 import saveProfileHandler from './api/profile/save.js'; 
-
-// 💡 CAMBIO 1: Importar el nuevo handler de aprobación
 import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js'; 
+
+// 💡 CAMBIO 1: Importar el handler de la frase motivacional
+import motivationHandler from './api/profile/motivation.js'; 
 
 const app = express();
 const PORT = 3000;
@@ -18,21 +21,23 @@ const corsOptions = {
     credentials: true,
 };
 
-// 1. Usar el middleware CORS (Este es el que debe manejar el OPTIONS preflight)
+// 1. Usar el middleware CORS 
 app.use(cors(corsOptions)); 
 
 // 2. Middleware para parsear cuerpos JSON
 app.use(express.json());
 
-// 💡 3. SE ELIMINA LA LÍNEA app.options('*', ...) que causaba el PathError.
-
-
 // --- RUTAS DE API ---
-// Ruta existente
+
+// Ruta existente (Guardar Perfil)
 app.post('/api/profile/save', saveProfileHandler); 
 
-// 💡 CAMBIO 2: Definir la nueva ruta de administración
+// Ruta existente (Aprobación Admin)
 app.post('/api/admin/aprobar-usuario', aprobarUsuarioHandler); 
+
+// 💡 CAMBIO 2: Definir la ruta POST para el endpoint de Motivación
+app.post('/api/profile/motivation', motivationHandler); 
+
 
 // Ruta de estado
 app.get('/', (req, res) => {
@@ -40,8 +45,12 @@ app.get('/', (req, res) => {
         status: 'OK',
         message: 'FitGen Backend Express/Nodemon operativo. CORS configurado.',
         dbStatus: db ? 'Firestore conectado' : 'Firestore ERROR',
-        // 💡 CAMBIO 3: Actualizar el mensaje de bienvenida
-        availableEndpoints: ['POST /api/profile/save', 'POST /api/admin/aprobar-usuario']
+        // 💡 CAMBIO 3: Actualizar el mensaje de bienvenida con el nuevo endpoint
+        availableEndpoints: [
+            'POST /api/profile/save', 
+            'POST /api/admin/aprobar-usuario',
+            'POST /api/profile/motivation' // Añadir el nuevo endpoint
+        ]
     });
 });
 
@@ -55,5 +64,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// 💡 Exportar la app para Vercel (Esta es la línea que Vercel busca para ejecutar la Serverless Function)
+// Exportar la app para Vercel 
 export default app;
