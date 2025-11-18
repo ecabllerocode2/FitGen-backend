@@ -6,7 +6,7 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // Definición estricta del JSON de salida para la planificación
-// Esto guía al LLM a generar solo la estructura
+// ... (MESOCYCLE_SCHEMA - Omitido por brevedad, se mantiene igual) ...
 const MESOCYCLE_SCHEMA = {
     type: "OBJECT",
     properties: {
@@ -66,11 +66,31 @@ const MESOCYCLE_SCHEMA = {
     required: ["durationWeeks", "mesocycleGoal", "microcycles"]
 };
 
+// --- FUNCIÓN DE HELPERS DE CORS ---
+// En Vercel, a menudo se usa un middleware, pero podemos hacerlo manual para ser explícitos.
+// Esto es necesario para que el preflight request (OPTIONS) funcione.
+const setCORSHeaders = (res) => {
+    // Permite cualquier origen (debe ser más estricto en Prod)
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
+    // Métodos permitidos para CORS
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    // Headers que el cliente puede enviar
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+}
 
 // ----------------------------------------------------
 // 1. FUNCIÓN PRINCIPAL DEL ENDPOINT
 // ----------------------------------------------------
 export default async function handler(req, res) {
+    
+    setCORSHeaders(res);
+    
+    // **CORRECCIÓN CLAVE: Manejar la solicitud OPTIONS (CORS Preflight)**
+    if (req.method === 'OPTIONS') {
+        // Responder con 200 OK y headers de CORS para permitir la solicitud POST.
+        return res.status(200).end(); 
+    }
+    
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido. Solo POST.' });
     }
@@ -116,9 +136,15 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Datos de Onboarding incompletos o ausentes en el perfil.' });
         }
 
-        // 2. CONSTRUIR EL PROMPT PARA EL LLM (Lógica de Prompting Omitida por Brevedad)
+        // 2. CONSTRUIR EL PROMPT PARA EL LLM
+        
+        // Convertimos el perfil a string para incluirlo fácilmente en el prompt
         const profileString = JSON.stringify(profileData, null, 2);
+
+        // Mensaje de sistema (Persona del LLM)
         const systemPrompt = `Eres un planificador de entrenamiento deportivo experto en periodización. Tu tarea es generar un plan de entrenamiento (Mesociclo) de 4 semanas, estructurado en microciclos semanales. DEBES SEGUIR LAS REGLAS ESTRICTAMENTE.`;
+
+        // Mensaje del usuario (Contexto + Instrucción)
         const userPrompt = `Basándote en el perfil del usuario a continuación, genera un Mesociclo de 4 semanas. 
         
         REGLAS CRÍTICAS DE GENERACIÓN:
@@ -136,7 +162,9 @@ export default async function handler(req, res) {
         
         Genera la respuesta como un objeto JSON que se ajuste exactamente al siguiente esquema.`;
         
-        // 3. LLAMADA A LA API DE OPENROUTER (Lógica de Llamada a OpenRouter Omitida por Brevedad)
+        // 3. LLAMADA A LA API DE OPENROUTER (Generación de JSON)
+        
+        // Implementación con OpenRouter 
         const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -149,6 +177,7 @@ export default async function handler(req, res) {
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
                 ],
+                // Forzamos la salida JSON
                 response_format: { type: "json_object", schema: MESOCYCLE_SCHEMA } 
             }),
         });
@@ -162,6 +191,7 @@ export default async function handler(req, res) {
         const openRouterResult = await openRouterResponse.json();
         
         // 4. PARSEO Y VALIDACIÓN DEL RESULTADO DEL LLM
+        // Aseguramos que la respuesta del LLM sea un string de JSON
         const mesocycleJsonString = openRouterResult.choices[0].message.content;
         let mesocycleData;
 
@@ -172,15 +202,13 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'El LLM devolvió un JSON inválido o incompleto.' });
         }
 
-        // 5. GUARDADO DEL MESOCICLO EN FIRESTORE
-        // **CORRECCIÓN 1: Estructurar la Data para el Campo `currentMesocycle`**
-        // **CORRECCIÓN 2: Guardar en el Documento Principal `users/{userId}`**
+        // 5. GUARDADO DEL MESOCICLO EN FIRESTORE (Corregido según la arquitectura)
         
         const currentMesocycleData = {
-            startDate: new Date().toISOString().substring(0, 10), // Guardamos solo la fecha
-            endDate: null, // Se puede calcular la fecha de fin (ej: +4 semanas)
-            progress: 0.0, // Empezamos en 0%
-            currentWeek: 1, // Empezamos en la semana 1
+            startDate: new Date().toISOString().substring(0, 10), 
+            endDate: null, 
+            progress: 0.0, 
+            currentWeek: 1, 
             mesocyclePlan: mesocycleData, // Contiene la estructura JSON generada por el LLM
             llmModelUsed: 'openai/gpt-4o-mini', 
             generationDate: new Date().toISOString()
@@ -189,11 +217,11 @@ export default async function handler(req, res) {
         // Guardamos el objeto como un campo anidado en el documento users/{userId}
         await userDocRef.set({
             currentMesocycle: currentMesocycleData,
-            // Opcional: Agregar campos del documento que manejan el estado del plan
-            planStatus: 'active' // Esto nos ayuda a saber si existe un plan
+            planStatus: 'active' 
         }, { merge: true });
 
         // 6. RESPUESTA EXITOSA
+        // **IMPORTANTE**: Devolver 200 para confirmar al frontend
         return res.status(200).json({
             success: true,
             message: 'Mesociclo generado y guardado exitosamente.',
