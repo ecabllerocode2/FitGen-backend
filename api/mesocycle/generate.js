@@ -110,22 +110,15 @@ export default async function handler(req, res) {
         }
 
         const rawData = userDoc.data();
-        // Usamos profileData, que contiene el objeto que proporcionaste.
         const profileData = rawData.profileData; 
 
         if (!profileData) {
             return res.status(400).json({ error: 'Datos de Onboarding incompletos o ausentes en el perfil.' });
         }
 
-        // 2. CONSTRUIR EL PROMPT PARA EL LLM
-        
-        // Convertimos el perfil a string para incluirlo fácilmente en el prompt
+        // 2. CONSTRUIR EL PROMPT PARA EL LLM (Lógica de Prompting Omitida por Brevedad)
         const profileString = JSON.stringify(profileData, null, 2);
-
-        // Mensaje de sistema (Persona del LLM)
         const systemPrompt = `Eres un planificador de entrenamiento deportivo experto en periodización. Tu tarea es generar un plan de entrenamiento (Mesociclo) de 4 semanas, estructurado en microciclos semanales. DEBES SEGUIR LAS REGLAS ESTRICTAMENTE.`;
-
-        // Mensaje del usuario (Contexto + Instrucción)
         const userPrompt = `Basándote en el perfil del usuario a continuación, genera un Mesociclo de 4 semanas. 
         
         REGLAS CRÍTICAS DE GENERACIÓN:
@@ -143,9 +136,7 @@ export default async function handler(req, res) {
         
         Genera la respuesta como un objeto JSON que se ajuste exactamente al siguiente esquema.`;
         
-        // 3. LLAMADA A LA API DE OPENROUTER (Generación de JSON)
-        
-        // Implementación con OpenRouter (Asumimos modelo de bajo costo y buen soporte JSON)
+        // 3. LLAMADA A LA API DE OPENROUTER (Lógica de Llamada a OpenRouter Omitida por Brevedad)
         const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -153,12 +144,11 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'openai/gpt-4o-mini', // Buen rendimiento y bajo costo para JSON
+                model: 'openai/gpt-4o-mini', 
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
                 ],
-                // Forzamos la salida JSON
                 response_format: { type: "json_object", schema: MESOCYCLE_SCHEMA } 
             }),
         });
@@ -183,27 +173,31 @@ export default async function handler(req, res) {
         }
 
         // 5. GUARDADO DEL MESOCICLO EN FIRESTORE
+        // **CORRECCIÓN 1: Estructurar la Data para el Campo `currentMesocycle`**
+        // **CORRECCIÓN 2: Guardar en el Documento Principal `users/{userId}`**
         
-        const planData = {
-            mesocycle: mesocycleData,
-            status: 'active', // El plan está listo para usarse
-            startDate: new Date().toISOString(),
+        const currentMesocycleData = {
+            startDate: new Date().toISOString().substring(0, 10), // Guardamos solo la fecha
+            endDate: null, // Se puede calcular la fecha de fin (ej: +4 semanas)
+            progress: 0.0, // Empezamos en 0%
             currentWeek: 1, // Empezamos en la semana 1
-            lastSessionCompleted: null,
+            mesocyclePlan: mesocycleData, // Contiene la estructura JSON generada por el LLM
             llmModelUsed: 'openai/gpt-4o-mini', 
             generationDate: new Date().toISOString()
         };
 
-        // Guardamos la estructura del plan en una subcolección del usuario
-        // users/{userId}/plan/mesocycle
-        const mesocycleRef = db.collection('users').doc(userId).collection('plan').doc('mesocycle');
-        await mesocycleRef.set(planData, { merge: true });
+        // Guardamos el objeto como un campo anidado en el documento users/{userId}
+        await userDocRef.set({
+            currentMesocycle: currentMesocycleData,
+            // Opcional: Agregar campos del documento que manejan el estado del plan
+            planStatus: 'active' // Esto nos ayuda a saber si existe un plan
+        }, { merge: true });
 
         // 6. RESPUESTA EXITOSA
         return res.status(200).json({
             success: true,
             message: 'Mesociclo generado y guardado exitosamente.',
-            plan: planData
+            plan: currentMesocycleData
         });
 
     } catch (error) {
