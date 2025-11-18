@@ -1,19 +1,18 @@
-// api/profile/motivation.js
-// Este endpoint se encarga de generar una frase motivacional usando el LLM de OpenRouter.
-// En modo Serverless Nativo, la ruta es /api/profile/motivation (si está en la carpeta profile).
+// api/llm/motivation.js
+// Este endpoint se encarga de generar una frase motivacional usando el LLM de OpenRouter,
+// asegurando que solo usuarios autenticados puedan acceder.
 
+// IMPORTANTE: Asegúrate de que esta ruta sea correcta para tu proyecto
 import { auth } from '../../lib/firebaseAdmin.js'; 
 import fetch from 'node-fetch'; 
 
-// La clave de OpenRouter se lee automáticamente del entorno 
+// La clave de OpenRouter se lee automáticamente del entorno (Vercel/local .env)
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
-// Modelo LLM funcionando y eficiente
+// Modelo LLM gratuito y eficiente recomendado
 const LLM_MODEL = 'mistralai/mistral-7b-instruct:free'; 
 
-// La función 'handler' se exporta directamente, sin Express.
 export default async function handler(req, res) {
-    // En Vercel Serverless Functions, la verificación del método sigue siendo necesaria
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido. Use POST.' });
     }
@@ -30,9 +29,10 @@ export default async function handler(req, res) {
     
     const idToken = authHeader.split(' ')[1];
     let userId;
-    let name = 'Atleta'; 
+    let name = 'Atleta'; // Valor por defecto si no se puede verificar o no se pasa el nombre
 
     try {
+        // Usa Firebase Admin SDK para validar el token ID del Frontend
         const decodedToken = await auth.verifyIdToken(idToken);
         userId = decodedToken.uid;
         // Asumimos que el nombre del usuario viene en el cuerpo de la solicitud (req.body)
@@ -49,10 +49,12 @@ export default async function handler(req, res) {
         // 2. CONSTRUIR EL PROMPT PARA EL LLM
         const goalDescription = goal || 'tu meta de fitness';
         
-        // Añadimos el Nonce (cacheBuster) para asegurar la variación en la respuesta
+        // 💡 CORRECCIÓN CRÍTICA: Añadimos un Nonce (cacheBuster) al prompt.
+        // Esto garantiza que el string del prompt sea ÚNICO en cada llamada,
+        // forzando al LLM o a la caché de OpenRouter a generar una nueva respuesta.
         const cacheBuster = Date.now(); 
 
-        const prompt = `Eres un coach de fitness conciso e inspirador. Genera una sola frase motivacional muy corta y poderosa (máximo 15 palabras) dirigida a un atleta. Su meta actual es: ${goalDescription}. El nombre del atleta es ${name}. Debes hablarle por su nombre. **El estilo o el enfoque de la frase debe ser único y diferente de cualquier frase generada anteriormente.** (Nonce: ${cacheBuster})`;
+        const prompt = `Eres un coach de fitness conciso e inspirador. Genera una sola frase motivacional muy corta y poderosa (máximo 15 palabras) dirigida a un atleta. Su meta actual es: ${goalDescription}. El nombre del atleta es ${name}. Debes hablarle por su nombre. (Nonce: ${cacheBuster})`;
 
         // 3. LLAMADA A LA API DE OPENROUTER
         const openRouterResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -60,6 +62,7 @@ export default async function handler(req, res) {
             headers: {
                 "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "Content-Type": "application/json",
+                // Header adicional si quieres identificar las peticiones
                 "X-Title": "FitGen-Motivation-Endpoint"
             },
             body: JSON.stringify({
@@ -76,17 +79,13 @@ export default async function handler(req, res) {
         if (!openRouterResponse.ok) {
             const errorText = await openRouterResponse.text();
             console.error(`OpenRouter Error (${openRouterResponse.status}):`, errorText);
-            // Mostrar un error más amigable para el frontend si el LLM falla
-            if (openRouterResponse.status === 429) {
-                 return res.status(503).json({ error: 'El servicio de IA está temporalmente sobrecargado. Intenta de nuevo en un momento.' });
-            }
-            return res.status(500).json({ error: 'Error al comunicarse con el LLM.' });
+            return res.status(500).json({ error: 'Error al comunicarse con el LLM. Revisa logs del Backend.' });
         }
 
         const data = await openRouterResponse.json();
         
         // 4. PROCESAR LA RESPUESTA
-        const motivationQuote = data.choices[0].message.content.trim().replace(/"/g, ''); 
+        const motivationQuote = data.choices[0].message.content.trim().replace(/"/g, ''); // Limpiar comillas
         
         // 5. RESPUESTA EXITOSA AL FRONTEND
         return res.status(200).json({ 
