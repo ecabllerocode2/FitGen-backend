@@ -2,7 +2,7 @@ const admin = require('firebase-admin');
 // 1. Usa la clave de servicio en el mismo directorio.
 const serviceAccount = require('./serviceAccountKey.json'); 
 // 2. Importa el archivo JSON de ejercicios curados.
-const exercisesData = require('./exercises.json'); 
+const exercisesData = require('./colecciones/exercises_utility.json'); 
 
 // Inicializar Firebase Admin SDK
 admin.initializeApp({
@@ -10,7 +10,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const collectionName = 'exercises'; // Nombre de la colección en Firestore
+const collectionName = 'exercises_utility'; // Nombre de la colección en Firestore
 const BATCH_SIZE = 499; // Máximo de 500 operaciones por lote
 
 async function uploadExercises() {

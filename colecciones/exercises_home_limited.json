@@ -1,0 +1,3692 @@
+[
+  {
+    "nombre": "Press de Banca con Mancuernas (Plano)",
+    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta que los codos estén ligeramente por debajo del banco. Empuja las mancuernas hacia arriba hasta extender los brazos sin bloquear los codos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción media)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Mancuernas (Inclinado)",
+    "descripcion": "Acuéstate en un banco inclinado (aprox. 30-45 grados). Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta sentir un estiramiento suave en el pecho. Empuja hacia arriba hasta extender los brazos sin bloquear.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción clavicular/superior)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas con Mancuernas (Plano)",
+    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas con los brazos extendidos sobre el pecho, palmas enfrentadas, codos ligeramente flexionados. Baja las pesas abriendo los brazos en un amplio arco. Contrae el pecho para volver a la posición inicial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción media)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Agarre Neutro (Plano)",
+    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas con las palmas enfrentadas entre sí (agarre neutro). Baja y presiona las mancuernas de forma controlada. Las mancuernas se mantienen paralelas durante todo el movimiento.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción media) y Tríceps",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Mancuernas (Declinado)",
+    "descripcion": "Acuéstate en un banco declinado (pies elevados). Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja y empuja hacia arriba, enfocándote en la parte inferior del pectoral. Mantén la tensión en el pecho.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción abdominal/inferior)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Mancuerna (En Banco)",
+    "descripcion": "Acuéstate perpendicularmente a un banco, con solo la parte superior de la espalda apoyada. Sostén una mancuerna con ambas manos sobre el pecho. Baja la mancuerna en un arco por detrás de la cabeza hasta sentir un estiramiento. Regresa lentamente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (cabeza larga) y Dorsales",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca en el Suelo con Mancuernas",
+    "descripcion": "Acuéstate en el suelo con las rodillas dobladas y los pies planos. Sostén las mancuernas sobre el pecho. Baja hasta que la parte superior de los brazos toque el suelo. Empuja las mancuernas hacia el techo. El rango de movimiento es limitado.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas Inclinadas con Mancuernas",
+    "descripcion": "Acuéstate en un banco inclinado. Sostén las mancuernas con los brazos extendidos sobre el pecho, palmas enfrentadas, codos ligeramente flexionados. Baja las pesas abriendo los brazos en un amplio arco. Siente la contracción en la parte superior del pecho al subir.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (porción clavicular/superior)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press Cerrado con Mancuernas (Plano)",
+    "descripcion": "Acuéstate en un banco. Sostén las mancuernas juntas sobre el pecho, tocándose. Bájalas de forma controlada manteniéndolas en contacto. Presiona hacia arriba concentrándote en apretar el pecho en el centro. Involucra mucho los tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (región esternal) y Tríceps",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca en el Suelo (Intermedio)",
+    "descripcion": "Acuéstate en el suelo, rodillas dobladas. Sostén las mancuernas. Baja hasta que la parte superior de los brazos toque el suelo. Presiona hacia arriba. El suelo limita el rango, forzando la estabilización y protegiendo los hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Tríceps",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas en el Suelo (Intermedio)",
+    "descripcion": "Acuéstate en el suelo, rodillas dobladas. Extiende los brazos sobre el pecho con codos ligeramente flexionados. Baja las pesas abriendo los brazos hasta que los codos toquen ligeramente el suelo. Contrae para cerrar.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover en el Suelo (Manos Juntas)",
+    "descripcion": "Acuéstate en el suelo. Sostén una mancuerna con ambas manos (en forma de diamante). Extiende la mancuerna por encima de la cabeza hasta que los brazos estén casi paralelos al suelo. Usa el core para evitar arquear la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Dorsales",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Unilateral de Suelo (Antirrotación)",
+    "descripcion": "Acuéstate en el suelo, rodillas dobladas. Realiza el Press con una sola mancuerna. El brazo libre se extiende a un lado para ayudar al equilibrio. Concéntrate en evitar que el cuerpo rote hacia el lado de la mancuerna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad del Core",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Crossover en el Suelo",
+    "descripcion": "Acuéstate en el suelo. Realiza el press, pero en lugar de subir recto, lleva las mancuernas una hacia la otra cruzándolas ligeramente sobre la línea media del pecho en la fase final del movimiento.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Enfoque en la línea media)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Alternado en el Suelo (Tempo Lento)",
+    "descripcion": "Acuéstate en el suelo. Alterna el empuje de las mancuernas, pero utiliza un tempo muy lento (ej. 4 segundos de bajada). Mantener el brazo no activo estático en la parte superior aumenta la tensión y la estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor, Estabilidad y Resistencia",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas Ligeramente Inclinadas (Con Bloqueo)",
+    "descripcion": "Si tienes una almohada o bloque bajo la cabeza y hombros (solo para levantar ligeramente), realiza aperturas. Esto simula una inclinación muy leve para focalizar ligeramente la parte superior sin necesidad de un banco real.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Mancuerna de Alto Agarre (De Pie)",
+    "descripcion": "De pie, sostén una mancuerna con ambas manos al nivel del pecho. Empuja la mancuerna hacia arriba y ligeramente hacia adelante, contrayendo el pecho en la parte superior. Requiere fuerte activación del core para estabilizar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Core",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Mancuernas (Isométrico Unilateral en el Fondo)",
+    "descripcion": "Acuéstate en el suelo. Baja una mancuerna y sostenla en la posición inferior (codo tocando el suelo) durante 3-5 segundos, mientras realizas 2-3 repeticiones completas con el otro brazo. Intercambia lados.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Resistencia Unilateral",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Apertura Cruzada de Pie (Cable Cross Simulado)",
+    "descripcion": "De pie, con una mancuerna en cada mano, inclínate ligeramente hacia adelante. Con los codos ligeramente doblados, lleva las mancuernas juntas y hacia abajo frente a ti, simulando el movimiento de cruce de cables.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Línea media)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Mancuerna Arriba de la Cabeza (De Rodillas)",
+    "descripcion": "Arrodíllate (posición de Caballero), sosteniendo una mancuerna con ambas manos. Empújala directamente sobre tu cabeza y hacia adelante. Esta variación aumenta la inestabilidad y demanda de core frontal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Superior) y Core",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Tempo (5 Segundos Excéntricos)",
+    "descripcion": "Acuéstate en el suelo. Sostén una mancuerna con ambas manos sobre el pecho. Baja la mancuerna por detrás de la cabeza en un arco de 5 segundos completos (fase excéntrica) y sube de forma explosiva.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Resistencia Muscular",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Mancuerna a una Mano (En Banco o Apoyo)",
+    "descripcion": "Apoya una rodilla y la mano correspondiente en un banco o superficie estable. Sostén una mancuerna con el brazo opuesto. Tira de la mancuerna hacia tu costado, manteniendo la espalda recta. Baja controladamente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Romboides",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Mancuernas a Dos Manos (De Pie)",
+    "descripcion": "De pie, con los pies separados a la altura de los hombros, sostén una mancuerna en cada mano. Inclina el torso hacia adelante manteniendo la espalda recta. Tira de ambas mancuernas hacia el pecho, apretando los omóplatos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Trapecio Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Encogimiento de Hombros con Mancuernas",
+    "descripcion": "De pie, sostén una mancuerna en cada mano a los lados. Mantén los brazos rectos y levanta los hombros directamente hacia las orejas. Aprieta el trapecio en la parte superior y baja lentamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio Superior",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Vuelos Inversos con Mancuernas (Inclinado)",
+    "descripcion": "De pie, inclina el torso hacia adelante hasta que esté casi paralelo al suelo. Sostén las mancuernas debajo del pecho. Levanta las mancuernas hacia los lados, manteniendo los brazos casi rectos y apretando los omóplatos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Pendlay con Mancuernas",
+    "descripcion": "Inclina el torso 90 grados (paralelo al suelo). Sostén las mancuernas con un agarre prono. Tira explosivamente de las mancuernas hacia el pecho, tocando el suelo entre cada repetición para asegurar un estiramiento y reducir el impulso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Erectores Espinales",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo del Leñador o Kroc Row",
+    "descripcion": "Utiliza una mancuerna pesada. Coloca el antebrazo sobre un banco para apoyo. Realiza remos unilaterales con un alto número de repeticiones o un peso desafiante, sin preocuparte por la forma estricta (se tolera cierto 'cheating').",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Agarre",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Vuelos Inversos con Mancuernas (Sentado)",
+    "descripcion": "Siéntate al final de un banco y dobla el torso hacia adelante, permitiendo que el pecho toque o se acerque a los muslos. Sostén las mancuernas y levántalas lateralmente, focalizando el deltoides posterior y el trapecio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Mancuerna para Dorsales (Énfasis en Estiramiento)",
+    "descripcion": "Acuéstate sobre un banco de forma perpendicular (cuerpo perpendicular). Sostén una mancuerna con ambas manos sobre el pecho. Baja la mancuerna en un arco profundo detrás de la cabeza, buscando un estiramiento máximo en los dorsales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Serrato",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Rotación Unilateral",
+    "descripcion": "Similar al Remo a una mano, pero al tirar de la mancuerna, gira ligeramente el torso hacia el lado de la mancuerna para buscar una contracción máxima del dorsal. Invierte la rotación al bajar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Oblicuos",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo en Posición de Zancada (Split Stance Row)",
+    "descripcion": "Párate en posición de zancada. Utiliza la mano que corresponde a la pierna adelantada para apoyarte en el muslo. Realiza el remo con la mancuerna en el lado de la pierna trasera. Esto aumenta la inestabilidad del *core*.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Estabilización (Core)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano Unilateral con Mancuerna",
+    "descripcion": "Sostén una mancuerna en la mano opuesta a la pierna de apoyo. Inclínate hacia adelante manteniendo la espalda recta, dejando que la mancuerna descienda. La pierna libre se extiende hacia atrás. Exige gran equilibrio y control de los isquiotibiales y lumbares.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales, Isquiotibiales y Glúteos",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Vuelos Inversos con Mancuernas (Tumbado en Inclinado Inverso)",
+    "descripcion": "Acuéstate boca abajo sobre un banco inclinado, de modo que el pecho y el abdomen estén apoyados. Sostén las mancuernas y realiza los vuelos inversos. La inclinación inversa aísla aún más el Deltoides Posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps de Pie (Alternado)",
+    "descripcion": "De pie, con las palmas mirando hacia adelante. Flexiona un codo a la vez. Al subir la mancuerna, gira ligeramente la muñeca (supinación) para una contracción máxima.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Martillo Sentado (Simultáneo)",
+    "descripcion": "Sentado en una silla para estabilizar el torso. Sostén las mancuernas con las palmas enfrentadas (agarre neutro) y súbelas simultáneamente. Enfocado en el Braquial y Braquiorradial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Braquiorradial",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl con Agarre Inverso (De pie, simultáneo)",
+    "descripcion": "Sujeta las mancuernas con las palmas mirando hacia atrás (agarre prono). Realiza el curl manteniendo la muñeca fija. Excelente para el Braquiorradial y antebrazos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquiorradial y Antebrazos",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Concentración con Mancuerna (Sentado)",
+    "descripcion": "Siéntate, apoya el codo del brazo que trabaja en la parte interna del muslo. Realiza el curl de forma estricta. Aisla y maximiza el 'pico' del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Pico)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps 'Escalera' (Ascendente)",
+    "descripcion": "Empieza con poco peso. Haz 5 repeticiones con el brazo derecho, 5 con el izquierdo. Aumenta el peso y repite. Esto acumula fatiga y es bueno para principiantes avanzados.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Arrastre o Invertido (Drag Curl)",
+    "descripcion": "Mantén los codos pegados o llévalos ligeramente hacia atrás. Arrastra las mancuernas por el torso. Esto anula el hombro y maximiza la contracción del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Tensión Máxima)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Cruzado (Cross-Body Hammer)",
+    "descripcion": "Sostén agarre martillo. En lugar de subir hacia el hombro, dirige la mancuerna hacia el hombro opuesto cruzando el cuerpo. Aumenta la activación del Braquial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Braquiorradial",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Araña con Mancuernas (Apoyado)",
+    "descripcion": "Siéntate en una silla o banco, inclínate hacia adelante. Apoya el brazo en la parte superior del muslo o sobre un borde bajo. Aisla completamente el movimiento del tronco.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Aislamiento)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Sentado en 'L-Sit' o rodillas elevadas",
+    "descripcion": "Siéntate en el suelo o en una silla. Eleva las rodillas o los pies del suelo para obligar al *core* a estabilizarse, evitando que el cuerpo se balancee para hacer trampa.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Core",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl en 21s",
+    "descripcion": "Combina tres rangos de movimiento: 7 repeticiones de la mitad inferior, 7 repeticiones de la mitad superior y 7 repeticiones completas. Maximiza el Tiempo Bajo Tensión (TUT).",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (TUT)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Zottman (De pie o sentado)",
+    "descripcion": "Sube con agarre supino (palma arriba). En la cima, rota la muñeca 180° a agarre prono (palma abajo). Baja lentamente con el agarre prono. Fortalece el agarre y el Braquiorradial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Antebrazos",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Excéntrico Lento (Focus on Negative)",
+    "descripcion": "Utiliza un peso que te desafíe. Sube la mancuerna (con ayuda si es necesario) y luego baja *muy* lentamente (5-6 segundos) resistiendo el peso. Enfocado en el daño muscular.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Sobrecarga Excéntrica)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Isométrico en Parada (Variante 3x3)",
+    "descripcion": "Sube la mancuerna. Pausa 3 segundos arriba (máxima contracción). Baja hasta 90° y pausa 3 segundos. Baja completamente y pausa 3 segundos. Luego repite.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Tensión Isométrica)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Brazo Largo con Supinación Total",
+    "descripcion": "Al estar de pie, permite que el brazo cuelgue ligeramente *detrás* de la cadera. Sube la mancuerna con supinación total (palma al hombro). Esta posición inicial estira la cabeza larga.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Énfasis en Cabeza Larga)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Parcial Superior (Máxima Contracción)",
+    "descripcion": "Realiza solo el último tercio del movimiento (desde 90 grados de flexión hasta la contracción máxima). Esto maximiza el flujo sanguíneo y la sensación de bombeo en la fase final.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Bombeo)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza a Dos Manos (Sentado)",
+    "descripcion": "Sentado en una silla. Sostén una mancuerna con ambas manos por encima de la cabeza. Baja lentamente por detrás de la nuca, buscando estirar la cabeza larga.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps (Kickback) a Dos Brazos",
+    "descripcion": "Inclina el torso 45-60 grados. Extiende los brazos hacia atrás, apretando el tríceps. Asegúrate de que los codos no se muevan hacia abajo durante el movimiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca Cerrado con Mancuernas (En el suelo)",
+    "descripcion": "Acuéstate en el suelo. Sostén las mancuernas con agarre neutro. Baja lentamente hasta que los codos toquen el suelo. Presiona hacia arriba concentrando la fuerza en los tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Las Tres Cabezas)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (en el suelo)",
+    "descripcion": "Acuéstate en el suelo. Baja las mancuernas hacia los lados de la cabeza (como 'skullcrushers'). El suelo evita la hiperextensión del hombro, haciéndolo muy seguro.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga y Lateral)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Agarre Cerrado (con Mancuernas)",
+    "descripcion": "Coloca las mancuernas en el suelo (de forma estable) y úsalas como agarre con una separación estrecha. Haz la flexión bajando el pecho hasta tocar las manos. Se puede hacer en rodillas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Pectorales",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (Unilateral, en el suelo)",
+    "descripcion": "Realiza la extensión con una sola mancuerna. Esto permite una mayor concentración y un rango de movimiento potencialmente más profundo sin desequilibrios.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Control y Equilibrio)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión Inversa de Brazo (Patada con agarre supino)",
+    "descripcion": "Haz la Patada de Tríceps (Kickback), pero utiliza un agarre supino (palma hacia arriba). Dirige el esfuerzo más hacia la Cabeza Medial del tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Medial)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Cerrado con Mancuernas (Crush Press, en el suelo)",
+    "descripcion": "Presiona las mancuernas firmemente una contra la otra mientras realizas el press de banca cerrado en el suelo. La tensión constante maximiza la activación interna del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Tensión constante)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dips en Silla con Peso (Mancuerna en el regazo)",
+    "descripcion": "Utiliza una silla robusta. Coloca una mancuerna sobre tu regazo (justo encima de las caderas) para añadir sobrecarga. Baja lentamente doblando los codos a 90 grados.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza y Volumen)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (Unilateral, sentado)",
+    "descripcion": "Realiza la extensión unilateral mientras estás sentado. Concentra el esfuerzo en el brazo que trabaja y utiliza la mano libre para estabilizar el hombro si es necesario.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga unilateral)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps con Retraso Excéntrico",
+    "descripcion": "Realiza la extensión tumbado en el suelo. Concentra todo el esfuerzo en la fase de bajada, haciéndola muy lenta (5-6 segundos). Sube explosivamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Sobrecarga Excéntrica)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps con Rotación Externa",
+    "descripcion": "En el punto más alto de la patada de tríceps, gira la muñeca para que la palma mire hacia el techo (supinación). Esto busca la contracción máxima de la cabeza lateral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Lateral, Contracción Pico)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Cerrado en el Suelo con Pausa Isométrica",
+    "descripcion": "En el press cerrado en el suelo, haz una pausa de 2-3 segundos cuando los codos estén a medio recorrido (paralelos al suelo) antes de terminar de subir la mancuerna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza de Bloqueo)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Unilateral en Posición de Glute Bridge",
+    "descripcion": "Acuéstate en el suelo y levanta las caderas (puente de glúteo). Realiza las extensiones de tríceps con una mancuerna a la vez. La inestabilidad del *core* aumenta la dificultad.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Estabilidad y Core)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión Inclinada hacia el Techo (Press Francés Modificado)",
+    "descripcion": "Tumbado en el suelo, apunta los codos no solo hacia el techo, sino ligeramente hacia atrás (en ángulo de 45° con el cuerpo). Esto mantiene una tensión más alta en el tríceps durante todo el movimiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Tensión Total)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Hombros (Sentado en Silla)",
+    "descripcion": "Siéntate en una silla con la espalda recta. Comienza con las mancuernas a la altura de las orejas (agarre prono). Empuja hacia arriba hasta extender los brazos completamente. Controla la bajada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales (De pie)",
+    "descripcion": "De pie, con una mancuerna en cada mano. Levanta las mancuernas lateralmente hasta que los brazos estén paralelos al suelo (sin subir los hombros). Baja de forma controlada.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Frontales (Alternadas)",
+    "descripcion": "De pie, con las palmas hacia el cuerpo. Levanta una mancuerna hacia adelante hasta que esté paralela al suelo. Baja y repite con el brazo opuesto.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pájaros o Vuelos Inversos (Inclinado de pie)",
+    "descripcion": "De pie, inclina el torso hacia adelante unos 45-60 grados, manteniendo la espalda recta. Levanta las mancuernas hacia los lados, sintiendo la contracción en la parte trasera del hombro y entre los omóplatos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Rotación Externa (Acostado de lado)",
+    "descripcion": "Acuéstate de lado con una mancuerna ligera. El codo debe estar pegado al costado y flexionado a 90°. Rota la mancuerna hacia arriba sin despegar el codo. Fortalece el manguito rotador.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Manguito Rotador",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press Arnold (Sentado en Silla)",
+    "descripcion": "Siéntate recto. Inicia con las palmas mirando hacia ti, a la altura de los hombros. Mientras empujas hacia arriba, rota las mancuernas para terminar con las palmas hacia adelante. Invierte el movimiento al bajar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior, Medio y Rotadores",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales con Inclinación (Ley de la Palanca)",
+    "descripcion": "Sujeta una mancuerna en una mano y apóyate en una pared/silla con el otro. Inclina el cuerpo ligeramente hacia el lado contrario a la mancuerna. Esto cambia el ángulo y maximiza la tensión en el deltoides medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo al Mentón con Mancuernas (Agarrre Estrecho)",
+    "descripcion": "De pie, sostén las mancuernas con las manos juntas frente a los muslos. Tira de las mancuernas hacia el mentón, manteniendo los codos más altos que las muñecas. Enfoca el Deltoides Medio y el Trapecio.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio y Trapecio",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Vuelos Inversos Inclinado (Sentado en Rodillas)",
+    "descripcion": "Arrodíllate y dobla el torso sobre los muslos, con la cabeza y el pecho mirando al suelo. Realiza el movimiento de pájaro (vuelos inversos). La posición fija aísla más el deltoides posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior (Aislamiento)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar (Arrodillado, Unilateral)",
+    "descripcion": "Arrodíllate en el suelo (una o dos rodillas). Realiza el Press Militar con una sola mancuerna. La falta de apoyo unilateral exige una fuerte estabilización del core y el torso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Estabilidad del Core",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros Sentado con Tempo Excéntrico Lento",
+    "descripcion": "Sentado en una silla. Utiliza una fase de bajada (excéntrica) de 4-5 segundos para cada repetición. Aumenta dramáticamente el Tiempo Bajo Tensión y la dificultad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Sobrecarga Excéntrica)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales en T (Acostado)",
+    "descripcion": "Acuéstate de lado en el suelo. Sostén una mancuerna y apoya la cabeza. Levanta el brazo lateralmente hacia el techo. Este ángulo de 90° elimina el impulso y aísla el deltoides medio al máximo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio (Aislamiento máximo)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Unilateral en Posición de 'Lunge' (Estabilidad)",
+    "descripcion": "Párate en posición de zancada. Realiza el press de hombros con la mancuerna en la mano opuesta a la pierna adelantada. La postura inestable exige el máximo esfuerzo de estabilización.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Core y Estabilizadores",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Vuelos Inversos Unilaterales (Apoyado en Silla)",
+    "descripcion": "Inclínate, apoyando el brazo libre en el respaldo de una silla. Realiza el vuelo inverso con la mancuerna. El apoyo firme permite un mayor enfoque y peso en el deltoides posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior (Unilateral)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Frontales con Retención Isométrica",
+    "descripcion": "Sube una mancuerna a la altura del hombro y sostenla estáticamente (isometría). Realiza repeticiones con la mancuerna opuesta. Intercambia la mancuerna isométrica a mitad de la serie.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Resistencia",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Goblet con Mancuerna",
+    "descripcion": "Sostén una mancuerna verticalmente con ambas manos contra el pecho. Mantén la espalda recta y baja hasta que los codos toquen el interior de las rodillas. Empuja con los talones.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Core",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas o Desplantes Hacia Adelante (Alternadas)",
+    "descripcion": "De pie, sostén una mancuerna en cada mano. Da un gran paso hacia adelante, bajando la rodilla trasera casi hasta el suelo. Vuelve a la posición inicial y alterna la pierna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (Dumbbell RDL)",
+    "descripcion": "De pie, con las mancuernas en los muslos. Mantén las rodillas ligeramente dobladas. Baja lentamente el torso manteniendo la espalda recta, dejando que las mancuernas se deslicen por las piernas. Siente el estiramiento en los isquiotibiales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Sumo con Mancuerna",
+    "descripcion": "Separa los pies más anchos que la altura de los hombros, con las puntas apuntando hacia afuera. Sostén una mancuerna verticalmente con ambas manos. Baja manteniendo el pecho erguido. Trabaja la parte interna del muslo (adductores).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Adductores",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Gemelos (De pie)",
+    "descripcion": "De pie, sostén una mancuerna. Levántate sobre las puntas de los pies lo más alto posible, aprieta los gemelos. Si es posible, apóyate en un pequeño borde (ej. libro) para un mayor rango.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Gemelos (Gastrocnemio y Sóleo)",
+    "equipo": "Mancuernas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara (Split Squat) con Mancuernas",
+    "descripcion": "Coloca el empeine de un pie sobre una silla o escalón bajo y sostén una mancuerna en cada mano. Baja verticalmente doblando ambas rodillas. Movimiento unilateral de alta exigencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad Unilateral",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas Laterales (Side Lunges) con Mancuernas",
+    "descripcion": "De pie. Da un gran paso lateral, doblando la rodilla de la pierna que avanza, manteniendo la otra recta. Empuja con el talón para volver. Trabaja los abductores y aductores.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Adductores, Abductores y Cuádriceps",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Goblet con Pausa Isométrica",
+    "descripcion": "Realiza la Sentadilla Goblet. Haz una pausa de 3 segundos en el punto más bajo del movimiento (paralelo o más profundo) antes de volver a subir. Aumenta el control y la tensión.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Resistencia",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Hip Thrusts con Mancuerna (Apoyado en sofá/cama)",
+    "descripcion": "Apoya la parte superior de la espalda en el borde de un sofá o cama. Coloca una mancuerna pesada sobre la ingle. Empuja la cadera hacia arriba, contrayendo fuertemente los glúteos en el tope.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Femorales",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano Unilateral (RDL)",
+    "descripcion": "Sostén una mancuerna en una mano. Inclina el torso hacia adelante mientras extiendes la pierna opuesta hacia atrás para el equilibrio. Mantiene la rodilla de apoyo ligeramente flexionada. Requiere gran estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos (Unilateral)",
+    "equipo": "Mancuernas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Salto (Jump Squat) con Mancuernas Ligeras",
+    "descripcion": "Sostén mancuernas ligeras a los lados. Baja en sentadilla y luego salta explosivamente. Aterriza suavemente y repite. Ejercicio pliométrico para potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Potencia Explosiva",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara con Elevación de Talón (Énfasis Cuádriceps)",
+    "descripcion": "Realiza la Sentadilla Búlgara. En el punto inferior, levanta el talón de la pierna delantera. Esto obliga a la rodilla a ir más adelante, enfocando la tensión en el cuádriceps de la pierna de trabajo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps (Énfasis en Vasto Medial)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Zancada Caminando con Rotación (Estabilidad Avanzada)",
+    "descripcion": "Realiza una zancada caminando. Mientras estás en el punto más bajo, gira el torso ligeramente hacia el lado de la pierna adelantada. Esto añade un componente de estabilidad y core a la zancada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos, Cuádriceps y Estabilidad Rotacional",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pistol Squat Asistida con Mancuerna",
+    "descripcion": "Sostén una mancuerna frente al pecho para contrapeso. Usa una mano para sujetarte ligeramente a un marco de puerta o poste. Baja en una sentadilla a una sola pierna tan profundo como sea posible.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Equilibrio Unilateral",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Gemelos Unilateral (con Contrapeso)",
+    "descripcion": "Párate en un borde (ej. escalón). Sostén una mancuerna en la mano opuesta a la pierna que trabaja. Realiza el movimiento de gemelo a una sola pierna para maximizar la fuerza y el rango de movimiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Gemelos (Fuerza Unilateral)",
+    "equipo": "Mancuernas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en el Suelo (Floor Press) Unilateral",
+    "descripcion": "Acuéstate en el suelo. Sostén una kettlebell con el asa hacia arriba o hacia el cuerpo (agarre neutro). Presiona hacia arriba hasta extender el brazo. La KB es más estable que una mancuerna en este ángulo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Tríceps",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexión con Agarres de KB (Elevación)",
+    "descripcion": "Coloca dos kettlebells estables en el suelo (usas las asas como agarre). Realiza flexiones. La elevación aumenta el rango de movimiento y el estiramiento en el pecho.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Tríceps",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con KB (Agarrando el Cuerno)",
+    "descripcion": "Acuéstate en el suelo. Sostén la KB por la parte de la esfera (cuernos) con ambas manos. Baja detrás de la cabeza en un arco. Mantiene el abdomen apretado para evitar arquear la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Dorsales",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas en el Suelo con KB",
+    "descripcion": "Acuéstate en el suelo. Sostén las kettlebells como si fueran mancuernas. Realiza el movimiento de apertura hasta que los codos toquen el suelo. Movimiento de aislamiento seguro.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en el Suelo (Bilateral)",
+    "descripcion": "Acuéstate en el suelo, con una KB en cada mano. Realiza el Floor Press con ambos brazos simultáneamente. Mantén el agarre neutro para mayor comodidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho 'Cobra' (Floor Press) con Retraso Excéntrico",
+    "descripcion": "Realiza el Press de Pecho Unilateral. Haz una bajada muy lenta (excéntrica) de 4-5 segundos, resistiendo el peso antes de empujar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Tensión Excéntrica)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en el Suelo (Crush Press)",
+    "descripcion": "Sostén una única kettlebell con ambas manos, presionando las esferas juntas con fuerza en el centro del pecho. Presiona hacia arriba manteniendo la tensión de compresión constante.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Línea Media) y Tríceps",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Agarre Ancho (Usando Asas de KB)",
+    "descripcion": "Coloca las dos KB con una separación mayor que la anchura de los hombros. La separación amplia estresa más la porción media y externa del pectoral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Porción Externa)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Floor Press Unilateral con Pausa en el Fondo",
+    "descripcion": "Realiza el Press de Pecho Unilateral. Pausa la kettlebell con el codo tocando el suelo durante 2 segundos antes de iniciar la fase concéntrica (empuje).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Control Isométrico",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Crossover en el Suelo con KB",
+    "descripcion": "Acuéstate y realiza el press. Al subir, cruza una kettlebell sobre la otra sobre la línea media del pecho para maximizar la contracción interna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Línea Media)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Posición de Puente de Glúteo (Floor Bridge)",
+    "descripcion": "Acuéstate, eleva las caderas (puente). Realiza el Floor Press con las KB. El puente aumenta la demanda de estabilidad de la cadena posterior y el core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor, Core y Glúteos",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho 'Vikingo' o 'Push Press' de Suelo",
+    "descripcion": "Comienza el Floor Press unilateral con la KB en el hombro. Empuja la KB explosivamente hacia el techo, usando una ligera 'trampa' de empuje de pierna/cadera al inicio para levantar un peso máximo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Potencia",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en el Suelo (Agarrre 'Bottoms Up')",
+    "descripcion": "Sostén la KB invertida (esfera hacia arriba). Esto requiere la máxima estabilización del hombro y el antebrazo. Realiza el Floor Press de forma lenta y controlada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad de Hombro",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Pausa Isométrica en Estiramiento Profundo",
+    "descripcion": "Realiza el Pullover con KB en el suelo. Sostén la KB en la posición más baja (máximo estiramiento) durante 3-5 segundos antes de regresar. Aumenta la demanda de la cabeza larga del pectoral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Resistencia",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con KB a una Mano (Apoyado en Silla)",
+    "descripcion": "Apoya una mano y la rodilla opuesta en una silla o superficie baja estable. Sostén una KB. Tira de ella hacia la cadera, apretando la espalda y manteniendo el core estable.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Romboides",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Pendlay con KB a Dos Manos",
+    "descripcion": "De pie, inclina el torso 90 grados, con la espalda plana. Sostén una KB en cada mano. Tira explosivamente hacia el pecho, tocando el suelo entre cada repetición para eliminar el impulso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Erectores Espinales",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Encogimiento de Hombros (Shrugs) con KB",
+    "descripcion": "De pie, sostén una KB en cada mano (o una KB muy pesada). Levanta los hombros directamente hacia las orejas. Contrae el trapecio superior fuertemente y baja lentamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio Superior",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (RDL) con KB",
+    "descripcion": "Sostén una o dos KB frente a los muslos. Baja el torso manteniendo las rodillas ligeramente dobladas y la espalda plana. Empuja las caderas hacia adelante para subir. Fortalece lumbares y femorales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales, Glúteos y Femorales",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Buenos Días (Good Mornings) con KB (en Copa)",
+    "descripcion": "Sostén una KB contra el pecho (posición de copa). Mantén las rodillas suavemente dobladas y la espalda recta. Inclina el torso hacia adelante, sintiendo el estiramiento en la cadena posterior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con KB Unilateral (Posición de Bisagra)",
+    "descripcion": "De pie, en posición de bisagra (similar al RDL). Realiza el remo unilateral. La falta de apoyo exige mayor estabilidad del core y los erectores espinales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Estabilidad del Core",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con KB a Dos Manos (Agarre Supino)",
+    "descripcion": "Inclina el torso y realiza el remo con ambas KB, pero con agarre supino (palmas hacia adelante). Este agarre enfoca el dorsal bajo y los bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Énfasis Inferior)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Pájaros/Vuelos Inversos (Acostado boca abajo)",
+    "descripcion": "Acuéstate boca abajo en el suelo. Sostén KB ligeras. Levanta el pecho y realiza los vuelos inversos. La elevación aumenta el trabajo de la espalda baja y el deltoides posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano con KB (Tempo Lento)",
+    "descripcion": "Realiza el RDL con una fase excéntrica (bajada) de 4 segundos completos y una pausa de 1 segundo en el estiramiento máximo. Aumenta el control y la conexión muscular.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Isquiotibiales y Erectores Espinales",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Alto (High Pull) con KB",
+    "descripcion": "Desde la posición de bisagra o ligera sentadilla, tira de la KB verticalmente hacia el pecho o el mentón de forma explosiva, terminando con los codos altos. Ejercicio de potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio, Deltoides y Potencia",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Unilateral Inverso (En Apoyo Fijo)",
+    "descripcion": "Sostén una KB en agarre 'bottoms up'. Apoya una mano firmemente en una pared o mueble alto y estable. Realiza el remo. La tensión en el agarre aumenta la activación del dorsal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Agarre",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Renegado con Kettlebells",
+    "descripcion": "Colócate en posición de flexión, con una KB en cada mano (agarrando el asa). Tira de una KB hacia el pecho mientras mantienes el equilibrio con el core y la otra mano. Alterna lados.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho, Oblicuos y Core",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Sumo (Wide Stance) con KB",
+    "descripcion": "Separa los pies más ancho que la altura de los hombros. Coloca una KB en el suelo entre los pies. Realiza el peso muerto de forma explosiva. Permite levantar más peso y se enfoca en los glúteos y lumbares.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Glúteos, Femorales y Erectores Espinales",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Rotación de Torso (Énfasis en Estiramiento)",
+    "descripcion": "Realiza el remo unilateral. Al bajar la KB, permite que el torso rote ligeramente hacia el suelo para conseguir un estiramiento más profundo en el dorsal. Rota hacia arriba al tirar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Rango Completo)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Limpieza de Kettlebell (Kettlebell Clean)",
+    "descripcion": "Desde el suelo o la posición de bisagra, tira de la KB hacia arriba con las caderas y la espalda, terminando con la KB en la posición de rack (apoyada en el antebrazo a la altura del hombro). Movimiento explosivo que involucra toda la cadena posterior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio, Dorsal y Potencia (Cadena Posterior)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps de Pie (Bilateral, Agarre por Asa)",
+    "descripcion": "De pie, sostén una KB en cada mano por el asa. Realiza el curl de bíceps bilateral como con una mancuerna. Asegúrate de que la esfera de la KB no choque con el antebrazo en la parte superior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps 'Martillo' (Bilateral, Agarre Asa)",
+    "descripcion": "De pie, sostén una KB en cada mano, agarrando el asa con las palmas enfrentadas (neutro). Realiza el curl de martillo, subiendo ambas KB simultáneamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Braquiorradial",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Concentración con KB (Sentado en Silla)",
+    "descripcion": "Sentado, apoya el codo del brazo que trabaja en la parte interna del muslo. Sostén la KB por el asa o por la parte de la esfera (cuernos). Realiza el curl concentrado.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Pico)",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (A Dos Manos, Agarre Cuernos)",
+    "descripcion": "De pie o sentado, sujeta una sola KB con ambas manos por los 'cuernos' (la parte superior del asa). Baja la KB por detrás de la cabeza, estirando la cabeza larga del tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga)",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps (Kickback) a Dos Brazos con KB",
+    "descripcion": "Inclina el torso hacia adelante. Sostén una KB en cada mano. Extiende los brazos hacia atrás, apretando el tríceps. Es fundamental mantener los codos fijos y altos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press Cerrado en el Suelo con KB (Agarrre Neutro)",
+    "descripcion": "Acuéstate en el suelo. Sostén las KB en agarre neutro (asas paralelas al cuerpo). Realiza el Floor Press con enfoque en la parte interna del pectoral y el tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Pectoral",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (Skullcrushers) con KB",
+    "descripcion": "Acuéstate en el suelo. Sostén una KB en cada mano. Baja las KB hacia los lados de la cabeza, doblando solo los codos. El suelo limita el rango de movimiento, aumentando la seguridad.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga y Lateral)",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps de Pie (Alternado, Agarre en Inversión)",
+    "descripcion": "De pie, sostén las KB. Sube una KB, rotando la muñeca de un agarre neutro a supino. Baja con control y alterna el brazo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps 'Bottoms Up' (Unilateral)",
+    "descripcion": "Sostén la KB de forma invertida (esfera hacia arriba). Esto exige máxima fuerza de agarre y estabilización del antebrazo. Realiza el curl lentamente. Solo se puede hacer con pesos ligeros.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial, Bíceps y Agarre",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (Unilateral, Sentado)",
+    "descripcion": "Sentado. Sostén una KB. Levanta el brazo directamente y realiza la extensión por detrás de la cabeza. El movimiento unilateral mejora la corrección de desequilibrios musculares.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga unilateral)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dips en Silla con Peso (KB en el Regazo)",
+    "descripcion": "Utiliza una silla robusta. Coloca una KB sobre el regazo (sujetada con las manos si es necesario). Realiza los fondos (dips) hasta que los codos formen un ángulo de 90 grados.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Deltoides Anterior",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Cerrado en el Suelo con Pausa Isométrica",
+    "descripcion": "Acuéstate con las KB. Baja el peso y pausa 2 segundos a medio recorrido (codos a 90°) antes de subir. Aumenta la demanda de fuerza en el punto medio.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza de Bloqueo)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Inverso (Reverse Curl) con KB",
+    "descripcion": "Sostén la KB por el asa con agarre prono (palmas hacia abajo). Realiza el curl inverso. Ideal para fortalecer los extensores del antebrazo y el Braquiorradial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquiorradial y Antebrazos",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Contrapeso Isométrico (Dos KB)",
+    "descripcion": "Sostén una KB en la cima del curl (contracción isométrica). Con la otra KB, realiza repeticiones. La tensión constante en el agarre es un desafío avanzado para los antebrazos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Agarre",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Kettlebell 'Cossack' (Para Tríceps/Hombro)",
+    "descripcion": "Comienza con la KB en posición de *rack* (apoyada en el antebrazo a la altura del hombro). Realiza el press militar. La inestabilidad de la posición *rack* exige máximo control de la cadena anterior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Estabilizadores del Hombro",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps (Kickback) con Rotación Total",
+    "descripcion": "Realiza el Kickback. En el punto de extensión máxima, gira la KB (rotación) para que el asa quede perpendicular al suelo. Maximiza la contracción del tríceps lateral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Contracción Pico)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza con Retraso Excéntrico",
+    "descripcion": "Utiliza la KB a dos manos. Baja la KB detrás de la cabeza en un movimiento muy lento y controlado (4-5 segundos). Sube la KB de forma más rápida.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Sobrecarga Excéntrica)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Hombros (Sentado en Silla)",
+    "descripcion": "Siéntate en una silla. Sostén una KB en posición de rack (apoyada en el antebrazo a la altura del hombro). Presiona la KB hacia arriba hasta la extensión completa. Controla la bajada a la posición de rack.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Frontales (Alternadas, Agarre Asa)",
+    "descripcion": "De pie, sostén la KB por el asa con la palma hacia el cuerpo. Levanta una KB hacia adelante hasta la altura del hombro. Baja y alterna el brazo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales (De pie, Agarre Asa)",
+    "descripcion": "De pie, sostén la KB por el asa. Levanta lateralmente la KB hasta que el brazo esté paralelo al suelo. Asegúrate de que el codo esté ligeramente flexionado y el peso controlado.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo al Mentón (High Pull) con KB",
+    "descripcion": "De pie, sostén una KB con ambas manos por el asa. Tira de la KB hacia el mentón, manteniendo los codos altos. Movimiento controlado que trabaja hombros y trapecio.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio y Trapecio",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pájaros o Vuelos Inversos (Inclinado de pie)",
+    "descripcion": "De pie, inclina el torso hacia adelante. Sostén una KB en cada mano. Levanta las KB hacia los lados, apretando la parte trasera del hombro y entre los omóplatos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar (Arrodillado, Unilateral)",
+    "descripcion": "Arrodíllate en el suelo (rodilla izquierda adelante si usas el brazo derecho). Sostén la KB en posición de rack y realiza el press. La postura arrodillada exige mayor estabilidad del core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Core y Estabilidad",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Arnold con KB (Sentado en Silla)",
+    "descripcion": "Sentado, inicia con la KB en posición de rack. Mientras presionas hacia arriba, rota la KB hasta que el brazo termine extendido. La KB requiere más control de la muñeca que una mancuerna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior, Medio y Rotadores",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata de Granjero con KB (High Rack Carry)",
+    "descripcion": "Sostén una KB pesada en la posición de rack. Camina lentamente, manteniendo el torso perfectamente recto. Esto exige alta estabilidad isométrica del deltoides medio y el core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Trapecio y Estabilidad Isométrica",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Halo de Kettlebell",
+    "descripcion": "De pie, sostén una KB con ambas manos por el asa. Rota la KB completamente alrededor de la cabeza. Mantén el cuello quieto y los codos cerca de la cabeza. Mejora la movilidad del hombro.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Manguito Rotador y Movilidad",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros Sentado con Tempo Lento (Concéntrico/Excéntrico)",
+    "descripcion": "Sentado en silla. Realiza el Press Militar Unilateral utilizando una cadencia lenta (ej. 3 segundos de subida y 3 de bajada). El TUT (Tiempo Bajo Tensión) incrementa la demanda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Resistencia",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros 'Bottoms Up' (Invertido)",
+    "descripcion": "Sostén la KB invertida (esfera hacia arriba). Esto requiere máxima estabilización, especialmente para el Deltoides Medio. Presiona lentamente hacia arriba de forma unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Estabilizadores del Hombro y Deltoides",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Limpieza y Press (Clean & Press) con KB",
+    "descripcion": "Movimiento balístico: realiza una 'Limpieza' (Clean) de la KB al hombro, llevando la KB de forma explosiva a la posición de rack. Desde ahí, realiza un Press Militar. Combina potencia y fuerza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Trapecio y Potencia (Cuerpo Completo)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales en T con Contrapeso (Acostado)",
+    "descripcion": "Acuéstate de lado en el suelo. Sostén la KB. Levanta el brazo lateralmente hacia el techo. Este ángulo de 90° con el cuerpo aísla el deltoides medio. Requiere control total.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio (Aislamiento Máximo)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros con Windmill (Molino de Viento)",
+    "descripcion": "Sostén la KB con un brazo extendido sobre la cabeza. Sin mover el brazo superior, dobla la cadera y la rodilla opuesta, tocando el suelo con la mano libre. Ejercicio de estabilidad extrema y movilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Manguito Rotador, Oblicuos y Deltoides",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar Unilateral en Posición de Zancada (Lunge Stance)",
+    "descripcion": "Párate en posición de zancada. Realiza el press de hombros unilateralmente. La base inestable de las piernas aumenta la demanda de estabilización del core y la cadera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Core y Estabilidad Intermuscular",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Kettlebell Swing (a Dos Manos)",
+    "descripcion": "De pie, pies separados a la altura de los hombros. Empuja las caderas hacia atrás. Balancea la KB explosivamente usando la cadera, llevándola a la altura del pecho/hombros. Movimiento de bisagra de cadera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos, Isquiotibiales y Core (Potencia)",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Goblet con KB",
+    "descripcion": "Sostén una KB verticalmente con ambas manos contra el pecho (posición de copa). Baja en sentadilla, manteniendo el torso erguido. Empuja con los talones. La KB ayuda a mantener la postura.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Core",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (RDL) con KB",
+    "descripcion": "Sostén una o dos KB frente a los muslos. Realiza el RDL, empujando las caderas hacia atrás y bajando el torso. Mantén las rodillas ligeramente dobladas y la espalda recta. Siente el estiramiento en los femorales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas o Desplantes Hacia Adelante (Sostenida en Copa)",
+    "descripcion": "Sostén una KB en posición Goblet (Copa). Realiza las zancadas alternadas. La posición frontal de la KB exige más trabajo del core y el cuádriceps de la pierna de apoyo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Sumo con KB",
+    "descripcion": "Pies más anchos que los hombros, puntas hacia afuera. Sostén una KB verticalmente con ambas manos entre las piernas. Baja profundo, manteniendo el pecho erguido. Trabaja los adductores.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Adductores",
+    "equipo": "Kettlebell",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Kettlebell Clean (Limpieza) y Sentadilla Frontal",
+    "descripcion": "Realiza una Limpieza (Clean) para llevar la KB a la posición de rack (unilateral). Una vez en rack, realiza una sentadilla frontal. La posición de rack aumenta la demanda del core y el cuádriceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Potencia",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara con KB (Sostenida en Copa o Rack)",
+    "descripcion": "Coloca un pie en una silla/escalón. Sostén la KB en posición de Copa o Rack (unilateral). Baja verticalmente. Ejercicio de alta dificultad y aislamiento unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad Unilateral",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Kettlebell Swing (Unilateral)",
+    "descripcion": "Realiza el Swing con una sola KB. Esto exige mayor trabajo del core para prevenir la rotación y el desequilibrio lateral. Mantén la espalda recta y el movimiento desde la cadera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos, Isquiotibiales y Core (Antirrotación)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Unilateral con KB (RDL de una pierna)",
+    "descripcion": "Sostén una KB en la mano opuesta a la pierna de apoyo. Inclina el torso hacia adelante, permitiendo que la pierna libre se extienda hacia atrás. Gran desafío para el equilibrio, glúteos y femorales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales, Glúteos y Equilibrio",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata de Granjero con KB (High Rack y Carry)",
+    "descripcion": "Sostén una KB pesada en la posición de Rack y otra en la mano libre (carry). Camina lentamente, manteniendo la postura perfecta. Entrena la resistencia del tren inferior y la estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad (Resistencia)",
+    "equipo": "Kettlebell",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Doble Kettlebell Clean and Squat",
+    "descripcion": "Realiza el Clean (Limpieza) simultáneamente con dos KB para llevarlas a la posición de rack. Desde ahí, realiza una Sentadilla Frontal profunda. Exige mucha potencia y estabilidad del core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Potencia Máxima",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Cossack con KB (Deep Cossack Squat)",
+    "descripcion": "Sostén la KB en copa. Desplázate lateralmente, bajando en sentadilla en una pierna (profunda) mientras la otra pierna se extiende. Movimiento avanzado de movilidad y fuerza unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Adductores, Isquiotibiales y Movilidad",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pistol Squat (Sentadilla a una pierna) con Contrapeso KB",
+    "descripcion": "Sostén la KB con ambas manos, extendiéndola hacia adelante para usarla como contrapeso. Realiza una sentadilla a una sola pierna tan profunda como sea posible, manteniendo la espalda recta.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Equilibrio y Fuerza Unilateral",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Kettlebell Thruster (Impulso)",
+    "descripcion": "Comienza con la KB en posición de rack. Baja a una sentadilla profunda y, al subir de forma explosiva, utiliza ese impulso para presionar la KB sobre la cabeza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Potencia (Cuerpo Completo)",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Paso de Montaña (Step-up) con KB en Rack",
+    "descripcion": "Sostén una KB en posición de rack. Coloca un pie sobre un escalón o caja robusta. Sube usando solo la pierna que está elevada. Controla la bajada. Ideal para el cuádriceps y glúteo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Kettlebell",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho de Pie (Doble Banda, Anclaje a Puerta)",
+    "descripcion": "Ancla la banda en el centro de una puerta (usando un tope de anclaje de puerta o pasándola por un poste estable). De espaldas al anclaje, sostén un asa en cada mano y realiza el press de pecho, extendiendo los brazos hacia adelante.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas de Pecho de Pie (Fly)",
+    "descripcion": "Ancla la banda de manera similar al Press. Da un paso adelante, brazos extendidos a los lados (como un avión). Junta las manos frente al pecho con un ligero doblez en los codos. Movimiento de aislamiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Línea Media)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho 'Arrodillado' (Estabilidad)",
+    "descripcion": "Ancla la banda a una altura media o baja. Arrodíllate en el suelo (de espaldas al anclaje). Esta posición reduce la capacidad de usar las piernas y aísla el trabajo en el pecho y el core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Core",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Push-Up Asistido (Banda por la espalda)",
+    "descripcion": "Pasa la banda a través de la espalda (como un chaleco) y sujétala bajo las manos. Realiza flexiones normales. La banda ayuda en la fase de empuje, ideal para principiantes que no dominan las flexiones completas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Tríceps",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho Unilateral (De pie)",
+    "descripcion": "Ancla la banda y realiza el Press de Pecho con una sola mano. El esfuerzo unilateral mejora la conciencia muscular y exige un mayor trabajo antirrotacional del core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad del Core",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho (Énfasis en la Parte Superior - Anclaje Bajo)",
+    "descripcion": "Ancla la banda cerca del suelo. Ponte de espaldas al anclaje y presiona hacia arriba y adelante (ascendente). Este ángulo se enfoca en la cabeza clavicular (parte superior) del pectoral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Superior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas con Pausa Isométrica (Contracción Pico)",
+    "descripcion": "Realiza las Aperturas de Pecho (Fly). Pausa durante 2-3 segundos cuando las manos están juntas frente al pecho (máxima contracción). Regresa lentamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Contracción Pico)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho con Patrón Inestable (Offset Stance)",
+    "descripcion": "De pie, realiza el press unilateral. Colócate en posición de zancada o 'step-back' para reducir la base de apoyo. La inestabilidad aumenta la activación del core y los estabilizadores.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho (Énfasis en la Parte Inferior - Anclaje Alto)",
+    "descripcion": "Ancla la banda en la parte superior de la puerta. De espaldas al anclaje, presiona hacia abajo y adelante (descendente). Este ángulo se enfoca en la parte inferior del pectoral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Inferior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Negativas Lentas (Bandas como lastre)",
+    "descripcion": "Utiliza la banda como lastre (pasada por la espalda y bajo las manos). Realiza la flexión con un ascenso normal, pero una bajada (excéntrica) muy lenta y controlada (4-5 segundos).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Sobrecarga Excéntrica)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho Unilateral con Rotación (Explosivo)",
+    "descripcion": "Ancla la banda a la altura del pecho. Sostén el asa unilateralmente. Gira el torso mientras presionas, terminando con el brazo extendido frente al cuerpo. Ejercicio de potencia y core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor, Core y Potencia",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho Búlgaro (Unilateral, Anclaje Extremo)",
+    "descripcion": "Ancla la banda en un lateral y lejos del cuerpo. Gira el cuerpo para que la banda estire el pectoral en el estiramiento máximo. Presiona con la banda y el cuerpo en ángulos opuestos. Alto desafío de estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad Antirrotacional",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Aperturas Cruzadas (Crossover Fly) con Banda",
+    "descripcion": "Ancla las bandas en la parte superior (o media). Realiza aperturas de pecho, cruzando las manos sobre la línea media del cuerpo. Esto maximiza la contracción interna del pectoral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Línea Media)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Banda como Lastre (Profundas en Asas)",
+    "descripcion": "Ancla la banda firmemente por la espalda. Usa dos asas de mancuerna/KB (o libros gruesos) para elevar las manos, permitiendo un rango de movimiento más profundo en la flexión. Máximo desafío de fuerza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Rango de Movimiento",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho de Rodillas 'Anti-Rotación'",
+    "descripcion": "Ancla una sola banda al lado. Arrodíllate de lado y realiza el press con ambas manos. La tensión lateral de la banda exige una gran fuerza isométrica del core para evitar la rotación (Press Pallof dinámico).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Oblicuos",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Sentado (Doble Banda, Anclaje a Puerta)",
+    "descripcion": "Ancla la banda cerca del suelo. Siéntate con las piernas extendidas, agarrando un asa en cada mano. Tira hacia el abdomen, apretando los omóplatos. Ideal para aislar los dorsales y la espalda media.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Romboides",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Inclinado de Pie (Banda bajo los pies)",
+    "descripcion": "Coloca la banda bajo los pies (uno o ambos) para anclaje. Inclina el torso hacia adelante 45-60 grados. Tira de las asas hacia las costillas. Simula un remo con barra.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Erectores Espinales",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Jalón de Cara (Face Pulls) con Banda",
+    "descripcion": "Ancla la banda a una altura alta (ej. parte superior de la puerta). Sostén un asa en cada mano y tira hacia la cara, abriendo los codos. Excelente para la postura y el Deltoides Posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Banda (De pie, Anclaje Alto)",
+    "descripcion": "Ancla la banda en la parte superior. De espaldas al anclaje, sostén el asa con ambas manos y jala hacia abajo, terminando con los brazos cerca de los costados. Enfoque en el dorsal.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Unilateral (Apoyado en Columna/Mueble)",
+    "descripcion": "Ancla la banda a una altura media o baja. Apoya la mano libre en un mueble o pared para estabilizarte. Realiza el remo con una sola mano, concentrando la contracción en la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Unilateral)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Sentado con Agarre Abierto y Pausa",
+    "descripcion": "Ancla la banda a baja altura. Separa el agarre (manos más separadas en el asa). Tira y haz una pausa de 2 segundos al contraer los omóplatos, enfocando la espalda media y alta.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio Medio y Romboides",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Pendlay Asistido (Banda bajo los pies)",
+    "descripcion": "Coloca la banda bajo los pies. Inclina el torso a 90 grados. Tira de la banda hacia el abdomen de forma explosiva, volviendo la banda completamente al suelo entre cada repetición (sin impulso).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Explosividad",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido con Banda (Anclaje Alto)",
+    "descripcion": "Ancla la banda en la parte superior. Recuéstate en el suelo (debajo del anclaje) y sujeta las asas. Tira del cuerpo hacia las manos. Simula una dominada horizontal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Fuerza Relativa",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Unilateral Inclinado (Agarre Neutro)",
+    "descripcion": "Ancla la banda bajo un pie. Inclina el torso hacia adelante y realiza el remo unilateral con agarre neutro (palma hacia el cuerpo). Se enfoca en la amplitud del dorsal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Énfasis en Estiramiento)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Pull-Apart con Banda (Anclaje al pecho)",
+    "descripcion": "Sujeta la banda con ambas manos y brazos extendidos frente al pecho. Separa las manos horizontalmente hasta que la banda toque el pecho. Excelente para la parte alta de la espalda y los manguitos rotadores.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Romboides y Deltoides Posterior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Unilateral con Rotación (Máximo Estiramiento)",
+    "descripcion": "Ancla la banda. Realiza el remo unilateral. Al estirar, gira ligeramente el torso hacia el anclaje para maximizar el estiramiento en el dorsal. Rota al tirar para la contracción.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Rango Completo)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Jalón de Cara con Rodilla Elevada (Estabilidad Dinámica)",
+    "descripcion": "Ancla la banda alto. De pie, sujeta el asa. Eleva una rodilla a 90 grados mientras realizas el Jalón de Cara. La inestabilidad aumenta la demanda del core para la estabilidad.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Deltoides Posterior y Estabilidad Unilateral",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Deslizamiento (Anclaje Alto)",
+    "descripcion": "Ancla la banda en la parte superior. Arrodíllate con el torso recto (casi de pie). Sujeta las asas y jala hacia el pecho. La postura erguida aísla más la acción del dorsal y el core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Core Estabilizador",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido a una Mano (High Row Unilateral)",
+    "descripcion": "Ancla la banda en la parte superior. Recuéstate en el suelo. Tira del cuerpo hacia la mano usando solo un brazo. Controla el balanceo del cuerpo con el core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Fuerza Unilateral)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Agarre de Asa y Cambio de Banda (Drop Set)",
+    "descripcion": "Realiza el Remo Sentado con una banda fuerte hasta el fallo. Rápidamente, suelta la banda y cambia a una banda más ligera (sin descanso) y sigue remando. Ideal para hipertrofia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Hipertrofia)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps de Pie (Banda Anclada bajo los Pies)",
+    "descripcion": "Coloca la banda bajo uno o ambos pies para anclaje. Sostén un asa en cada mano (agarre supino). Realiza el curl de bíceps bilateral. La banda ofrece resistencia progresiva.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Martillo (Hammer Curl) con Banda",
+    "descripcion": "Ancla la banda bajo los pies. Sostén las asas con agarre neutro (palmas enfrentadas). Realiza el curl de martillo. Este agarre trabaja el braquial y braquiorradial.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Braquiorradial",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Concentrado Sentado con Banda",
+    "descripcion": "Siéntate y ancla la banda bajo el pie del lado que trabaja. Apoya el codo en la parte interna del muslo. Realiza el curl concentrado, enfocando el pico del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Pico)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (De pie, Anclaje bajo los Pies)",
+    "descripcion": "Ancla la banda bajo uno o ambos pies. Sostén el asa con ambas manos. Extiende los brazos por encima de la cabeza, doblando solo los codos. Excelente para la cabeza larga del tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps (Kickback) con Banda",
+    "descripcion": "Inclina el torso hacia adelante (espalda plana). Ancla la banda bajo el pie opuesto al brazo que trabaja (o ambos pies para más tensión). Extiende el brazo hacia atrás, manteniendo el codo fijo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Tríceps Hacia Abajo (Pushdown) con Anclaje Alto",
+    "descripcion": "Ancla la banda en la parte superior de la puerta. De espaldas al anclaje, sostén un asa en cada mano. Presiona los brazos hacia abajo, extendiendo completamente el tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Lateral)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps Predicador Invertido (Anclaje Alto)",
+    "descripcion": "Ancla la banda a una altura alta (ej. parte superior de la puerta). De cara al anclaje, siéntate o arrodíllate. Extiende los brazos hacia el anclaje y realiza el curl. El anclaje alto estira el bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Énfasis en Estiramiento)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps Unilateral con Pausa en Contracción Máxima",
+    "descripcion": "Ancla la banda bajo un pie. Realiza el curl unilateral, con una pausa de 2 segundos en el punto más alto (máxima contracción). Concentra el esfuerzo en la fase de pico.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Contracción Pico)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Inverso (Reverse Curl) con Banda",
+    "descripcion": "Ancla la banda bajo los pies. Sostén las asas con agarre prono (palmas hacia abajo). Realiza el curl. Este movimiento aísla el braquiorradial y los extensores del antebrazo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquiorradial y Antebrazo",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps 'Pushdown' con Cuerda (Agarre Neutro)",
+    "descripcion": "Ancla la banda en la parte superior. Sujeta el asa con un agarre neutro (palmas enfrentadas) y realiza el Pushdown. La separación de las manos aumenta la contracción lateral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Separación de Cabezas)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Tríceps (Kickback) con Retraso Excéntrico",
+    "descripcion": "Inclina el torso. Realiza la patada de tríceps unilateral. Extiende el brazo rápidamente (fase concéntrica), pero regresa la banda lentamente (4-5 segundos) a la posición inicial. Énfasis en la fase negativa.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Sobrecarga Excéntrica)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos (Dips) Asistidos con Banda (Debajo de la Rodilla)",
+    "descripcion": "Coloca una silla estable y alta para los Dips. Pasa la banda por debajo de las rodillas y sujeta los extremos en las manos. La banda ayuda a levantar el cuerpo, permitiendo más repeticiones con buena forma.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Pectoral Inferior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps 'Arrastrado' (Drag Curl) con Banda",
+    "descripcion": "Ancla la banda bajo los pies. Realiza el curl, pero manteniendo los codos lo más atrás posible y arrastrando las manos por el torso al subir. Aísla el bíceps al anular el deltoides anterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Aislamiento)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Banda y Rotación de Antebrazo (Supinación Extrema)",
+    "descripcion": "Ancla la banda bajo los pies. Realiza el curl de bíceps. Concéntrate en girar la muñeca (supinar) vigorosamente al final del movimiento para maximizar la contracción del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Función de Supinación)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza 'Concentrada' (Unilateral)",
+    "descripcion": "Ancla la banda en un punto bajo. Arrodíllate de espaldas al anclaje. Sostén el asa unilateralmente y realiza la extensión sobre la cabeza. La posición arrodillada y el anclaje bajo aumentan la tensión constante.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza Unilateral)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Tríceps Inclinado (Overhead Pushdown)",
+    "descripcion": "Ancla la banda a una altura media o alta. Ponte de cara al anclaje, inclina ligeramente el torso hacia adelante. Presiona los brazos por encima de la cabeza hacia el suelo. Trabaja las tres cabezas del tríceps simultáneamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (3 Cabezas)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos (Dips) con Banda como Resistencia (Anclaje al Suelo)",
+    "descripcion": "Utiliza dos sillas o taburetes estables. Ancla la banda bajo las manos y pásala por encima de los hombros/espalda. Realiza los Dips. La banda provee resistencia en la cima del movimiento (más difícil para el tríceps).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Sobrecarga de Bloqueo)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Hombros (De Pie, Banda bajo los Pies)",
+    "descripcion": "Ancla la banda bajo ambos pies (o un solo pie para menos tensión). Sostén un asa en cada mano y presiona las bandas verticalmente sobre la cabeza. Movimiento de fuerza principal para los hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Frontales (Banda bajo un Pie)",
+    "descripcion": "Ancla la banda bajo un pie. Sostén un asa con ambas manos (o con una sola y alterna). Levanta los brazos rectos hacia adelante hasta la altura de los hombros.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales (De Pie, Banda bajo un Pie)",
+    "descripcion": "Ancla la banda bajo el pie del lado que trabaja. Sostén el asa en el exterior del cuerpo. Realiza las elevaciones laterales hasta que el brazo esté paralelo al suelo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo al Mentón (High Pull) con Banda",
+    "descripcion": "Ancla la banda bajo los pies. Sostén un asa en cada mano (o ambas asas juntas). Tira de la banda hacia el mentón, manteniendo los codos más altos que las manos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio y Trapecio Superior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pájaros o Vuelos Inversos (Banda Cruzada bajo los Pies)",
+    "descripcion": "Ancla la banda bajo los pies, cruzándola en forma de 'X'. Inclina el torso hacia adelante. Tira de las asas hacia los lados y arriba. Excelente para el deltoides posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros Sentado con Estabilidad (Unilateral)",
+    "descripcion": "Siéntate en una silla. Ancla la banda bajo el pie del lado que trabaja. Presiona la banda sobre la cabeza con un solo brazo. La posición sentada aísla el esfuerzo de las piernas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Énfasis Unilateral)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Laterales con Pausa Isométrica",
+    "descripcion": "Ancla la banda bajo el pie. Realiza la elevación lateral. Pausa de 2 segundos cuando el brazo está paralelo al suelo (máxima tensión). Controla el descenso.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio (Contracción Máxima)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Jalón de Cara con Banda (Face Pulls) Arrodillado",
+    "descripcion": "Ancla la banda a una altura alta (ej. parte superior de la puerta). Arrodíllate de cara al anclaje. Tira de las asas hacia la cara, abriendo los codos. Trabaja la postura y la espalda alta.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior y Manguito Rotador",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros con Zancada (Lunge Stance Press)",
+    "descripcion": "Ancla la banda bajo el pie delantero en posición de zancada. Presiona la banda sobre la cabeza. La base inestable de las piernas aumenta la demanda de estabilidad del core y hombro.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Core y Estabilidad",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros Arriba e Hacia Afuera (Énfasis Superior)",
+    "descripcion": "Ancla la banda bajo los pies. Presiona la banda no solo hacia arriba, sino ligeramente en diagonal hacia afuera. Este ángulo pone mayor énfasis en la cabeza frontal del deltoides.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Superior",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Hombros con Banda (Doble Banda en 'X')",
+    "descripcion": "Ancla dos bandas separadas bajo los pies, cruzándolas en 'X'. Sostén un asa en cada mano. Presiona sobre la cabeza. La tensión cruzada añade inestabilidad y resistencia variable.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Fuerza y Estabilidad)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pulsos de Elevación Lateral (3-Way Lateral Raises)",
+    "descripcion": "Ancla la banda. Realiza una elevación lateral completa, luego una elevación lateral corta (pulso), y luego una elevación en ángulo (45 grados). Combina varios ángulos del deltoides medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio (Sobrecarga de Volumen)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros con Banda y Retraso Excéntrico",
+    "descripcion": "Ancla la banda bajo los pies. Presiona la banda rápidamente (concéntrico) y baja el peso de forma muy lenta y controlada (4-5 segundos). Sobrecarga la fase de estiramiento del hombro.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Sobrecarga Excéntrica)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Unilateral con Inestabilidad (Banda y Patrón de Paso)",
+    "descripcion": "Ancla la banda al lado. Realiza el press unilateral mientras levantas el pie opuesto ligeramente del suelo (ej. un 'stork stance'). Aumenta drásticamente la demanda de los estabilizadores.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Estabilizadores, Core y Deltoides",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata de Granjero 'Front Rack' con Banda",
+    "descripcion": "Ancla la banda bajo ambos pies. Sostén las asas en posición de rack (en el pecho, codos altos). Camina lentamente, manteniendo la tensión en los hombros y el core. Tensión isométrica.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Trapecio y Core (Resistencia Isométrica)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Goblet con Banda (Banda Anclada bajo los Pies)",
+    "descripcion": "Coloca la banda bajo los pies. Sostén un asa en cada mano (posición de Copa/Goblet) o ambas asas juntas en el centro. Baja en sentadilla, manteniendo el torso recto. La banda asiste el ascenso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas o Desplantes Hacia Adelante (Banda bajo el Pie Delantero)",
+    "descripcion": "Ancla la banda bajo el pie delantero. Sostén el asa en la mano del mismo lado (o ambas manos). Realiza las zancadas, concentrando la fuerza en la pierna anclada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (RDL) con Banda (Banda bajo los Pies)",
+    "descripcion": "Ancla la banda bajo los pies. Sostén las asas con las manos. Realiza el RDL, empujando la cadera hacia atrás y sintiendo el estiramiento en los isquiotibiales. Mantén la espalda recta.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensiones de Cadera (Glute Bridges) con Banda sobre el Regazo",
+    "descripcion": "Acuéstate boca arriba, rodillas flexionadas. Coloca la banda horizontalmente sobre el regazo y sujeta los extremos con las manos en el suelo. Empuja las caderas hacia el techo contra la resistencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Femorales",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aducción de Cadera de Pie (Anclaje Bajo)",
+    "descripcion": "Ancla la banda a un punto bajo (ej. pata de mueble). Pasa el asa por el tobillo. De lado al anclaje, mueve la pierna hacia el centro del cuerpo (aducción) contra la resistencia.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Adductores",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Salto (Jump Squat) con Banda",
+    "descripcion": "Ancla la banda bajo los pies y sostén las asas en los hombros. Realiza una sentadilla normal y luego explota hacia arriba en un salto. La banda añade resistencia a la fase de despegue.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Potencia",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Zancada Inversa con Banda (Reverse Lunge)",
+    "descripcion": "Ancla la banda bajo el pie delantero. Realiza la zancada inversa, llevando la pierna de atrás hacia atrás. Esto reduce el impacto en la rodilla y enfatiza más el glúteo de la pierna delantera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Cuádriceps",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano Unilateral (RDL a una pierna)",
+    "descripcion": "Ancla la banda bajo el pie de apoyo. Sostén el asa en la mano opuesta o del mismo lado. Realiza el RDL a una pierna. Requiere gran estabilidad, equilibrio y fuerza en glúteos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales, Glúteos y Estabilidad Unilateral",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Paso de Montaña (Step-Up) con Banda Anclada",
+    "descripcion": "Ancla la banda bajo un pie y coloca ese pie sobre un escalón o silla. Sostén el asa. Sube usando la pierna que está elevada. La banda ofrece tensión progresiva.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Cuádriceps Sentado con Banda (Anclaje Silla)",
+    "descripcion": "Siéntate en el borde de una silla. Ancla la banda bajo la silla. Pasa el asa por un tobillo. Extiende la pierna hacia adelante, aislando el cuádriceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara con Banda (Anclaje bajo el Pie Delantero)",
+    "descripcion": "Coloca el pie trasero en una silla/escalón. Ancla la banda bajo el pie delantero y sostén el asa. Baja en sentadilla búlgara. Máximo aislamiento unilateral y desafío de estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad Extrema",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Pistol Squat (Sentadilla a una pierna) Asistido con Banda",
+    "descripcion": "Ancla una banda a la altura de la cadera o del pecho. Sostén el asa. Realiza el Pistol Squat, usando la banda como asistencia para mantener el equilibrio y ayudar en el ascenso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Equilibrio",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Hip Thrust con Banda sobre el Regazo (Anclaje Silla)",
+    "descripcion": "Apoya la espalda alta en una silla/sofá. Coloca la banda sobre el regazo y ancla los extremos bajo los pies. Empuja las caderas hacia arriba, contrayendo el glúteo. Mayor sobrecarga que el Glute Bridge.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos (Máxima Activación)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Pausa Profunda y Banda (Isométrica)",
+    "descripcion": "Ancla la banda bajo los pies. Baja en sentadilla hasta la profundidad máxima y mantén la posición durante 3-5 segundos antes de explotar hacia arriba. Combina tensión y fuerza isométrica.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Resistencia Isométrica",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Abducción de Cadera de Pie (Con Banda Pesada)",
+    "descripcion": "Ancla la banda a un punto bajo. Pasa el asa por el tobillo. De cara al anclaje, mueve la pierna hacia afuera (abducción) contra la resistencia. Enfoca el glúteo medio para la estabilidad.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio (Estabilización)",
+    "equipo": "Banda de Resistencia",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Floor Press)",
+    "descripcion": "Acuéstate en el suelo. Sostén la barra con un agarre medio. Baja la barra hasta que los codos toquen el suelo. El suelo actúa como 'stop' natural, protegiendo los hombros y eliminando la necesidad de un banco.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Tríceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Agarre Cerrado)",
+    "descripcion": "Similar al Floor Press, pero con un agarre más estrecho (separación de hombros). Esto traslada más el enfoque al centro del pecho y el tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Interno y Tríceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo con Pausa",
+    "descripcion": "Realiza el Floor Press con la barra. Haz una pausa de 2 segundos cuando la parte superior de tus brazos esté en contacto con el suelo. Esto elimina el impulso y aumenta el 'Tiempo Bajo Tensión' (TUT).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Fuerza de Inicio)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Barra (Manos sobre la Barra)",
+    "descripcion": "Coloca la barra en el suelo. Agárrala con ambas manos y realiza flexiones (push-ups). Esto añade inestabilidad y aumenta el rango de movimiento ligeramente. Es un ejercicio de peso corporal asistido por barra.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilidad",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Barra (Acostado en el Suelo)",
+    "descripcion": "Acuéstate en el suelo. Sostén la barra con agarre cerrado. Extiende los brazos sobre el pecho y bájalos hacia atrás hasta donde el suelo lo permita (o hasta sentir estiramiento). Enfocado en el estiramiento del pectoral y dorsal.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral y Dorsal Ancho",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Excéntrica Lenta)",
+    "descripcion": "Utiliza un peso moderado. Baja la barra muy lentamente (ej. 4 segundos) hasta que los codos toquen el suelo. Sube la barra a velocidad normal. Excelente para la hipertrofia y el control muscular.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Sobrecarga Excéntrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Floor Press Declinado (Pies Elevados)",
+    "descripcion": "Coloca los pies en un objeto estable y seguro (ej. un taburete o sofá bajo). Acuéstate y realiza el Floor Press. La inclinación (declinación) enfoca más el pectoral inferior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Inferior",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover con Barra (Perpendicular a Banco/Silla)",
+    "descripcion": "Coloca la espalda superior (hombros) perpendicularmente sobre un banco o silla estable (cuerpo en puente). Sostén la barra y bájalas detrás de la cabeza para maximizar el rango de movimiento. Requiere equilibrio.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral y Dorsal (Rango Máximo)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Agarre Asimétrico)",
+    "descripcion": "Utiliza un agarre asimétrico (una mano más cerca del centro de la barra que la otra). Esto obliga a un mayor trabajo de estabilización y equilibrio del core y los hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Estabilizadores",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Barra (Pies Elevados)",
+    "descripcion": "Coloca la barra en el suelo. Pon los pies en un taburete o silla estable y haz flexiones con las manos en la barra. Esto crea una inclinación (declinación) más extrema para el pectoral superior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Superior y Tríceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Cluster Set)",
+    "descripcion": "Utiliza un peso pesado. Realiza 3 repeticiones, descansa 10 segundos, repite 3 repeticiones, descansa 10 segundos, repite 3 repeticiones. Maximiza el volumen de alta intensidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Fuerza y Potencia)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo (Drop Set con Placas)",
+    "descripcion": "Comienza con tu peso más pesado. Realiza tantas repeticiones como sea posible. Retira rápidamente una placa de cada lado (o pasa a una barra más ligera, si tienes). Continúa hasta el fallo. Máxima hipertrofia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Volumen y Resistencia)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Serratus Floor Press (Con Empuje Final)",
+    "descripcion": "Tras completar el Floor Press, bloquea los codos y empuja los hombros hacia el techo (protractando). Esto es una extensión de hombro que aísla el Serrato Anterior, esencial para la salud y forma del pectoral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Serrato Anterior y Pectoral",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Pecho en Suelo con Isometría en Punto Medio",
+    "descripcion": "Baja la barra hasta el punto medio entre la extensión total y el suelo. Mantén la posición isométrica durante 3-5 segundos, luego completa el press. Aumenta la tensión en la fase de estiramiento.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Fuerza Isométrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Barbell Rollout (Rodamiento de Barra) de Rodillas",
+    "descripcion": "De rodillas, sostén la barra cerca del suelo. Rueda la barra hacia adelante controlando el movimiento con el core, el dorsal y el tríceps para evitar que la espalda se arquee. Desafío extremo de anti-extensión.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Core, Dorsal y Serrato",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Barra Inclinado (Bent-Over Row)",
+    "descripcion": "De pie, piernas separadas. Inclina el torso hacia adelante, manteniendo la espalda recta. Sostén la barra con un agarre por encima (prono). Rema la barra hacia el abdomen, apretando los omóplatos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Espalda Media",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto (Deadlift) - Énfasis en la Técnica",
+    "descripcion": "Concéntrate en el peso ligero y la técnica. Caderas bajas, espalda recta. Levanta la barra usando las piernas y la cadera. Movimiento fundamental de cuerpo completo que prioriza la cadena posterior y la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales, Glúteos y Femorales",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Buenos Días (Good Mornings) con Barra Ligera",
+    "descripcion": "Coloca la barra ligeramente sobre la espalda (trapecios). Empuja las caderas hacia atrás, doblando el torso hacia adelante mientras mantienes la espalda recta. Gran ejercicio para los erectores espinales y femorales.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales (Espalda Baja)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Encogimiento de Hombros (Shrugs) con Barra",
+    "descripcion": "Sostén la barra frente al cuerpo (agarre por encima). Levanta los hombros directamente hacia las orejas, contrayendo el trapecio. Baja lentamente. Aísla la parte superior de la espalda.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio Superior",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido (Barra sobre Sillas/Taburetes)",
+    "descripcion": "Coloca la barra de forma segura sobre dos sillas o taburetes estables. Acuéstate debajo de la barra y rémate hacia arriba. Este es un remo de peso corporal que imita las dominadas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Espalda Media",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Pendlay con Barra (Explosivo)",
+    "descripcion": "Inclina el torso a 90 grados. Rema la barra explosivamente hacia el pecho, deteniéndola brevemente. La barra debe tocar el suelo y 'reiniciarse' en cada repetición. Alto enfoque en la potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Explosividad",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Barra Inclinado (Agarre Supino - Por Debajo)",
+    "descripcion": "Realiza el Remo Inclinado, pero con agarre supino (palmas hacia arriba). Este agarre aísla más el dorsal y recluta más el bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Bíceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "T-Bar Row (Anclaje en Esquina de Pared)",
+    "descripcion": "Coloca un extremo de la barra en la esquina de una pared (usando una toalla para proteger). Sostén el otro extremo (o coloca una asa en V). Rema el peso. Excelente para simular el equipo de gimnasio.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Mayor Rango)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido (Pies Elevados)",
+    "descripcion": "Coloca la barra sobre dos anclajes estables. Pon los pies sobre un objeto elevado (silla, sofá). Rémete hacia arriba. Al elevar los pies, aumentas la proporción del peso corporal a levantar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Fuerza Relativa",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto (Deadlift) con Excéntrica Lenta",
+    "descripcion": "Realiza el levantamiento de forma normal, pero baja la barra muy lentamente (3-4 segundos) hasta el suelo. Esto aumenta drásticamente el TUT para los femorales y la espalda baja.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Cadena Posterior (Sobrecarga Excéntrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Barra (Dorian Yates Style - Estricto)",
+    "descripcion": "Utiliza un agarre por encima, más estrecho. Inclina el torso un poco más, tirando los codos hacia atrás y hacia arriba, enfocando la contracción en la espalda media. No uses impulso de la cadera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Aislamiento)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto (Deadlift) Stance Sumo",
+    "descripcion": "Separa los pies más anchos que el ancho de los hombros, rodillas hacia afuera. Este agarre desplaza el trabajo a la parte interna de las piernas y permite a la espalda baja trabajar en un ángulo diferente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales y Glúteos (Diferente Angulación)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "One-Arm T-Bar Row (Remo Unilateral)",
+    "descripcion": "Utiliza la barra anclada en la pared. Rema el peso con un solo brazo (puedes usar un trapo/toalla para agarrar). Esto corrige desequilibrios y aumenta la intensidad unilateral en el dorsal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Unilateral)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto con Déficit (Deficit Deadlift)",
+    "descripcion": "Párate sobre bloques o placas estables. Esto aumenta el rango de movimiento inicial, obligando a las piernas a trabajar más y desafiando la fuerza y flexibilidad de la espalda baja.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales y Rango de Movimiento",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Power Clean (Cargada de Potencia)",
+    "descripcion": "Levanta la barra del suelo de forma explosiva hasta los hombros (posición de rack frontal). Movimiento de cuerpo completo que desarrolla la potencia de la cadena posterior, especialmente el trapecio y la espalda baja.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio, Dorsal y Potencia (Explosividad)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (De Pie, Agarre Medio)",
+    "descripcion": "De pie, sostén la barra con un agarre supino (palmas hacia arriba) a la altura de los hombros. Realiza el curl de bíceps, manteniendo los codos fijos a los lados del cuerpo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Agarre Abierto/Ancho)",
+    "descripcion": "Realiza el Curl de Bíceps de pie, pero con un agarre más ancho que la separación de los hombros. Esto pone un mayor énfasis en la cabeza corta (parte interna) del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Cabeza Corta)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Inverso con Barra (Reverse Curl)",
+    "descripcion": "De pie, sostén la barra con agarre prono (palmas hacia abajo), a la altura de los hombros. Realiza el curl. Este movimiento aísla el braquiorradial y los antebrazos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Braquiorradial",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (Skullcrushers) en el Suelo",
+    "descripcion": "Acuéstate en el suelo. Sostén la barra con un agarre estrecho. Baja la barra hacia la frente, doblando solo los codos. El suelo limita el rango de movimiento y aumenta la seguridad al no usar banco.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga y Lateral)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Agarre Cerrado (Close-Grip Floor Press)",
+    "descripcion": "Acuéstate en el suelo. Sostén la barra con un agarre cerrado (separación de hombros). Baja la barra al pecho y presiona hacia arriba. Excelente ejercicio compuesto para la masa del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Pectoral Interno",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (Sentado)",
+    "descripcion": "Siéntate en una silla estable. Sostén la barra con un agarre cerrado sobre la cabeza. Baja la barra por detrás de la cabeza, estirando la cabeza larga. **Asegúrate de tener altura de techo suficiente.**",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Excéntrica Lenta)",
+    "descripcion": "De pie, levanta la barra con un movimiento normal. Baja la barra muy lentamente (3-4 segundos), resistiendo el peso. Sobrecarga la fase excéntrica para maximizar el daño muscular.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Sobrecarga Excéntrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Técnica 21s)",
+    "descripcion": "Siete repeticiones de la mitad inferior del movimiento, siete repeticiones de la mitad superior, y siete repeticiones del rango completo. Excelente para el volumen y resistencia muscular.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Volumen)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Inverso con Barra (Pausa en Contracción)",
+    "descripcion": "Realiza el Curl Inverso. Haz una pausa de 2 segundos en el punto más alto del movimiento, donde el antebrazo y el braquiorradial están en máxima contracción.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Braquial y Antebrazos (Contracción Pico)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (Con Pies Elevados)",
+    "descripcion": "Acuéstate en el suelo y eleva los pies sobre un taburete o silla segura. Realiza el Skullcrusher. La ligera inclinación aumenta el énfasis en la cabeza larga del tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Énfasis en Cabeza Larga)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca Agarre Cerrado (Con Pausa en el Pecho)",
+    "descripcion": "Realiza el Floor Press con agarre cerrado. Baja la barra y haz una pausa de 2 segundos cuando toque el pecho (o esté justo por encima) antes de empujar. Aumenta la fuerza de arranque.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza de Bloqueo)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (Agarre Cerrado)",
+    "descripcion": "Sentado, sostén la barra con el agarre más cerrado que te permita la comodidad. Esto pone una tensión constante en la cabeza larga, requiriendo más estabilización.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Mayor Tensión)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Drop Set)",
+    "descripcion": "Comienza con tu peso más pesado. Haz repeticiones hasta el fallo. Rápidamente, quita peso de la barra (o cambia a una barra más ligera, si es posible) y continúa hasta el fallo. Ideal para hipertrofia.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Hipertrofia)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Pausa Isométrica a 90°)",
+    "descripcion": "Realiza el curl. Sostén la barra de forma isométrica a 90 grados (brazos paralelos al suelo) durante 5-10 segundos en cada serie. Desafía la fuerza del punto medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Isométrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Curl de Bíceps con Barra (Pausa en Estiramiento)",
+    "descripcion": "Baja la barra lentamente. Pausa de 3 segundos con los brazos completamente extendidos antes de empezar la siguiente repetición. Aumenta la fuerza en la parte inferior del movimiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza en Estiramiento)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps en Suelo (Superserie con Press Cerrado)",
+    "descripcion": "Realiza Skullcrushers hasta el fallo, inmediatamente después, haz un Press de Banca con Agarre Cerrado sin descanso. Combinación de aislamiento y movimiento compuesto para el agotamiento total del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Agotamiento Total)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Banca con Agarre Cerrado (Cluster Set)",
+    "descripcion": "Utiliza un peso pesado. Realiza 3 repeticiones, descansa 10 segundos, repite 3 repeticiones, descansa 10 segundos, repite 3 repeticiones. Maximiza el volumen de alta intensidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Fuerza y Potencia)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps sobre la Cabeza (De pie con Retraso Excéntrico)",
+    "descripcion": "De pie, realiza la extensión sobre la cabeza. Baja la barra lentamente (4-5 segundos) detrás de la cabeza, resistiendo el peso. Sobrecarga la cabeza larga, que es la más grande del tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Sobrecarga Excéntrica de la Cabeza Larga)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Pie (Overhead Press)",
+    "descripcion": "Levanta la barra al pecho (posición de rack frontal). De pie, presiona la barra verticalmente sobre la cabeza hasta bloquear los codos. Mantén el core apretado para evitar arquear la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Tirón Alto con Barra (High Pull)",
+    "descripcion": "Desde la mitad del muslo (o el suelo con poco peso), tira de la barra hacia arriba de forma explosiva, llevando los codos más altos que las manos. Movimiento de potencia para hombros y trapecios.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides, Trapecio y Potencia",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Empuje (Push Press)",
+    "descripcion": "Similar al Press Militar, pero utilizando un ligero impulso de las piernas (mini-sentadilla) para iniciar el movimiento. Permite levantar más peso y desarrolla la coordinación.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Potencia de Piernas/Core",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo al Mentón (Upright Row) con Barra",
+    "descripcion": "Sostén la barra con un agarre más ancho que el de los hombros (para protegerlos). Tira de la barra hacia el mentón, manteniendo los codos hacia afuera y altos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio y Trapecio",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Encogimiento de Hombros (Shrugs) con Barra",
+    "descripcion": "De pie, sostén la barra. Levanta los hombros directamente hacia las orejas, contrayendo el trapecio. Es fundamental no rotar los hombros y bajar el peso lentamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Trapecio Superior",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar de Pie (Excéntrica Lenta)",
+    "descripcion": "Presiona la barra de forma normal. Baja la barra desde la extensión total hasta el rack frontal muy lentamente (4-5 segundos). Sobrecarga la fase negativa para mayor hipertrofia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Sobrecarga Excéntrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros (Z-Press) Sentado en el Suelo",
+    "descripcion": "Siéntate en el suelo con las piernas estiradas. Presiona la barra sobre la cabeza. Esta posición anula completamente la ayuda de las piernas, exigiendo máxima estabilidad del core y fuerza pura del deltoides.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Core (Estabilidad)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Empuje con Pausa (Doble Pausa)",
+    "descripcion": "Utiliza el impulso de las piernas. Haz una pausa de 2 segundos en el rack frontal antes de empujar, y una pausa de 2 segundos a mitad del camino (isométrica) en el ascenso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Potencia (Resistencia Isométrica)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar con Agarre Cerrado",
+    "descripcion": "Realiza el Press Militar con un agarre más estrecho que el ancho de los hombros. Este agarre transfiere más el trabajo al deltoides anterior y al tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Tríceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Encogimiento de Hombros con Pausa Isométrica",
+    "descripcion": "Sostén un peso significativo. En la cima del encogimiento, mantén la contracción del trapecio durante 3-5 segundos antes de bajar lentamente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Trapecio (Contracción Pico)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Press Militar (Cluster Set)",
+    "descripcion": "Utiliza un peso pesado (80-85% 1RM). Realiza 3 repeticiones, descansa 15 segundos, repite 3 repeticiones, descansa 15 segundos, repite 3 repeticiones. Aumenta la densidad y la potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Fuerza Máxima y Densidad)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros (Split Jerk Stance)",
+    "descripcion": "Presiona la barra sobre la cabeza y simultáneamente separa los pies en una posición de zancada (split). Desafía la estabilidad del cuerpo completo y es un gran constructor de potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Potencia y Estabilidad Corporal",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Rodamiento de Barra Avanzado (Barbell Rollout)",
+    "descripcion": "Desde la posición de rodillas, con los brazos extendidos, rueda la barra hacia adelante lo más lejos posible sin que la espalda se arquee. Desafío extremo para el core, dorsal y hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Core, Dorsal y Estabilización Isométrica",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Tirón Alto (High Pull) desde el Suelo",
+    "descripcion": "Tira de la barra desde el suelo de forma explosiva (como el inicio de un peso muerto), terminando con un Tirón Alto. Gran ejercicio de potencia que involucra toda la cadena posterior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Potencia, Trapecio y Espalda",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Press de Hombros con Agarre (Ancho/Externo)",
+    "descripcion": "Utiliza un agarre más ancho que la separación de los hombros. Presiona sobre la cabeza. Este agarre pone más énfasis en el deltoides lateral y exige mayor fuerza de la parte superior de la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Lateral y Trapecio",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Zercher (Barra en el Codo)",
+    "descripcion": "Sostén la barra en la curva de los codos, cruzando los brazos sobre el pecho. Baja en sentadilla, manteniendo el torso erguido. Es la forma más segura de cargar peso pesado en casa sin rack, ya que puedes soltarla en el fondo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Core",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (RDL) con Barra",
+    "descripcion": "De pie, sostén la barra. Empuja las caderas hacia atrás, doblando mínimamente las rodillas. Baja la barra hasta sentir un fuerte estiramiento en los isquiotibiales. Mantén la espalda recta.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas o Estocadas con Barra (Rack Frontal)",
+    "descripcion": "Sujeta la barra en la posición de Rack Frontal (sobre los hombros, brazos cruzados). Realiza las zancadas alternadas. La posición frontal exige más trabajo del core y el cuádriceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Talones (Calf Raises) de Pie",
+    "descripcion": "Coloca la barra sobre la espalda (como en una sentadilla). Eleva los talones al máximo, contrayendo las pantorrillas. Baja lentamente. Puedes pararte en el borde de un libro o bloque para mayor rango.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Pantorrillas (Gemelos y Sóleo)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto (Deadlift) con Piernas Rígidas",
+    "descripcion": "Similar al RDL, pero manteniendo las piernas casi completamente rígidas. Esto transfiere casi todo el trabajo a los isquiotibiales y los glúteos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos (Aislamiento)",
+    "equipo": "Barra de Peso",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Zercher con Pausa en el Fondo",
+    "descripcion": "Baja en Sentadilla Zercher. Haz una pausa de 3 segundos en el punto más bajo antes de subir explosivamente. Aumenta la fuerza fuera del punto de estancamiento (sticking point).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos (Fuerza de Inicio)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Hip Thrust (Empuje de Cadera) con Barra en el Suelo",
+    "descripcion": "Siéntate con la espalda apoyada en un sofá/silla robusta. Coloca la barra sobre el regazo (usa una almohadilla o toalla). Empuja la cadera hacia arriba, contrayendo el glúteo en la cima.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos (Activación Máxima)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto Rumano (RDL) con Déficit",
+    "descripcion": "Párate sobre bloques o placas estables. Realiza el RDL, permitiendo que la barra baje más allá de donde lo haría normalmente. Esto incrementa el estiramiento y el rango de movimiento de los isquiotibiales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales y Glúteos (Mayor Estiramiento)",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Zancada Inversa con Barra (Reverse Lunge)",
+    "descripcion": "Sujeta la barra en Rack Frontal o sobre la espalda. Da un paso hacia atrás, bajando la rodilla trasera hacia el suelo. La zancada inversa es más amigable para las rodillas que la zancada frontal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Cuádriceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Barra Hack (Barra Detrás)",
+    "descripcion": "De pie, sostén la barra con un agarre por detrás, cerca de los glúteos/femorales. Realiza la sentadilla, manteniendo el torso lo más erguido posible. Énfasis en el cuádriceps y parte frontal de la pierna.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps",
+    "equipo": "Barra de Peso",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Thrusters con Barra (Impulso)",
+    "descripcion": "Comienza en Sentadilla Frontal (Rack Frontal). Baja en sentadilla y, al subir de forma explosiva, usa ese impulso para presionar la barra directamente sobre la cabeza. Máximo ejercicio de potencia de cuerpo completo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Potencia",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Zercher (Cluster Set)",
+    "descripcion": "Realiza la Sentadilla Zercher con un peso elevado. 3 repeticiones, 15 segundos de descanso, 3 repeticiones, 15 segundos de descanso, 3 repeticiones. Mantiene la intensidad para la fuerza máxima.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Resistencia",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Salto (Jump Squats) con Barra Ligera",
+    "descripcion": "Sostén una barra ligera o solo la barra vacía en la espalda/hombros. Baja en sentadilla y salta explosivamente, aterrizando suavemente. Trabaja la potencia y la tasa de desarrollo de fuerza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Potencia Explosiva y Fuerza Elástica",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "RDL con Barra (Pausa de 3 Segundos en el Estiramiento)",
+    "descripcion": "Realiza el Peso Muerto Rumano. Haz una pausa de 3 segundos en el punto de estiramiento máximo (abajo) antes de subir. Aumenta drásticamente la tensión y la hipertrofia de los isquiotibiales.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Isquiotibiales (Tensión Máxima)",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Peso Muerto con Déficit (Deficit Deadlift)",
+    "descripcion": "Párate sobre bloques o placas estables. La barra comienza en un punto más bajo, aumentando el rango de movimiento inicial y el tiempo que la espalda debe permanecer estable.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Fuerza de Arranque y Rango de Movimiento",
+    "equipo": "Barra de Peso",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas Negativas (Lenta)",
+    "descripcion": "Comienza en la posición superior (barbilla sobre la barra) asistiendo el ascenso (ej. con una silla). Baja el cuerpo muy lentamente (5-10 segundos), concentrándose en resistir el peso. Enfoca la fuerza excéntrica.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas Asistidas (Silla/Bandas)",
+    "descripcion": "Utiliza una banda de resistencia o coloca una silla/taburete debajo para apoyar mínimamente los pies. Esto permite completar el rango de movimiento mientras se desarrolla la fuerza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Hang Pasivo a Activo (Scapular Pulls)",
+    "descripcion": "Cuelga de la barra con los brazos estirados. Sin doblar los codos, jala los hombros hacia abajo, activando la espalda alta y los omóplatos. Fortalece los estabilizadores y el agarre.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Estabilizadores de Hombro y Trapecio",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas Australianas Invertidas (Barra Baja)",
+    "descripcion": "Asegura la barra en un punto bajo y estable (ej. entre dos sillas o en el marco de una puerta). Acuéstate y rémate hacia la barra. Excelente para la espalda media.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Espalda Media y Dorsal Ancho",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aguante Isométrico en Contracción",
+    "descripcion": "Rema tu cuerpo hasta que la barbilla esté justo por encima de la barra. Mantén esta posición de máxima contracción el mayor tiempo posible.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Agarre",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas (Pull-up) - Agarre Prono Estricto",
+    "descripcion": "Agárrate a la barra con agarre ancho y prono (palmas hacia adelante). Rema el cuerpo hasta que la barbilla esté sobre la barra. Concentración en la fuerza pura sin impulso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Agarre Neutral (Hammer Grip)",
+    "descripcion": "Si tu barra lo permite, usa un agarre neutral (palmas una frente a la otra). Este agarre es más amigable con los hombros y permite concentrarse en el dorsal.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Braquial",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas con Pausa en la Cima",
+    "descripcion": "Realiza la dominada (Pull-up). Haz una pausa de 2 segundos con la barbilla por encima de la barra, y baja con un control de 2 segundos. Aumenta el 'Tiempo Bajo Tensión'.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Contracción Pico)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de 'Escalera' (Ladders)",
+    "descripcion": "Realiza 1 repetición, descansa brevemente. 2 repeticiones, descansa. 3 repeticiones, y así sucesivamente. Excelente método para aumentar el volumen total y la resistencia muscular.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Volumen y Resistencia)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Agarre Combinado (Asimétrico)",
+    "descripcion": "Agárrate con una mano en agarre prono y la otra en supino (mixto). Alterna el agarre en cada serie para trabajar ambos lados y corregir desequilibrios.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Énfasis Unilateral)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas con Lastre (Peso Extra)",
+    "descripcion": "Añade peso con un chaleco lastrado o sosteniendo una mancuerna entre los pies. Ideal para progresar la fuerza cuando se pueden hacer más de 10 repeticiones sin peso.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Fuerza Máxima)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas al Pecho (Sternum Pull-ups)",
+    "descripcion": "Rema con tanta fuerza y retracción escapular que intentes tocar la parte inferior del pecho (esternón) con la barra. Máxima activación del dorsal y espalda media.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Espalda Media Superior",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas con Toalla (Foco en el Agarre)",
+    "descripcion": "Cuelga una o dos toallas sobre la barra y agárralas. Esto aumenta drásticamente el desafío para el agarre, los antebrazos y el braquial.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Fuerza de Agarre",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas L-Sit",
+    "descripcion": "Realiza la dominada manteniendo las piernas estiradas y elevadas (posición 'L') durante todo el movimiento. Desafío extremo de core y abdominales inferiores.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Core",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas 'Arqueras' (Archer Pull-ups)",
+    "descripcion": "Comienza el tirón jalando con un brazo, mientras el brazo opuesto permanece casi recto. Desarrolla la fuerza unilateral y es el paso previo a la dominada a un brazo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Fuerza Unilateral)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Agarre Supino (Chin-up) Asistidas",
+    "descripcion": "Agarre supino (palmas hacia ti). Asiste el movimiento con una banda o una silla. Este agarre transfiere un gran énfasis al trabajo del bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups Negativas Lentas",
+    "descripcion": "Agarre supino. Rema el cuerpo hasta la cima y baja muy lentamente (5-10 segundos), controlando el movimiento y concentrándose en la resistencia del bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Excéntrica)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aguante Isométrico a 90 Grados",
+    "descripcion": "Rema hasta que los codos estén a 90 grados (brazos paralelos al suelo). Mantén la posición isométrica el mayor tiempo posible para desafiar el punto medio de fuerza del bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Isométrica)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups Parciales (Rango Inferior)",
+    "descripcion": "Con agarre supino, concéntrate en el primer tercio del movimiento (desde colgado hasta un poco más arriba de la mitad). Ideal para construir la fuerza de arranque.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Inicial)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas Australianas (Invertido) - Agarre Supino",
+    "descripcion": "Barra baja, agarre supino. Rema hacia la barra, enfocando la contracción en el bíceps y la espalda media. Más aislamiento que las chin-ups estándar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Espalda Media",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Agarre Supino (Chin-up) Estrictas",
+    "descripcion": "Realiza el movimiento completo (agarre supino) sin usar impulso. Concéntrate en el trabajo del bíceps y en jalar los codos hacia abajo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con Pausa en la Cima",
+    "descripcion": "Realiza la Chin-up. Haz una pausa de 2 segundos en la cima, con la barbilla sobre la barra, para maximizar la contracción del bíceps y la espalda.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Contracción Pico)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups (Técnica 21s)",
+    "descripcion": "Realiza 7 repeticiones en la mitad inferior del rango, 7 en la mitad superior, y 7 en el rango completo. Un set de alto volumen para la resistencia muscular.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Volumen)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con Agarre Estrecho (Foco Central)",
+    "descripcion": "Utiliza un agarre supino muy estrecho (manos cerca o tocándose). Esto pone mayor aislamiento y estiramiento en el bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Aislamiento)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con L-Sit Modificado",
+    "descripcion": "Realiza el Chin-up manteniendo las rodillas dobladas y las espinillas paralelas al suelo. Añade una gran demanda de fuerza isométrica del core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Core",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con Lastre (Peso Extra)",
+    "descripcion": "Realiza Chin-ups con peso extra (chaleco o mancuerna). La mejor manera de aumentar la fuerza y el grosor del bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Máxima)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con Retraso Excéntrico (5 Segundos)",
+    "descripcion": "Sube de forma normal, pero baja el cuerpo muy lentamente (5-6 segundos), resistiendo el peso y concentrándose en el estiramiento del bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Sobrecarga Excéntrica)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups Unilaterales Asistidas",
+    "descripcion": "Agarre supino. Jala con un brazo, manteniendo el otro brazo extendido para mínima asistencia o tocando la muñeca del brazo que trabaja. Foco en la fuerza de un solo lado.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Unilateral)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-ups con Toalla (Aislamiento Extremo)",
+    "descripcion": "Cuelga dos toallas sobre la barra y agárralas. La inestabilidad y el agarre neutro forzado por las toallas aumentan la activación del braquial y del antebrazo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Agarre",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Agarre Neutral con Pausa Isométrica",
+    "descripcion": "Utiliza el agarre neutral. Detén el movimiento a mitad del recorrido (90 grados) y mantén la posición por 3-5 segundos en cada repetición.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Isométrica en Movimiento)",
+    "equipo": "Barra de Dominadas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Puente de Glúteo con Mini Banda (Glute Bridge)",
+    "descripcion": "Acuéstate con la banda alrededor de las rodillas. Levanta la cadera del suelo, manteniendo las rodillas separadas contra la resistencia de la banda. Enfoca la contracción del glúteo en la cima.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos",
+    "equipo": "Mini Bandas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Abducción de Cadera Lateral (Clamshell)",
+    "descripcion": "Acuéstate de lado, rodillas dobladas y banda alrededor de las rodillas. Mantén los pies juntos y abre lentamente la rodilla superior (movimiento de 'almeja'). Excelente para el glúteo medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio",
+    "equipo": "Mini Bandas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata Lateral (Lateral Band Walk)",
+    "descripcion": "Coloca la banda alrededor de los tobillos o rodillas. Da pasos laterales cortos y controlados, manteniendo una ligera sentadilla y la tensión constante en la banda.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio y Abductores",
+    "equipo": "Mini Bandas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Burro (Donkey Kick)",
+    "descripcion": "En posición de cuadrupedia (manos y rodillas), coloca la banda alrededor de un pie y la rodilla opuesta. Levanta la pierna hacia el techo, concentrando el glúteo mayor.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Mayor",
+    "equipo": "Mini Bandas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Pierna Tumbado de Lado",
+    "descripcion": "Acuéstate de lado con la banda alrededor de los tobillos. Levanta lentamente la pierna superior recta hacia el techo. Controla el descenso. Aísla el glúteo y el tensor de la fascia lata.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio",
+    "equipo": "Mini Bandas",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Banda (Squat)",
+    "descripcion": "Coloca la banda justo por encima de las rodillas. Realiza la sentadilla, empujando activamente las rodillas hacia afuera para contrarrestar la banda. Asegura la alineación de las rodillas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Mini Bandas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata Hacia Atrás (Backward Band Walk)",
+    "descripcion": "Banda alrededor de los tobillos. Camina hacia atrás, manteniendo las caderas bajas y los pasos cortos. Mayor énfasis en el glúteo mayor que la caminata lateral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Femorales",
+    "equipo": "Mini Bandas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Zancada o Desplante Estático (Banda en Rodillas)",
+    "descripcion": "Banda alrededor de las rodillas. Adopta la posición de zancada. Baja y sube verticalmente, manteniendo la tensión en la banda al empujar la rodilla delantera hacia afuera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Mini Bandas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Patada de Perro (Fire Hydrant) con Pausa",
+    "descripcion": "En cuadrupedia, banda alrededor de las rodillas. Abre la rodilla lateralmente (manteniendo el ángulo) y haz una pausa de 2 segundos en el punto más alto de contracción.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio y Core",
+    "equipo": "Mini Bandas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Puente de Glúteo con Abducción Final",
+    "descripcion": "Con banda en las rodillas. Sube al puente de glúteo. En la cima, haz una breve abducción (separación) de las rodillas contra la banda. Baja y repite. Combina contracciones.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos (Doble Contracción)",
+    "equipo": "Mini Bandas",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Monster Walk (Caminata Diagonal)",
+    "descripcion": "Banda alrededor de los tobillos o pies. Da pasos hacia adelante y en diagonal (como un cangrejo/monstruo), manteniendo una postura baja y la tensión en la banda en todo momento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio y Mayor",
+    "equipo": "Mini Bandas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara con Banda (Pie Delantero)",
+    "descripcion": "Coloca el pie trasero en un taburete. Banda alrededor de la rodilla delantera y el tobillo del pie trasero. Realiza la sentadilla búlgara, añadiendo resistencia en el glúteo y cuádriceps de la pierna delantera.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Estabilidad",
+    "equipo": "Mini Bandas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Puente de Glúteo a una Pierna (Single Leg Glute Bridge)",
+    "descripcion": "Banda alrededor de las rodillas. Levanta una pierna del suelo. Empuja la cadera hacia arriba con la pierna de apoyo. La banda añade tensión al glúteo de la pierna que trabaja.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos (Fuerza Unilateral)",
+    "equipo": "Mini Bandas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Zancada con Banda y Salto (Jump Lunge)",
+    "descripcion": "Banda alrededor de las rodillas. Realiza la zancada. En lugar de subir, explota hacia arriba e intercala un pequeño salto. Movimiento explosivo de alto impacto.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Potencia",
+    "equipo": "Mini Bandas",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Abducción de Cadera de Pie con Retraso Excéntrico",
+    "descripcion": "Banda alrededor de los tobillos. Levanta la pierna lateralmente (abducción). Baja la pierna muy lentamente (4-5 segundos), concentrando la resistencia. Ideal para la hipertrofia del glúteo medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio (Sobrecarga Excéntrica)",
+    "equipo": "Mini Bandas",
+    "nivel": "Avanzado",
+    "url": ""
+  }
+]

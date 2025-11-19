@@ -1,0 +1,458 @@
+[
+  {
+    "nombre": "Estiramiento Pectoral en Marco de Puerta",
+    "descripcion": "Coloca el antebrazo en un marco de puerta con el codo a 90 grados. Gira el torso suavemente hacia adelante hasta sentir la tensión en el pecho y el hombro delantero. Mantén cada lado.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Pecho y Hombros",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento Pectoral con Brazos Detrás",
+    "descripcion": "Entrelaza los dedos detrás de la espalda, mantén los brazos estirados y levanta suavemente las manos hacia el techo. Abre el pecho.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Pecho y Deltoides Anterior",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Dorsal Ancho (Lat Stretch)",
+    "descripcion": "De pie, sujétate a una superficie elevada (ej. un poste o marco) por encima de la cabeza. Inclina la cadera hacia el lado opuesto del brazo que se estira, doblando el torso lateralmente.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Espalda/Dorsal Ancho",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Postura del Niño (Child's Pose)",
+    "descripcion": "Arrodíllate, abre las rodillas y lleva la cadera hacia los talones. Estira los brazos hacia adelante y apoya la frente en el suelo. Relaja la espalda baja y media.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Espalda y Lumbares",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Hombro Cruzado (Cross-Body)",
+    "descripcion": "Lleva un brazo estirado a través del pecho. Usa el brazo opuesto para presionar suavemente sobre el codo o tríceps, jalándolo más hacia el cuerpo. Mantén el hombro bajo.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Hombros",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Tríceps (Overhead)",
+    "descripcion": "Lleva un codo por encima de la cabeza y dobla el brazo. Usa la mano opuesta para jalar el codo hacia abajo, sintiendo la tensión en la parte posterior del brazo.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Tríceps",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Bíceps (Contra Pared)",
+    "descripcion": "Coloca la palma de la mano en una pared con los dedos apuntando hacia atrás y el brazo extendido. Gira el cuerpo suavemente en dirección opuesta al brazo hasta sentir la tensión en el bíceps.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Bíceps y Antebrazo",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Cuádriceps Tumbado de Lado",
+    "descripcion": "Tumbado de lado, dobla la rodilla trasera y agarra el tobillo o el empeine con la mano. Jala el pie hacia el glúteo. Mantén las rodillas juntas y la cadera neutra.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Cuádriceps",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Femorales Sentado a una Pierna",
+    "descripcion": "Sentado en el suelo, estira una pierna. Dobla la otra y coloca la planta del pie contra el muslo interior. Inclina el torso hacia adelante sobre la pierna estirada, manteniendo la espalda recta.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Femorales",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento Figura Cuatro Tumbado (Glúteo)",
+    "descripcion": "Tumbado boca arriba, cruza un tobillo sobre la rodilla opuesta (forma de 4). Agarra el muslo de la pierna de apoyo y jála la rodilla hacia el pecho.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Glúteos y Piriforme",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Postura de la Paloma (Pigeon Pose) - Versión Baja",
+    "descripcion": "Lleva una rodilla al frente, doblando la pierna a 90 grados (o lo más cerca posible). Estira la pierna trasera. Inclina el torso hacia adelante sobre la rodilla delantera.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Glúteos y Flexores de Cadera",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Gemelo (Gastrocnemius)",
+    "descripcion": "De pie, coloca la punta de un pie contra una pared o escalón, manteniendo el talón en el suelo. Mantén la pierna estirada e inclínate hacia la pared.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Gemelos (Pantorrilla)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Sóleo (Pantorrilla Profunda)",
+    "descripcion": "Similar al estiramiento de gemelo contra la pared, pero acerca el pie a la pared y dobla ligeramente la rodilla delantera. Enfoca la parte inferior de la pantorrilla.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Sóleo (Pantorrilla Profunda)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Flexores de Cadera (Kneeling Lunge)",
+    "descripcion": "Arrodillado, con un pie adelante (posición de zancada baja). Empuja suavemente la cadera hacia adelante y abajo. Estira el flexor de la cadera de la pierna trasera.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Flexores de Cadera",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento Oblicuo de Pie (Standing Side Bend)",
+    "descripcion": "De pie, con los pies a la altura de los hombros y los brazos extendidos sobre la cabeza. Inclínate hacia un lado, extendiendo el costado del torso y la espalda baja.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Oblicuos y Cadena Lateral",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Torsión Espinal Tumbada (Supine Spinal Twist)",
+    "descripcion": "Tumbado boca arriba, extiende los brazos a los lados. Lleva una rodilla al pecho y gírala sobre el cuerpo hacia el lado opuesto. Mantén ambos hombros en el suelo.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Espalda y Core",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Cuello Lateral",
+    "descripcion": "Sentado o de pie. Inclina suavemente la oreja hacia el hombro (sin levantar el hombro). Puedes usar la mano opuesta para asistir mínimamente.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Cuello y Trapecio Superior",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Antebrazo Extensor",
+    "descripcion": "Brazo estirado al frente, palma hacia abajo. Usa la mano opuesta para jalar los dedos hacia el torso. Estira la parte superior del antebrazo.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Antebrazo (Extensores)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento Mariposa (Butterfly Stretch)",
+    "descripcion": "Sentado, junta las plantas de los pies y deja que las rodillas caigan a los lados. Puedes presionar suavemente las rodillas hacia el suelo o inclinarte ligeramente hacia adelante.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Aductores e Ingle",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Flexión de Tronco hacia Adelante (De Pie)",
+    "descripcion": "De pie, piernas estiradas o ligeramente dobladas. Dobla la cadera y deja caer el torso hacia las piernas, relajando la espalda y los brazos.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Femorales y Espalda Baja",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Glúteo Sentado con Torsión",
+    "descripcion": "Sentado, cruza una pierna sobre la otra. Usa el brazo opuesto para abrazar la rodilla levantada y gírate hacia la rodilla, mirando por encima del hombro.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Glúteos y Espalda Baja",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de la Cadena Lateral (Side Lunge Stretch)",
+    "descripcion": "De pie, piernas bien abiertas. Flexiona una rodilla (como una zancada lateral), manteniendo la otra pierna estirada. Enfoca el estiramiento en la ingle y aductores de la pierna estirada.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Aductores e Ingle",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Cobra (Cobra Pose)",
+    "descripcion": "Tumbado boca abajo, manos bajo los hombros. Empuja el torso hacia arriba usando los brazos (manteniendo la cadera en el suelo). Estira el abdomen y los flexores de la cadera.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Abdomen y Flexores de Cadera",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Muñeca (Dorso)",
+    "descripcion": "Arrodillado, coloca las palmas en el suelo con los dedos apuntando hacia las rodillas. Inclina suavemente el cuerpo hacia atrás para estirar el dorso de las muñecas y los antebrazos.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Muñecas y Antebrazos",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento de Antebrazo Flexor",
+    "descripcion": "Brazo estirado al frente, palma hacia arriba. Usa la mano opuesta para jalar los dedos hacia el suelo. Estira la parte inferior del antebrazo.",
+    "tipo": "Estiramiento",
+    "parteCuerpo": "Antebrazo (Flexores)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Saltos de Tijera (Jumping Jacks)",
+    "descripcion": "Salta separando brazos y piernas, luego únelos. Movimiento rítmico para elevar la frecuencia cardíaca y calentar el cuerpo de forma general.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "General",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Rodillas al Pecho (High Knees)",
+    "descripcion": "Corre en el sitio elevando las rodillas rápidamente, intentando llevarlas a la altura de la cadera. Calentamiento cardiovascular y activación de flexores de cadera.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "General y Piernas",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Círculos de Brazos Dinámicos (Adelante y Atrás)",
+    "descripcion": "Realiza círculos grandes y amplios con los brazos, cambiando de dirección cada 10 repeticiones. Aumenta el flujo sanguíneo en los hombros.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Hombros",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Giro de Tronco de Pie (Torso Twists)",
+    "descripcion": "De pie, gira el torso de lado a lado, manteniendo la cadera relativamente estable y dejando que los brazos se balanceen libremente. Movilidad de la columna torácica.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Core y Espalda",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Balanceo de Piernas (Frontal y Lateral)",
+    "descripcion": "Sujétate a una pared. Balancea una pierna adelante y atrás (frontal), y luego balancea la misma pierna de lado a lado (lateral). Aumenta el rango de movimiento de la cadera.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Cadera y Piernas",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla a Pica (Squat to Stand)",
+    "descripcion": "Comienza doblando las rodillas para tocar los pies. Manteniendo el agarre, estira las rodillas, levantando la cadera. Movilidad dinámica de femorales y cadera.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Piernas y Femorales",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Activación de Puente de Glúteo (Rápido)",
+    "descripcion": "Puente de glúteo rápido (no isométrico). Sube y baja la cadera explosivamente, enfocándote en la contracción del glúteo en la cima. Preparación para ejercicios de pierna.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteos",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Gato-Vaca (Cat-Cow)",
+    "descripcion": "En cuadrupedia, alterna entre arquear la espalda (bajar el abdomen) y curvar la espalda (metiendo la barbilla). Movilidad espinal.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Espalda y Core",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Pájaro-Perro (Bird-Dog)",
+    "descripcion": "En cuadrupedia, extiende simultáneamente el brazo y la pierna opuestos, manteniendo el core tenso y la cadera estable. Activación de core y estabilidad lumbar.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Core/Estabilidad",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "El Estiramiento del Mundo (World's Greatest Stretch)",
+    "descripcion": "Zancada profunda, coloca la mano opuesta al pie delantero en el suelo. Baja el codo junto al pie y luego rota el torso abriendo el brazo libre hacia el techo. Movilidad completa.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "General (Cadera, Tórax, Femorales)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar el Dorsal (Rolling Lats)",
+    "descripcion": "Tumbado de lado, coloca el rodillo bajo el área del dorsal (justo debajo de la axila). Rueda lentamente hacia arriba y hacia abajo, y de lado a lado. Libera la tensión del hombro y la espalda.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Espalda/Dorsal",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar el Cuádriceps (Rolling Quads)",
+    "descripcion": "Tumbado boca abajo, coloca el rodillo bajo la parte frontal de los muslos (cuádriceps). Rueda lentamente desde la cadera hasta la rodilla, haciendo pausas en los puntos sensibles.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Cuádriceps",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar los Glúteos y Piriforme",
+    "descripcion": "Sentado en el rodillo, cruza una pierna sobre la otra (forma de 4). Inclínate hacia el glúteo de la pierna cruzada y rueda lentamente. Descompresión del nervio ciático y liberación del piriforme.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteos y Cadera",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar la Columna Torácica (T-Spine Extension)",
+    "descripcion": "Acostado boca arriba, coloca el rodillo bajo la parte media/superior de la espalda. Manos detrás de la cabeza, realiza pequeñas extensiones (arqueos) sobre el rodillo para aumentar la movilidad torácica.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Espalda (Movilidad Torácica)",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar los Femorales (Hamstrings)",
+    "descripcion": "Sentado en el rodillo, levanta la cadera y rueda lentamente sobre la parte trasera de los muslos, desde la rodilla hasta el glúteo.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Femorales",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Caminata Lateral (Side Walks) con Mini Banda",
+    "descripcion": "Coloca la mini banda alrededor de los tobillos o las rodillas. Da pasos laterales cortos, manteniendo una ligera sentadilla y la tensión constante en la banda. Activación de glúteo medio.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteo Medio y Cadera",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Almeja (Clamshell) con Mini Banda",
+    "descripcion": "Tumbado de lado, banda alrededor de las rodillas. Mantén los pies juntos y abre lentamente la rodilla superior. Activación clave para los ejercicios de pierna.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteo Medio (Activación)",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Abducción de Cadera de Pie con Mini Banda",
+    "descripcion": "Banda alrededor de los tobillos. Levanta lentamente una pierna hacia el lado (abducción), manteniendo el torso erguido. Activación de glúteo medio y estabilidad.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteo Medio",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Separación de Brazos (Pull-Aparts) con Mini Banda",
+    "descripcion": "Sujeta la banda con ambas manos, a la altura del pecho. Jala los brazos hacia afuera, separando las manos, hasta sentir la contracción en la parte superior de la espalda y el deltoides posterior.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Hombros y Espalda Alta",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Rotación Externa de Hombro con Mini Banda",
+    "descripcion": "Sujeta la banda a un punto fijo. Codo a 90 grados, pegado al cuerpo. Rota el antebrazo hacia afuera, lejos del cuerpo. Activación del manguito rotador (prevención de lesiones).",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Manguito Rotador",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Desplazamiento Frontal (Monster Walk) con Mini Banda",
+    "descripcion": "Banda en tobillos/rodillas. Da pasos hacia adelante y en diagonal, manteniendo una postura atlética y la tensión constante en la banda.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Glúteos y Piernas",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Banda (Knees Out Cue)",
+    "descripcion": "Banda alrededor de las rodillas. Realiza sentadillas de peso corporal, enfocándote en empujar las rodillas hacia afuera para trabajar el glúteo medio y alinear las rodillas.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Cadera y Rodillas",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Open Book (Apertura de Libro)",
+    "descripcion": "Tumbado de lado, rodillas dobladas. Extiende los brazos juntos. El brazo superior se abre hacia el lado opuesto (como abrir un libro), rotando el torso. Movilidad torácica.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Espalda (Movilidad Torácica)",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Estocadas Inversas Dinámicas",
+    "descripcion": "Zancadas hacia atrás rápidas con peso corporal, concentrándose en el balance y la extensión de cadera en la pierna de apoyo. Prepara los cuádriceps y glúteos.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Piernas y Cadera",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar los Gemelos (Calves)",
+    "descripcion": "Sentado en el suelo, rodillo bajo el gemelo. Rueda lentamente desde el tobillo hasta la parte posterior de la rodilla. Puedes cruzar una pierna sobre la otra para aumentar la presión.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Pantorrillas",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar la Banda IT (IT Band)",
+    "descripcion": "Tumbado de lado, coloca el rodillo bajo la parte exterior del muslo. Rueda lentamente desde la cadera hasta la rodilla. (Nota: Puede ser doloroso, tómalo con calma).",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Cadena Lateral de la Pierna",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Rotación de Tobillos (Ankle Rolls)",
+    "descripcion": "De pie o sentado, levanta un pie y realiza círculos lentos y amplios con el tobillo en ambas direcciones. Prepara los tobillos para el movimiento.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Tobillos",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Rodar el Tríceps (Triceps Rolling)",
+    "descripcion": "Tumbado de lado, coloca el rodillo bajo el tríceps (parte posterior del brazo). Rueda desde el hombro hasta el codo. Ideal antes de ejercicios de empuje.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Tríceps",
+    "equipo": "Foam Roller",
+    "url": ""
+  },
+  {
+    "nombre": "Estiramiento Dinámico de Muñecas (Flexión/Extensión)",
+    "descripcion": "Extiende un brazo. Mueve la mano arriba y abajo con ritmo, usando la mano opuesta para asistir y jalar ligeramente. Prepara las articulaciones para el agarre o press.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Antebrazo/Muñecas",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Rotación Interna de Hombro con Mini Banda",
+    "descripcion": "Sujeta la banda a un punto fijo. Codo a 90 grados. Rota el antebrazo hacia el cuerpo. Activación del manguito rotador subescapular.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Manguito Rotador",
+    "equipo": "Mini Bandas",
+    "url": ""
+  },
+  {
+    "nombre": "Círculos de Cadera (Hip Circles) en Cuadrupedia",
+    "descripcion": "En cuadrupedia, levanta una rodilla lateralmente y realiza círculos grandes en el aire (adelante y atrás) para abrir la articulación de la cadera.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Cadera",
+    "equipo": "Peso Corporal",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Frontal a la Cara (Face Pulls) con Mini Banda",
+    "descripcion": "Sujeta la banda con ambas manos y jálala hacia la frente, girando ligeramente las palmas hacia el techo. Excelente para activar el deltoides posterior.",
+    "tipo": "Calentamiento",
+    "parteCuerpo": "Hombros y Espalda Alta",
+    "equipo": "Mini Bandas",
+    "url": ""
+  }
+]

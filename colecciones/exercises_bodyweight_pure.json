@@ -1,0 +1,1052 @@
+[
+  {
+    "nombre": "Flexiones de Pared (Wall Push-ups)",
+    "descripcion": "De pie, coloca las manos en la pared, un poco más separadas que los hombros. Inclina el cuerpo y empuja. Es la forma más fácil de iniciar el movimiento de press, reduciendo la carga.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Rodillas (Knee Push-ups)",
+    "descripcion": "Apoya las rodillas en el suelo (cruza los tobillos). Realiza las flexiones manteniendo el torso recto. Reduce la carga mientras trabajas el rango de movimiento completo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Inclinadas (Elevadas)",
+    "descripcion": "Coloca las manos en una superficie elevada y estable (ej. un sofá, silla o mesa baja). Cuanto más alta la superficie, más fácil el ejercicio. Enfoca el pectoral inferior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Inferior y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Rodillas con Agarre Cerrado",
+    "descripcion": "Flexiones de rodillas, pero con las manos más estrechas que los hombros. Enfoca el pectoral interno y el tríceps (la parte más difícil del press).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Interno y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Pullover Tumbado (Simulación)",
+    "descripcion": "Acuéstate boca arriba. Extiende los brazos sobre la cabeza. Simula el movimiento de pullover, contrayendo el pectoral y el dorsal de forma voluntaria. Enfoca la conexión mente-músculo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral y Dorsal (Activación)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Estándar (Floor Push-ups)",
+    "descripcion": "Flexión tradicional, cuerpo recto, manos ligeramente más anchas que los hombros. Bajar hasta que el pecho esté cerca del suelo. Ejercicio compuesto fundamental.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor, Deltoides y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Declinadas (Pies Elevados)",
+    "descripcion": "Apoya los pies en una silla o sofá. La inclinación aumenta la carga y enfatiza el pectoral superior y el deltoides anterior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Superior",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Pausa en el Fondo",
+    "descripcion": "Flexión estándar, pero pausa el movimiento 2 segundos justo antes de tocar el suelo. Esto elimina el rebote y aumenta el 'Tiempo Bajo Tensión' (TUT).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (TUT)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Agarre Ancho",
+    "descripcion": "Flexión estándar, pero con las manos significativamente más separadas que los hombros. Esto pone mayor estrés en la parte externa del pectoral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Externo)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos (Dips) de Banca (Énfasis en Pecho)",
+    "descripcion": "Manos en una silla o banco estable detrás de ti. Inclina el torso hacia adelante lo más posible al bajar. Esto transfiere la carga al pectoral inferior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Inferior y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pliométricas (Clapping Push-ups)",
+    "descripcion": "Flexión explosiva. Empuja con fuerza para que las manos se levanten del suelo y da una palmada (o golpe) en el aire antes de aterrizar suavemente. Desarrolla potencia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral (Potencia Explosiva)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pseudo-Planche",
+    "descripcion": "Manos cerca de la cadera. Inclina el cuerpo hacia adelante sobre los hombros y realiza la flexión. La inclinación aumenta el brazo de palanca y la carga total en el pecho y hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor y Deltoides Anterior",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones a un Brazo (Asistidas)",
+    "descripcion": "Apoya una mano en el suelo y la otra en una superficie elevada o una pelota para asistencia. Concentra la carga en un solo lado. Para progresar hacia la flexión a un brazo completa.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Fuerza Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones con Deslizamiento (Usando Toalla)",
+    "descripcion": "Coloca una mano sobre una toalla o calcetín en el suelo. Realiza la flexión mientras extiendes el brazo con la toalla lateralmente. Excelente para el estiramiento y el pectoral interno/externo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Mayor (Rango Extendido)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos (Dips) en Dos Sillas (Agarre Estrecho)",
+    "descripcion": "Coloca dos sillas muy estables. Apoya una mano en cada silla y realiza los fondos, manteniendo el cuerpo vertical para cargar el tríceps y el pectoral inferior.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Pecho",
+    "musculoObjetivo": "Pectoral Inferior y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Supermán (Superman)",
+    "descripcion": "Acuéstate boca abajo con brazos y piernas extendidas. Levanta el pecho, los brazos y las piernas simultáneamente del suelo. Fortalece los erectores espinales y la espalda baja.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales (Espalda Baja)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido (Bajo la Mesa/Silla)",
+    "descripcion": "Acuéstate boca arriba bajo una mesa muy robusta o agarrándote del asiento de una silla pesada. Rema el cuerpo hacia arriba. Es el mejor sustituto de las dominadas sin barra.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Espalda Media y Dorsal",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Cadera Invertida (Reverse Hyperextension)",
+    "descripcion": "Acuéstate boca abajo en el borde de una cama/sofá (la cadera debe estar en el borde). Sostente con las manos. Levanta las piernas estiradas usando los glúteos y la espalda baja.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Glúteos y Erectores Espinales",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "'Y' Tumbadas (Y-Raises)",
+    "descripcion": "Acuéstate boca abajo, brazos rectos en forma de 'Y'. Levanta los brazos del suelo, concentrando el movimiento en la parte superior de la espalda y los hombros. Fortalece el manguito rotador.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Trapecio Medio y Manguito Rotador",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo con Toalla (Simulación Isométrica)",
+    "descripcion": "Sentado o de rodillas, agarra una toalla. Intenta 'romper' la toalla con un movimiento de remo, contrayendo voluntariamente el dorsal y la espalda media. Enfoca la activación.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Activación)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido (Pies Elevados)",
+    "descripcion": "Realiza el Remo Invertido (bajo la mesa/silla), pero con los pies elevados en otra silla. Aumenta el ángulo y la carga, haciéndolo más difícil.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Espalda Media y Dorsal Ancho",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Supermán con Pausa en Contracción",
+    "descripcion": "Realiza el Supermán, pero mantén la contracción en la cima durante 3-5 segundos. Esto aumenta la resistencia de los erectores espinales.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales (Resistencia)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido con Agarre Estrecho",
+    "descripcion": "Utiliza un agarre cerrado (a la altura de los hombros) en la mesa/silla. Esto enfatiza más el dorsal y los brazos (bíceps) que la espalda media.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Bíceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha Reversa (Reverse Plank)",
+    "descripcion": "Siéntate en el suelo. Apoya las manos y los talones. Eleva la cadera hasta que el cuerpo forme una línea recta desde la cabeza hasta los pies. Contracción isométrica de la cadena posterior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales, Glúteos y Femorales",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Espalda (Good Mornings) con Peso Corporal",
+    "descripcion": "De pie, manos detrás de la cabeza o extendidas. Inclina el torso hacia adelante, manteniendo la espalda completamente recta y empujando la cadera hacia atrás. Fortalece la espalda baja y los femorales.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales y Femorales",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido a una Mano (Asistido)",
+    "descripcion": "Remo bajo la mesa. Usar un brazo para jalar, manteniendo el otro brazo extendido para asistencia mínima (o solo tocando la mesa para balance). Desarrolla la fuerza unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Fuerza Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido (Tensión Lenta Excéntrica)",
+    "descripcion": "Remo invertido con pies elevados. Sube rápido y baja el cuerpo muy lentamente (5-6 segundos). Sobrecarga la fase excéntrica, clave para la fuerza y el volumen muscular.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho (Sobrecarga Excéntrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido con Agarre con Toalla",
+    "descripcion": "Coloca una toalla sobre el borde de la mesa/barra. Agarra la toalla y rema. Desafío extremo para la fuerza de agarre y el braquial/antebrazo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Dorsal Ancho y Agarre",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Piernas Invertida (V-Raises)",
+    "descripcion": "Acuéstate boca abajo. Levanta los brazos y piernas, y luego haz un movimiento de 'V' con el cuerpo (el punto de pivote es la cadera) elevando alternadamente las extremidades superiores e inferiores.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales Dinámicos",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha Reversa con Elevación de Pierna",
+    "descripcion": "Realiza la Plancha Reversa. Una vez estable, levanta una pierna y luego la otra, alternando. Aumenta la inestabilidad y el trabajo de la cadena posterior unilateralmente.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Espalda",
+    "musculoObjetivo": "Erectores Espinales y Glúteos (Estabilidad)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido Supino (Agarre en Toalla sobre Puerta)",
+    "descripcion": "Coloca una toalla anudada sobre la parte superior de una puerta robusta y agarra los extremos. Rema tu cuerpo hacia arriba, manteniendo el agarre supino (palmas hacia ti). Permite trabajar el bíceps de forma asistida.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aguante Isométrico Supino (Mesa/Barra Baja)",
+    "descripcion": "En una mesa robusta o barra baja, agarra con agarre supino y rémate hasta que los codos estén doblados a 90 grados. Mantén esta posición de forma isométrica el mayor tiempo posible.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Isométrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexión Bíceps Invertida (Agarre en Toalla)",
+    "descripcion": "Tumbado boca abajo, agarra los extremos de una toalla. Simula el movimiento de curl de bíceps jalando contra la tensión isométrica de la toalla y concentrando la contracción en el bíceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Activación)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido Supino (Rodillas Dobladas)",
+    "descripcion": "Utiliza una mesa robusta. Coloca los pies en el suelo con las rodillas dobladas y la cadera baja. Realiza el remo con agarre supino. La flexión de rodillas reduce la carga.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Dorsal",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Curl Isométrico Contra Marco de Puerta",
+    "descripcion": "De pie, coloca la mano en el marco de una puerta (o pared) con agarre supino. Intenta 'jalar' la mano hacia ti, contrayendo el bíceps al máximo sin movimiento.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Tensión Estática)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido Supino (Pies Elevados)",
+    "descripcion": "Utiliza una mesa robusta. Coloca los pies en una silla o taburete. Este ángulo incrementa la proporción de peso corporal a levantar, aumentando la dificultad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido Supino (Excéntrica Lenta)",
+    "descripcion": "Sube de forma normal. Baja el cuerpo muy lentamente (3-4 segundos), resistiendo el peso y concentrándose en el trabajo del bíceps. Sobrecarga la fase excéntrica.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Excéntrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido Supino con Pausa en la Cima",
+    "descripcion": "Rema el cuerpo hasta la cima. Haz una pausa de 2 segundos en máxima contracción antes de iniciar el descenso. Aumenta la conexión mente-músculo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Contracción Pico)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Bíceps Invertida Unilateral Asistida",
+    "descripcion": "Remo invertido, pero jalando con un brazo y usando la mano opuesta para asistir mínimamente en la muñeca o antebrazo. Comienza a trabajar la fuerza unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Fuerza Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Dominadas de Chin-up Modificadas (Si hay barra)",
+    "descripcion": "Si tienes una barra de dominadas, usa el agarre supino (chin-up) y enfócate en la técnica estricta y el rango completo. Usa la fuerza pura del bíceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Dorsal",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido a un Brazo (Máximo Desafío)",
+    "descripcion": "Realiza el remo invertido a un brazo (en mesa/barra baja). El brazo libre se extiende para contrabalance. Requiere un gran control y fuerza unilateral avanzada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Máxima Unilateralidad)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-up Negativa a un Brazo (Asistida con Toalla)",
+    "descripcion": "Si tienes una barra, usa agarre supino en un brazo, y el otro brazo asiste agarrándose de una toalla enrollada sobre la barra. Bajar muy lentamente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Excéntrica Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Remo Invertido con Agarre de Toalla",
+    "descripcion": "Coloca dos toallas sobre la barra baja o el borde de la mesa y agárralas. El agarre inestable aumenta la demanda en el braquial y el antebrazo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Agarre",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Aguante Isométrico en 'Tuck Front Lever'",
+    "descripcion": "Agarra la barra baja o el borde de una mesa (supino). Flexiona las rodillas al pecho (posición Tuck). Intenta mantener el cuerpo paralelo al suelo usando solo la fuerza de los brazos y el core.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial y Core (Máximo Estático)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Chin-up (Si hay Barra) con Descenso en 5 Segundos",
+    "descripcion": "Movimiento de chin-up estricto. La fase de bajada debe durar 5 segundos por repetición. Sobrecarga extrema para hipertrofia.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Bíceps",
+    "musculoObjetivo": "Bíceps Braquial (Excéntrica Máxima)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos de Banca (Dips) - Rodillas Dobladas",
+    "descripcion": "Manos en el borde de una silla o banco estable. Rodillas dobladas (pies cerca de la silla). Baja lentamente doblando los codos hacia atrás. La posición más fácil para el tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Pared (Agarre Estrecho/Cerrado)",
+    "descripcion": "Manos en la pared, un poco más estrechas que los hombros. Realiza las flexiones concentrando la presión en el tríceps. Es la variación más sencilla de press para tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Rodillas (Agarre Diamante Modificado)",
+    "descripcion": "Flexiones de rodillas con las manos juntas, formando una especie de diamante. Esto aísla fuertemente el tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Sentado (Simulación Isométrica)",
+    "descripcion": "Sentado o de pie, simula que sostienes un peso sobre la cabeza. Concéntrate en el estiramiento y la contracción de la cabeza larga del tríceps al extender los brazos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps (Cabeza Larga, Activación)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Lagartijas Codo a Rodilla",
+    "descripcion": "En posición de plancha alta, lleva un codo hacia la rodilla opuesta (el codo que se mueve es el que trabaja). Este movimiento de 'pushdown' aísla el tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos de Banca (Dips) - Piernas Estiradas",
+    "descripcion": "Manos en la silla, piernas estiradas con los talones en el suelo. Mayor carga de peso corporal que la variación con rodillas dobladas.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Diamante Estándar (Diamond Push-ups)",
+    "descripcion": "Flexión en el suelo, con manos en forma de diamante. Carga máxima del peso corporal en las manos. Movimiento compuesto excelente para el tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos de Banca con Pausa en el Fondo",
+    "descripcion": "Fondos de banca (piernas estiradas). Haz una pausa de 2 segundos en el punto más bajo (máximo estiramiento del tríceps) antes de subir.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (TUT)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Agarre Cerrado (Excéntrica Lenta)",
+    "descripcion": "Flexión con manos juntas. Baja el cuerpo muy lentamente (3-4 segundos). Sobrecarga la fase excéntrica del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (Excéntrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Extensión de Tríceps Tumbado (Simulación Isométrica)",
+    "descripcion": "Acuéstate boca arriba. Simula que sostienes una barra y realizas un skullcrusher, enfocando la contracción máxima en el tríceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (Aislamiento y Activación)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos de Banca Declinados (Pies Elevados)",
+    "descripcion": "Pies elevados en una silla o sofá y manos en otra silla. Máxima carga de peso corporal en los fondos. Riesgoso, usa sillas muy estables.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (Carga Máxima)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Diamante (Excéntrica Lenta - 5 Segundos)",
+    "descripcion": "Flexión de diamante. Baja el cuerpo en un control de 5 segundos. Máxima sobrecarga excéntrica para la hipertrofia del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (Excéntrica Máxima)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Fondos de Banca a un Brazo (Asistido)",
+    "descripcion": "Apoya una mano en la silla y el otro brazo en el codo para mínima asistencia. Concéntrate en cargar el tríceps que trabaja unilateralmente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps Braquial (Fuerza Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Pike con Agarre Cerrado",
+    "descripcion": "Manos juntas (agarre cerrado), caderas elevadas (cuerpo en forma de 'V' invertida). Baja la cabeza hacia el suelo. Trabaja el tríceps y hombros simultáneamente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Deltoides",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha Baja a Alta (Agarre Cerrado)",
+    "descripcion": "Comienza en plancha baja (antebrazos). Empuja hacia la plancha alta (manos) con un agarre estrecho. Movimiento dinámico que exige el bloqueo constante del tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Tríceps",
+    "musculoObjetivo": "Tríceps y Core (Resistencia)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pike Inclinadas",
+    "descripcion": "Coloca las manos en el suelo y los pies en una superficie elevada (ej. un sofá o silla baja), formando una 'V' invertida. Baja la cabeza hacia el suelo. Ideal para simular el press militar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha en 'V' (Pike Plank)",
+    "descripcion": "Comienza en posición de plancha alta. Mueve las caderas hacia arriba y hacia atrás para formar una 'V' invertida (posición de yoga 'Perro Boca Abajo'). Camina con las manos hacia los pies y viceversa.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Estabilidad de Hombro",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Tumbadas en 'Y'",
+    "descripcion": "Acuéstate boca abajo. Extiende los brazos en forma de 'Y' sobre la cabeza. Levanta los brazos del suelo, contrayendo la parte posterior de los hombros y la espalda alta. Excelente para el manguito rotador.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior y Trapecio",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Escapulares (Scapular Push-ups)",
+    "descripcion": "En posición de plancha alta. Sin doblar los codos, deja que el pecho caiga entre los hombros (retracción) y luego empuja hacia arriba (protracción). Fortalece el serrato anterior (estabilizador).",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Estabilizadores de Hombro",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Aguante Isométrico de Plancha Lateral",
+    "descripcion": "Apóyate sobre un antebrazo y el lateral de un pie, manteniendo el cuerpo recto. El hombro de apoyo trabaja isométricamente para mantener la estabilidad.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Medio y Estabilidad",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pike Estándar (en Suelo)",
+    "descripcion": "Manos y pies en el suelo, caderas levantadas en 'V' invertida. Mantén la espalda recta y baja la cabeza, tocando el suelo justo frente a las manos. Movimiento estricto y de carga alta.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Medio",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Vertical (Handstand) Contra la Pared (Aguante)",
+    "descripcion": "Patea o camina hasta la posición de vertical apoyándote contra una pared. Mantén la posición recta el mayor tiempo posible. Desarrolla la fuerza isométrica de compresión.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Fuerza Isométrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Inclinación Pseudo-Planche",
+    "descripcion": "En plancha alta, gira las manos 180 grados (dedos apuntando hacia atrás). Inclina el cuerpo hacia adelante, colocando los hombros por delante de los dedos. Aumenta la tensión en los deltoides y tríceps.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Anterior y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones de Pike con Pausa en el Fondo",
+    "descripcion": "Realiza la flexión de pica, pero haz una pausa de 2 segundos con la cabeza justo por encima del suelo. Elimina el rebote y aumenta el 'Tiempo Bajo Tensión' (TUT).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (TUT)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones Tumbadas en 'T' (T-Raises)",
+    "descripcion": "Acuéstate boca abajo. Brazos extendidos lateralmente en forma de 'T'. Levanta los brazos del suelo. Enfatiza el deltoides posterior y el trapecio medio/superior.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides Posterior y Espalda Alta",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pike Declinadas (Pies Elevados)",
+    "descripcion": "Coloca los pies en una silla/mesa alta. Las caderas se elevan sobre los hombros, aumentando la carga vertical. Paso previo a la flexión en vertical completa.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Máxima Carga)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Vertical (Handstand) 'Taps' (Contra la Pared)",
+    "descripcion": "En vertical asistida por la pared, levanta una mano y toca el hombro opuesto. Alterna. Desarrolla la fuerza y estabilidad unilateral avanzada.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Estabilidad Unilateral",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Vertical (Handstand) Negativas",
+    "descripcion": "En vertical asistida por la pared. Baja el cuerpo muy lentamente (3-5 segundos) hasta la posición de Pike. Sobrecarga la fase excéntrica, clave para la fuerza.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Sobrecarga Excéntrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Flexiones Pseudo-Planche Pliométricas",
+    "descripcion": "En posición Pseudo-Planche, empuja explosivamente para que las manos se levanten brevemente del suelo. Desarrolla la potencia de empuje en los hombros.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides (Potencia Explosiva)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Vertical (Handstand) a Forma Libre (Intentos)",
+    "descripcion": "Practica el balanceo y el aguante en vertical sin apoyo de pared, controlando el centro de gravedad. Máxima demanda de estabilizadores y deltoides.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Hombros",
+    "musculoObjetivo": "Deltoides y Estabilización Central",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadillas Asistidas con Silla",
+    "descripcion": "Coloca una silla detrás de ti. Siéntate y levántate lentamente, tocando la silla para controlar la profundidad y mantener la técnica. Ideal para principiantes.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Puente de Glúteo (Glute Bridge)",
+    "descripcion": "Acuéstate boca arriba, rodillas dobladas. Levanta la cadera del suelo hasta formar una línea recta desde los hombros hasta las rodillas. Contracción de glúteos en la cima.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Mayor y Femorales",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones de Talón (Gemelos)",
+    "descripcion": "De pie, apóyate en una pared para balance. Levanta los talones del suelo lentamente. Mantén una contracción en la cima y controla el descenso. Para el músculo gastrocnemio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Gemelos (Pantorrilla)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas Estáticas (Asistidas)",
+    "descripcion": "Coloca una mano en la pared o una silla para balance. Da un paso largo y baja la cadera verticalmente. No camines; solo concéntrate en la acción de subir y bajar.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Extensiones de Cadera Tumbado de Lado",
+    "descripcion": "Acuéstate de lado, piernas estiradas. Levanta la pierna superior recta hacia el techo (manteniendo la cadera neutra). Aísla el glúteo medio.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Medio",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadillas de Tempo (3-0-1)",
+    "descripcion": "Sentadilla estándar. Baja lentamente contando 3 segundos. Sin pausa. Sube de forma explosiva (1 segundo). Aumenta el control y el TUT.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos y Femorales",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Puente de Glúteo a una Pierna",
+    "descripcion": "Realiza el puente de glúteo, pero con una pierna extendida en el aire. Carga todo el peso en el glúteo de la pierna de apoyo. Desarrolla fuerza unilateral.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteo Mayor (Fuerza Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla con Salto (Jump Squats)",
+    "descripcion": "Realiza la sentadilla y explota hacia arriba, saltando. Aterriza suavemente y regresa inmediatamente a la siguiente repetición. Desarrolla potencia y explosividad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos (Potencia)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Zancadas Caminando (Walking Lunges)",
+    "descripcion": "Da un paso adelante con una pierna, baja la cadera en zancada, luego empuja para llevar el pie trasero hacia adelante. Mantenimiento de balance y volumen.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Progresión de Sentadilla Pistol (a Caja)",
+    "descripcion": "De pie a una pierna. Baja la cadera lentamente para sentarte en una caja o silla baja (cuanto más baja, más difícil). Usa un contrapeso para balance (ej. un libro).",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps (Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Pistol Completa",
+    "descripcion": "Sentadilla a una pierna con rango de movimiento completo (cadera por debajo de la rodilla). Usa un contrapeso (ej. una botella de agua) delante de ti para facilitar el balance.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps, Glúteos (Máxima Unilateralidad)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Búlgara Estática (con Descenso Lento)",
+    "descripcion": "Pie trasero elevado. Baja la cadera en la zancada. El descenso debe durar 4-5 segundos. Sobrecarga excéntrica para un solo lado.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Glúteos y Cuádriceps (Excéntrica)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla Sissy de Peso Corporal (Asistida)",
+    "descripcion": "De pie, agarrándote a una superficie estable (ej. marco de puerta). Dobla las rodillas y echa el cuerpo hacia atrás, manteniendo la espalda recta. Enfoca el estiramiento del cuádriceps.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps (Máximo Estiramiento)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Sentadilla 'Shrimp' Progresión",
+    "descripcion": "De pie a una pierna. Agarra el pie trasero con la mano opuesta. Baja el cuerpo tocando la rodilla del pie trasero en un cojín. Gran desafío de estabilidad y cuádriceps unilateral.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Cuádriceps y Glúteos (Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Elevaciones de Talón a una Pierna (en Escalón)",
+    "descripcion": "Colócate en el borde de un escalón/libro con un solo pie. Baja el talón para un estiramiento profundo y luego sube explosivamente. Concentración en el volumen y aislamiento del gemelo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Piernas",
+    "musculoObjetivo": "Gemelos (Aislamiento Unilateral)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha (Plank) Estándar",
+    "descripcion": "Apóyate en los antebrazos y las puntas de los pies. Mantén el cuerpo en línea recta de cabeza a talones, apretando los glúteos y el abdomen. Mantener de forma isométrica.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Abdominales (Transverso), Lumbares",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Crunch de Abdominales (Abdominales Clásicos)",
+    "descripcion": "Acuéstate boca arriba, rodillas dobladas. Levanta el torso ligeramente, contrayendo los abdominales para acercar el pecho a las caderas. Enfocarse en la contracción, no en jalar el cuello.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Superior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Tijeras (Scissor Kicks)",
+    "descripcion": "Acuéstate boca arriba, manos bajo los glúteos o a los lados. Levanta las piernas ligeramente del suelo y crúzalas alternadamente (una sobre la otra). Enfoca el abdomen bajo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Inferior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Elevación de Rodillas Tumbado (Knee Raises)",
+    "descripcion": "Acuéstate boca arriba, rodillas dobladas 90 grados. Contrae el abdomen para jalar las rodillas hacia el pecho, levantando ligeramente la cadera del suelo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Inferior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Crunch Bicicleta Lento (Slow Bicycle Crunch)",
+    "descripcion": "Acuéstate boca arriba, manos detrás de la cabeza. Lleva un codo hacia la rodilla opuesta, de forma muy lenta y controlada. Enfoca el estiramiento y la contracción de los oblicuos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Oblicuos y Recto Abdominal",
+    "equipo": "Peso Corporal",
+    "nivel": "Principiante",
+    "url": ""
+  },
+  {
+    "nombre": "Flutter Kicks (Aleteo de Piernas)",
+    "descripcion": "Acuéstate boca arriba, manos bajo los glúteos. Levanta las piernas ligeramente y realiza movimientos de aleteo cortos y rápidos. Mantén la espalda baja pegada al suelo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Inferior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Toques de Talón (Heel Touches)",
+    "descripcion": "Acuéstate boca arriba, rodillas dobladas. Levanta el torso ligeramente y balancéate de lado a lado, tocando el talón con la punta de los dedos. Aísla los oblicuos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Oblicuos",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Escalador (Mountain Climber) Lento",
+    "descripcion": "En posición de plancha alta. Lleva una rodilla hacia el codo o pecho de forma lenta y controlada. Máxima tensión en el abdomen y los oblicuos.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal y Flexores de Cadera",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "V-Up Modificado (Levantamiento de Piernas Juntas)",
+    "descripcion": "Acuéstate boca arriba. Mantén las piernas estiradas y levántalas juntas hacia el techo, levantando la cadera del suelo. Controla el descenso. Enfoca el abdomen bajo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Inferior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha Dinámica (Antebrazo a Mano)",
+    "descripcion": "Comienza en plancha baja (antebrazos). Empuja hacia la plancha alta (manos) y regresa a los antebrazos. Movimiento dinámico que desafía la estabilidad del core.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Estabilizadores del Core y Tríceps",
+    "equipo": "Peso Corporal",
+    "nivel": "Intermedio",
+    "url": ""
+  },
+  {
+    "nombre": "V-Up Completo (Jackknife)",
+    "descripcion": "Acuéstate con brazos extendidos sobre la cabeza. Levanta simultáneamente el torso y las piernas estiradas, tocando las puntas de los pies en el centro. Movimiento explosivo y de rango completo.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Máxima Contracción)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Toes to Bar (Simulado - Tumbado)",
+    "descripcion": "Acuéstate boca arriba. Con las piernas estiradas, súbelas por encima de la cabeza y toca los dedos de los pies con las manos (sin doblar las rodillas). Gran énfasis en el abdomen bajo.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal (Inferior)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Dragon Flag (Bandera del Dragón) - Progresión a Rodillas",
+    "descripcion": "Acuéstate boca arriba y agarra algo muy estable sobre tu cabeza (ej. el borde de un sofá o mesa pesada). Lleva las rodillas al pecho y luego extiende el cuerpo en línea recta con las rodillas dobladas. Baja y sube controladamente.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Recto Abdominal y Oblicuos (Fuerza Máxima)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Abdominales 'Limpiaparabrisas' (Windshield Wipers)",
+    "descripcion": "Acuéstate boca arriba, piernas levantadas y estiradas (90 grados). Baja las piernas juntas hacia un lado y luego hacia el otro, manteniendo los hombros pegados al suelo. Aísla fuertemente los oblicuos.",
+    "tipo": "Aislamiento",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Oblicuos (Fuerza Rotacional)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  },
+  {
+    "nombre": "Plancha con Elevación de Pierna y Brazo Opuestos",
+    "descripcion": "En posición de plancha alta. Levanta un brazo y la pierna opuesta simultáneamente, manteniendo el core estable. Lenta y controladamente. Máximo desafío de estabilidad.",
+    "tipo": "Multiarticular",
+    "parteCuerpo": "Core",
+    "musculoObjetivo": "Core (Estabilidad y Balance)",
+    "equipo": "Peso Corporal",
+    "nivel": "Avanzado",
+    "url": ""
+  }
+]
