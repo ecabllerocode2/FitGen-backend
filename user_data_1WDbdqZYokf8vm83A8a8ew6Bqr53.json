@@ -227,11 +227,11 @@
       ]
     },
     "meta": {
-      "date": "2025-11-20T19:25:47.174Z",
-      "generatedAt": "2025-11-20T19:26:09.213Z",
+      "date": "2025-11-20T19:30:40.924Z",
+      "generatedAt": "2025-11-20T19:31:08.329Z",
       "week": 1,
       "focus": "Full Body - Estabilidad",
-      "model": "gpt-4o-mini-v6-safe"
+      "model": "gpt-4o-mini-v7-final"
     },
     "completed": false
   }
