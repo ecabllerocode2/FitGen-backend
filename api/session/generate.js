@@ -5,80 +5,6 @@ import fetch from 'node-fetch';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
-// --- SCHEMA ---
-const SESSION_SCHEMA = {
-    type: "OBJECT",
-    properties: {
-        sessionGoal: { type: "STRING" },
-        estimatedDurationMin: { type: "INTEGER" },
-        warmup: {
-            type: "OBJECT",
-            properties: {
-                exercises: {
-                    type: "ARRAY",
-                    items: {
-                        type: "OBJECT",
-                        properties: {
-                            id: { type: "STRING" },
-                            name: { type: "STRING" },
-                            instructions: { type: "STRING" },
-                            durationOrReps: { type: "STRING" }
-                        },
-                        required: ["id", "name", "instructions", "durationOrReps"]
-                    }
-                }
-            },
-            required: ["exercises"]
-        },
-        mainBlocks: {
-            type: "ARRAY",
-            items: {
-                type: "OBJECT",
-                properties: {
-                    blockType: { type: "STRING", enum: ["station", "superset", "circuit"] },
-                    restBetweenSetsSec: { type: "INTEGER" },
-                    restBetweenExercisesSec: { type: "INTEGER" },
-                    exercises: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                id: { type: "STRING" },
-                                name: { type: "STRING" },
-                                sets: { type: "INTEGER" },
-                                targetReps: { type: "STRING" },
-                                rpe: { type: "INTEGER" },
-                                notes: { type: "STRING" }
-                            },
-                            required: ["id", "name", "sets", "targetReps", "rpe"]
-                        }
-                    }
-                },
-                required: ["blockType", "exercises"]
-            }
-        },
-        cooldown: {
-            type: "OBJECT",
-            properties: {
-                exercises: {
-                    type: "ARRAY",
-                    items: {
-                        type: "OBJECT",
-                        properties: {
-                            id: { type: "STRING" },
-                            name: { type: "STRING" },
-                            duration: { type: "STRING" }
-                        },
-                        required: ["id", "name", "duration"]
-                    }
-                }
-            },
-            required: ["exercises"]
-        }
-    },
-    required: ["sessionGoal", "warmup", "mainBlocks", "cooldown"]
-};
-
 // --- HELPERS ---
 const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -104,7 +30,6 @@ const shuffleArray = (array) => {
     return array;
 };
 
-// CAMBIO 1: Formato más amigable para el LLM (Human Readable)
 const createOptimizedContext = (exercises) => {
     if (!exercises || exercises.length === 0) return "LISTA VACÍA - INVENTA EJERCICIOS";
     return exercises.map(ex => 
@@ -233,26 +158,47 @@ export default async function handler(req, res) {
             if (matchesFocus && levelOk) candidateExercises.push(d);
         });
 
-        // Mezclar y recortar
         let finalContextList = shuffleArray([...candidateExercises]);
-        finalContextList = finalContextList.slice(0, 40); // Bajamos a 40 para dar espacio
+        finalContextList = finalContextList.slice(0, 40); 
         const contextCSV = createOptimizedContext(finalContextList);
         
         console.log(`Contexto enviado (${finalContextList.length} items)`);
 
-        // --- 4. LLAMADA IA (PROMPT AGRESIVO) ---
-        // CAMBIO 2: Prompt mucho más directo y autoritario para evitar respuestas vacías
+        // --- 4. LLAMADA IA (PROMPT CON EJEMPLO JSON) ---
+        // CAMBIO: Le damos el JSON masticado para que no invente estructuras raras.
         const systemPrompt = `Eres un entrenador experto.
-        
-        TU MISIÓN: Crear una sesión de entrenamiento JSON para el objetivo: "${targetSession.sessionFocus}".
-        
-        TIENES UNA LISTA DE EJERCICIOS DISPONIBLES.
-        
-        REGLAS DE OBLIGATORIO CUMPLIMIENTO:
-        1. **SELECCIONA** al menos 4 ejercicios de la lista para el bloque principal.
-        2. **SI LA LISTA NO ES SUFICIENTE**: Estás OBLIGADO a inventar ejercicios adicionales (usa id: "custom").
-        3. **PROHIBIDO DEVOLVER ARRAYS VACÍOS**. Si devuelves una sesión vacía, fallarás tu misión.
-        4. Rellena siempre el campo "name".`;
+        TU OBJETIVO: Generar una sesión JSON estrictamente con la estructura de abajo.
+
+        ESTRUCTURA JSON OBLIGATORIA (Copia esto):
+        {
+            "sessionGoal": "Objetivo aquí",
+            "estimatedDurationMin": 60,
+            "warmup": { 
+                "exercises": [
+                    { "id": "...", "name": "...", "instructions": "...", "durationOrReps": "..." }
+                ] 
+            },
+            "mainBlocks": [
+                {
+                    "blockType": "station", 
+                    "restBetweenSetsSec": 60,
+                    "restBetweenExercisesSec": 90,
+                    "exercises": [
+                        { "id": "...", "name": "...", "sets": 3, "targetReps": "...", "rpe": 8, "notes": "..." }
+                    ]
+                }
+            ],
+            "cooldown": { 
+                "exercises": [
+                    { "id": "...", "name": "...", "duration": "..." }
+                ] 
+            }
+        }
+
+        REGLAS:
+        1. Usa los IDs de la lista provista ("Contexto").
+        2. Si no encuentras ejercicio, usa "id": "custom" y pon el nombre.
+        3. NO inventes claves nuevas como "session" o "goal". Usa "sessionGoal" y "mainBlocks".`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -264,18 +210,16 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Contexto:\n${contextCSV}\n\nGenera el JSON ahora:` }
+                    { role: "user", content: `Foco: ${targetSession.sessionFocus}\nContexto:\n${contextCSV}\n\nGenera el JSON:` }
                 ],
-                response_format: { type: "json_object" },
-                schema: SESSION_SCHEMA
+                response_format: { type: "json_object" }
             })
         });
 
         const llmResult = await completion.json();
         
-        // CAMBIO 3: Logueamos la respuesta cruda para ver qué está pensando la IA si falla
         if (llmResult.choices && llmResult.choices[0]) {
-             console.log(">>> RESPUESTA CRUDA IA:", llmResult.choices[0].message.content.substring(0, 200) + "..."); 
+             console.log(">>> RESPUESTA IA (Snippet):", llmResult.choices[0].message.content.substring(0, 150)); 
         }
 
         let sessionJSON;
@@ -288,18 +232,17 @@ export default async function handler(req, res) {
 
         // --- 5. VALIDACIÓN ---
         let isEmpty = false;
-        // Comprobación más laxa: Si hay mainBlocks y tiene algun elemento, lo aceptamos
-        if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks) || sessionJSON.mainBlocks.length === 0) {
+        // Buscamos las claves correctas: warmup, mainBlocks
+        if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks)) {
+            console.warn("Falta mainBlocks en JSON IA");
             isEmpty = true;
-        } else {
-            // Verificamos que el primer bloque tenga ejercicios
-            if (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0) {
-                isEmpty = true;
-            }
+        } else if (sessionJSON.mainBlocks.length === 0 || !sessionJSON.mainBlocks[0].exercises) {
+             console.warn("mainBlocks vacío o sin ejercicios");
+             isEmpty = true;
         }
 
         if (isEmpty) {
-            console.warn("⚠️ ALERT: La IA devolvió estructura vacía a pesar del prompt. Usando Respaldo.");
+            console.warn("⚠️ ALERT: Estructura inválida. Usando Respaldo.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
