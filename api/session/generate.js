@@ -96,8 +96,6 @@ const normalizeText = (text) => {
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
-// NUEVO: Función para mezclar array (Fisher-Yates)
-// Esto asegura que si hay 176 ejercicios, enviemos 50 variados, no siempre los primeros 50.
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -106,10 +104,11 @@ const shuffleArray = (array) => {
     return array;
 };
 
+// CAMBIO 1: Formato más amigable para el LLM (Human Readable)
 const createOptimizedContext = (exercises) => {
-    if (!exercises || exercises.length === 0) return "SIN CONTEXTO DISPONIBLE";
+    if (!exercises || exercises.length === 0) return "LISTA VACÍA - INVENTA EJERCICIOS";
     return exercises.map(ex => 
-        `${ex.id}|${ex.nombre || 'SinNombre'}|${ex.tipo || 'General'}|${ex.musculoObjetivo || ex.parteCuerpo || 'General'}`
+        `[${ex.id}] ${ex.nombre || 'Ejercicio'} (${ex.musculoObjetivo || 'General'})`
     ).join('\n');
 };
 
@@ -125,12 +124,12 @@ const getMuscleGroupFromFocus = (focusString) => {
 
 // --- RUTINA DE EMERGENCIA ---
 const getEmergencySession = (focus) => ({
-    sessionGoal: `Sesión básica de ${focus} (Respaldo)`,
+    sessionGoal: `Rutina de Respaldo: ${focus}`,
     estimatedDurationMin: 45,
     warmup: {
         exercises: [
-            { id: "custom", name: "Jumping Jacks", instructions: "2 mins ritmo medio", durationOrReps: "2 mins" },
-            { id: "custom", name: "Movilidad General", instructions: "Rotaciones articulares", durationOrReps: "2 mins" }
+            { id: "custom", name: "Jumping Jacks", instructions: "2 mins activacion", durationOrReps: "2 mins" },
+            { id: "custom", name: "Movilidad Articular", instructions: "Rotaciones suaves", durationOrReps: "2 mins" }
         ]
     },
     mainBlocks: [
@@ -139,14 +138,14 @@ const getEmergencySession = (focus) => ({
             restBetweenSetsSec: 60,
             restBetweenExercisesSec: 90,
             exercises: [
-                { id: "custom", name: `Ejercicio Principal (${focus})`, sets: 4, targetReps: "12", rpe: 8, notes: "Técnica controlada." },
-                { id: "custom", name: "Ejercicio Auxiliar", sets: 3, targetReps: "15", rpe: 7, notes: "Enfoque en el músculo." },
-                { id: "custom", name: "Core / Abdominales", sets: 3, targetReps: "20", rpe: 7, notes: "Contracción constante." }
+                { id: "custom", name: `Press o Movimiento Principal (${focus})`, sets: 4, targetReps: "10-12", rpe: 8, notes: "Controla la técnica." },
+                { id: "custom", name: `Accesorio 1 (${focus})`, sets: 3, targetReps: "12-15", rpe: 7, notes: "Enfoque muscular." },
+                { id: "custom", name: `Accesorio 2 (${focus})`, sets: 3, targetReps: "15", rpe: 7, notes: "Bombeo." }
             ]
         }
     ],
     cooldown: {
-        exercises: [{ id: "custom", name: "Estiramiento Estático", duration: "5 min" }]
+        exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }]
     }
 });
 
@@ -196,7 +195,7 @@ export default async function handler(req, res) {
 
         console.log(`Foco Sesión: ${targetSession.sessionFocus}`);
 
-        // --- 3. CONTEXTO Y FILTRADO ---
+        // --- 3. CONTEXTO ---
         let exerciseCollectionName = 'exercises_home_limited';
         const equipment = profileData.availableEquipment || [];
         const eqString = JSON.stringify(equipment).toLowerCase();
@@ -234,26 +233,26 @@ export default async function handler(req, res) {
             if (matchesFocus && levelOk) candidateExercises.push(d);
         });
 
-        console.log(`Ejercicios Aceptados antes de recorte: ${candidateExercises.length}`);
-
-        // --- OPTIMIZACIÓN CRÍTICA: BARAJAR Y RECORTAR ---
-        // 1. Barajamos para que no siempre sean los mismos ejercicios (si hay muchos)
+        // Mezclar y recortar
         let finalContextList = shuffleArray([...candidateExercises]);
-
-        // 2. Recortamos a MAX 45 ejercicios para no saturar a la IA
-        finalContextList = finalContextList.slice(0, 45);
-        
+        finalContextList = finalContextList.slice(0, 40); // Bajamos a 40 para dar espacio
         const contextCSV = createOptimizedContext(finalContextList);
-        console.log(`Contexto REAL enviado a LLM (recortado): ${finalContextList.length} ejercicios.`);
-
-        // --- 4. LLAMADA IA ---
-        const systemPrompt = `Eres un entrenador experto. Genera una sesión JSON.
         
-        REGLAS:
-        1. Tienes una lista de ${finalContextList.length} ejercicios posibles. ELIGE LOS MEJORES para el objetivo.
-        2. Si necesitas un ejercicio específico que NO está en la lista, INVENTALO (usa id: "custom").
-        3. NO devuelvas arrays vacíos.
-        4. IMPORTANTE: Estructura los bloques lógicamente (ej: primer ejercicio compuesto, luego aislamiento).`;
+        console.log(`Contexto enviado (${finalContextList.length} items)`);
+
+        // --- 4. LLAMADA IA (PROMPT AGRESIVO) ---
+        // CAMBIO 2: Prompt mucho más directo y autoritario para evitar respuestas vacías
+        const systemPrompt = `Eres un entrenador experto.
+        
+        TU MISIÓN: Crear una sesión de entrenamiento JSON para el objetivo: "${targetSession.sessionFocus}".
+        
+        TIENES UNA LISTA DE EJERCICIOS DISPONIBLES.
+        
+        REGLAS DE OBLIGATORIO CUMPLIMIENTO:
+        1. **SELECCIONA** al menos 4 ejercicios de la lista para el bloque principal.
+        2. **SI LA LISTA NO ES SUFICIENTE**: Estás OBLIGADO a inventar ejercicios adicionales (usa id: "custom").
+        3. **PROHIBIDO DEVOLVER ARRAYS VACÍOS**. Si devuelves una sesión vacía, fallarás tu misión.
+        4. Rellena siempre el campo "name".`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -265,7 +264,7 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Foco: ${targetSession.sessionFocus}\nNivel: ${profileData.experienceLevel}\nEjercicios Disponibles:\n${contextCSV}\n\nGenera JSON:` }
+                    { role: "user", content: `Contexto:\n${contextCSV}\n\nGenera el JSON ahora:` }
                 ],
                 response_format: { type: "json_object" },
                 schema: SESSION_SCHEMA
@@ -274,9 +273,9 @@ export default async function handler(req, res) {
 
         const llmResult = await completion.json();
         
-        // LOG EXTRA PARA DEBUG SI FALLA
+        // CAMBIO 3: Logueamos la respuesta cruda para ver qué está pensando la IA si falla
         if (llmResult.choices && llmResult.choices[0]) {
-             // console.log("RAW RESPONSE:", llmResult.choices[0].message.content); // Descomentar si quieres ver la respuesta cruda
+             console.log(">>> RESPUESTA CRUDA IA:", llmResult.choices[0].message.content.substring(0, 200) + "..."); 
         }
 
         let sessionJSON;
@@ -287,13 +286,20 @@ export default async function handler(req, res) {
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // --- 5. VALIDACIÓN Y HIDRATACIÓN ---
+        // --- 5. VALIDACIÓN ---
         let isEmpty = false;
-        if (!sessionJSON.mainBlocks || sessionJSON.mainBlocks.length === 0) isEmpty = true;
-        else if (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0) isEmpty = true;
+        // Comprobación más laxa: Si hay mainBlocks y tiene algun elemento, lo aceptamos
+        if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks) || sessionJSON.mainBlocks.length === 0) {
+            isEmpty = true;
+        } else {
+            // Verificamos que el primer bloque tenga ejercicios
+            if (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0) {
+                isEmpty = true;
+            }
+        }
 
         if (isEmpty) {
-            console.warn("⚠️ La IA devolvió sesión vacía. Usando respaldo.");
+            console.warn("⚠️ ALERT: La IA devolvió estructura vacía a pesar del prompt. Usando Respaldo.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
@@ -331,7 +337,7 @@ export default async function handler(req, res) {
         };
 
         await userDocRef.update({ currentSession: finalSessionData });
-        console.log(">>> SESIÓN GUARDADA CON ÉXITO");
+        console.log(">>> SESIÓN FINAL GUARDADA (Origen: " + (isEmpty ? "Respaldo" : "IA") + ")");
         return res.status(200).json({ success: true, session: finalSessionData });
 
     } catch (error) {
