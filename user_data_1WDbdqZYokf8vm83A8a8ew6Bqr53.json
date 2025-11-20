@@ -1,0 +1,264 @@
+{
+  "createdAt": "2025-11-19T19:26:02.267Z",
+  "lastProfileUpdate": "2025-11-19T19:26:02.267Z",
+  "profileData": {
+    "gender": "Femenino",
+    "injuriesOrLimitations": "Antecedentes de ciatica, actualmente sin episodios",
+    "heightCm": 152,
+    "focusArea": "Quiero enfocarme prinipalmente en el tren inferior",
+    "fitnessGoal": "Ganancia Muscular",
+    "trainingDaysPerWeek": 4,
+    "experienceLevel": "Intermedio",
+    "dateCompleted": "2025-11-19T19:26:02.252Z",
+    "availableEquipment": [
+      "En Casa (Con Equipo Limitado)",
+      "Rodillo de Espuma",
+      "Mini Bandas de Resistencia",
+      "Mancuernas (Dumbbells)",
+      "Mancuernas (Dumbbells) (10kg)"
+    ],
+    "name": "Maru",
+    "preferredTrainingDays": [
+      "Lunes",
+      "Martes",
+      "Jueves",
+      "Viernes"
+    ],
+    "age": 54,
+    "initialWeight": 55
+  },
+  "plan": "free",
+  "userId": "1WDbdqZYokf8vm83A8a8ew6Bqr53",
+  "email": "glimacabuno@gmail.com",
+  "status": "approved",
+  "currentMesocycle": {
+    "llmModelUsed": "openai/gpt-4o-mini",
+    "endDate": "2025-12-15T00:00:00.000Z",
+    "generationDate": "2025-11-19T19:26:29.413Z",
+    "mesocyclePlan": {
+      "durationWeeks": 4,
+      "microcycles": [
+        {
+          "week": 1,
+          "focus": "Acumulación",
+          "intensityRpe": "6/10",
+          "notes": "Enfocarse en la técnica y control de los movimientos. Mantener un rango de reps que no agrave molestias.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pierna - Cuádriceps"
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna - Glúteos"
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Estabilidad"
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Pierna - Isquiotibiales"
+            }
+          ]
+        },
+        {
+          "week": 2,
+          "focus": "Intensificación",
+          "intensityRpe": "7/10",
+          "notes": "Aumentar la carga y la intensidad, manteniendo la atención en el control del movimiento. Escuchar el cuerpo y ajustar según sea necesario.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pierna - Cuádriceps"
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna - Glúteos"
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Fuerza"
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Pierna - Isquiotibiales"
+            }
+          ]
+        },
+        {
+          "week": 3,
+          "focus": "Intensificación",
+          "intensityRpe": "8/10",
+          "notes": "Mantener un enfoque en la progresión. Incorporar ejercicios que fortalezcan la cadena muscular posterior y apoyar la ganancia muscular.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pierna - Cuádriceps"
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna - Glúteos"
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Potencia"
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Pierna - Isquiotibiales"
+            }
+          ]
+        },
+        {
+          "week": 4,
+          "focus": "Descarga Deload",
+          "intensityRpe": "5/10",
+          "notes": "Reducir la carga y volumen para permitir la recuperación. Mantener movilidad y activación ligera sin esfuerzo intenso.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Movilidad - Tren Inferior"
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Activación - Tren Inferior"
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Movilidad - Full Body"
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Rehabilitación - Rodillo de Espuma"
+            }
+          ]
+        }
+      ],
+      "mesocycleGoal": "Incrementar la masa muscular del tren inferior mientras se minimizan los riesgos de lesiones. Se enfoca en un entrenamiento efectivo y seguro con recursos limitados."
+    },
+    "progress": 0,
+    "currentWeek": 1,
+    "startDate": "2025-11-17T00:00:00.000Z",
+    "status": "active"
+  },
+  "planStatus": "active",
+  "currentSession": {
+    "sessionGoal": "Entrenamiento de cuerpo completo enfocado en la estabilidad y fuerza",
+    "estimatedDurationMin": 60,
+    "warmup": {
+      "exercises": [
+        {
+          "id": "custom",
+          "name": "Calistenia Básica 1",
+          "instructions": "Realiza movimientos articulares y estiramientos dinámicos.",
+          "durationOrReps": "5 min",
+          "description": "Realiza movimientos articulares y estiramientos dinámicos.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "General"
+        },
+        {
+          "id": "custom",
+          "name": "Calistenia Básica 2",
+          "instructions": "Incluye saltos suaves y movimientos laterales.",
+          "durationOrReps": "5 min",
+          "description": "Incluye saltos suaves y movimientos laterales.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "General"
+        }
+      ]
+    },
+    "mainBlocks": [
+      {
+        "blockType": "station",
+        "restBetweenSetsSec": 60,
+        "restBetweenExercisesSec": 90,
+        "exercises": [
+          {
+            "id": "TB6dQKYJsIDav3o7AU74",
+            "name": "Remo con Mancuerna a una Mano (En Banco o Apoyo)",
+            "sets": 4,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Mantén la espalda recta durante el movimiento.",
+            "description": "Apoya una rodilla y la mano correspondiente en un banco o superficie estable. Sostén una mancuerna con el brazo opuesto. Tira de la mancuerna hacia tu costado, manteniendo la espalda recta. Baja controladamente.",
+            "imageUrl": null,
+            "muscleTarget": "Dorsal Ancho y Romboides",
+            "equipment": "Mancuernas"
+          },
+          {
+            "id": "UENu33G7JuB7HNvTJN2c",
+            "name": "Press de Pecho con Patrón Inestable (Offset Stance)",
+            "sets": 4,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Controla el movimiento para mejorar la estabilidad.",
+            "description": "De pie, realiza el press unilateral. Colócate en posición de zancada o 'step-back' para reducir la base de apoyo. La inestabilidad aumenta la activación del core y los estabilizadores.",
+            "imageUrl": null,
+            "muscleTarget": "Pectoral Mayor y Estabilidad",
+            "equipment": "Banda de Resistencia"
+          },
+          {
+            "id": "wQoHvjJhs9hhrLOFODq2",
+            "name": "Peso Muerto Rumano (Dumbbell RDL)",
+            "sets": 4,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Mantén las piernas ligeramente flexionadas y baja controladamente.",
+            "description": "De pie, con las mancuernas en los muslos. Mantén las rodillas ligeramente dobladas. Baja lentamente el torso manteniendo la espalda recta, dejando que las mancuernas se deslicen por las piernas. Siente el estiramiento en los isquiotibiales.",
+            "imageUrl": null,
+            "muscleTarget": "Isquiotibiales y Glúteos",
+            "equipment": "Mancuernas"
+          },
+          {
+            "id": "vkBX0huebEZ9K0vYlB3u",
+            "name": "Puente de Glúteo con Mini Banda (Glute Bridge)",
+            "sets": 4,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Aprieta los glúteos al levantar la pelvis.",
+            "description": "Acuéstate con la banda alrededor de las rodillas. Levanta la cadera del suelo, manteniendo las rodillas separadas contra la resistencia de la banda. Enfoca la contracción del glúteo en la cima.",
+            "imageUrl": null,
+            "muscleTarget": "Glúteos",
+            "equipment": "Mini Bandas"
+          },
+          {
+            "id": "PpM9R8fCENqt1fHAl4xC",
+            "name": "Extensión Inclinada hacia el Techo (Press Francés Modificado)",
+            "sets": 3,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Controla el peso a lo largo de todo el movimiento.",
+            "description": "Tumbado en el suelo, apunta los codos no solo hacia el techo, sino ligeramente hacia atrás (en ángulo de 45° con el cuerpo). Esto mantiene una tensión más alta en el tríceps durante todo el movimiento.",
+            "imageUrl": null,
+            "muscleTarget": "Tríceps (Tensión Total)",
+            "equipment": "Mancuernas"
+          }
+        ]
+      }
+    ],
+    "cooldown": {
+      "exercises": [
+        {
+          "id": "custom",
+          "name": "Calistenia Básica 3",
+          "duration": "30s",
+          "description": "Ejecución controlada.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "General"
+        }
+      ]
+    },
+    "meta": {
+      "date": "2025-11-20T18:35:01.750Z",
+      "week": 1,
+      "focus": "Full Body - Estabilidad",
+      "generatedAt": "2025-11-20T18:35:25.795Z",
+      "model": "gpt-4o-mini-optimized"
+    },
+    "completed": false
+  }
+}

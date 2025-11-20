@@ -13,7 +13,7 @@ const db = admin.firestore();
 
 // =================================================================
 // 2. 🚨 ¡IMPORTANTE! Reemplaza con el ID de un usuario real que SÍ tenga un plan.
-const TARGET_USER_ID = '7sf069Efv8ZMlF3lEufR8D9c1hP2'; 
+const TARGET_USER_ID = '1WDbdqZYokf8vm83A8a8ew6Bqr53'; 
 // =================================================================
 
 async function exportUserData(userId) {

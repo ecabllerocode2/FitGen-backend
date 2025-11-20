@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // ----------------------------------------------------
-// 1. HELPERS DE UTILIDAD
+// 1. HELPERS DE NORMALIZACIÓN Y UTILIDAD
 // ----------------------------------------------------
 
 const setCORSHeaders = (res) => {
@@ -15,6 +15,7 @@ const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 };
 
+// ESTA FUNCIÓN GARANTIZA QUE NO IMPORTEN MAYÚSCULAS NI ACENTOS
 const normalizeText = (text) => {
     if (!text) return "";
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -34,74 +35,121 @@ const safeMap = (collection, callback) => {
 };
 
 // ----------------------------------------------------
-// 2. LÓGICA DE FILTRADO Y CONTEXTO (NUEVO CORE)
+// 2. LÓGICA DE FILTRADO EXACTA (V4.0 FINAL)
 // ----------------------------------------------------
 
-// Filtro estricto: Si el ejercicio pide 'Barra' y el usuario no tiene 'Barra', se descarta.
-const filterExercisesByEquipment = (exercises, userEquipmentList) => {
-    // Normalizamos la lista de equipo del usuario para comparaciones rápidas
-    const userEqSet = new Set(userEquipmentList.map(e => normalizeText(e)));
-    const hasFullGym = userEqSet.has("gimnasio completo") || userEqSet.has("gym") || userEqSet.has("comercial");
+const detectEnvironment = (equipmentList) => {
+    const eqString = JSON.stringify(equipmentList).toLowerCase();
+    if (eqString.includes('gimnasio') || eqString.includes('comercial') || eqString.includes('gym')) return 'gym';
+    
+    // Verificamos carga externa real para distinguir de bodyweight puro
+    const hasLoad = equipmentList.some(item => {
+        const i = normalizeText(item);
+        return i.includes('mancuerna') || i.includes('pesa') || i.includes('barra de peso') || i.includes('disco') || i.includes('kettlebell') || (i.includes('banda') && !i.includes('mini'));
+    });
+
+    if (!hasLoad) return 'bodyweight';
+    return 'home_equipment';
+};
+
+const filterExercisesSmart = (exercises, userEquipmentList) => {
+    const environment = detectEnvironment(userEquipmentList);
+    // Normalizamos equipo del usuario una sola vez para comparar rápido
+    const userKeywords = userEquipmentList.map(e => normalizeText(e));
+
+    if (environment === 'gym') return exercises;
 
     return exercises.filter(ex => {
-        const exEq = normalizeText(ex.equipment || ex.equipo || "sin equipo");
-        
-        // 1. Si es peso corporal o sin equipo, siempre pasa
-        if (exEq.includes("sin equipo") || exEq.includes("bodyweight") || exEq.includes("corporal")) return true;
-        
-        // 2. Si tiene gimnasio completo, pasa todo
-        if (hasFullGym) return true;
+        // Normalizamos equipo del ejercicio (DB)
+        const reqEq = normalizeText(ex.equipment || ex.equipo || "sin equipo");
 
-        // 3. Reglas de exclusión (Si el ejercicio requiere X y el usuario NO lo tiene)
-        if (exEq.includes("barra") && !userEqSet.has("barra de peso") && !userEqSet.has("barra")) return false;
-        if (exEq.includes("mancuerna") && !Array.from(userEqSet).some(e => e.includes("mancuerna") || e.includes("dumbbell"))) return false;
-        if (exEq.includes("kettlebell") && !Array.from(userEqSet).some(e => e.includes("kettlebell") || e.includes("pesa rusa"))) return false;
-        if (exEq.includes("banda") && !Array.from(userEqSet).some(e => e.includes("banda") || e.includes("elastic"))) return false;
-        if ((exEq.includes("polea") || exEq.includes("cable")) && !userEqSet.has("poleas")) return false;
-        if (exEq.includes("maquina") && !userEqSet.has("maquinas")) return false;
+        // --- 1. REGLA DE ORO: Bodyweight siempre pasa ---
+        if (reqEq === "sin equipo" || reqEq === "peso corporal" || reqEq === "propio cuerpo" || reqEq === "suelo" || reqEq === "general" || reqEq === "ninguno") {
+            return true; 
+        }
 
-        // Si pasó los filtros negativos, lo asumimos válido o "general"
-        return true;
+        // Si el usuario entrena SOLO con cuerpo, rechazamos cualquier equipo externo
+        if (environment === 'bodyweight') return false;
+
+        // --- 2. LÓGICA DE EQUIPO ESPECÍFICO (ESTRICTO) ---
+
+        // Mini Bandas (Diferenciar de bandas largas)
+        if (reqEq.includes("mini")) {
+            return userKeywords.some(k => k.includes("mini"));
+        }
+
+        // Bandas Largas / Tubos / Ligas
+        if (reqEq.includes("banda") || reqEq.includes("elastica") || reqEq.includes("liga")) {
+            // Debe tener banda Y esa banda NO debe ser "mini"
+            return userKeywords.some(k => (k.includes("banda") || k.includes("liga") || k.includes("asa")) && !k.includes("mini"));
+        }
+
+        // Foam Roller / Rodillo
+        if (reqEq.includes("rodillo") || reqEq.includes("foam")) {
+            return userKeywords.some(k => k.includes("rodillo") || k.includes("foam"));
+        }
+
+        // Mancuernas
+        if (reqEq.includes("mancuerna") || reqEq.includes("dumbbell")) {
+            return userKeywords.some(k => k.includes("mancuerna") || k.includes("dumbbell"));
+        }
+
+        // Kettlebells (ESTRICTO: No acepta mancuernas)
+        if (reqEq.includes("kettlebell") || reqEq.includes("rusa")) {
+            return userKeywords.some(k => k.includes("kettlebell") || k.includes("rusa"));
+        }
+
+        // Barras
+        if (reqEq.includes("barra")) {
+            // Barra Dominadas
+            if (reqEq.includes("dominada") || reqEq.includes("pull up")) {
+                return userKeywords.some(k => k.includes("dominada") || k.includes("pull up") || k.includes("marco"));
+            }
+            // Barra de Pesas
+            return userKeywords.some(k => k.includes("barra de peso") || k.includes("olimpica") || k.includes("z") || k.includes("discos"));
+        }
+
+        // Poleas (Estricto: Solo si tiene polea real)
+        if (reqEq.includes("polea") || reqEq.includes("cable")) {
+             return userKeywords.some(k => k.includes("polea") || k.includes("multiestacion"));
+        }
+
+        return false; // Si pide algo que no tenemos, fuera.
     });
 };
 
-// Formatea la lista para el Prompt del LLM
 const formatListForPrompt = (list, label) => {
-    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES DISPONIBLES (Usa Calistenia básica)`;
+    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES DISPONIBLES (Usa Bodyweight Básico)`;
     return `--- OPCIONES PARA ${label} (Elegir de aquí) ---\n` + 
-    list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'General'} | Objetivo: ${ex.musculoObjetivo || ex.muscleTarget}`).join('\n');
+    list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'}`).join('\n');
 };
 
-// Determina qué grupos musculares buscar según el foco del día
 const getMuscleGroupFromFocus = (focusString) => {
     if (!focusString) return [];
     const f = normalizeText(focusString);
     if (f.includes('pierna') || f.includes('cuadriceps') || f.includes('femoral') || f.includes('gluteo') || f.includes('inferior')) 
-        return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios', 'gemelos', 'pierna'];
+        return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios', 'gemelos', 'pierna', 'tren inferior'];
     if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro') || f.includes('triceps') || f.includes('pectoral')) 
-        return ['pecho', 'hombros', 'triceps', 'deltoides', 'pectoral', 'push'];
+        return ['pecho', 'hombros', 'triceps', 'deltoides', 'pectoral', 'push', 'empuje'];
     if (f.includes('traccion') || f.includes('espalda') || f.includes('biceps') || f.includes('dorsal')) 
-        return ['espalda', 'biceps', 'dorsal', 'trapecio', 'lumbares', 'pull'];
-    if (f.includes('full') || f.includes('hibrido') || f.includes('cuerpo')) 
-        return ['full', 'global', 'completo']; // Se usará lógica especial para full body
+        return ['espalda', 'biceps', 'dorsal', 'trapecio', 'lumbares', 'pull', 'traccion'];
+    if (f.includes('full') || f.includes('hibrido') || f.includes('cuerpo') || f.includes('estabilidad')) 
+        return ['full', 'global', 'completo', 'core', 'abdominales'];
     return []; 
 };
 
-// Sesión de emergencia (Fallback)
 const getEmergencySession = (focus) => ({
     sessionGoal: `Sesión Básica (Fallback): ${focus}`,
     estimatedDurationMin: 45,
     warmup: {
         exercises: [
             { id: "custom", name: "Jumping Jacks", instructions: "Activar ritmo cardiaco", durationOrReps: "60 seg" },
-            { id: "custom", name: "Movilidad de Hombros y Cadera", instructions: "Rotaciones suaves", durationOrReps: "60 seg" }
+            { id: "custom", name: "Movilidad Articular", instructions: "Rotaciones suaves", durationOrReps: "60 seg" }
         ]
     },
     mainBlocks: [
         {
             blockType: "station",
-            restBetweenSetsSec: 60,
-            restBetweenExercisesSec: 90,
             exercises: [
                 { id: "custom", name: "Sentadillas (Air Squats)", sets: 4, targetReps: "15", rpe: 7, notes: "Controla la bajada." },
                 { id: "custom", name: "Flexiones (Push Ups)", sets: 4, targetReps: "10-12", rpe: 8, notes: "Rodillas al suelo si es necesario." },
@@ -109,9 +157,7 @@ const getEmergencySession = (focus) => ({
             ]
         }
     ],
-    cooldown: {
-        exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }]
-    }
+    cooldown: { exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }] }
 });
 
 // ----------------------------------------------------
@@ -134,10 +180,9 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Token inválido.' });
     }
 
-    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN PARA: ${userId}`);
+    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN: ${userId}`);
 
     try {
-        // A. CARGA DE USUARIO
         const userDocRef = db.collection('users').doc(userId);
         const userDoc = await userDocRef.get();
         if (!userDoc.exists) return res.status(404).json({ error: 'Usuario no encontrado.' });
@@ -147,154 +192,138 @@ export default async function handler(req, res) {
 
         if (!currentMesocycle || currentMesocycle.status !== 'active') return res.status(400).json({ error: 'No hay mesociclo activo.' });
 
-        // B. DETERMINAR FECHA Y DÍA
-        let todayDate;
-        if (req.body.date) {
-            todayDate = parseISO(req.body.date); 
-        } else {
-            todayDate = subHours(new Date(), 6); // Ajuste manual zona horaria (Legacy)
-        }
-        
+        let todayDate = req.body.date ? parseISO(req.body.date) : subHours(new Date(), 6);
         const startDate = parseISO(currentMesocycle.startDate);
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
         const currentWeekNum = Math.max(1, weeksPassed + 1);
         
         const targetMicrocycle = currentMesocycle.mesocyclePlan.microcycles.find(m => m.week === currentWeekNum);
-        if (!targetMicrocycle) return res.status(400).json({ error: `Semana ${currentWeekNum} no encontrada en el plan.` });
+        if (!targetMicrocycle) return res.status(400).json({ error: `Semana ${currentWeekNum} no encontrada.` });
 
         const dayName = format(todayDate, 'EEEE', { locale: es });
         const targetSession = targetMicrocycle.sessions.find(s => s.dayOfWeek.toLowerCase() === dayName.toLowerCase());
 
-        if (!targetSession) {
-            return res.status(200).json({ isRestDay: true, message: `Hoy es ${dayName}, día de descanso.` });
-        }
+        if (!targetSession) return res.status(200).json({ isRestDay: true, message: `Hoy es ${dayName}, descanso.` });
 
-        console.log(`Foco: ${targetSession.sessionFocus} | Equipo: ${profileData.availableEquipment.length} items`);
+        console.log(`Focus: ${targetSession.sessionFocus}`);
 
-        // C. PREPARACIÓN DE DATOS (DB)
-        // Lógica para elegir colecciones
-        const userEqString = JSON.stringify(profileData.availableEquipment).toLowerCase();
-        let mainCollectionName = 'exercises_home_limited'; // Default
+        // --- SELECCIÓN Y MEZCLA DE COLECCIONES ---
+        const environment = detectEnvironment(profileData.availableEquipment);
         
-        if (userEqString.includes('gimnasio completo') || userEqString.includes('gym')) {
-            mainCollectionName = 'exercises_gym_full';
-        } else if (userEqString.includes('sin equipo') || userEqString.includes('bodyweight')) {
-            mainCollectionName = 'exercises_bodyweight_pure';
+        // Promesas de carga base
+        let collectionsToFetch = [db.collection('exercises_utility').get()];
+        
+        if (environment === 'gym') {
+            collectionsToFetch.push(db.collection('exercises_gym_full').get());
+        } else if (environment === 'bodyweight') {
+            collectionsToFetch.push(db.collection('exercises_bodyweight_pure').get());
+        } else {
+            // Environment === 'home_equipment'
+            // CARGAMOS AMBAS: Home Limited Y Bodyweight Pure para mezclar
+            console.log("Entorno Home: Fusionando colecciones Limited + Bodyweight");
+            collectionsToFetch.push(db.collection('exercises_home_limited').get());
+            collectionsToFetch.push(db.collection('exercises_bodyweight_pure').get());
         }
 
-        // Leemos Utilidad (Calentamiento) y Principal en paralelo
-        const [utilitySnap, mainSnap] = await Promise.all([
-            db.collection('exercises_utility').get(),
-            db.collection(mainCollectionName).get()
-        ]);
-
-        // Mapeo inicial
+        const results = await Promise.all(collectionsToFetch);
+        
+        // Utility es siempre el primero (índice 0)
+        const utilitySnap = results[0];
+        
+        // Procesar Principal (Indices restantes)
+        let rawMain = [];
         const processDoc = (doc) => ({ id: doc.id, ...doc.data() });
-        let rawMainExercises = [];
-        let rawUtilityExercises = [];
         
-        // Mapas para "Hidratación" posterior rápida
+        // Mapas para hidratación
         const exercisesById = {};
         const exercisesByName = {};
-
-        const indexExercise = (d) => {
+        const indexEx = (d) => {
             exercisesById[d.id] = d;
             if (d.nombre) exercisesByName[normalizeText(d.nombre)] = d;
             if (d.name) exercisesByName[normalizeText(d.name)] = d;
         };
 
-        mainSnap.forEach(doc => { const d = processDoc(doc); rawMainExercises.push(d); indexExercise(d); });
-        utilitySnap.forEach(doc => { const d = processDoc(doc); rawUtilityExercises.push(d); indexExercise(d); });
+        // Recorremos results desde el índice 1 en adelante (las colecciones principales)
+        for (let i = 1; i < results.length; i++) {
+            results[i].forEach(doc => {
+                const d = processDoc(doc);
+                rawMain.push(d);
+                indexEx(d);
+            });
+        }
+        
+        let rawUtility = [];
+        utilitySnap.forEach(doc => {
+            const d = processDoc(doc);
+            rawUtility.push(d);
+            indexEx(d);
+        });
 
-        // D. FILTRADO ESTRICTO DE EQUIPO (¡CRÍTICO!)
-        // Eliminamos ejercicios que piden equipo que el usuario NO tiene
-        const validMain = filterExercisesByEquipment(rawMainExercises, profileData.availableEquipment);
-        const validUtility = filterExercisesByEquipment(rawUtilityExercises, profileData.availableEquipment);
+        // --- FILTRADO ESTRICTO ---
+        const validMain = filterExercisesSmart(rawMain, profileData.availableEquipment);
+        
+        // Utility: También pasamos el filtro smart (para validar si tiene rodillo/bandas)
+        const validUtility = filterExercisesSmart(rawUtility, profileData.availableEquipment);
 
-        // E. SEGMENTACIÓN DE CONTEXTO
+        // --- SEGMENTACIÓN POR TIPO Y MUSCULO ---
         const targetMuscles = getMuscleGroupFromFocus(targetSession.sessionFocus);
         const isFullBody = targetMuscles.includes('full') || targetMuscles.length === 0;
 
-        // 1. Candidatos Principal (Main)
+        // 1. MAIN: Filtro muscular
         let mainCandidates = validMain.filter(ex => {
             const target = normalizeText(ex.musculoObjetivo || ex.muscleTarget || "");
             const bodyPart = normalizeText(ex.parteCuerpo || ex.bodyPart || "");
             if (isFullBody) return true; 
             return targetMuscles.some(m => target.includes(m) || bodyPart.includes(m));
         });
-
-        // Si nos quedamos sin ejercicios tras el filtro estricto, rellenamos con bodyweight puro como fallback
-        if (mainCandidates.length < 5) {
-            console.log("⚠️ Alerta: Pocos ejercicios principales. Añadiendo bodyweight de respaldo.");
-            const bodyweightBackup = validMain.filter(ex => normalizeText(ex.equipo || "").includes("sin equipo"));
-            mainCandidates = [...mainCandidates, ...bodyweightBackup];
-        }
         
-        // Mezclar y cortar (Max 30 para no saturar tokens)
-        mainCandidates = shuffleArray(mainCandidates).slice(0, 30);
+        mainCandidates = shuffleArray(mainCandidates).slice(0, 35);
 
-        // 2. Candidatos Calentamiento (Utility)
-        const warmupCandidates = validUtility
-            .filter(ex => {
-                const t = normalizeText(ex.tipo || ex.type || "");
-                return t.includes('cardio') || t.includes('movilidad') || t.includes('warm') || t.includes('activacion');
-            })
-            .slice(0, 8);
+        // 2. WARMUP: Filtramos por 'tipo' normalizado
+        let warmupCandidates = validUtility.filter(ex => {
+            const t = normalizeText(ex.tipo || "");
+            return t === 'calentamiento';
+        }).slice(0, 10);
 
-        // 3. Candidatos Enfriamiento (Utility)
-        const cooldownCandidates = validUtility
-            .filter(ex => {
-                const t = normalizeText(ex.tipo || ex.type || "");
-                return t.includes('stret') || t.includes('yoga') || t.includes('cool');
-            })
-            .slice(0, 8);
+        // 3. COOLDOWN: Filtramos por 'tipo' normalizado
+        let cooldownCandidates = validUtility.filter(ex => {
+            const t = normalizeText(ex.tipo || "");
+            return t === 'estiramiento';
+        }).slice(0, 10);
 
-        // F. CONSTRUCCIÓN DEL PROMPT
-        // Creamos un "menú" segmentado para que la IA no se confunda
+        // --- GENERACIÓN DE CONTEXTO ---
         const contextString = `
-        ${formatListForPrompt(warmupCandidates, "CALENTAMIENTO")}
+        ${formatListForPrompt(warmupCandidates, "CALENTAMIENTO (WARMUP)")}
         
         ${formatListForPrompt(mainCandidates, "BLOQUE PRINCIPAL (Foco: " + targetSession.sessionFocus + ")")}
         
-        ${formatListForPrompt(cooldownCandidates, "ENFRIAMIENTO")}
+        ${formatListForPrompt(cooldownCandidates, "ENFRIAMIENTO (COOLDOWN)")}
         `;
 
         const systemPrompt = `
-        Actúa como un entrenador personal experto y riguroso.
-        Tu tarea es construir una sesión de entrenamiento JSON COHERENTE de 60 minutos.
+        Eres un entrenador experto. Crea la sesión JSON usando SOLO el contexto provisto.
 
-        REGLAS ESTRICTAS DE SELECCIÓN:
-        1. Usa SOLO los ejercicios listados en el contexto. NO INVENTES EJERCICIOS.
-        2. Usa el ID exacto provisto en el contexto.
-        3. Respeta el equipo disponible (implícito en la lista provista).
+        REGLAS ESTRICTAS:
+        1. Usa los IDs exactos de la lista. NO inventes ejercicios.
+        2. Para Calentamiento usa SOLO la lista 'CALENTAMIENTO'.
+        3. Para Enfriamiento usa SOLO la lista 'ENFRIAMIENTO'.
+        4. Respeta el equipo indicado en el contexto.
 
-        REGLAS DE ESTRUCTURA OBLIGATORIAS:
-        1. **Calentamiento**: Elige EXACTAMENTE 2 o 3 ejercicios de la lista 'CALENTAMIENTO'.
-        2. **Bloque Principal**: Elige ENTRE 4 y 6 ejercicios de la lista 'BLOQUE PRINCIPAL'.
-           - Ordena: Ejercicios compuestos/difíciles primero -> Aislamiento después.
-           - Asegura un volumen suficiente (3-4 series por ejercicio).
-        3. **Enfriamiento**: Elige 1 o 2 ejercicios de 'ENFRIAMIENTO'.
-
-        Output JSON format:
+        ESTRUCTURA JSON:
         {
-            "sessionGoal": "Resumen breve del objetivo de hoy",
+            "sessionGoal": "...",
             "estimatedDurationMin": 60,
-            "warmup": { "exercises": [{ "id": "ID_EXACTO", "name": "Nombre", "instructions": "Instrucción breve", "durationOrReps": "2 min" }] },
+            "warmup": { "exercises": [{ "id": "...", "name": "...", "durationOrReps": "..." }] },
             "mainBlocks": [
                 {
                     "blockType": "station", 
-                    "restBetweenSetsSec": 60,
-                    "restBetweenExercisesSec": 90,
-                    "exercises": [
-                        { "id": "ID_EXACTO", "name": "Nombre", "sets": 4, "targetReps": "10-12", "rpe": 8, "notes": "Tip técnico breve" }
-                    ]
+                    "exercises": [{ "id": "...", "name": "...", "sets": 3, "targetReps": "10-12", "rpe": 8 }]
                 }
             ],
-            "cooldown": { "exercises": [{ "id": "ID_EXACTO", "name": "Nombre", "duration": "30s" }] }
+            "cooldown": { "exercises": [{ "id": "...", "duration": "..." }] }
         }
         `;
 
-        // G. LLAMADA AL LLM
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -305,7 +334,7 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Contexto disponible:\n${contextString}\n\nGenera la rutina JSON ahora:` }
+                    { role: "user", content: `Contexto:\n${contextString}\n\nGenera JSON:` }
                 ],
                 response_format: { type: "json_object" }
             })
@@ -313,74 +342,53 @@ export default async function handler(req, res) {
 
         const llmResult = await completion.json();
         let sessionJSON;
-        
         try {
-            if (!llmResult.choices || !llmResult.choices[0]) throw new Error("Respuesta vacía del LLM");
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
-        } catch (e) {
-            console.error("Error parseando JSON IA:", e);
+        } catch(e) {
+            console.error("Error JSON IA:", e);
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // Validación básica de sanidad
-        if (!sessionJSON.mainBlocks || sessionJSON.mainBlocks.length === 0 || !sessionJSON.mainBlocks[0].exercises) {
-            console.error("JSON incompleto, usando fallback.");
-            sessionJSON = getEmergencySession(targetSession.sessionFocus);
-        }
-
-        // H. HIDRATACIÓN (Recuperación de datos completos)
+        // HIDRATACIÓN
         const hydrateList = (list) => safeMap(list, (item) => {
-            // 1. Intentar buscar por ID
             let dbData = exercisesById[item.id];
-
-            // 2. Si falla ID (alucinación), intentar buscar por Nombre
             if (!dbData && item.name) {
-                const normalizedName = normalizeText(item.name);
-                // Búsqueda difusa simple
-                const matchName = Object.keys(exercisesByName).find(k => k.includes(normalizedName) || normalizedName.includes(k));
+                const matchName = Object.keys(exercisesByName).find(k => k.includes(normalizeText(item.name)));
                 if (matchName) dbData = exercisesByName[matchName];
             }
-
             return {
                 ...item,
-                id: dbData ? dbData.id : "custom", // Si no se encuentra, marcar como custom
-                name: dbData?.nombre || dbData?.name || item.name || "Ejercicio",
-                description: dbData?.descripcion || dbData?.description || item.instructions || "Ejecución controlada.",
-                imageUrl: dbData?.url || dbData?.imageUrl || null,
+                id: dbData ? dbData.id : "custom",
+                name: dbData?.nombre || item.name || "Ejercicio",
+                description: dbData?.descripcion || item.instructions || "Ejecución controlada.",
+                imageUrl: dbData?.url || null,
                 muscleTarget: dbData?.musculoObjetivo || targetSession.sessionFocus,
-                equipment: dbData?.equipo || dbData?.equipment || "General"
+                equipment: dbData?.equipo || "General"
             };
         });
 
-        const mainBlocksSafe = safeMap(sessionJSON.mainBlocks, (block) => ({
-            ...block,
-            exercises: hydrateList(block.exercises)
-        }));
-
-        const finalSessionData = {
-            sessionGoal: sessionJSON.sessionGoal || `Entrenamiento ${targetSession.sessionFocus}`,
-            estimatedDurationMin: 60, // Forzamos valor lógico
+        const finalSession = {
+            sessionGoal: sessionJSON.sessionGoal || "Entrenamiento",
+            estimatedDurationMin: 60,
             warmup: { exercises: hydrateList(sessionJSON.warmup?.exercises) },
-            mainBlocks: mainBlocksSafe,
+            mainBlocks: safeMap(sessionJSON.mainBlocks, b => ({ ...b, exercises: hydrateList(b.exercises) })),
             cooldown: { exercises: hydrateList(sessionJSON.cooldown?.exercises) },
             meta: {
                 date: todayDate.toISOString(),
+                generatedAt: new Date().toISOString(),
                 week: currentWeekNum,
                 focus: targetSession.sessionFocus,
-                generatedAt: new Date().toISOString(),
-                model: "gpt-4o-mini-optimized"
+                model: "gpt-4o-mini-v4-final"
             },
             completed: false
         };
 
-        // I. GUARDADO
-        await userDocRef.update({ currentSession: finalSessionData });
-        console.log(">>> SESIÓN FINAL GUARDADA EXITOSAMENTE");
-        
-        return res.status(200).json({ success: true, session: finalSessionData });
+        await userDocRef.update({ currentSession: finalSession });
+        console.log(">>> SESIÓN FINAL OK");
+        return res.status(200).json({ success: true, session: finalSession });
 
     } catch (error) {
-        console.error("FATAL ERROR:", error);
+        console.error("FATAL:", error);
         return res.status(500).json({ error: error.message });
     }
 }
