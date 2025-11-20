@@ -34,7 +34,7 @@ const safeMap = (collection, callback) => {
 };
 
 // ----------------------------------------------------
-// 2. LÓGICA DE FILTRADO EXACTA (V5.0 - FINAL)
+// 2. LÓGICA DE FILTRADO EXACTA (V6.0 - ROBUSTA)
 // ----------------------------------------------------
 
 const detectEnvironment = (equipmentList) => {
@@ -59,12 +59,14 @@ const filterExercisesSmart = (exercises, userEquipmentList) => {
     return exercises.filter(ex => {
         const reqEq = normalizeText(ex.equipment || ex.equipo || "sin equipo");
 
+        // Paso automático para bodyweight/sin equipo
         if (reqEq === "sin equipo" || reqEq === "peso corporal" || reqEq === "propio cuerpo" || reqEq === "suelo" || reqEq === "general" || reqEq === "ninguno") {
             return true; 
         }
 
         if (environment === 'bodyweight') return false;
 
+        // Lógica estricta de equipo
         if (reqEq.includes("mini")) return userKeywords.some(k => k.includes("mini"));
 
         if (reqEq.includes("banda") || reqEq.includes("elastica") || reqEq.includes("liga")) {
@@ -89,7 +91,7 @@ const filterExercisesSmart = (exercises, userEquipmentList) => {
 };
 
 const formatListForPrompt = (list, label) => {
-    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES (Usa Bodyweight)`;
+    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES (Usa Bodyweight Básico)`;
     return `--- OPCIONES PARA ${label} (Elegir de aquí) ---\n` + 
     list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'} | Tipo: ${ex.tipo || 'General'}`).join('\n');
 };
@@ -108,56 +110,56 @@ const getMuscleGroupFromFocus = (focusString) => {
     return []; 
 };
 
+// Fallback de Emergencia (Si la IA devuelve vacío)
 const getEmergencySession = (focus) => ({
-    sessionGoal: `Sesión Básica (Fallback): ${focus}`,
+    sessionGoal: `Sesión Básica (Fallback por Error IA): ${focus}`,
     estimatedDurationMin: 45,
-    warmup: { exercises: [{ id: "custom", name: "Jumping Jacks", durationOrReps: "60 seg" }] },
-    mainBlocks: [{ blockType: "circuit", exercises: [{ id: "custom", name: "Sentadillas", sets: 4, targetReps: "15" }] }],
+    warmup: {
+        exercises: [
+            { id: "custom", name: "Jumping Jacks", instructions: "Activar ritmo cardiaco", durationOrReps: "60 seg" },
+            { id: "custom", name: "Rotaciones Articulares", instructions: "Movilidad general", durationOrReps: "60 seg" }
+        ]
+    },
+    mainBlocks: [
+        {
+            blockType: "circuit",
+            exercises: [
+                { id: "custom", name: "Sentadillas (Air Squats)", sets: 4, targetReps: "15", rpe: 7, notes: "Controla la bajada." },
+                { id: "custom", name: "Flexiones (Push Ups)", sets: 4, targetReps: "10-12", rpe: 8, notes: "Rodillas al suelo si es necesario." },
+                { id: "custom", name: "Plancha Abdominal", sets: 3, targetReps: "45s", rpe: 8, notes: "Espalda recta." }
+            ]
+        }
+    ],
     cooldown: { exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }] }
 });
 
 // ----------------------------------------------------
-// 3. GENERADOR DE PROMPT DINÁMICO
+// 3. GENERADOR DE PROMPT
 // ----------------------------------------------------
-
 const generateSystemPrompt = (isFullBody, focus) => {
     if (isFullBody) {
         return `
         Eres un entrenador experto diseñando una sesión FULL BODY de Alta Calidad.
-        
         OBJETIVO: Crear un CIRCUITO metabólico y de fuerza completo.
-        
-        REGLAS DE ESTRUCTURA (OBLIGATORIAS):
-        1. **CALENTAMIENTO**: Selecciona 3 o 4 ejercicios. Duración máx por ejercicio: 60-90 segundos. (Total 5-6 min).
+        REGLAS OBLIGATORIAS:
+        1. **CALENTAMIENTO**: Selecciona 3 o 4 ejercicios. Duración: 60-90s c/u.
         2. **BLOQUE PRINCIPAL (CIRCUITO)**:
-           - Debes seleccionar **6 a 8 ejercicios** distintos.
-           - El bloque debe ser tipo "circuit".
-           - DEBE HABER EQUILIBRIO: Incluye 1 dominante de rodilla (cuádriceps), 1 dominante de cadera (glúteo/isquio), 1 empuje (push), 1 tracción (pull) y 1-2 de core/estabilidad.
-        3. **ENFRIAMIENTO**: Selecciona 3 o 4 ejercicios de estiramiento. Duración máx: 60 segundos c/u.
-        
-        REGLAS DE DATOS:
-        - Usa SOLO los IDs provistos.
-        - NO inventes ejercicios.
-        - NO pongas duraciones irreales (ej. NO "5 minutos" para un ejercicio).
+           - Selecciona **6 a 8 ejercicios**.
+           - Equilibra: Rodilla, Cadera, Empuje, Tracción, Core.
+        3. **ENFRIAMIENTO**: Selecciona 3 o 4 ejercicios de estiramiento.
+        - Usa SOLO IDs provistos. NO inventes.
         `;
     } else {
         return `
-        Eres un entrenador experto diseñando una sesión de HIPERTROFIA enfocada en ${focus}.
-        
-        OBJETIVO: Crear una sesión sólida con volumen adecuado.
-        
-        REGLAS DE ESTRUCTURA (OBLIGATORIAS):
-        1. **CALENTAMIENTO**: Selecciona 3 ejercicios de movilidad específica. Duración máx: 60-90 segundos c/u.
+        Eres un entrenador experto diseñando una sesión de HIPERTROFIA para ${focus}.
+        OBJETIVO: Sesión de volumen y fuerza.
+        REGLAS OBLIGATORIAS:
+        1. **CALENTAMIENTO**: 3 ejercicios de movilidad.
         2. **BLOQUE PRINCIPAL (ESTACIONES)**:
            - Selecciona **5 a 7 ejercicios**.
-           - Orden: Compuestos pesados primero -> Aislamiento después.
-           - Series: 3 a 4 series por ejercicio.
-        3. **ENFRIAMIENTO**: Selecciona 3 ejercicios de estiramiento enfocado al músculo trabajado.
-        
-        REGLAS DE DATOS:
-        - Usa SOLO los IDs provistos.
-        - NO inventes ejercicios.
-        - NO pongas duraciones irreales.
+           - Orden: Compuestos -> Aislamiento.
+        3. **ENFRIAMIENTO**: 3 estiramientos focalizados.
+        - Usa SOLO IDs provistos. NO inventes.
         `;
     }
 };
@@ -182,7 +184,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Token inválido.' });
     }
 
-    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN V5: ${userId}`);
+    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN V6 (SAFE): ${userId}`);
 
     try {
         const userDocRef = db.collection('users').doc(userId);
@@ -257,24 +259,34 @@ export default async function handler(req, res) {
             return targetMuscles.some(m => target.includes(m) || bodyPart.includes(m));
         });
         
-        mainCandidates = shuffleArray(mainCandidates).slice(0, 45); // Damos más opciones para que pueda llenar el circuito
+        mainCandidates = shuffleArray(mainCandidates).slice(0, 45);
 
-        // 2. WARMUP
-        let warmupCandidates = validUtility.filter(ex => normalizeText(ex.tipo || "") === 'calentamiento').slice(0, 15);
+        // 2. WARMUP (Failsafe: Si no encuentra por 'tipo', rellena con utility genérico)
+        let warmupCandidates = validUtility.filter(ex => {
+            const t = normalizeText(ex.tipo || ex.type || ex.category || ""); 
+            return t.includes('calentamiento') || t.includes('warm') || t.includes('movilidad');
+        });
+        if (warmupCandidates.length === 0) warmupCandidates = validUtility.slice(0, 8); // Respaldo
+        warmupCandidates = warmupCandidates.slice(0, 15);
 
-        // 3. COOLDOWN
-        let cooldownCandidates = validUtility.filter(ex => normalizeText(ex.tipo || "") === 'estiramiento').slice(0, 15);
+        // 3. COOLDOWN (Failsafe)
+        let cooldownCandidates = validUtility.filter(ex => {
+            const t = normalizeText(ex.tipo || ex.type || ex.category || "");
+            return t.includes('estiramiento') || t.includes('stretch') || t.includes('vuelta');
+        });
+        if (cooldownCandidates.length === 0) cooldownCandidates = validUtility.slice(0, 8).reverse(); // Respaldo
+        cooldownCandidates = cooldownCandidates.slice(0, 15);
 
-        // --- GENERACIÓN DE CONTEXTO Y PROMPT ---
+        // --- GENERACIÓN DE PROMPT ---
         const contextString = `
         ${formatListForPrompt(warmupCandidates, "CALENTAMIENTO")}
         ${formatListForPrompt(mainCandidates, "BLOQUE PRINCIPAL (Foco: " + targetSession.sessionFocus + ")")}
         ${formatListForPrompt(cooldownCandidates, "ENFRIAMIENTO")}
         `;
 
-        // USAMOS EL GENERADOR DINÁMICO DE PROMPTS
         const systemPrompt = generateSystemPrompt(isFullBody, targetSession.sessionFocus);
 
+        // LLAMADA IA
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -296,6 +308,17 @@ export default async function handler(req, res) {
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch(e) {
+            console.error("Error parsing JSON:", e);
+            sessionJSON = getEmergencySession(targetSession.sessionFocus);
+        }
+
+        // *** VALIDACIÓN CRÍTICA (AQUÍ ESTABA EL ERROR ANTERIOR) ***
+        let isValidSession = true;
+        if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks) || sessionJSON.mainBlocks.length === 0) isValidSession = false;
+        if (isValidSession && (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0)) isValidSession = false;
+        
+        if (!isValidSession) {
+            console.warn("⚠️ IA devolvió sesión vacía. Usando Fallback de Emergencia.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
@@ -328,13 +351,13 @@ export default async function handler(req, res) {
                 generatedAt: new Date().toISOString(),
                 week: currentWeekNum,
                 focus: targetSession.sessionFocus,
-                model: "gpt-4o-mini-v5-logic"
+                model: "gpt-4o-mini-v6-safe"
             },
             completed: false
         };
 
         await userDocRef.update({ currentSession: finalSession });
-        console.log(">>> SESIÓN V5 FINALIZADA");
+        console.log(">>> SESIÓN V6 GUARDADA EXITOSAMENTE");
         return res.status(200).json({ success: true, session: finalSession });
 
     } catch (error) {
