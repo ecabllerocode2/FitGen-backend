@@ -162,19 +162,19 @@
   },
   "planStatus": "active",
   "currentSession": {
-    "sessionGoal": "Foco en Pecho - Aislamiento y Accesorios",
+    "sessionGoal": "Pecho - Aislamiento y Accesorios",
     "estimatedDurationMin": 60,
     "warmup": {
       "exercises": [
         {
-          "id": "custom",
-          "name": "Círculos de Cadera",
-          "instructions": "Realiza círculos con las caderas en cuadrupedia.",
-          "durationOrReps": "5 minutos",
-          "description": "Realiza círculos con las caderas en cuadrupedia.",
+          "id": "rDukDKlOnr1jvpMtW4AE",
+          "name": "Press Arnold con KB (Sentado en Silla)",
+          "instructions": "Realiza el ejercicio en una silla, asegurándote de activar bien los deltoides.",
+          "durationOrReps": "30s",
+          "description": "Sentado, inicia con la KB en posición de rack. Mientras presionas hacia arriba, rota la KB hasta que el brazo termine extendido. La KB requiere más control de la muñeca que una mancuerna.",
           "imageUrl": null,
-          "muscleTarget": "Pecho - Aislamiento y Accesorios",
-          "equipment": "General"
+          "muscleTarget": "Deltoides Anterior, Medio y Rotadores",
+          "equipment": "Kettlebell"
         }
       ]
     },
@@ -185,64 +185,40 @@
         "restBetweenExercisesSec": 90,
         "exercises": [
           {
-            "id": "custom",
-            "name": "Push-Up Asistido",
+            "id": "yUufX5fT8uGWIuzbnHv6",
+            "name": "Press de Banca con Mancuernas (Inclinado)",
             "sets": 3,
-            "targetReps": "8-12",
+            "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Usar banda por la espalda para asistencia.",
-            "description": "Usar banda por la espalda para asistencia.",
+            "notes": "Enfoca tu energía en la parte superior del pecho.",
+            "description": "Acuéstate en un banco inclinado (aprox. 30-45 grados). Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta sentir un estiramiento suave en el pecho. Empuja hacia arriba hasta extender los brazos sin bloquear.",
             "imageUrl": null,
-            "muscleTarget": "Pecho - Aislamiento y Accesorios",
-            "equipment": "General"
+            "muscleTarget": "Pectoral Mayor (porción clavicular/superior)",
+            "equipment": "Mancuernas"
           },
           {
-            "id": "custom",
-            "name": "Press de Banca con Mancuernas",
+            "id": "M1iDhOy33CiAfCudmfYe",
+            "name": "Press de Pecho en Suelo (Agarre Asimétrico)",
             "sets": 3,
-            "targetReps": "8-10",
+            "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Isométrico unilateral en el fondo.",
-            "description": "Isométrico unilateral en el fondo.",
+            "notes": "Mantén una buena alineación al realizar el movimiento.",
+            "description": "Utiliza un agarre asimétrico (una mano más cerca del centro de la barra que la otra). Esto obliga a un mayor trabajo de estabilización y equilibrio del core y los hombros.",
             "imageUrl": null,
-            "muscleTarget": "Pecho - Aislamiento y Accesorios",
-            "equipment": "General"
+            "muscleTarget": "Pectoral Mayor y Estabilizadores",
+            "equipment": "Barra de Peso"
           },
           {
-            "id": "custom",
-            "name": "Aperturas de Pecho de Pie",
+            "id": "lIiCS5bEVkbGguFYiWHC",
+            "name": "Press de Pecho Unilateral (De pie)",
             "sets": 3,
-            "targetReps": "10-15",
+            "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Enfocar en la línea media.",
-            "description": "Enfocar en la línea media.",
+            "notes": "Ayuda a mejorar la estabilidad del core.",
+            "description": "Ancla la banda y realiza el Press de Pecho con una sola mano. El esfuerzo unilateral mejora la conciencia muscular y exige un mayor trabajo antirrotacional del core.",
             "imageUrl": null,
-            "muscleTarget": "Pecho - Aislamiento y Accesorios",
-            "equipment": "General"
-          },
-          {
-            "id": "custom",
-            "name": "Rodar el Tríceps",
-            "sets": 3,
-            "targetReps": "8-10",
-            "rpe": 8,
-            "notes": "Ejercicio de rol para tríceps.",
-            "description": "Ejercicio de rol para tríceps.",
-            "imageUrl": null,
-            "muscleTarget": "Pecho - Aislamiento y Accesorios",
-            "equipment": "General"
-          },
-          {
-            "id": "custom",
-            "name": "Press Militar con Agarre Cerrado",
-            "sets": 3,
-            "targetReps": "8-10",
-            "rpe": 8,
-            "notes": "Enfocar en deltoides anterior y tríceps.",
-            "description": "Enfocar en deltoides anterior y tríceps.",
-            "imageUrl": null,
-            "muscleTarget": "Pecho - Aislamiento y Accesorios",
-            "equipment": "General"
+            "muscleTarget": "Pectoral Mayor y Estabilidad del Core",
+            "equipment": "Banda de Resistencia"
           }
         ]
       }
@@ -250,31 +226,28 @@
     "cooldown": {
       "exercises": [
         {
-          "id": "custom",
-          "name": "Estiramiento Pectoral",
-          "duration": "5 minutos",
-          "description": "Ejecución controlada.",
+          "id": "NwwRPC7PnzUHRSEMVzmh",
+          "name": "Press de Pecho en Suelo (Floor Press)",
+          "duration": "30s",
+          "description": "Acuéstate en el suelo. Sostén la barra con un agarre medio. Baja la barra hasta que los codos toquen el suelo. El suelo actúa como 'stop' natural, protegiendo los hombros y eliminando la necesidad de un banco.",
           "imageUrl": null,
-          "muscleTarget": "Pecho - Aislamiento y Accesorios",
-          "equipment": "General"
-        },
-        {
-          "id": "custom",
-          "name": "Estiramiento Mariposa",
-          "duration": "5 minutos",
-          "description": "Ejecución controlada.",
-          "imageUrl": null,
-          "muscleTarget": "Pecho - Aislamiento y Accesorios",
-          "equipment": "General"
+          "muscleTarget": "Pectoral Mayor y Tríceps",
+          "equipment": "Barra de Peso"
         }
       ]
     },
     "meta": {
-      "date": "2025-11-20T02:21:32.103Z",
+      "date": "2025-11-20T14:56:28.003Z",
       "week": 1,
       "focus": "Pecho - Aislamiento y Accesorios",
-      "generatedAt": "2025-11-20T02:21:46.527Z"
+      "generatedAt": "2025-11-20T14:56:43.881Z"
     },
-    "completed": false
-  }
+    "completed": true,
+    "feedback": {
+      "rpe": 7,
+      "notes": "Logre hacer mas repeticiones en casi todos los ejercicios",
+      "completedAt": "2025-11-20T16:20:59.573Z"
+    }
+  },
+  "lastWorkoutDate": "2025-11-20T16:20:59.573Z"
 }
