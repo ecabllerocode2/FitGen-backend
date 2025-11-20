@@ -91,32 +91,40 @@ const safeMap = (collection, callback) => {
     return collection.map(callback);
 };
 
+// Normaliza strings para comparaciones (quita acentos y minúsculas)
+const normalizeText = (text) => {
+    if (!text) return "";
+    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
+
 const createOptimizedContext = (exercises) => {
     if (!exercises || exercises.length === 0) return "SIN CONTEXTO DISPONIBLE";
     return exercises.map(ex => 
-        `${ex.id}|${ex.nombre}|${ex.tipo}|${ex.musculoObjetivo || ex.parteCuerpo}|${ex.nivel || 'General'}`
+        `${ex.id}|${ex.nombre || 'SinNombre'}|${ex.tipo || 'General'}|${ex.musculoObjetivo || ex.parteCuerpo || 'General'}|${ex.nivel || 'General'}`
     ).join('\n');
 };
 
 const getMuscleGroupFromFocus = (focusString) => {
     if (!focusString) return [];
-    const f = focusString.toLowerCase();
-    if (f.includes('pierna') || f.includes('cuádriceps') || f.includes('femoral')) return ['Piernas', 'Glúteos', 'Cadera'];
-    if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro')) return ['Pecho', 'Hombros', 'Tríceps'];
-    if (f.includes('tracción') || f.includes('espalda')) return ['Espalda', 'Bíceps'];
-    if (f.includes('full body') || f.includes('híbrido')) return ['Piernas', 'Pecho', 'Espalda', 'Hombros', 'Full Body'];
-    return [];
+    const f = normalizeText(focusString);
+    
+    // Lógica expandida para cubrir más casos
+    if (f.includes('pierna') || f.includes('cuadriceps') || f.includes('femoral') || f.includes('gluteo')) return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios'];
+    if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro') || f.includes('triceps')) return ['pecho', 'hombros', 'triceps', 'deltoides'];
+    if (f.includes('traccion') || f.includes('espalda') || f.includes('biceps')) return ['espalda', 'biceps', 'dorsal', 'trapecio'];
+    if (f.includes('full') || f.includes('hibrido') || f.includes('cuerpo')) return ['piernas', 'pecho', 'espalda', 'hombros', 'full body', 'triceps', 'biceps'];
+    
+    return []; 
 };
 
 // --- RUTINA DE EMERGENCIA (FALLBACK) ---
-// Si la IA falla, usamos esto para que el usuario no vea todo vacío.
 const getEmergencySession = (focus) => ({
-    sessionGoal: `Sesión básica de ${focus} (Modo Respaldo)`,
+    sessionGoal: `Sesión básica de ${focus} (Respaldo por falta de datos)`,
     estimatedDurationMin: 45,
     warmup: {
         exercises: [
-            { id: "custom", name: "Jumping Jacks", instructions: "Calentamiento general", durationOrReps: "2 mins" },
-            { id: "custom", name: "Rotaciones de Articulaciones", instructions: "Cuello, hombros y muñecas", durationOrReps: "1 min" }
+            { id: "custom", name: "Jumping Jacks", instructions: "2 minutos ritmo medio", durationOrReps: "2 mins" },
+            { id: "custom", name: "Rotaciones Articulares", instructions: "Cuello, hombros, caderas", durationOrReps: "1 min" }
         ]
     },
     mainBlocks: [
@@ -125,9 +133,9 @@ const getEmergencySession = (focus) => ({
             restBetweenSetsSec: 60,
             restBetweenExercisesSec: 90,
             exercises: [
-                { id: "custom", name: `Ejercicio Principal de ${focus}`, sets: 4, targetReps: "12", rpe: 8, notes: "Controla la bajada." },
-                { id: "custom", name: `Ejercicio Secundario de ${focus}`, sets: 3, targetReps: "15", rpe: 7, notes: "Enfoque en la técnica." },
-                { id: "custom", name: "Ejercicio Auxiliar", sets: 3, targetReps: "15", rpe: 7, notes: "Mantén la tensión." }
+                { id: "custom", name: `Ejercicio Principal (${focus})`, sets: 4, targetReps: "12", rpe: 8, notes: "Ejercicio compuesto." },
+                { id: "custom", name: `Ejercicio Auxiliar 1`, sets: 3, targetReps: "15", rpe: 7, notes: "Aislamiento." },
+                { id: "custom", name: "Ejercicio Auxiliar 2", sets: 3, targetReps: "15", rpe: 7, notes: "Control motor." }
             ]
         }
     ],
@@ -158,7 +166,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Token inválido.' });
     }
 
-    console.log(`Generando sesión para: ${userId}`);
+    console.log(`>>> INICIANDO GENERACIÓN SESIÓN: ${userId}`);
 
     try {
         // 2. DATOS
@@ -188,24 +196,25 @@ export default async function handler(req, res) {
             return res.status(200).json({ isRestDay: true, message: `Descanso: ${dayName}` });
         }
 
-        // 3. CONTEXTO (Debug + Selección)
+        console.log(`Foco Sesión: ${targetSession.sessionFocus}`);
+
+        // 3. CONTEXTO Y FILTRADO (CRÍTICO)
         let exerciseCollectionName = 'exercises_home_limited'; // Default
         const equipment = profileData.availableEquipment || [];
         
-        if (equipment.includes('Gimnasio completo')) exerciseCollectionName = 'exercises_gym_full';
-        else if (equipment.some(e => typeof e === 'string' && (e.toLowerCase().includes('bodyweight') || e.toLowerCase().includes('sin equipo')))) exerciseCollectionName = 'exercises_bodyweight_pure';
+        // Lógica de selección de colección simplificada
+        const eqString = JSON.stringify(equipment).toLowerCase();
+        if (eqString.includes('gimnasio completo')) exerciseCollectionName = 'exercises_gym_full';
+        else if (eqString.includes('bodyweight') || eqString.includes('sin equipo')) exerciseCollectionName = 'exercises_bodyweight_pure';
 
-        console.log(`Buscando ejercicios en: ${exerciseCollectionName}`);
+        console.log(`Leyendo Colección: ${exerciseCollectionName}`);
 
         const [utilitySnap, mainSnap] = await Promise.all([
             db.collection('exercises_utility').get(),
             db.collection(exerciseCollectionName).get()
         ]);
 
-        // Validar si las colecciones están vacías (Posible causa del error)
-        if (mainSnap.empty) {
-            console.warn(`⚠️ ALERTA: La colección ${exerciseCollectionName} está vacía en Firestore.`);
-        }
+        if (mainSnap.empty) console.warn(`⚠️ ALERTA: La colección ${exerciseCollectionName} está vacía.`);
 
         let candidateExercises = [];
         const exerciseMap = {};
@@ -216,33 +225,62 @@ export default async function handler(req, res) {
             return d;
         };
 
+        // Utilidades siempre entran
         utilitySnap.forEach(doc => candidateExercises.push(indexExercise(doc)));
-        const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus);
+        
+        // Filtrado Inteligente (Normalizado)
+        const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus); // Array normalizado (minusculas)
+        let mainExercisesFound = 0;
+        let mainExercisesAccepted = 0;
 
         mainSnap.forEach(doc => {
             const d = indexExercise(doc);
-            const matchesFocus = muscleGroups.length === 0 || muscleGroups.includes(d.parteCuerpo) || (d.musculoObjetivo && muscleGroups.some(g => d.musculoObjetivo.includes(g)));
-            if (matchesFocus) candidateExercises.push(d);
-        });
+            mainExercisesFound++;
 
-        // Si no hay suficientes ejercicios específicos, rellenar con lo que haya
+            // Normalizamos los datos del ejercicio para comparar
+            const parteCuerpoNorm = normalizeText(d.parteCuerpo || "");
+            const musculoObjetivoNorm = normalizeText(d.musculoObjetivo || "");
+            
+            // Verificamos coincidencia
+            const matchesFocus = muscleGroups.length === 0 
+                || muscleGroups.some(mg => parteCuerpoNorm.includes(mg))
+                || muscleGroups.some(mg => musculoObjetivoNorm.includes(mg));
+            
+            // Filtro de nivel (Simple)
+            let levelOk = true;
+            if (profileData.experienceLevel === 'Principiante' && d.nivel === 'Avanzado') levelOk = false;
+
+            if (matchesFocus && levelOk) {
+                candidateExercises.push(d);
+                mainExercisesAccepted++;
+            }
+        });
+        
+        console.log(`Diagnóstico Filtro: Encontrados ${mainExercisesFound} | Aceptados: ${mainExercisesAccepted}`);
+
+        // FALLBACK DE CONTEXTO: Si el filtro fue muy agresivo (< 5 ejercicios), rellena con todo lo que haya
         if (candidateExercises.length < 5 && !mainSnap.empty) {
+             console.log("⚠️ Filtro muy estricto. Usando Fallback (llenando con ejercicios generales).");
              mainSnap.forEach(doc => {
-                 if (candidateExercises.length < 30) candidateExercises.push(indexExercise(doc));
+                 // Evitamos duplicados
+                 if (!exerciseMap[doc.id] && candidateExercises.length < 40) {
+                    candidateExercises.push(indexExercise(doc));
+                 }
              });
         }
 
         const contextCSV = createOptimizedContext(candidateExercises.slice(0, 50));
-        console.log(`Contexto enviado (longitud): ${contextCSV.length} caracteres.`);
+        console.log(`Contexto Final enviado a LLM: ${candidateExercises.length} ejercicios.`);
 
         // 4. LLAMADA IA
         const systemPrompt = `Eres un entrenador personal.
-        OBJETIVO: Generar una sesión de entrenamiento.
+        OBJETIVO: Generar una sesión de entrenamiento en JSON.
         
-        REGLA ABSOLUTA:
-        Si el contexto CSV está vacío o no encuentras ejercicios adecuados, **DEBES INVENTARLOS**.
-        NUNCA devuelvas arrays vacíos en 'exercises'.
-        Siempre usa "id": "custom" y un "name" descriptivo si inventas el ejercicio.`;
+        REGLAS DE ORO:
+        1. **USA LOS IDs DEL CONTEXTO**. Tienes una lista de ejercicios disponibles. Úsalos.
+        2. Solo si NO hay un ejercicio adecuado para el músculo, usa "id": "custom" y ponle un nombre.
+        3. NUNCA dejes arrays vacíos.
+        4. El campo "name" es OBLIGATORIO.`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -267,27 +305,28 @@ export default async function handler(req, res) {
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch (e) {
-            console.error("Error parseando JSON IA, usando respaldo.");
+            console.error("Error parseando JSON IA, usando respaldo.", e);
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // 5. VALIDACIÓN DE EMERGENCIA (FAIL-SAFE)
-        // Si la IA devuelve arrays vacíos, activamos el modo emergencia.
+        // 5. VALIDACIÓN FINAL
         let isEmpty = false;
         if (!sessionJSON.mainBlocks || sessionJSON.mainBlocks.length === 0) isEmpty = true;
-        else if (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0) isEmpty = true;
-
+        
         if (isEmpty) {
-            console.warn("⚠️ La IA devolvió una sesión vacía. Usando rutina de respaldo.");
+            console.warn("⚠️ La IA devolvió sesión vacía. Usando respaldo.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // 6. HIDRATACIÓN
+        // 6. HIDRATACIÓN (Mapping)
         const hydrateList = (list) => safeMap(list, (item) => {
+            // Buscamos coincidencia exacta de ID
             const dbData = exerciseMap[item.id];
+            
             return {
                 ...item,
                 id: dbData ? item.id : "custom",
+                // Prioridad: Nombre DB > Nombre LLM > Genérico
                 name: dbData?.nombre || item.name || "Ejercicio Personalizado",
                 description: dbData?.descripcion || item.instructions || item.notes || "Ejecución controlada.",
                 imageUrl: dbData?.url || null,
@@ -302,7 +341,7 @@ export default async function handler(req, res) {
         }));
 
         const finalSessionData = {
-            sessionGoal: sessionJSON.sessionGoal,
+            sessionGoal: sessionJSON.sessionGoal || `Entrenamiento ${targetSession.sessionFocus}`,
             estimatedDurationMin: sessionJSON.estimatedDurationMin,
             warmup: { exercises: hydrateList(sessionJSON.warmup?.exercises) },
             mainBlocks: mainBlocksSafe,
@@ -317,6 +356,7 @@ export default async function handler(req, res) {
         };
 
         await userDocRef.update({ currentSession: finalSessionData });
+        console.log(">>> SESIÓN GUARDADA CON ÉXITO");
         return res.status(200).json({ success: true, session: finalSessionData });
 
     } catch (error) {
