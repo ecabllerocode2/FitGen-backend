@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
-// --- SCHEMA (Mantenemos el que incluye "name") ---
+// --- SCHEMA ---
 const SESSION_SCHEMA = {
     type: "OBJECT",
     properties: {
@@ -91,40 +91,46 @@ const safeMap = (collection, callback) => {
     return collection.map(callback);
 };
 
-// Normaliza strings para comparaciones (quita acentos y minúsculas)
 const normalizeText = (text) => {
     if (!text) return "";
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
+// NUEVO: Función para mezclar array (Fisher-Yates)
+// Esto asegura que si hay 176 ejercicios, enviemos 50 variados, no siempre los primeros 50.
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
 const createOptimizedContext = (exercises) => {
     if (!exercises || exercises.length === 0) return "SIN CONTEXTO DISPONIBLE";
     return exercises.map(ex => 
-        `${ex.id}|${ex.nombre || 'SinNombre'}|${ex.tipo || 'General'}|${ex.musculoObjetivo || ex.parteCuerpo || 'General'}|${ex.nivel || 'General'}`
+        `${ex.id}|${ex.nombre || 'SinNombre'}|${ex.tipo || 'General'}|${ex.musculoObjetivo || ex.parteCuerpo || 'General'}`
     ).join('\n');
 };
 
 const getMuscleGroupFromFocus = (focusString) => {
     if (!focusString) return [];
     const f = normalizeText(focusString);
-    
-    // Lógica expandida para cubrir más casos
     if (f.includes('pierna') || f.includes('cuadriceps') || f.includes('femoral') || f.includes('gluteo')) return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios'];
     if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro') || f.includes('triceps')) return ['pecho', 'hombros', 'triceps', 'deltoides'];
     if (f.includes('traccion') || f.includes('espalda') || f.includes('biceps')) return ['espalda', 'biceps', 'dorsal', 'trapecio'];
     if (f.includes('full') || f.includes('hibrido') || f.includes('cuerpo')) return ['piernas', 'pecho', 'espalda', 'hombros', 'full body', 'triceps', 'biceps'];
-    
     return []; 
 };
 
-// --- RUTINA DE EMERGENCIA (FALLBACK) ---
+// --- RUTINA DE EMERGENCIA ---
 const getEmergencySession = (focus) => ({
-    sessionGoal: `Sesión básica de ${focus} (Respaldo por falta de datos)`,
+    sessionGoal: `Sesión básica de ${focus} (Respaldo)`,
     estimatedDurationMin: 45,
     warmup: {
         exercises: [
-            { id: "custom", name: "Jumping Jacks", instructions: "2 minutos ritmo medio", durationOrReps: "2 mins" },
-            { id: "custom", name: "Rotaciones Articulares", instructions: "Cuello, hombros, caderas", durationOrReps: "1 min" }
+            { id: "custom", name: "Jumping Jacks", instructions: "2 mins ritmo medio", durationOrReps: "2 mins" },
+            { id: "custom", name: "Movilidad General", instructions: "Rotaciones articulares", durationOrReps: "2 mins" }
         ]
     },
     mainBlocks: [
@@ -133,16 +139,14 @@ const getEmergencySession = (focus) => ({
             restBetweenSetsSec: 60,
             restBetweenExercisesSec: 90,
             exercises: [
-                { id: "custom", name: `Ejercicio Principal (${focus})`, sets: 4, targetReps: "12", rpe: 8, notes: "Ejercicio compuesto." },
-                { id: "custom", name: `Ejercicio Auxiliar 1`, sets: 3, targetReps: "15", rpe: 7, notes: "Aislamiento." },
-                { id: "custom", name: "Ejercicio Auxiliar 2", sets: 3, targetReps: "15", rpe: 7, notes: "Control motor." }
+                { id: "custom", name: `Ejercicio Principal (${focus})`, sets: 4, targetReps: "12", rpe: 8, notes: "Técnica controlada." },
+                { id: "custom", name: "Ejercicio Auxiliar", sets: 3, targetReps: "15", rpe: 7, notes: "Enfoque en el músculo." },
+                { id: "custom", name: "Core / Abdominales", sets: 3, targetReps: "20", rpe: 7, notes: "Contracción constante." }
             ]
         }
     ],
     cooldown: {
-        exercises: [
-            { id: "custom", name: "Estiramiento Estático", duration: "5 min" }
-        ]
+        exercises: [{ id: "custom", name: "Estiramiento Estático", duration: "5 min" }]
     }
 });
 
@@ -154,7 +158,6 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido.' });
 
-    // 1. AUTH
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ error: 'Falta token Bearer.' });
     let userId;
@@ -169,7 +172,6 @@ export default async function handler(req, res) {
     console.log(`>>> INICIANDO GENERACIÓN SESIÓN: ${userId}`);
 
     try {
-        // 2. DATOS
         const userDocRef = db.collection('users').doc(userId);
         const userDoc = await userDocRef.get();
         if (!userDoc.exists) return res.status(404).json({ error: 'Usuario no encontrado.' });
@@ -177,9 +179,7 @@ export default async function handler(req, res) {
         const userData = userDoc.data();
         const { profileData, currentMesocycle } = userData;
 
-        if (!currentMesocycle || currentMesocycle.status !== 'active') {
-            return res.status(400).json({ error: 'No hay mesociclo activo.' });
-        }
+        if (!currentMesocycle || currentMesocycle.status !== 'active') return res.status(400).json({ error: 'No hay mesociclo activo.' });
 
         const todayDate = req.body.date ? parseISO(req.body.date) : new Date();
         const startDate = parseISO(currentMesocycle.startDate);
@@ -192,95 +192,68 @@ export default async function handler(req, res) {
         const dayName = format(todayDate, 'EEEE', { locale: es });
         const targetSession = targetMicrocycle.sessions.find(s => s.dayOfWeek.toLowerCase() === dayName.toLowerCase());
 
-        if (!targetSession) {
-            return res.status(200).json({ isRestDay: true, message: `Descanso: ${dayName}` });
-        }
+        if (!targetSession) return res.status(200).json({ isRestDay: true, message: `Descanso: ${dayName}` });
 
         console.log(`Foco Sesión: ${targetSession.sessionFocus}`);
 
-        // 3. CONTEXTO Y FILTRADO (CRÍTICO)
-        let exerciseCollectionName = 'exercises_home_limited'; // Default
+        // --- 3. CONTEXTO Y FILTRADO ---
+        let exerciseCollectionName = 'exercises_home_limited';
         const equipment = profileData.availableEquipment || [];
-        
-        // Lógica de selección de colección simplificada
         const eqString = JSON.stringify(equipment).toLowerCase();
         if (eqString.includes('gimnasio completo')) exerciseCollectionName = 'exercises_gym_full';
         else if (eqString.includes('bodyweight') || eqString.includes('sin equipo')) exerciseCollectionName = 'exercises_bodyweight_pure';
-
-        console.log(`Leyendo Colección: ${exerciseCollectionName}`);
 
         const [utilitySnap, mainSnap] = await Promise.all([
             db.collection('exercises_utility').get(),
             db.collection(exerciseCollectionName).get()
         ]);
 
-        if (mainSnap.empty) console.warn(`⚠️ ALERTA: La colección ${exerciseCollectionName} está vacía.`);
-
         let candidateExercises = [];
         const exerciseMap = {};
-
         const indexExercise = (doc) => {
             const d = doc.data(); d.id = doc.id;
             exerciseMap[doc.id] = d;
             return d;
         };
 
-        // Utilidades siempre entran
         utilitySnap.forEach(doc => candidateExercises.push(indexExercise(doc)));
+        const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus);
         
-        // Filtrado Inteligente (Normalizado)
-        const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus); // Array normalizado (minusculas)
-        let mainExercisesFound = 0;
-        let mainExercisesAccepted = 0;
-
         mainSnap.forEach(doc => {
             const d = indexExercise(doc);
-            mainExercisesFound++;
-
-            // Normalizamos los datos del ejercicio para comparar
             const parteCuerpoNorm = normalizeText(d.parteCuerpo || "");
             const musculoObjetivoNorm = normalizeText(d.musculoObjetivo || "");
             
-            // Verificamos coincidencia
             const matchesFocus = muscleGroups.length === 0 
                 || muscleGroups.some(mg => parteCuerpoNorm.includes(mg))
                 || muscleGroups.some(mg => musculoObjetivoNorm.includes(mg));
             
-            // Filtro de nivel (Simple)
             let levelOk = true;
             if (profileData.experienceLevel === 'Principiante' && d.nivel === 'Avanzado') levelOk = false;
 
-            if (matchesFocus && levelOk) {
-                candidateExercises.push(d);
-                mainExercisesAccepted++;
-            }
+            if (matchesFocus && levelOk) candidateExercises.push(d);
         });
+
+        console.log(`Ejercicios Aceptados antes de recorte: ${candidateExercises.length}`);
+
+        // --- OPTIMIZACIÓN CRÍTICA: BARAJAR Y RECORTAR ---
+        // 1. Barajamos para que no siempre sean los mismos ejercicios (si hay muchos)
+        let finalContextList = shuffleArray([...candidateExercises]);
+
+        // 2. Recortamos a MAX 45 ejercicios para no saturar a la IA
+        finalContextList = finalContextList.slice(0, 45);
         
-        console.log(`Diagnóstico Filtro: Encontrados ${mainExercisesFound} | Aceptados: ${mainExercisesAccepted}`);
+        const contextCSV = createOptimizedContext(finalContextList);
+        console.log(`Contexto REAL enviado a LLM (recortado): ${finalContextList.length} ejercicios.`);
 
-        // FALLBACK DE CONTEXTO: Si el filtro fue muy agresivo (< 5 ejercicios), rellena con todo lo que haya
-        if (candidateExercises.length < 5 && !mainSnap.empty) {
-             console.log("⚠️ Filtro muy estricto. Usando Fallback (llenando con ejercicios generales).");
-             mainSnap.forEach(doc => {
-                 // Evitamos duplicados
-                 if (!exerciseMap[doc.id] && candidateExercises.length < 40) {
-                    candidateExercises.push(indexExercise(doc));
-                 }
-             });
-        }
-
-        const contextCSV = createOptimizedContext(candidateExercises.slice(0, 50));
-        console.log(`Contexto Final enviado a LLM: ${candidateExercises.length} ejercicios.`);
-
-        // 4. LLAMADA IA
-        const systemPrompt = `Eres un entrenador personal.
-        OBJETIVO: Generar una sesión de entrenamiento en JSON.
+        // --- 4. LLAMADA IA ---
+        const systemPrompt = `Eres un entrenador experto. Genera una sesión JSON.
         
-        REGLAS DE ORO:
-        1. **USA LOS IDs DEL CONTEXTO**. Tienes una lista de ejercicios disponibles. Úsalos.
-        2. Solo si NO hay un ejercicio adecuado para el músculo, usa "id": "custom" y ponle un nombre.
-        3. NUNCA dejes arrays vacíos.
-        4. El campo "name" es OBLIGATORIO.`;
+        REGLAS:
+        1. Tienes una lista de ${finalContextList.length} ejercicios posibles. ELIGE LOS MEJORES para el objetivo.
+        2. Si necesitas un ejercicio específico que NO está en la lista, INVENTALO (usa id: "custom").
+        3. NO devuelvas arrays vacíos.
+        4. IMPORTANTE: Estructura los bloques lógicamente (ej: primer ejercicio compuesto, luego aislamiento).`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -292,7 +265,7 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Foco: ${targetSession.sessionFocus}\nNivel: ${profileData.experienceLevel}\nContexto:\n${contextCSV}\n\nGenera JSON:` }
+                    { role: "user", content: `Foco: ${targetSession.sessionFocus}\nNivel: ${profileData.experienceLevel}\nEjercicios Disponibles:\n${contextCSV}\n\nGenera JSON:` }
                 ],
                 response_format: { type: "json_object" },
                 schema: SESSION_SCHEMA
@@ -300,33 +273,35 @@ export default async function handler(req, res) {
         });
 
         const llmResult = await completion.json();
-        let sessionJSON;
         
+        // LOG EXTRA PARA DEBUG SI FALLA
+        if (llmResult.choices && llmResult.choices[0]) {
+             // console.log("RAW RESPONSE:", llmResult.choices[0].message.content); // Descomentar si quieres ver la respuesta cruda
+        }
+
+        let sessionJSON;
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch (e) {
-            console.error("Error parseando JSON IA, usando respaldo.", e);
+            console.error("Error JSON IA:", e);
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // 5. VALIDACIÓN FINAL
+        // --- 5. VALIDACIÓN Y HIDRATACIÓN ---
         let isEmpty = false;
         if (!sessionJSON.mainBlocks || sessionJSON.mainBlocks.length === 0) isEmpty = true;
-        
+        else if (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0) isEmpty = true;
+
         if (isEmpty) {
             console.warn("⚠️ La IA devolvió sesión vacía. Usando respaldo.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // 6. HIDRATACIÓN (Mapping)
         const hydrateList = (list) => safeMap(list, (item) => {
-            // Buscamos coincidencia exacta de ID
             const dbData = exerciseMap[item.id];
-            
             return {
                 ...item,
                 id: dbData ? item.id : "custom",
-                // Prioridad: Nombre DB > Nombre LLM > Genérico
                 name: dbData?.nombre || item.name || "Ejercicio Personalizado",
                 description: dbData?.descripcion || item.instructions || item.notes || "Ejecución controlada.",
                 imageUrl: dbData?.url || null,
@@ -342,7 +317,7 @@ export default async function handler(req, res) {
 
         const finalSessionData = {
             sessionGoal: sessionJSON.sessionGoal || `Entrenamiento ${targetSession.sessionFocus}`,
-            estimatedDurationMin: sessionJSON.estimatedDurationMin,
+            estimatedDurationMin: sessionJSON.estimatedDurationMin || 45,
             warmup: { exercises: hydrateList(sessionJSON.warmup?.exercises) },
             mainBlocks: mainBlocksSafe,
             cooldown: { exercises: hydrateList(sessionJSON.cooldown?.exercises) },
