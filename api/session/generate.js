@@ -1,16 +1,20 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
-import { format, differenceInCalendarWeeks, parseISO, addDays, isValid } from 'date-fns';
+import { format, differenceInCalendarWeeks, parseISO, isValid } from 'date-fns';
 import { es } from 'date-fns/locale';
 import fetch from 'node-fetch';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
-// --- SCHEMA DE SALIDA (LLM) ---
+// ==========================================
+// 1. SCHEMA DE SALIDA (ACTUALIZADO)
+// ==========================================
+// CORRECCIÓN: Añadimos el campo "name" obligatorio para que el LLM
+// siempre nos diga qué ejercicio es, incluso si no está en nuestra DB.
 const SESSION_SCHEMA = {
     type: "OBJECT",
     properties: {
-        sessionGoal: { type: "STRING", description: "Objetivo técnico." },
-        estimatedDurationMin: { type: "INTEGER", description: "Duración total." },
+        sessionGoal: { type: "STRING", description: "Objetivo técnico de la sesión." },
+        estimatedDurationMin: { type: "INTEGER", description: "Duración en minutos." },
         warmup: {
             type: "OBJECT",
             properties: {
@@ -19,11 +23,12 @@ const SESSION_SCHEMA = {
                     items: {
                         type: "OBJECT",
                         properties: {
-                            id: { type: "STRING" },
-                            instructions: { type: "STRING" },
+                            id: { type: "STRING", description: "ID del contexto o 'custom'." },
+                            name: { type: "STRING", description: "Nombre del ejercicio." }, // <--- NUEVO
+                            instructions: { type: "STRING", description: "Cómo hacerlo." },
                             durationOrReps: { type: "STRING" }
                         },
-                        required: ["id", "instructions", "durationOrReps"]
+                        required: ["id", "name", "instructions", "durationOrReps"]
                     }
                 }
             },
@@ -43,12 +48,13 @@ const SESSION_SCHEMA = {
                             type: "OBJECT",
                             properties: {
                                 id: { type: "STRING" },
+                                name: { type: "STRING" }, // <--- NUEVO
                                 sets: { type: "INTEGER" },
                                 targetReps: { type: "STRING" },
                                 rpe: { type: "INTEGER" },
                                 notes: { type: "STRING" }
                             },
-                            required: ["id", "sets", "targetReps", "rpe"]
+                            required: ["id", "name", "sets", "targetReps", "rpe"]
                         }
                     }
                 },
@@ -64,9 +70,10 @@ const SESSION_SCHEMA = {
                         type: "OBJECT",
                         properties: {
                             id: { type: "STRING" },
+                            name: { type: "STRING" }, // <--- NUEVO
                             duration: { type: "STRING" }
                         },
-                        required: ["id", "duration"]
+                        required: ["id", "name", "duration"]
                     }
                 }
             },
@@ -76,7 +83,9 @@ const SESSION_SCHEMA = {
     required: ["sessionGoal", "warmup", "mainBlocks", "cooldown"]
 };
 
-// --- HELPERS ---
+// ==========================================
+// 2. HELPERS
+// ==========================================
 
 const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -84,7 +93,7 @@ const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 };
 
-// Helper seguro para arrays que evita el error "Cannot read properties of undefined (reading 'map')"
+// Helper para evitar crash con arrays undefined
 const safeMap = (collection, callback) => {
     if (!Array.isArray(collection)) return [];
     return collection.map(callback);
@@ -106,16 +115,16 @@ const getMuscleGroupFromFocus = (focusString) => {
     return [];
 };
 
-// ----------------------------------------------------
-// HANDLER PRINCIPAL
-// ----------------------------------------------------
+// ==========================================
+// 3. HANDLER PRINCIPAL
+// ==========================================
 export default async function handler(req, res) {
     setCORSHeaders(res);
 
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido.' });
 
-    // 1. AUTENTICACIÓN
+    // --- AUTENTICACIÓN ---
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ error: 'Falta token Bearer.' });
     
@@ -131,7 +140,7 @@ export default async function handler(req, res) {
     console.log(`Generando sesión para: ${userId}`);
 
     try {
-        // 2. OBTENER DATOS USUARIO
+        // --- OBTENER DATOS USUARIO ---
         const userDocRef = db.collection('users').doc(userId);
         const userDoc = await userDocRef.get();
 
@@ -140,44 +149,35 @@ export default async function handler(req, res) {
         const { profileData, currentMesocycle } = userData;
 
         if (!currentMesocycle || currentMesocycle.status !== 'active') {
-            return res.status(400).json({ error: 'No hay un mesociclo activo. Genera uno primero.' });
+            return res.status(400).json({ error: 'No hay un mesociclo activo.' });
         }
 
-        // 3. LOGICA DE FECHAS (Robusta)
+        // --- LÓGICA DE FECHAS ---
         const todayDate = req.body.date ? parseISO(req.body.date) : new Date();
         const startDate = parseISO(currentMesocycle.startDate);
         
         if (!isValid(todayDate) || !isValid(startDate)) {
-             return res.status(400).json({ error: 'Fechas inválidas en el mesociclo.' });
+             return res.status(400).json({ error: 'Fechas inválidas.' });
         }
 
-        // Calcular semana actual (si es negativo, asumir semana 1)
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
         const currentWeekNum = Math.max(1, weeksPassed + 1);
         
-        // Buscar microciclo y sesión
         const targetMicrocycle = currentMesocycle.mesocyclePlan.microcycles.find(m => m.week === currentWeekNum);
-        
-        if (!targetMicrocycle) {
-            return res.status(400).json({ error: `No se encontró plan para la semana ${currentWeekNum}.` });
-        }
+        if (!targetMicrocycle) return res.status(400).json({ error: `Semana ${currentWeekNum} no encontrada.` });
 
         const dayName = format(todayDate, 'EEEE', { locale: es });
-        
         const targetSession = targetMicrocycle.sessions.find(s => 
             s.dayOfWeek.toLowerCase() === dayName.toLowerCase()
         );
 
         if (!targetSession) {
-            return res.status(200).json({ 
-                isRestDay: true, 
-                message: `Hoy (${dayName}) es día de descanso según tu plan.` 
-            });
+            return res.status(200).json({ isRestDay: true, message: `Día de descanso: ${dayName}` });
         }
 
-        // 4. PREPARAR CONTEXTO (Firestore Optimization)
+        // --- PREPARAR CONTEXTO ---
         let exerciseCollectionName = 'exercises_home_limited';
-        const equipment = profileData.availableEquipment || []; // Fallback array vacío
+        const equipment = profileData.availableEquipment || [];
         
         if (equipment.includes('Gimnasio completo')) {
             exerciseCollectionName = 'exercises_gym_full';
@@ -187,6 +187,7 @@ export default async function handler(req, res) {
 
         const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus);
 
+        // Leemos utilidades y la colección principal
         const [utilitySnap, mainSnap] = await Promise.all([
             db.collection('exercises_utility').get(),
             db.collection(exerciseCollectionName).get()
@@ -195,7 +196,6 @@ export default async function handler(req, res) {
         let candidateExercises = [];
         const exerciseMap = {};
 
-        // Helper para indexar
         const indexExercise = (doc) => {
             const d = doc.data();
             d.id = doc.id;
@@ -203,15 +203,12 @@ export default async function handler(req, res) {
             return d;
         };
 
-        utilitySnap.forEach(doc => {
-            const d = indexExercise(doc);
-            candidateExercises.push(d);
-        });
-
+        // Indexamos todo para búsqueda rápida
+        utilitySnap.forEach(doc => candidateExercises.push(indexExercise(doc)));
+        
         mainSnap.forEach(doc => {
             const d = indexExercise(doc);
-            
-            // Filtros
+            // Filtrado blando
             const matchesFocus = muscleGroups.length === 0 
                 || muscleGroups.includes(d.parteCuerpo) 
                 || (d.musculoObjetivo && muscleGroups.some(g => d.musculoObjetivo.includes(g)));
@@ -219,38 +216,35 @@ export default async function handler(req, res) {
             let levelOk = true;
             if (profileData.experienceLevel === 'Principiante' && d.nivel === 'Avanzado') levelOk = false;
 
-            if (matchesFocus && levelOk) {
-                candidateExercises.push(d);
-            }
+            if (matchesFocus && levelOk) candidateExercises.push(d);
         });
         
-        // Fallback si hay pocos ejercicios
-        if (candidateExercises.length < 10) {
+        // Fallback de seguridad si el filtro dejó vacío el array
+        if (candidateExercises.length < 5) {
              mainSnap.forEach(doc => {
-                const d = indexExercise(doc);
-                if (!candidateExercises.find(e => e.id === d.id)) {
-                    candidateExercises.push(d);
-                }
+                 if (candidateExercises.length < 30) candidateExercises.push(indexExercise(doc));
              });
         }
         
         const finalContext = candidateExercises.slice(0, 45); 
         const contextCSV = createOptimizedContext(finalContext);
 
-        // 5. LLAMADA AL LLM
-        const systemPrompt = `Eres un entrenador experto. Genera una sesión JSON.
+        // --- LLAMADA AL LLM (PROMPT CORREGIDO) ---
+        const systemPrompt = `Eres un entrenador experto. Genera una sesión JSON completa.
         
         DATOS:
         - Nivel: ${profileData.experienceLevel}.
         - Foco: ${targetSession.sessionFocus}.
-        - RPE: ${targetMicrocycle.intensityRpe}.
-        - Notas Semanales: ${targetMicrocycle.notes}.
+        - RPE Semanal: ${targetMicrocycle.intensityRpe}.
+        - Notas: ${targetMicrocycle.notes}.
         
-        REGLAS CRÍTICAS:
-        1. Usa SIEMPRE el formato JSON solicitado.
-        2. 'exercises' debe ser SIEMPRE un array, aunque esté vacío.
-        3. Intenta usar IDs del contexto, pero si necesitas un ejercicio básico que no está, usa el ID "custom".
-        4. NO devuelvas texto fuera del JSON.`;
+        REGLAS CRÍTICAS (Anti-Empty Response):
+        1. Prioridad 1: Usa ejercicios del contexto (CSV) usando su ID real.
+        2. Prioridad 2: Si NO encuentras un ejercicio adecuado en el contexto, INVENTALO.
+           - Usa "id": "custom"
+           - Usa "name": "Nombre descriptivo del ejercicio"
+        3. NO devuelvas arrays vacíos en mainBlocks. Genera al menos 3 ejercicios por bloque.
+        4. Siempre rellena el campo "name".`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -259,10 +253,10 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "openai/gpt-4o-mini", // Modelo rápido y barato
+                model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Contexto (ID|Nombre|Tipo):\n${contextCSV}\n\nGenera la sesión para hoy:` }
+                    { role: "user", content: `Contexto:\n${contextCSV}\n\nGenera JSON:` }
                 ],
                 response_format: { type: "json_object" },
                 schema: SESSION_SCHEMA
@@ -272,44 +266,48 @@ export default async function handler(req, res) {
         const llmResult = await completion.json();
         
         if (!llmResult.choices || !llmResult.choices[0]) {
-             throw new Error("Respuesta vacía del proveedor de IA.");
+             throw new Error("Respuesta vacía de OpenRouter.");
         }
 
         let sessionJSON;
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch (e) {
-            console.error("JSON corrupto del LLM:", llmResult.choices[0].message.content);
-            throw new Error("Error al procesar la respuesta de la IA.");
+            console.error("JSON inválido:", llmResult.choices[0].message.content);
+            throw new Error("Error parseando respuesta de IA.");
         }
 
-        // 6. HIDRATACIÓN DEFENSIVA (AQUÍ ESTABA EL ERROR)
-        // Usamos una función interna segura que nunca falla si la lista es undefined
+        // --- HIDRATACIÓN DATOS (DB + LLM FALLBACK) ---
         const hydrateList = (list) => safeMap(list, (item) => {
-            const fullData = exerciseMap[item.id];
+            // 1. Intentamos buscar en DB
+            const dbData = exerciseMap[item.id];
             
-            // Si encontramos el ejercicio en la DB, usamos sus datos.
-            // Si NO (ej. ID inventado por LLM), usamos los datos básicos que envió el LLM o genéricos.
+            // 2. Construimos el objeto final mezclando datos
+            // Si dbData existe, tiene prioridad. Si no, usamos lo que inventó el LLM.
             return {
                 ...item,
-                id: item.id || "unknown",
-                name: fullData?.nombre || "Ejercicio Sugerido", // Fallback visual
-                description: fullData?.descripcion || item.instructions || "Sigue las indicaciones.",
-                imageUrl: fullData?.url || null,
+                id: dbData ? item.id : "custom", // ID real o 'custom'
+                
+                name: dbData?.nombre || item.name || "Ejercicio Generado",
+                
+                description: dbData?.descripcion || item.instructions || item.notes || "Realizar con técnica controlada.",
+                
+                imageUrl: dbData?.url || null, // Solo ejercicios de DB tienen imagen por ahora
                 videoUrl: "",
-                muscleTarget: fullData?.musculoObjetivo || "General",
-                equipment: fullData?.equipo || "Sin equipo específico"
+                
+                muscleTarget: dbData?.musculoObjetivo || targetSession.sessionFocus,
+                equipment: dbData?.equipo || "General"
             };
         });
 
-        // Procesamos bloques principales con seguridad
+        // Procesar Bloques
         const mainBlocksSafe = safeMap(sessionJSON.mainBlocks, (block) => ({
             ...block,
             exercises: hydrateList(block.exercises)
         }));
 
         const finalSessionData = {
-            sessionGoal: sessionJSON.sessionGoal || `Entrenamiento de ${targetSession.sessionFocus}`,
+            sessionGoal: sessionJSON.sessionGoal || `Entrenamiento: ${targetSession.sessionFocus}`,
             estimatedDurationMin: sessionJSON.estimatedDurationMin || 45,
             warmup: { 
                 exercises: hydrateList(sessionJSON.warmup?.exercises) 
@@ -327,7 +325,7 @@ export default async function handler(req, res) {
             completed: false
         };
 
-        // 7. GUARDAR Y RESPONDER
+        // --- GUARDAR EN FIRESTORE ---
         await userDocRef.update({
             currentSession: finalSessionData
         });
@@ -335,10 +333,10 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, session: finalSessionData });
 
     } catch (error) {
-        console.error("FATAL ERROR en /session/generate:", error);
+        console.error("ERROR CRÍTICO en generador:", error);
         return res.status(500).json({ 
             error: error.message,
-            details: "Hubo un error generando la sesión. Por favor intenta de nuevo."
+            details: "Error interno generando la sesión."
         });
     }
 }
