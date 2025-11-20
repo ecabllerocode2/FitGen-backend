@@ -160,5 +160,121 @@
     "startDate": "2025-11-17T00:00:00.000Z",
     "status": "active"
   },
-  "planStatus": "active"
+  "planStatus": "active",
+  "currentSession": {
+    "sessionGoal": "Foco en Pecho - Aislamiento y Accesorios",
+    "estimatedDurationMin": 60,
+    "warmup": {
+      "exercises": [
+        {
+          "id": "custom",
+          "name": "Círculos de Cadera",
+          "instructions": "Realiza círculos con las caderas en cuadrupedia.",
+          "durationOrReps": "5 minutos",
+          "description": "Realiza círculos con las caderas en cuadrupedia.",
+          "imageUrl": null,
+          "muscleTarget": "Pecho - Aislamiento y Accesorios",
+          "equipment": "General"
+        }
+      ]
+    },
+    "mainBlocks": [
+      {
+        "blockType": "station",
+        "restBetweenSetsSec": 60,
+        "restBetweenExercisesSec": 90,
+        "exercises": [
+          {
+            "id": "custom",
+            "name": "Push-Up Asistido",
+            "sets": 3,
+            "targetReps": "8-12",
+            "rpe": 8,
+            "notes": "Usar banda por la espalda para asistencia.",
+            "description": "Usar banda por la espalda para asistencia.",
+            "imageUrl": null,
+            "muscleTarget": "Pecho - Aislamiento y Accesorios",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Press de Banca con Mancuernas",
+            "sets": 3,
+            "targetReps": "8-10",
+            "rpe": 8,
+            "notes": "Isométrico unilateral en el fondo.",
+            "description": "Isométrico unilateral en el fondo.",
+            "imageUrl": null,
+            "muscleTarget": "Pecho - Aislamiento y Accesorios",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Aperturas de Pecho de Pie",
+            "sets": 3,
+            "targetReps": "10-15",
+            "rpe": 8,
+            "notes": "Enfocar en la línea media.",
+            "description": "Enfocar en la línea media.",
+            "imageUrl": null,
+            "muscleTarget": "Pecho - Aislamiento y Accesorios",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Rodar el Tríceps",
+            "sets": 3,
+            "targetReps": "8-10",
+            "rpe": 8,
+            "notes": "Ejercicio de rol para tríceps.",
+            "description": "Ejercicio de rol para tríceps.",
+            "imageUrl": null,
+            "muscleTarget": "Pecho - Aislamiento y Accesorios",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Press Militar con Agarre Cerrado",
+            "sets": 3,
+            "targetReps": "8-10",
+            "rpe": 8,
+            "notes": "Enfocar en deltoides anterior y tríceps.",
+            "description": "Enfocar en deltoides anterior y tríceps.",
+            "imageUrl": null,
+            "muscleTarget": "Pecho - Aislamiento y Accesorios",
+            "equipment": "General"
+          }
+        ]
+      }
+    ],
+    "cooldown": {
+      "exercises": [
+        {
+          "id": "custom",
+          "name": "Estiramiento Pectoral",
+          "duration": "5 minutos",
+          "description": "Ejecución controlada.",
+          "imageUrl": null,
+          "muscleTarget": "Pecho - Aislamiento y Accesorios",
+          "equipment": "General"
+        },
+        {
+          "id": "custom",
+          "name": "Estiramiento Mariposa",
+          "duration": "5 minutos",
+          "description": "Ejecución controlada.",
+          "imageUrl": null,
+          "muscleTarget": "Pecho - Aislamiento y Accesorios",
+          "equipment": "General"
+        }
+      ]
+    },
+    "meta": {
+      "date": "2025-11-20T02:21:32.103Z",
+      "week": 1,
+      "focus": "Pecho - Aislamiento y Accesorios",
+      "generatedAt": "2025-11-20T02:21:46.527Z"
+    },
+    "completed": false
+  }
 }

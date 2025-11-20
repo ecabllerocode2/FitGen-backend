@@ -1,5 +1,5 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
-import { format, differenceInCalendarWeeks, parseISO, isValid } from 'date-fns';
+import { format, differenceInCalendarWeeks, parseISO, isValid, subHours } from 'date-fns';
 import { es } from 'date-fns/locale';
 import fetch from 'node-fetch';
 
@@ -30,31 +30,33 @@ const shuffleArray = (array) => {
     return array;
 };
 
+// Contexto optimizado para que la IA entienda mejor
 const createOptimizedContext = (exercises) => {
     if (!exercises || exercises.length === 0) return "LISTA VACÍA - INVENTA EJERCICIOS";
     return exercises.map(ex => 
-        `[${ex.id}] ${ex.nombre || 'Ejercicio'} (${ex.musculoObjetivo || 'General'})`
+        `[ID: ${ex.id}] ${ex.nombre} (${ex.musculoObjetivo || ex.parteCuerpo}) - Nivel: ${ex.nivel || 'General'}`
     ).join('\n');
 };
 
+// Lógica de palabras clave
 const getMuscleGroupFromFocus = (focusString) => {
     if (!focusString) return [];
     const f = normalizeText(focusString);
-    if (f.includes('pierna') || f.includes('cuadriceps') || f.includes('femoral') || f.includes('gluteo')) return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios'];
-    if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro') || f.includes('triceps')) return ['pecho', 'hombros', 'triceps', 'deltoides'];
-    if (f.includes('traccion') || f.includes('espalda') || f.includes('biceps')) return ['espalda', 'biceps', 'dorsal', 'trapecio'];
+    if (f.includes('pierna') || f.includes('cuadriceps') || f.includes('femoral') || f.includes('gluteo')) return ['piernas', 'gluteos', 'cadera', 'cuadriceps', 'femoral', 'isquios', 'gemelos'];
+    if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro') || f.includes('triceps')) return ['pecho', 'hombros', 'triceps', 'deltoides', 'pectoral'];
+    if (f.includes('traccion') || f.includes('espalda') || f.includes('biceps')) return ['espalda', 'biceps', 'dorsal', 'trapecio', 'lumbares'];
     if (f.includes('full') || f.includes('hibrido') || f.includes('cuerpo')) return ['piernas', 'pecho', 'espalda', 'hombros', 'full body', 'triceps', 'biceps'];
     return []; 
 };
 
-// --- RUTINA DE EMERGENCIA ---
+// Rutina de Respaldo (Por si acaso)
 const getEmergencySession = (focus) => ({
-    sessionGoal: `Rutina de Respaldo: ${focus}`,
-    estimatedDurationMin: 45,
+    sessionGoal: `Sesión Básica: ${focus}`,
+    estimatedDurationMin: 50,
     warmup: {
         exercises: [
-            { id: "custom", name: "Jumping Jacks", instructions: "2 mins activacion", durationOrReps: "2 mins" },
-            { id: "custom", name: "Movilidad Articular", instructions: "Rotaciones suaves", durationOrReps: "2 mins" }
+            { id: "custom", name: "Jumping Jacks", instructions: "Activar ritmo cardiaco", durationOrReps: "60 seg" },
+            { id: "custom", name: "Movilidad Articular", instructions: "Rotaciones suaves", durationOrReps: "60 seg" }
         ]
     },
     mainBlocks: [
@@ -63,14 +65,14 @@ const getEmergencySession = (focus) => ({
             restBetweenSetsSec: 60,
             restBetweenExercisesSec: 90,
             exercises: [
-                { id: "custom", name: `Press o Movimiento Principal (${focus})`, sets: 4, targetReps: "10-12", rpe: 8, notes: "Controla la técnica." },
-                { id: "custom", name: `Accesorio 1 (${focus})`, sets: 3, targetReps: "12-15", rpe: 7, notes: "Enfoque muscular." },
-                { id: "custom", name: `Accesorio 2 (${focus})`, sets: 3, targetReps: "15", rpe: 7, notes: "Bombeo." }
+                { id: "custom", name: `Ejercicio Principal (${focus})`, sets: 4, targetReps: "10-12", rpe: 8, notes: "Controla la bajada." },
+                { id: "custom", name: "Ejercicio Auxiliar 1", sets: 3, targetReps: "12-15", rpe: 7, notes: "Conexión mente-músculo." },
+                { id: "custom", name: "Ejercicio Auxiliar 2", sets: 3, targetReps: "15", rpe: 7, notes: "Bombeo constante." }
             ]
         }
     ],
     cooldown: {
-        exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }]
+        exercises: [{ id: "custom", name: "Estiramiento Estático", duration: "30 seg por lado" }]
     }
 });
 
@@ -105,18 +107,34 @@ export default async function handler(req, res) {
 
         if (!currentMesocycle || currentMesocycle.status !== 'active') return res.status(400).json({ error: 'No hay mesociclo activo.' });
 
-        const todayDate = req.body.date ? parseISO(req.body.date) : new Date();
+        // --- CORRECCIÓN DE FECHA Y ZONA HORARIA ---
+        // Si el frontend manda la fecha (ej: "2025-11-20"), usamos esa.
+        // Si no, usamos la fecha actual PERO restamos 6 horas para ajustar aprox a LATAM/México si estamos en servidor UTC.
+        let todayDate;
+        if (req.body.date) {
+            // Parseamos la fecha del body asumiendo que viene correcta del cliente
+            todayDate = parseISO(req.body.date); 
+        } else {
+            // Fallback: Usar hora servidor (UTC) menos 6 horas (Aprox México Central)
+            todayDate = subHours(new Date(), 6);
+        }
+        
         const startDate = parseISO(currentMesocycle.startDate);
+        
+        // Calculamos semanas
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
         const currentWeekNum = Math.max(1, weeksPassed + 1);
         
         const targetMicrocycle = currentMesocycle.mesocyclePlan.microcycles.find(m => m.week === currentWeekNum);
         if (!targetMicrocycle) return res.status(400).json({ error: `Semana ${currentWeekNum} no encontrada.` });
 
+        // Obtenemos el día en español
         const dayName = format(todayDate, 'EEEE', { locale: es });
+        console.log(`Fecha Procesada: ${todayDate.toISOString()} | Día Detectado: ${dayName}`);
+
         const targetSession = targetMicrocycle.sessions.find(s => s.dayOfWeek.toLowerCase() === dayName.toLowerCase());
 
-        if (!targetSession) return res.status(200).json({ isRestDay: true, message: `Descanso: ${dayName}` });
+        if (!targetSession) return res.status(200).json({ isRestDay: true, message: `Hoy es ${dayName}, día de descanso.` });
 
         console.log(`Foco Sesión: ${targetSession.sessionFocus}`);
 
@@ -133,10 +151,13 @@ export default async function handler(req, res) {
         ]);
 
         let candidateExercises = [];
-        const exerciseMap = {};
+        const exerciseMap = {}; // ID -> Data
+        const nameMap = {}; // NombreNormalizado -> Data (Para recuperación inteligente)
+
         const indexExercise = (doc) => {
             const d = doc.data(); d.id = doc.id;
             exerciseMap[doc.id] = d;
+            if(d.nombre) nameMap[normalizeText(d.nombre)] = d; // Indexamos por nombre también
             return d;
         };
 
@@ -159,46 +180,32 @@ export default async function handler(req, res) {
         });
 
         let finalContextList = shuffleArray([...candidateExercises]);
-        finalContextList = finalContextList.slice(0, 40); 
+        finalContextList = finalContextList.slice(0, 45); 
         const contextCSV = createOptimizedContext(finalContextList);
         
-        console.log(`Contexto enviado (${finalContextList.length} items)`);
-
-        // --- 4. LLAMADA IA (PROMPT CON EJEMPLO JSON) ---
-        // CAMBIO: Le damos el JSON masticado para que no invente estructuras raras.
+        // --- 4. LLAMADA IA (PROMPT CORREGIDO PARA TIEMPOS E IDs) ---
         const systemPrompt = `Eres un entrenador experto.
-        TU OBJETIVO: Generar una sesión JSON estrictamente con la estructura de abajo.
+        OBJETIVO: Generar sesión JSON para "${targetSession.sessionFocus}".
 
-        ESTRUCTURA JSON OBLIGATORIA (Copia esto):
+        REGLAS IMPORTANTES:
+        1. **COPIA EL ID EXACTO**: En el contexto verás "[ID: xyz] Nombre". Debes usar "id": "xyz" en tu JSON. NO inventes IDs.
+        2. **TIEMPOS REALISTAS**:
+           - Calentamiento: durationOrReps debe ser "30s", "60s" o "15 reps". NUNCA "5 minutos".
+           - Cooldown: duration debe ser "30s" o "45s".
+        3. **ESTRUCTURA**: Rellena el siguiente JSON.
+
         {
-            "sessionGoal": "Objetivo aquí",
+            "sessionGoal": "...",
             "estimatedDurationMin": 60,
-            "warmup": { 
-                "exercises": [
-                    { "id": "...", "name": "...", "instructions": "...", "durationOrReps": "..." }
-                ] 
-            },
-            "mainBlocks": [
-                {
-                    "blockType": "station", 
-                    "restBetweenSetsSec": 60,
-                    "restBetweenExercisesSec": 90,
-                    "exercises": [
-                        { "id": "...", "name": "...", "sets": 3, "targetReps": "...", "rpe": 8, "notes": "..." }
-                    ]
-                }
-            ],
-            "cooldown": { 
-                "exercises": [
-                    { "id": "...", "name": "...", "duration": "..." }
-                ] 
-            }
-        }
-
-        REGLAS:
-        1. Usa los IDs de la lista provista ("Contexto").
-        2. Si no encuentras ejercicio, usa "id": "custom" y pon el nombre.
-        3. NO inventes claves nuevas como "session" o "goal". Usa "sessionGoal" y "mainBlocks".`;
+            "warmup": { "exercises": [{ "id": "...", "name": "...", "instructions": "...", "durationOrReps": "30s" }] },
+            "mainBlocks": [{
+                "blockType": "station", 
+                "restBetweenSetsSec": 60, 
+                "restBetweenExercisesSec": 90,
+                "exercises": [{ "id": "...", "name": "...", "sets": 3, "targetReps": "10-12", "rpe": 8, "notes": "..." }]
+            }],
+            "cooldown": { "exercises": [{ "id": "...", "name": "...", "duration": "30s" }] }
+        }`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -210,18 +217,13 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Foco: ${targetSession.sessionFocus}\nContexto:\n${contextCSV}\n\nGenera el JSON:` }
+                    { role: "user", content: `Contexto Disponible:\n${contextCSV}\n\nGenera JSON:` }
                 ],
                 response_format: { type: "json_object" }
             })
         });
 
         const llmResult = await completion.json();
-        
-        if (llmResult.choices && llmResult.choices[0]) {
-             console.log(">>> RESPUESTA IA (Snippet):", llmResult.choices[0].message.content.substring(0, 150)); 
-        }
-
         let sessionJSON;
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
@@ -230,30 +232,34 @@ export default async function handler(req, res) {
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // --- 5. VALIDACIÓN ---
+        // Validación básica
         let isEmpty = false;
-        // Buscamos las claves correctas: warmup, mainBlocks
-        if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks)) {
-            console.warn("Falta mainBlocks en JSON IA");
-            isEmpty = true;
-        } else if (sessionJSON.mainBlocks.length === 0 || !sessionJSON.mainBlocks[0].exercises) {
-             console.warn("mainBlocks vacío o sin ejercicios");
-             isEmpty = true;
-        }
+        if (!sessionJSON.mainBlocks || sessionJSON.mainBlocks.length === 0) isEmpty = true;
+        if (isEmpty) sessionJSON = getEmergencySession(targetSession.sessionFocus);
 
-        if (isEmpty) {
-            console.warn("⚠️ ALERT: Estructura inválida. Usando Respaldo.");
-            sessionJSON = getEmergencySession(targetSession.sessionFocus);
-        }
-
+        // --- 5. HIDRATACIÓN INTELIGENTE (RECONEXIÓN) ---
         const hydrateList = (list) => safeMap(list, (item) => {
-            const dbData = exerciseMap[item.id];
+            let dbData = exerciseMap[item.id];
+
+            // INTENTO DE RECUPERACIÓN:
+            // Si el ID es "custom" o no existe, buscamos por NOMBRE en nuestra DB
+            if (!dbData && item.name) {
+                const normalizedName = normalizeText(item.name);
+                // Buscamos si alguna clave del mapa de nombres coincide parcialmente
+                const matchName = Object.keys(nameMap).find(k => k.includes(normalizedName) || normalizedName.includes(k));
+                if (matchName) {
+                    dbData = nameMap[matchName];
+                    // console.log(`♻️ RECUPERADO: "${item.name}" mapeado a ID original "${dbData.id}"`);
+                }
+            }
+
             return {
                 ...item,
-                id: dbData ? item.id : "custom",
+                // Si logramos recuperar la data (por ID o por Nombre), usamos el ID real. Si no, custom.
+                id: dbData ? dbData.id : "custom",
                 name: dbData?.nombre || item.name || "Ejercicio Personalizado",
                 description: dbData?.descripcion || item.instructions || item.notes || "Ejecución controlada.",
-                imageUrl: dbData?.url || null,
+                imageUrl: dbData?.url || null, // ¡Ahora sí aparecerán las imágenes recuperadas!
                 muscleTarget: dbData?.musculoObjetivo || targetSession.sessionFocus,
                 equipment: dbData?.equipo || "General"
             };
@@ -266,7 +272,7 @@ export default async function handler(req, res) {
 
         const finalSessionData = {
             sessionGoal: sessionJSON.sessionGoal || `Entrenamiento ${targetSession.sessionFocus}`,
-            estimatedDurationMin: sessionJSON.estimatedDurationMin || 45,
+            estimatedDurationMin: sessionJSON.estimatedDurationMin || 50,
             warmup: { exercises: hydrateList(sessionJSON.warmup?.exercises) },
             mainBlocks: mainBlocksSafe,
             cooldown: { exercises: hydrateList(sessionJSON.cooldown?.exercises) },
@@ -280,7 +286,7 @@ export default async function handler(req, res) {
         };
 
         await userDocRef.update({ currentSession: finalSessionData });
-        console.log(">>> SESIÓN FINAL GUARDADA (Origen: " + (isEmpty ? "Respaldo" : "IA") + ")");
+        console.log(">>> SESIÓN FINAL GUARDADA");
         return res.status(200).json({ success: true, session: finalSessionData });
 
     } catch (error) {
