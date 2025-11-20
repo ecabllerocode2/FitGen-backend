@@ -1,23 +1,16 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
-import { format, differenceInCalendarWeeks, parseISO, isAfter, isBefore, addDays } from 'date-fns';
+import { format, differenceInCalendarWeeks, parseISO, addDays, isValid } from 'date-fns';
 import { es } from 'date-fns/locale';
 import fetch from 'node-fetch';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // --- SCHEMA DE SALIDA (LLM) ---
-// Definimos la estructura estricta por bloques como solicitaste
 const SESSION_SCHEMA = {
     type: "OBJECT",
     properties: {
-        sessionGoal: {
-            type: "STRING",
-            description: "Objetivo técnico de la sesión (ej: 'Enfoque en la fase excéntrica del cuádriceps')."
-        },
-        estimatedDurationMin: {
-            type: "INTEGER",
-            description: "Duración estimada total en minutos."
-        },
+        sessionGoal: { type: "STRING", description: "Objetivo técnico." },
+        estimatedDurationMin: { type: "INTEGER", description: "Duración total." },
         warmup: {
             type: "OBJECT",
             properties: {
@@ -26,9 +19,9 @@ const SESSION_SCHEMA = {
                     items: {
                         type: "OBJECT",
                         properties: {
-                            id: { type: "STRING", description: "ID del ejercicio (de exercises_utility)." },
-                            instructions: { type: "STRING", description: "Detalle de ejecución (ej: '2 min suaves')." },
-                            durationOrReps: { type: "STRING", description: "ej: '15 reps' o '45 seg'." }
+                            id: { type: "STRING" },
+                            instructions: { type: "STRING" },
+                            durationOrReps: { type: "STRING" }
                         },
                         required: ["id", "instructions", "durationOrReps"]
                     }
@@ -38,33 +31,28 @@ const SESSION_SCHEMA = {
         },
         mainBlocks: {
             type: "ARRAY",
-            description: "Bloques de entrenamiento principal.",
             items: {
                 type: "OBJECT",
                 properties: {
-                    blockType: { 
-                        type: "STRING", 
-                        enum: ["station", "superset", "circuit"],
-                        description: "station (series planas), superset (biserie), circuit (circuito)." 
-                    },
-                    restBetweenSetsSec: { type: "INTEGER", description: "Descanso entre rondas/series." },
-                    restBetweenExercisesSec: { type: "INTEGER", description: "Descanso al cambiar de ejercicio (0 en superseries)." },
+                    blockType: { type: "STRING", enum: ["station", "superset", "circuit"] },
+                    restBetweenSetsSec: { type: "INTEGER" },
+                    restBetweenExercisesSec: { type: "INTEGER" },
                     exercises: {
                         type: "ARRAY",
                         items: {
                             type: "OBJECT",
                             properties: {
-                                id: { type: "STRING", description: "ID del ejercicio." },
-                                sets: { type: "INTEGER", description: "Número de series (ajustado al nivel)." },
-                                targetReps: { type: "STRING", description: "Rango o tiempo (ej: '10-12' o '40s')." },
-                                rpe: { type: "INTEGER", description: "RPE sugerido (1-10)." },
-                                notes: { type: "STRING", description: "Instrucción técnica específica (ej: 'Aguanta 1s arriba')." }
+                                id: { type: "STRING" },
+                                sets: { type: "INTEGER" },
+                                targetReps: { type: "STRING" },
+                                rpe: { type: "INTEGER" },
+                                notes: { type: "STRING" }
                             },
                             required: ["id", "sets", "targetReps", "rpe"]
                         }
                     }
                 },
-                required: ["blockType", "exercises", "restBetweenSetsSec"]
+                required: ["blockType", "exercises"]
             }
         },
         cooldown: {
@@ -76,7 +64,7 @@ const SESSION_SCHEMA = {
                         type: "OBJECT",
                         properties: {
                             id: { type: "STRING" },
-                            duration: { type: "STRING", description: "ej: '30s por lado'." }
+                            duration: { type: "STRING" }
                         },
                         required: ["id", "duration"]
                     }
@@ -96,22 +84,26 @@ const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 };
 
-// Convierte lista de objetos a CSV simplificado para el prompt
+// Helper seguro para arrays que evita el error "Cannot read properties of undefined (reading 'map')"
+const safeMap = (collection, callback) => {
+    if (!Array.isArray(collection)) return [];
+    return collection.map(callback);
+};
+
 const createOptimizedContext = (exercises) => {
-    // ID | NOMBRE | TIPO | MUSCULO_OBJETIVO | NIVEL
     return exercises.map(ex => 
         `${ex.id}|${ex.nombre}|${ex.tipo}|${ex.musculoObjetivo || ex.parteCuerpo}|${ex.nivel || 'General'}`
     ).join('\n');
 };
 
-// Mapeo simple para filtrar ejercicios según el foco de la sesión
 const getMuscleGroupFromFocus = (focusString) => {
+    if (!focusString) return [];
     const f = focusString.toLowerCase();
     if (f.includes('pierna') || f.includes('cuádriceps') || f.includes('femoral')) return ['Piernas', 'Glúteos', 'Cadera'];
     if (f.includes('empuje') || f.includes('pecho') || f.includes('hombro')) return ['Pecho', 'Hombros', 'Tríceps'];
     if (f.includes('tracción') || f.includes('espalda')) return ['Espalda', 'Bíceps'];
-    if (f.includes('full body') || f.includes('híbrido')) return ['Piernas', 'Pecho', 'Espalda', 'Hombros', 'Full Body'];
-    return []; // Si no matchea, devolvemos vacío para lógica de fallback
+    if (f.includes('full body') || f.includes('híbrido') || f.includes('cuerpo completo')) return ['Piernas', 'Pecho', 'Espalda', 'Hombros', 'Full Body'];
+    return [];
 };
 
 // ----------------------------------------------------
@@ -139,7 +131,7 @@ export default async function handler(req, res) {
     console.log(`Generando sesión para: ${userId}`);
 
     try {
-        // 2. OBTENER DATOS
+        // 2. OBTENER DATOS USUARIO
         const userDocRef = db.collection('users').doc(userId);
         const userDoc = await userDocRef.get();
 
@@ -151,124 +143,114 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'No hay un mesociclo activo. Genera uno primero.' });
         }
 
-        // 3. DETERMINAR QUÉ SESIÓN TOCA HOY
-        // Usamos la fecha enviada por el FE o la actual
+        // 3. LOGICA DE FECHAS (Robusta)
         const todayDate = req.body.date ? parseISO(req.body.date) : new Date();
         const startDate = parseISO(currentMesocycle.startDate);
         
-        // Calcular semana actual (0-based index, sumamos 1)
+        if (!isValid(todayDate) || !isValid(startDate)) {
+             return res.status(400).json({ error: 'Fechas inválidas en el mesociclo.' });
+        }
+
+        // Calcular semana actual (si es negativo, asumir semana 1)
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
-        const currentWeekNum = weeksPassed + 1;
+        const currentWeekNum = Math.max(1, weeksPassed + 1);
         
-        // Buscar el microciclo correspondiente
+        // Buscar microciclo y sesión
         const targetMicrocycle = currentMesocycle.mesocyclePlan.microcycles.find(m => m.week === currentWeekNum);
         
         if (!targetMicrocycle) {
-            return res.status(400).json({ error: 'La fecha está fuera del rango del mesociclo actual.' });
+            return res.status(400).json({ error: `No se encontró plan para la semana ${currentWeekNum}.` });
         }
 
-        const dayName = format(todayDate, 'EEEE', { locale: es }); // "lunes", "martes"...
+        const dayName = format(todayDate, 'EEEE', { locale: es });
         
-        // Buscar la sesión exacta por nombre de día
         const targetSession = targetMicrocycle.sessions.find(s => 
             s.dayOfWeek.toLowerCase() === dayName.toLowerCase()
         );
 
         if (!targetSession) {
-            // Es día de descanso
             return res.status(200).json({ 
                 isRestDay: true, 
                 message: `Hoy (${dayName}) es día de descanso según tu plan.` 
             });
         }
 
-        // 4. PREPARAR CONTEXTO DE EJERCICIOS
-        // Seleccionar colección basada en availableEquipment
-        let exerciseCollectionName = 'exercises_home_limited'; // Fallback
-        if (profileData.availableEquipment.includes('Gimnasio completo')) {
-            exerciseCollectionName = 'exercises_gym_full'; // Asumiendo que existe o se usará home
-        } else if (profileData.availableEquipment.some(e => e.toLowerCase().includes('bodyweight') || e.toLowerCase().includes('sin equipo'))) {
+        // 4. PREPARAR CONTEXTO (Firestore Optimization)
+        let exerciseCollectionName = 'exercises_home_limited';
+        const equipment = profileData.availableEquipment || []; // Fallback array vacío
+        
+        if (equipment.includes('Gimnasio completo')) {
+            exerciseCollectionName = 'exercises_gym_full';
+        } else if (equipment.some(e => typeof e === 'string' && (e.toLowerCase().includes('bodyweight') || e.toLowerCase().includes('sin equipo')))) {
             exerciseCollectionName = 'exercises_bodyweight_pure';
         }
 
-        // Lógica de filtrado en memoria (para no quemar lecturas ni tokens)
         const muscleGroups = getMuscleGroupFromFocus(targetSession.sessionFocus);
 
-        // Leer UTILIDADES (Calentamiento/CoolDown) + PRINCIPALES
         const [utilitySnap, mainSnap] = await Promise.all([
             db.collection('exercises_utility').get(),
-            db.collection(exerciseCollectionName).get() 
-            // Leemos toda la colección principal (asumiendo <500 docs es barato y rápido en Firestore)
-            // para poder filtrar bien en JS por 'parteCuerpo' o 'musculoObjetivo'
+            db.collection(exerciseCollectionName).get()
         ]);
 
         let candidateExercises = [];
-        const exerciseMap = {}; // Para hidratar después
+        const exerciseMap = {};
 
-        // Procesar Utility
-        utilitySnap.forEach(doc => {
-            const d = doc.data(); 
-            d.id = doc.id;
-            candidateExercises.push(d);
-            exerciseMap[doc.id] = d;
-        });
-
-        // Procesar y Filtrar Main Exercises
-        mainSnap.forEach(doc => {
+        // Helper para indexar
+        const indexExercise = (doc) => {
             const d = doc.data();
             d.id = doc.id;
+            exerciseMap[doc.id] = d;
+            return d;
+        };
+
+        utilitySnap.forEach(doc => {
+            const d = indexExercise(doc);
+            candidateExercises.push(d);
+        });
+
+        mainSnap.forEach(doc => {
+            const d = indexExercise(doc);
             
-            // Filtro Blando: ¿Coincide la parte del cuerpo con el foco?
-            // Si el foco es "Full Body", entran todos.
+            // Filtros
             const matchesFocus = muscleGroups.length === 0 
                 || muscleGroups.includes(d.parteCuerpo) 
-                || muscleGroups.some(g => d.musculoObjetivo && d.musculoObjetivo.includes(g));
+                || (d.musculoObjetivo && muscleGroups.some(g => d.musculoObjetivo.includes(g)));
             
-            // Filtro Nivel: No dar ejercicios avanzados a principiantes
-            // (Simplificado: Si eres principiante, evitas 'Avanzado')
             let levelOk = true;
             if (profileData.experienceLevel === 'Principiante' && d.nivel === 'Avanzado') levelOk = false;
 
             if (matchesFocus && levelOk) {
                 candidateExercises.push(d);
-                exerciseMap[doc.id] = d;
             }
         });
         
-        // Seguridad: Si el filtro fue muy agresivo y no hay ejercicios, metemos un fallback
+        // Fallback si hay pocos ejercicios
         if (candidateExercises.length < 10) {
              mainSnap.forEach(doc => {
-                const d = doc.data(); d.id = doc.id;
+                const d = indexExercise(doc);
                 if (!candidateExercises.find(e => e.id === d.id)) {
                     candidateExercises.push(d);
-                    exerciseMap[doc.id] = d;
                 }
              });
         }
         
-        // Recortar contexto para no exceder tokens (max 40 ejercicios)
-        // Priorizamos mezclar un poco para variedad
-        const finalContext = candidateExercises.slice(0, 40); 
+        const finalContext = candidateExercises.slice(0, 45); 
         const contextCSV = createOptimizedContext(finalContext);
 
         // 5. LLAMADA AL LLM
-        const systemPrompt = `Eres un entrenador personal experto. Genera una sesión de entrenamiento detallada basada en bloques.
+        const systemPrompt = `Eres un entrenador experto. Genera una sesión JSON.
         
-        DATOS CLAVE:
-        - Nivel Usuario: ${profileData.experienceLevel}.
-        - Foco Sesión: ${targetSession.sessionFocus}.
-        - Intensidad Semana (RPE): ${targetMicrocycle.intensityRpe}.
-        - Notas Semana: ${targetMicrocycle.notes}.
+        DATOS:
+        - Nivel: ${profileData.experienceLevel}.
+        - Foco: ${targetSession.sessionFocus}.
+        - RPE: ${targetMicrocycle.intensityRpe}.
+        - Notas Semanales: ${targetMicrocycle.notes}.
         
-        REGLAS DE ESTRUCTURA:
-        1. Calentamiento: Usa ejercicios de 'tipo: Calentamiento' del contexto.
-        2. Bloques Principales: Crea entre 2 y 4 bloques.
-           - Usa 'station' para fuerza pesada.
-           - Usa 'superset' o 'circuit' para densidad/metabólico.
-           - Define los descansos explícitamente.
-        3. Vuelta a la calma: Usa ejercicios de 'tipo: Estiramiento' del contexto.
-        
-        REGLA DE ORO: SOLO usa los IDs proporcionados en el contexto. No inventes ejercicios.`;
+        REGLAS CRÍTICAS:
+        1. Usa SIEMPRE el formato JSON solicitado.
+        2. 'exercises' debe ser SIEMPRE un array, aunque esté vacío.
+        3. Intenta usar IDs del contexto, pero si necesitas un ejercicio básico que no está, usa el ID "custom".
+        4. NO devuelvas texto fuera del JSON.`;
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -277,10 +259,10 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "openai/gpt-4o-mini",
+                model: "openai/gpt-4o-mini", // Modelo rápido y barato
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Contexto Ejercicios:\n${contextCSV}\n\nGenera el JSON:` }
+                    { role: "user", content: `Contexto (ID|Nombre|Tipo):\n${contextCSV}\n\nGenera la sesión para hoy:` }
                 ],
                 response_format: { type: "json_object" },
                 schema: SESSION_SCHEMA
@@ -288,32 +270,54 @@ export default async function handler(req, res) {
         });
 
         const llmResult = await completion.json();
-        const sessionJSON = JSON.parse(llmResult.choices[0].message.content);
+        
+        if (!llmResult.choices || !llmResult.choices[0]) {
+             throw new Error("Respuesta vacía del proveedor de IA.");
+        }
 
-        // 6. HIDRATACIÓN DE DATOS (IDs -> Objetos Completos)
-        const hydrateList = (list) => list.map(item => {
-            const fullData = exerciseMap[item.id] || {};
+        let sessionJSON;
+        try {
+            sessionJSON = JSON.parse(llmResult.choices[0].message.content);
+        } catch (e) {
+            console.error("JSON corrupto del LLM:", llmResult.choices[0].message.content);
+            throw new Error("Error al procesar la respuesta de la IA.");
+        }
+
+        // 6. HIDRATACIÓN DEFENSIVA (AQUÍ ESTABA EL ERROR)
+        // Usamos una función interna segura que nunca falla si la lista es undefined
+        const hydrateList = (list) => safeMap(list, (item) => {
+            const fullData = exerciseMap[item.id];
+            
+            // Si encontramos el ejercicio en la DB, usamos sus datos.
+            // Si NO (ej. ID inventado por LLM), usamos los datos básicos que envió el LLM o genéricos.
             return {
-                ...item, // Mantiene sets, reps, notes del LLM
-                name: fullData.nombre || "Ejercicio desconocido",
-                description: fullData.descripcion || "",
-                imageUrl: fullData.url || null, // Campo URL de tus docs
-                videoUrl: "", // Placeholder
-                muscleTarget: fullData.musculoObjetivo || "",
-                equipment: fullData.equipo || ""
+                ...item,
+                id: item.id || "unknown",
+                name: fullData?.nombre || "Ejercicio Sugerido", // Fallback visual
+                description: fullData?.descripcion || item.instructions || "Sigue las indicaciones.",
+                imageUrl: fullData?.url || null,
+                videoUrl: "",
+                muscleTarget: fullData?.musculoObjetivo || "General",
+                equipment: fullData?.equipo || "Sin equipo específico"
             };
         });
 
-        const hydratedBlocks = sessionJSON.mainBlocks.map(block => ({
+        // Procesamos bloques principales con seguridad
+        const mainBlocksSafe = safeMap(sessionJSON.mainBlocks, (block) => ({
             ...block,
             exercises: hydrateList(block.exercises)
         }));
 
         const finalSessionData = {
-            ...sessionJSON,
-            warmup: { exercises: hydrateList(sessionJSON.warmup.exercises) },
-            mainBlocks: hydratedBlocks,
-            cooldown: { exercises: hydrateList(sessionJSON.cooldown.exercises) },
+            sessionGoal: sessionJSON.sessionGoal || `Entrenamiento de ${targetSession.sessionFocus}`,
+            estimatedDurationMin: sessionJSON.estimatedDurationMin || 45,
+            warmup: { 
+                exercises: hydrateList(sessionJSON.warmup?.exercises) 
+            },
+            mainBlocks: mainBlocksSafe,
+            cooldown: { 
+                exercises: hydrateList(sessionJSON.cooldown?.exercises) 
+            },
             meta: {
                 date: todayDate.toISOString(),
                 week: currentWeekNum,
@@ -323,8 +327,7 @@ export default async function handler(req, res) {
             completed: false
         };
 
-        // 7. GUARDAR EN FIRESTORE
-        // Guardamos en currentSession para acceso rápido hoy
+        // 7. GUARDAR Y RESPONDER
         await userDocRef.update({
             currentSession: finalSessionData
         });
@@ -332,7 +335,10 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, session: finalSessionData });
 
     } catch (error) {
-        console.error("Error en generation:", error);
-        return res.status(500).json({ error: error.message });
+        console.error("FATAL ERROR en /session/generate:", error);
+        return res.status(500).json({ 
+            error: error.message,
+            details: "Hubo un error generando la sesión. Por favor intenta de nuevo."
+        });
     }
 }
