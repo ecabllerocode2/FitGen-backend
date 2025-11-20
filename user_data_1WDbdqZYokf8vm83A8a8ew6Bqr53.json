@@ -144,71 +144,75 @@
   },
   "planStatus": "active",
   "currentSession": {
-    "sessionGoal": "Sesión Básica (Fallback por Error IA): Full Body - Estabilidad",
+    "sessionGoal": "Entrenamiento de cuerpo completo enfocado en estabilidad",
     "estimatedDurationMin": 60,
     "warmup": {
       "exercises": [
         {
-          "id": "xsGSXFhCwa65ZeKmAHhz",
-          "name": "Saltos de Tijera (Jumping Jacks)",
-          "instructions": "Activar ritmo cardiaco",
-          "durationOrReps": "60 seg",
-          "description": "Salta separando brazos y piernas, luego únelos. Movimiento rítmico para elevar la frecuencia cardíaca y calentar el cuerpo de forma general.",
+          "id": "2tJyKTgcvSHDnAgfOtab",
+          "name": "Sentadilla a Pica (Squat to Stand)",
+          "durationOrReps": "10 reps",
+          "description": "Comienza doblando las rodillas para tocar los pies. Manteniendo el agarre, estira las rodillas, levantando la cadera. Movilidad dinámica de femorales y cadera.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
           "equipment": "Peso Corporal"
         },
         {
-          "id": "custom",
-          "name": "Rotaciones Articulares",
-          "instructions": "Movilidad general",
-          "durationOrReps": "60 seg",
-          "description": "Movilidad general",
+          "id": "51TQTqCI3eTLrr5T4Gsw",
+          "name": "Estocadas Inversas Dinámicas",
+          "durationOrReps": "10 reps",
+          "description": "Zancadas hacia atrás rápidas con peso corporal, concentrándose en el balance y la extensión de cadera en la pierna de apoyo. Prepara los cuádriceps y glúteos.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
-          "equipment": "General"
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "7T1MTSJXkOiGLaHIM5aC",
+          "name": "Círculos de Brazos Dinámicos (Adelante y Atrás)",
+          "durationOrReps": "10 reps",
+          "description": "Realiza círculos grandes y amplios con los brazos, cambiando de dirección cada 10 repeticiones. Aumenta el flujo sanguíneo en los hombros.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "Peso Corporal"
         }
       ]
     },
     "mainBlocks": [
       {
-        "blockType": "circuit",
+        "blockType": "station",
         "exercises": [
           {
-            "id": "custom",
-            "name": "Sentadillas (Air Squats)",
-            "sets": 4,
-            "targetReps": "15",
-            "rpe": 7,
-            "notes": "Controla la bajada.",
-            "description": "Ejecución controlada.",
-            "imageUrl": null,
-            "muscleTarget": "Full Body - Estabilidad",
-            "equipment": "General"
-          },
-          {
-            "id": "custom",
-            "name": "Flexiones (Push Ups)",
-            "sets": 4,
+            "id": "WQbkdrReUvGLyIt7zNFf",
+            "name": "'Y' Tumbadas (Y-Raises)",
+            "sets": 3,
             "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Rodillas al suelo si es necesario.",
-            "description": "Ejecución controlada.",
+            "description": "Acuéstate boca abajo, brazos rectos en forma de 'Y'. Levanta los brazos del suelo, concentrando el movimiento en la parte superior de la espalda y los hombros. Fortalece el manguito rotador.",
             "imageUrl": null,
-            "muscleTarget": "Full Body - Estabilidad",
-            "equipment": "General"
+            "muscleTarget": "Trapecio Medio y Manguito Rotador",
+            "equipment": "Peso Corporal"
           },
           {
-            "id": "custom",
-            "name": "Plancha Abdominal",
+            "id": "PNcu9czQg77TIIjELcAq",
+            "name": "Remo Invertido Supino (Rodillas Dobladas)",
             "sets": 3,
-            "targetReps": "45s",
+            "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Espalda recta.",
-            "description": "Ejecución controlada.",
+            "description": "Utiliza una mesa robusta. Coloca los pies en el suelo con las rodillas dobladas y la cadera baja. Realiza el remo con agarre supino. La flexión de rodillas reduce la carga.",
             "imageUrl": null,
-            "muscleTarget": "Full Body - Estabilidad",
-            "equipment": "General"
+            "muscleTarget": "Bíceps Braquial y Dorsal",
+            "equipment": "Peso Corporal"
+          },
+          {
+            "id": "N5KciCVh3rAEQDHIWoKh",
+            "name": "Sentadilla Goblet con Mancuerna",
+            "sets": 3,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "description": "Sostén una mancuerna verticalmente con ambas manos contra el pecho. Mantén la espalda recta y baja hasta que los codos toquen el interior de las rodillas. Empuja con los talones.",
+            "imageUrl": null,
+            "muscleTarget": "Cuádriceps, Glúteos y Core",
+            "equipment": "Mancuernas"
           }
         ]
       }
@@ -216,22 +220,40 @@
     "cooldown": {
       "exercises": [
         {
-          "id": "custom",
-          "name": "Estiramiento General",
-          "duration": "5 min",
-          "description": "Ejecución controlada.",
+          "id": "1XrQPPZ5znNvocXUUpby",
+          "duration": "30 segundos",
+          "name": "Estiramiento de Cuádriceps Tumbado de Lado",
+          "description": "Tumbado de lado, dobla la rodilla trasera y agarra el tobillo o el empeine con la mano. Jala el pie hacia el glúteo. Mantén las rodillas juntas y la cadera neutra.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
-          "equipment": "General"
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "1l2nndfJS6TUK5QNeFJR",
+          "duration": "30 segundos",
+          "name": "Estiramiento de Glúteo Sentado con Torsión",
+          "description": "Sentado, cruza una pierna sobre la otra. Usa el brazo opuesto para abrazar la rodilla levantada y gírate hacia la rodilla, mirando por encima del hombro.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "49P9aQpmIOK0dmk5j8En",
+          "duration": "30 segundos",
+          "name": "Estiramiento Pectoral con Brazos Detrás",
+          "description": "Entrelaza los dedos detrás de la espalda, mantén los brazos estirados y levanta suavemente las manos hacia el techo. Abre el pecho.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "Peso Corporal"
         }
       ]
     },
     "meta": {
-      "date": "2025-11-20T19:30:40.924Z",
-      "generatedAt": "2025-11-20T19:31:08.329Z",
+      "date": "2025-11-20T19:34:51.599Z",
+      "generatedAt": "2025-11-20T19:35:04.616Z",
       "week": 1,
       "focus": "Full Body - Estabilidad",
-      "model": "gpt-4o-mini-v7-final"
+      "model": "gpt-4o-mini-v4-final"
     },
     "completed": false
   }

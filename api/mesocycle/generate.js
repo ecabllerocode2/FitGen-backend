@@ -1,236 +1,210 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
-import { startOfWeek, addDays } from 'date-fns';
+import { startOfWeek, addDays, format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-// Las claves de entorno se acceden directamente en Vercel
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+// ----------------------------------------------------
+// 1. LÓGICA DE PERIODIZACIÓN (CIENCIA DEL ENTRENAMIENTO)
+// ----------------------------------------------------
 
-// Definición estricta del JSON de salida para la planificación
-const MESOCYCLE_SCHEMA = {
-    type: "OBJECT",
-    properties: {
-        durationWeeks: {
-            type: "INTEGER",
-            description: "Duración total del mesociclo, generalmente 4 semanas."
-        },
-        mesocycleGoal: {
-            type: "STRING",
-            description: "Resumen conciso (máximo 2 frases) del objetivo principal de este ciclo de entrenamiento."
-        },
-        microcycles: {
-            type: "ARRAY",
-            description: "Un array donde cada objeto representa una semana (microciclo).",
-            items: {
-                type: "OBJECT",
-                properties: {
-                    week: {
-                        type: "INTEGER",
-                        description: "Número de la semana dentro del mesociclo (ej: 1, 2, 3, 4)."
-                    },
-                    focus: {
-                        type: "STRING",
-                        description: "Foco de la semana (ej: Acumulación, Intensificación, Descarga Deload)."
-                    },
-                    intensityRpe: {
-                        type: "STRING",
-                        description: "Intensidad percibida (RPE) promedio para la semana (ej: '7/10', '8/10')."
-                    },
-                    notes: {
-                        type: "STRING",
-                        description: "Notas importantes sobre la carga o el foco mental para esta semana."
-                    },
-                    sessions: {
-                        type: "ARRAY",
-                        description: "Lista de sesiones de entrenamiento programadas para esta semana.",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                dayOfWeek: {
-                                    type: "STRING",
-                                    description: "Día de la semana de la sesión (ej: 'Lunes', 'Martes', 'Sábado'). Debe coincidir con los días preferidos del usuario."
-                                },
-                                sessionFocus: {
-                                    type: "STRING",
-                                    description: "Foco principal del entrenamiento (ej: 'Tren Superior - Empuje', 'Pierna - Cuádriceps', 'Full Body Híbrido')."
-                                }
-                            },
-                            required: ["dayOfWeek", "sessionFocus"]
-                        }
-                    }
-                },
-                required: ["week", "focus", "intensityRpe", "sessions"]
-            }
+// Definimos los esquemas de división (Splits) según días disponibles
+const getTrainingSplit = (daysPerWeek, focusArea) => {
+    // Normalizamos inputs
+    const days = Math.min(Math.max(daysPerWeek, 1), 6); // Entre 1 y 6 días
+    const focus = focusArea ? focusArea.toLowerCase() : 'general';
+
+    // --- 1 DÍA (Mantención / Minimalista) ---
+    if (days === 1) return ['Full Body - General'];
+
+    // --- 2 DÍAS (Full Body Frecuencia 2) ---
+    if (days === 2) return ['Full Body - Fuerza', 'Full Body - Hipertrofia'];
+
+    // --- 3 DÍAS (Full Body Clásico o Empuje/Tirón/Pierna) ---
+    if (days === 3) {
+        if (focus.includes('pierna') || focus.includes('gluteo')) {
+            return ['Pierna - General', 'Torso - General', 'Full Body - Hipertrofia'];
         }
-    },
-    required: ["durationWeeks", "mesocycleGoal", "microcycles"]
+        return ['Full Body - Fuerza', 'Full Body - Hipertrofia', 'Full Body - Resistencia'];
+    }
+
+    // --- 4 DÍAS (Torso/Pierna o Phul Híbrido) - EL ESTÁNDAR DE ORO ---
+    if (days === 4) {
+        if (focus.includes('pierna') || focus.includes('gluteo')) {
+            // Especialización Pierna
+            return [
+                'Pierna - Cuádriceps',          // Lunes
+                'Empuje (Push) - Pecho y Hombro', // Martes
+                'Pierna - Glúteos e Isquios',   // Jueves
+                'Tracción (Pull) - Espalda y Bíceps' // Viernes
+            ];
+        }
+        // Estándar Torso/Pierna
+        return [
+            'Torso - Fuerza', 
+            'Pierna - Fuerza', 
+            'Torso - Hipertrofia', 
+            'Pierna - Hipertrofia'
+        ];
+    }
+
+    // --- 5 DÍAS (Upper/Lower + PPL Híbrido) ---
+    if (days === 5) {
+        return [
+            'Pierna - Fuerza',
+            'Empuje (Push) - Pecho y Hombro',
+            'Tracción (Pull) - Espalda y Bíceps',
+            'Torso - Hipertrofia',
+            'Pierna - Hipertrofia'
+        ];
+    }
+
+    // --- 6 DÍAS (PPL x2 - Arnold Split) ---
+    return [
+        'Pierna - Cuádriceps',
+        'Empuje (Push) - Pecho y Hombro',
+        'Tracción (Pull) - Espalda y Bíceps',
+        'Pierna - Glúteos e Isquios',
+        'Empuje (Push) - Hipertrofia',
+        'Tracción (Pull) - Hipertrofia'
+    ];
 };
 
-// --- HELPER DE CORS ---
+// Definimos la progresión semanal (Mesociclo Estándar de 4 Semanas)
+const getMicrocycleStructure = (weekNum, goal) => {
+    // Modelo: Acumulación -> Intensificación -> Realización -> Descarga
+    
+    switch (weekNum) {
+        case 1:
+            return {
+                focus: "Adaptación Anatómica",
+                intensityRpe: "6/10 (RPE 6)",
+                notes: "Semana de introducción. Enfócate en la técnica perfecta y en sentir el movimiento. No llegues al fallo, deja 3-4 repeticiones en reserva."
+            };
+        case 2:
+            return {
+                focus: "Sobrecarga Progresiva (Volumen)",
+                intensityRpe: "7/10 (RPE 7)",
+                notes: "Aumentamos ligeramente el volumen. Intenta añadir una serie extra o un poco más de peso manteniendo la técnica. RIR 2-3."
+            };
+        case 3:
+            return {
+                focus: "Intensificación (Pico de Carga)",
+                intensityRpe: "8-9/10 (RPE 8.5)",
+                notes: "Semana más dura del ciclo. Acércate al fallo técnico en las últimas series. Es el momento de intentar romper récords personales de repeticiones o peso."
+            };
+        case 4:
+            return {
+                focus: "Descarga (Deload)",
+                intensityRpe: "5/10 (RPE 5)",
+                notes: "Semana de recuperación activa. Reduce el peso un 20-30% y haz menos series. El objetivo es disipar la fatiga acumulada para empezar el próximo ciclo con fuerza."
+            };
+        default:
+            return { focus: "Mantenimiento", intensityRpe: "6/10", notes: "Mantener actividad." };
+    }
+};
+
+
+// ----------------------------------------------------
+// 2. HANDLER PRINCIPAL
+// ----------------------------------------------------
+
 const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-}
+};
 
-// ----------------------------------------------------
-// FUNCIÓN PRINCIPAL DEL ENDPOINT
-// ----------------------------------------------------
 export default async function handler(req, res) {
-
     setCORSHeaders(res);
+    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido.' });
 
-    // Manejar OPTIONS (CORS Preflight)
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Método no permitido. Solo POST.' });
-    }
-
-    if (!OPENROUTER_API_KEY) {
-        console.error('OPENROUTER_API_KEY no definida.');
-        return res.status(500).json({ error: 'Error de configuración: Clave de OpenRouter no encontrada.' });
-    }
-
-    // 1. VALIDACIÓN DE AUTENTICACIÓN (Firebase Admin)
+    // Validación Auth
     const authHeader = req.headers.authorization;
     const idToken = authHeader ? authHeader.split('Bearer ')[1] : null;
+    if (!idToken) return res.status(401).json({ error: 'Falta token.' });
+
     let userId;
-
-    if (!idToken) {
-        return res.status(401).json({ error: 'Falta el token de autenticación (Bearer Token).' });
+    try {
+        const decoded = await auth.verifyIdToken(idToken);
+        userId = decoded.uid;
+    } catch (e) {
+        return res.status(401).json({ error: 'Token inválido.' });
     }
 
     try {
-        const decodedToken = await auth.verifyIdToken(idToken);
-        userId = decodedToken.uid;
-    } catch (error) {
-        console.error('Error de verificación de Token:', error.message);
-        return res.status(401).json({ error: 'Token inválido o expirado.', details: error.message });
-    }
-
-    console.log(`Iniciando generación de mesociclo para: ${userId}`);
-
-    try {
-        // 2. OBTENER PERFIL DESDE FIRESTORE
-        const userDocRef = db.collection('users').doc(userId);
-        const userDoc = await userDocRef.get();
-
-        if (!userDoc.exists) {
-            return res.status(404).json({ error: 'Perfil de usuario no encontrado.' });
-        }
-
-        const rawData = userDoc.data();
-        const profileData = rawData.profileData;
-
-        if (!profileData) {
-            return res.status(400).json({ error: 'Datos de Onboarding incompletos.' });
-        }
-
-        // 3. CONSTRUCCIÓN DEL PROMPT
-        const profileString = JSON.stringify(profileData, null, 2);
-        const schemaString = JSON.stringify(MESOCYCLE_SCHEMA, null, 2);
-
-        const systemPrompt = `Eres un planificador de entrenamiento deportivo experto en periodización. Tu tarea es generar un plan de entrenamiento (Mesociclo) de 4 semanas, estructurado en microciclos semanales. DEBES SEGUIR LAS REGLAS ESTRICTAMENTE.`;
-
-        const userPrompt = `Basándote en el perfil del usuario a continuación, genera un Mesociclo de 4 semanas. 
+        // 1. Obtener Perfil
+        const userDoc = await db.collection('users').doc(userId).get();
+        if (!userDoc.exists) return res.status(404).json({ error: 'Usuario no encontrado.' });
         
-        REGLAS CRÍTICAS DE GENERACIÓN:
-        1. El Mesociclo debe durar 4 semanas. La Semana 4 debe ser una semana de DELOAD (descarga activa o pasiva).
-        2. El número total de sesiones debe ser exactamente igual a 'trainingDaysPerWeek' (${profileData.trainingDaysPerWeek} días) y usar solo los 'preferredTrainingDays' (${profileData.preferredTrainingDays ? profileData.preferredTrainingDays.join(', ') : 'días seleccionados'}).
-        3. El Mesociclo debe priorizar el 'fitnessGoal' ('${profileData.fitnessGoal}') y el 'focusArea' ('${profileData.focusArea}').
-        4. El plan DEBE ser realista con el 'availableEquipment' (${profileData.availableEquipment.join(', ')}).
-        5. El Mesociclo debe incluir NOTAS IMPORTANTES sobre la 'intensityRpe' y evitar movimientos que agraven las 'injuriesOrLimitations' ('${profileData.injuriesOrLimitations || "ninguna"}').
-        6. NO DEBES incluir NINGÚN EJERCICIO Específico. SÓLO el enfoque de la sesión (sessionFocus).
-        
-        DATOS DEL PERFIL:
-        ---
-        ${profileString}
-        ---
-        
-        Genera la respuesta como un **objeto JSON válido** que se ajuste **exactamente** al siguiente esquema:
-        ---
-        ${schemaString} 
-        ---
-        
-        TU RESPUESTA DEBE SER ÚNICAMENTE EL JSON.`;
+        const { profileData } = userDoc.data();
+        if (!profileData) return res.status(400).json({ error: 'Datos de perfil incompletos.' });
 
-        // 4. LLAMADA A OPENROUTER (LLM)
-        const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                model: 'openai/gpt-4o-mini',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userPrompt }
-                ],
-                response_format: { type: "json_object" }
-            }),
+        // 2. Generar Estructura del Mesociclo (Algoritmo)
+        const splitSessions = getTrainingSplit(profileData.trainingDaysPerWeek, profileData.focusArea);
+        const userDays = profileData.preferredTrainingDays || ['Lunes', 'Miércoles', 'Viernes']; // Fallback
+
+        // Aseguramos que la cantidad de sesiones coincida con los días preferidos
+        // Si el usuario eligió 3 días pero el split devuelve 4 (error de lógica), cortamos
+        const sessionsPerWeek = [];
+        
+        // Mapeo cíclico: Asignar las sesiones del split a los días disponibles
+        userDays.forEach((dayName, index) => {
+            // Usamos el operador módulo % para rotar las sesiones si hay más días que rutinas diseñadas (raro)
+            // o para repetir si hay menos.
+            const sessionTemplate = splitSessions[index % splitSessions.length];
+            sessionsPerWeek.push({
+                dayOfWeek: dayName,
+                sessionFocus: sessionTemplate
+            });
         });
 
-        if (!openRouterResponse.ok) {
-            const errorText = await openRouterResponse.text();
-            throw new Error(`OpenRouter Error: ${errorText}`);
+        // 3. Construir las 4 Semanas
+        const microcycles = [];
+        for (let w = 1; w <= 4; w++) {
+            const structure = getMicrocycleStructure(w, profileData.fitnessGoal);
+            microcycles.push({
+                week: w,
+                focus: structure.focus,
+                intensityRpe: structure.intensityRpe,
+                notes: structure.notes,
+                sessions: sessionsPerWeek // Las sesiones se repiten estructuralmente, la intensidad cambia por la 'week'
+            });
         }
 
-        const openRouterResult = await openRouterResponse.json();
-        const mesocycleJsonString = openRouterResult.choices[0].message.content;
-        
-        let mesocycleData;
-        try {
-            mesocycleData = JSON.parse(mesocycleJsonString);
-        } catch (e) {
-            console.error('Error parseando JSON:', mesocycleJsonString);
-            return res.status(500).json({ error: 'El LLM devolvió un JSON inválido.' });
-        }
-
-        // 5. LÓGICA DE FECHAS Y GUARDADO (FIX PARA MITAD DE SEMANA)
-        
+        // 4. Fechas y Respuesta
         const today = new Date();
-
-        // A. Alineación al Lunes:
-        // 'startOfWeek' con { weekStartsOn: 1 } devuelve el Lunes de la semana actual.
-        // Si hoy es miércoles 20, devolverá el lunes 18.
-        const logicalStartDate = startOfWeek(today, { weekStartsOn: 1 });
-
-        // B. Duración y Fecha Final:
-        // Asumimos 4 semanas por defecto si el LLM falla en devolver ese dato
-        const durationWeeks = mesocycleData.durationWeeks || 4;
-        // Calculamos endDate sumando semanas exactas (durationWeeks * 7 días)
+        const logicalStartDate = startOfWeek(today, { weekStartsOn: 1 }); // Lunes actual o pasado
+        const durationWeeks = 4;
         const logicalEndDate = addDays(logicalStartDate, durationWeeks * 7);
 
+        const mesocyclePlan = {
+            durationWeeks: durationWeeks,
+            mesocycleGoal: `Objetivo: ${profileData.fitnessGoal}. Enfoque en ${profileData.focusArea}.`,
+            microcycles: microcycles
+        };
+
         const currentMesocycleData = {
-            // Guardamos fechas completas en formato ISO
             startDate: logicalStartDate.toISOString(),
             endDate: logicalEndDate.toISOString(),
-            
             progress: 0.0,
-            currentWeek: 1, // Inicia siempre en 1 (la UI calcula la real)
-            
-            mesocyclePlan: mesocycleData,
-            llmModelUsed: 'openai/gpt-4o-mini',
+            currentWeek: 1,
+            mesocyclePlan: mesocyclePlan,
+            llmModelUsed: 'heuristic-algorithm-v1', // Transparencia
             generationDate: today.toISOString(),
             status: 'active'
         };
 
         // Guardar en Firestore
-        await userDocRef.set({
+        await db.collection('users').doc(userId).set({
             currentMesocycle: currentMesocycleData,
             planStatus: 'active'
         }, { merge: true });
 
-        return res.status(200).json({
-            success: true,
-            message: 'Mesociclo generado exitosamente.',
-            plan: currentMesocycleData
-        });
+        console.log(`>>> Mesociclo Heurístico Generado para ${userId}`);
+        return res.status(200).json({ success: true, plan: currentMesocycleData });
 
     } catch (error) {
-        console.error('Error general:', error);
-        return res.status(500).json({ error: 'Error interno del servidor.', details: error.message });
+        console.error('FATAL:', error);
+        return res.status(500).json({ error: error.message });
     }
 }
