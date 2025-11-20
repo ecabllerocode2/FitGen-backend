@@ -144,97 +144,66 @@
   },
   "planStatus": "active",
   "currentSession": {
-    "sessionGoal": "Entrenamiento de cuerpo completo enfocado en la estabilidad y fuerza",
+    "sessionGoal": "Entrenamiento de Full Body enfocado en estabilidad",
     "estimatedDurationMin": 60,
     "warmup": {
       "exercises": [
         {
-          "id": "custom",
-          "name": "Calistenia Básica 1",
-          "instructions": "Realiza movimientos articulares y estiramientos dinámicos.",
-          "durationOrReps": "5 min",
-          "description": "Realiza movimientos articulares y estiramientos dinámicos.",
+          "id": "1Ex2joBN39NU7vncqUf5",
+          "name": "Rodar el Tríceps (Triceps Rolling)",
+          "durationOrReps": "5 minutos",
+          "description": "Tumbado de lado, coloca el rodillo bajo el tríceps (parte posterior del brazo). Rueda desde el hombro hasta el codo. Ideal antes de ejercicios de empuje.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
-          "equipment": "General"
+          "equipment": "Foam Roller"
         },
         {
-          "id": "custom",
-          "name": "Calistenia Básica 2",
-          "instructions": "Incluye saltos suaves y movimientos laterales.",
-          "durationOrReps": "5 min",
-          "description": "Incluye saltos suaves y movimientos laterales.",
+          "id": "7T1MTSJXkOiGLaHIM5aC",
+          "name": "Círculos de Brazos Dinámicos (Adelante y Atrás)",
+          "durationOrReps": "5 minutos",
+          "description": "Realiza círculos grandes y amplios con los brazos, cambiando de dirección cada 10 repeticiones. Aumenta el flujo sanguíneo en los hombros.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
-          "equipment": "General"
+          "equipment": "Peso Corporal"
         }
       ]
     },
     "mainBlocks": [
       {
         "blockType": "station",
-        "restBetweenSetsSec": 60,
-        "restBetweenExercisesSec": 90,
         "exercises": [
           {
-            "id": "TB6dQKYJsIDav3o7AU74",
-            "name": "Remo con Mancuerna a una Mano (En Banco o Apoyo)",
-            "sets": 4,
-            "targetReps": "10-12",
-            "rpe": 8,
-            "notes": "Mantén la espalda recta durante el movimiento.",
-            "description": "Apoya una rodilla y la mano correspondiente en un banco o superficie estable. Sostén una mancuerna con el brazo opuesto. Tira de la mancuerna hacia tu costado, manteniendo la espalda recta. Baja controladamente.",
-            "imageUrl": null,
-            "muscleTarget": "Dorsal Ancho y Romboides",
-            "equipment": "Mancuernas"
-          },
-          {
-            "id": "UENu33G7JuB7HNvTJN2c",
-            "name": "Press de Pecho con Patrón Inestable (Offset Stance)",
-            "sets": 4,
-            "targetReps": "10-12",
-            "rpe": 8,
-            "notes": "Controla el movimiento para mejorar la estabilidad.",
-            "description": "De pie, realiza el press unilateral. Colócate en posición de zancada o 'step-back' para reducir la base de apoyo. La inestabilidad aumenta la activación del core y los estabilizadores.",
-            "imageUrl": null,
-            "muscleTarget": "Pectoral Mayor y Estabilidad",
-            "equipment": "Banda de Resistencia"
-          },
-          {
-            "id": "wQoHvjJhs9hhrLOFODq2",
-            "name": "Peso Muerto Rumano (Dumbbell RDL)",
-            "sets": 4,
-            "targetReps": "10-12",
-            "rpe": 8,
-            "notes": "Mantén las piernas ligeramente flexionadas y baja controladamente.",
-            "description": "De pie, con las mancuernas en los muslos. Mantén las rodillas ligeramente dobladas. Baja lentamente el torso manteniendo la espalda recta, dejando que las mancuernas se deslicen por las piernas. Siente el estiramiento en los isquiotibiales.",
-            "imageUrl": null,
-            "muscleTarget": "Isquiotibiales y Glúteos",
-            "equipment": "Mancuernas"
-          },
-          {
-            "id": "vkBX0huebEZ9K0vYlB3u",
-            "name": "Puente de Glúteo con Mini Banda (Glute Bridge)",
-            "sets": 4,
-            "targetReps": "10-12",
-            "rpe": 8,
-            "notes": "Aprieta los glúteos al levantar la pelvis.",
-            "description": "Acuéstate con la banda alrededor de las rodillas. Levanta la cadera del suelo, manteniendo las rodillas separadas contra la resistencia de la banda. Enfoca la contracción del glúteo en la cima.",
-            "imageUrl": null,
-            "muscleTarget": "Glúteos",
-            "equipment": "Mini Bandas"
-          },
-          {
-            "id": "PpM9R8fCENqt1fHAl4xC",
-            "name": "Extensión Inclinada hacia el Techo (Press Francés Modificado)",
+            "id": "vAFG3D68tl8dJGLTtHzQ",
+            "name": "Remo Pendlay Asistido (Banda bajo los pies)",
             "sets": 3,
             "targetReps": "10-12",
             "rpe": 8,
-            "notes": "Controla el peso a lo largo de todo el movimiento.",
-            "description": "Tumbado en el suelo, apunta los codos no solo hacia el techo, sino ligeramente hacia atrás (en ángulo de 45° con el cuerpo). Esto mantiene una tensión más alta en el tríceps durante todo el movimiento.",
+            "description": "Coloca la banda bajo los pies. Inclina el torso a 90 grados. Tira de la banda hacia el abdomen de forma explosiva, volviendo la banda completamente al suelo entre cada repetición (sin impulso).",
             "imageUrl": null,
-            "muscleTarget": "Tríceps (Tensión Total)",
+            "muscleTarget": "Dorsal Ancho y Explosividad",
+            "equipment": "Banda de Resistencia"
+          },
+          {
+            "id": "N5KciCVh3rAEQDHIWoKh",
+            "name": "Sentadilla Goblet con Mancuerna",
+            "sets": 3,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "description": "Sostén una mancuerna verticalmente con ambas manos contra el pecho. Mantén la espalda recta y baja hasta que los codos toquen el interior de las rodillas. Empuja con los talones.",
+            "imageUrl": null,
+            "muscleTarget": "Cuádriceps, Glúteos y Core",
             "equipment": "Mancuernas"
+          },
+          {
+            "id": "GHCH8lKUaRqCTuhniKXM",
+            "name": "Puente de Glúteo (Glute Bridge)",
+            "sets": 3,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "description": "Acuéstate boca arriba, rodillas dobladas. Levanta la cadera del suelo hasta formar una línea recta desde los hombros hasta las rodillas. Contracción de glúteos en la cima.",
+            "imageUrl": null,
+            "muscleTarget": "Glúteo Mayor y Femorales",
+            "equipment": "Peso Corporal"
           }
         ]
       }
@@ -242,22 +211,31 @@
     "cooldown": {
       "exercises": [
         {
-          "id": "custom",
-          "name": "Calistenia Básica 3",
-          "duration": "30s",
-          "description": "Ejecución controlada.",
+          "id": "1XrQPPZ5znNvocXUUpby",
+          "duration": "5 minutos",
+          "name": "Estiramiento de Cuádriceps Tumbado de Lado",
+          "description": "Tumbado de lado, dobla la rodilla trasera y agarra el tobillo o el empeine con la mano. Jala el pie hacia el glúteo. Mantén las rodillas juntas y la cadera neutra.",
           "imageUrl": null,
           "muscleTarget": "Full Body - Estabilidad",
-          "equipment": "General"
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "1l2nndfJS6TUK5QNeFJR",
+          "duration": "5 minutos",
+          "name": "Estiramiento de Glúteo Sentado con Torsión",
+          "description": "Sentado, cruza una pierna sobre la otra. Usa el brazo opuesto para abrazar la rodilla levantada y gírate hacia la rodilla, mirando por encima del hombro.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "Peso Corporal"
         }
       ]
     },
     "meta": {
-      "date": "2025-11-20T18:35:01.750Z",
+      "date": "2025-11-20T19:04:28.661Z",
+      "generatedAt": "2025-11-20T19:04:38.265Z",
       "week": 1,
       "focus": "Full Body - Estabilidad",
-      "generatedAt": "2025-11-20T18:35:25.795Z",
-      "model": "gpt-4o-mini-optimized"
+      "model": "gpt-4o-mini-v4-final"
     },
     "completed": false
   }

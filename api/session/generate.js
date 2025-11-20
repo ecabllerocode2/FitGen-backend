@@ -15,7 +15,6 @@ const setCORSHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 };
 
-// ESTA FUNCIÓN GARANTIZA QUE NO IMPORTEN MAYÚSCULAS NI ACENTOS
 const normalizeText = (text) => {
     if (!text) return "";
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -35,14 +34,13 @@ const safeMap = (collection, callback) => {
 };
 
 // ----------------------------------------------------
-// 2. LÓGICA DE FILTRADO EXACTA (V4.0 FINAL)
+// 2. LÓGICA DE FILTRADO EXACTA (V5.0 - FINAL)
 // ----------------------------------------------------
 
 const detectEnvironment = (equipmentList) => {
     const eqString = JSON.stringify(equipmentList).toLowerCase();
     if (eqString.includes('gimnasio') || eqString.includes('comercial') || eqString.includes('gym')) return 'gym';
     
-    // Verificamos carga externa real para distinguir de bodyweight puro
     const hasLoad = equipmentList.some(item => {
         const i = normalizeText(item);
         return i.includes('mancuerna') || i.includes('pesa') || i.includes('barra de peso') || i.includes('disco') || i.includes('kettlebell') || (i.includes('banda') && !i.includes('mini'));
@@ -54,74 +52,46 @@ const detectEnvironment = (equipmentList) => {
 
 const filterExercisesSmart = (exercises, userEquipmentList) => {
     const environment = detectEnvironment(userEquipmentList);
-    // Normalizamos equipo del usuario una sola vez para comparar rápido
     const userKeywords = userEquipmentList.map(e => normalizeText(e));
 
     if (environment === 'gym') return exercises;
 
     return exercises.filter(ex => {
-        // Normalizamos equipo del ejercicio (DB)
         const reqEq = normalizeText(ex.equipment || ex.equipo || "sin equipo");
 
-        // --- 1. REGLA DE ORO: Bodyweight siempre pasa ---
         if (reqEq === "sin equipo" || reqEq === "peso corporal" || reqEq === "propio cuerpo" || reqEq === "suelo" || reqEq === "general" || reqEq === "ninguno") {
             return true; 
         }
 
-        // Si el usuario entrena SOLO con cuerpo, rechazamos cualquier equipo externo
         if (environment === 'bodyweight') return false;
 
-        // --- 2. LÓGICA DE EQUIPO ESPECÍFICO (ESTRICTO) ---
+        if (reqEq.includes("mini")) return userKeywords.some(k => k.includes("mini"));
 
-        // Mini Bandas (Diferenciar de bandas largas)
-        if (reqEq.includes("mini")) {
-            return userKeywords.some(k => k.includes("mini"));
-        }
-
-        // Bandas Largas / Tubos / Ligas
         if (reqEq.includes("banda") || reqEq.includes("elastica") || reqEq.includes("liga")) {
-            // Debe tener banda Y esa banda NO debe ser "mini"
             return userKeywords.some(k => (k.includes("banda") || k.includes("liga") || k.includes("asa")) && !k.includes("mini"));
         }
 
-        // Foam Roller / Rodillo
-        if (reqEq.includes("rodillo") || reqEq.includes("foam")) {
-            return userKeywords.some(k => k.includes("rodillo") || k.includes("foam"));
-        }
+        if (reqEq.includes("rodillo") || reqEq.includes("foam")) return userKeywords.some(k => k.includes("rodillo") || k.includes("foam"));
 
-        // Mancuernas
-        if (reqEq.includes("mancuerna") || reqEq.includes("dumbbell")) {
-            return userKeywords.some(k => k.includes("mancuerna") || k.includes("dumbbell"));
-        }
+        if (reqEq.includes("mancuerna") || reqEq.includes("dumbbell")) return userKeywords.some(k => k.includes("mancuerna") || k.includes("dumbbell"));
 
-        // Kettlebells (ESTRICTO: No acepta mancuernas)
-        if (reqEq.includes("kettlebell") || reqEq.includes("rusa")) {
-            return userKeywords.some(k => k.includes("kettlebell") || k.includes("rusa"));
-        }
+        if (reqEq.includes("kettlebell") || reqEq.includes("rusa")) return userKeywords.some(k => k.includes("kettlebell") || k.includes("rusa"));
 
-        // Barras
         if (reqEq.includes("barra")) {
-            // Barra Dominadas
-            if (reqEq.includes("dominada") || reqEq.includes("pull up")) {
-                return userKeywords.some(k => k.includes("dominada") || k.includes("pull up") || k.includes("marco"));
-            }
-            // Barra de Pesas
+            if (reqEq.includes("dominada") || reqEq.includes("pull up")) return userKeywords.some(k => k.includes("dominada") || k.includes("pull up") || k.includes("marco"));
             return userKeywords.some(k => k.includes("barra de peso") || k.includes("olimpica") || k.includes("z") || k.includes("discos"));
         }
 
-        // Poleas (Estricto: Solo si tiene polea real)
-        if (reqEq.includes("polea") || reqEq.includes("cable")) {
-             return userKeywords.some(k => k.includes("polea") || k.includes("multiestacion"));
-        }
+        if (reqEq.includes("polea") || reqEq.includes("cable")) return userKeywords.some(k => k.includes("polea") || k.includes("multiestacion"));
 
-        return false; // Si pide algo que no tenemos, fuera.
+        return false;
     });
 };
 
 const formatListForPrompt = (list, label) => {
-    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES DISPONIBLES (Usa Bodyweight Básico)`;
+    if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES (Usa Bodyweight)`;
     return `--- OPCIONES PARA ${label} (Elegir de aquí) ---\n` + 
-    list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'}`).join('\n');
+    list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'} | Tipo: ${ex.tipo || 'General'}`).join('\n');
 };
 
 const getMuscleGroupFromFocus = (focusString) => {
@@ -141,27 +111,59 @@ const getMuscleGroupFromFocus = (focusString) => {
 const getEmergencySession = (focus) => ({
     sessionGoal: `Sesión Básica (Fallback): ${focus}`,
     estimatedDurationMin: 45,
-    warmup: {
-        exercises: [
-            { id: "custom", name: "Jumping Jacks", instructions: "Activar ritmo cardiaco", durationOrReps: "60 seg" },
-            { id: "custom", name: "Movilidad Articular", instructions: "Rotaciones suaves", durationOrReps: "60 seg" }
-        ]
-    },
-    mainBlocks: [
-        {
-            blockType: "station",
-            exercises: [
-                { id: "custom", name: "Sentadillas (Air Squats)", sets: 4, targetReps: "15", rpe: 7, notes: "Controla la bajada." },
-                { id: "custom", name: "Flexiones (Push Ups)", sets: 4, targetReps: "10-12", rpe: 8, notes: "Rodillas al suelo si es necesario." },
-                { id: "custom", name: "Plancha Abdominal", sets: 3, targetReps: "45s", rpe: 8, notes: "Mantén la espalda recta." }
-            ]
-        }
-    ],
+    warmup: { exercises: [{ id: "custom", name: "Jumping Jacks", durationOrReps: "60 seg" }] },
+    mainBlocks: [{ blockType: "circuit", exercises: [{ id: "custom", name: "Sentadillas", sets: 4, targetReps: "15" }] }],
     cooldown: { exercises: [{ id: "custom", name: "Estiramiento General", duration: "5 min" }] }
 });
 
 // ----------------------------------------------------
-// 3. HANDLER PRINCIPAL
+// 3. GENERADOR DE PROMPT DINÁMICO
+// ----------------------------------------------------
+
+const generateSystemPrompt = (isFullBody, focus) => {
+    if (isFullBody) {
+        return `
+        Eres un entrenador experto diseñando una sesión FULL BODY de Alta Calidad.
+        
+        OBJETIVO: Crear un CIRCUITO metabólico y de fuerza completo.
+        
+        REGLAS DE ESTRUCTURA (OBLIGATORIAS):
+        1. **CALENTAMIENTO**: Selecciona 3 o 4 ejercicios. Duración máx por ejercicio: 60-90 segundos. (Total 5-6 min).
+        2. **BLOQUE PRINCIPAL (CIRCUITO)**:
+           - Debes seleccionar **6 a 8 ejercicios** distintos.
+           - El bloque debe ser tipo "circuit".
+           - DEBE HABER EQUILIBRIO: Incluye 1 dominante de rodilla (cuádriceps), 1 dominante de cadera (glúteo/isquio), 1 empuje (push), 1 tracción (pull) y 1-2 de core/estabilidad.
+        3. **ENFRIAMIENTO**: Selecciona 3 o 4 ejercicios de estiramiento. Duración máx: 60 segundos c/u.
+        
+        REGLAS DE DATOS:
+        - Usa SOLO los IDs provistos.
+        - NO inventes ejercicios.
+        - NO pongas duraciones irreales (ej. NO "5 minutos" para un ejercicio).
+        `;
+    } else {
+        return `
+        Eres un entrenador experto diseñando una sesión de HIPERTROFIA enfocada en ${focus}.
+        
+        OBJETIVO: Crear una sesión sólida con volumen adecuado.
+        
+        REGLAS DE ESTRUCTURA (OBLIGATORIAS):
+        1. **CALENTAMIENTO**: Selecciona 3 ejercicios de movilidad específica. Duración máx: 60-90 segundos c/u.
+        2. **BLOQUE PRINCIPAL (ESTACIONES)**:
+           - Selecciona **5 a 7 ejercicios**.
+           - Orden: Compuestos pesados primero -> Aislamiento después.
+           - Series: 3 a 4 series por ejercicio.
+        3. **ENFRIAMIENTO**: Selecciona 3 ejercicios de estiramiento enfocado al músculo trabajado.
+        
+        REGLAS DE DATOS:
+        - Usa SOLO los IDs provistos.
+        - NO inventes ejercicios.
+        - NO pongas duraciones irreales.
+        `;
+    }
+};
+
+// ----------------------------------------------------
+// 4. HANDLER PRINCIPAL
 // ----------------------------------------------------
 export default async function handler(req, res) {
     setCORSHeaders(res);
@@ -180,7 +182,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Token inválido.' });
     }
 
-    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN: ${userId}`);
+    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN V5: ${userId}`);
 
     try {
         const userDocRef = db.collection('users').doc(userId);
@@ -207,10 +209,8 @@ export default async function handler(req, res) {
 
         console.log(`Focus: ${targetSession.sessionFocus}`);
 
-        // --- SELECCIÓN Y MEZCLA DE COLECCIONES ---
+        // --- CARGA DE COLECCIONES ---
         const environment = detectEnvironment(profileData.availableEquipment);
-        
-        // Promesas de carga base
         let collectionsToFetch = [db.collection('exercises_utility').get()];
         
         if (environment === 'gym') {
@@ -218,23 +218,15 @@ export default async function handler(req, res) {
         } else if (environment === 'bodyweight') {
             collectionsToFetch.push(db.collection('exercises_bodyweight_pure').get());
         } else {
-            // Environment === 'home_equipment'
-            // CARGAMOS AMBAS: Home Limited Y Bodyweight Pure para mezclar
-            console.log("Entorno Home: Fusionando colecciones Limited + Bodyweight");
             collectionsToFetch.push(db.collection('exercises_home_limited').get());
             collectionsToFetch.push(db.collection('exercises_bodyweight_pure').get());
         }
 
         const results = await Promise.all(collectionsToFetch);
-        
-        // Utility es siempre el primero (índice 0)
         const utilitySnap = results[0];
         
-        // Procesar Principal (Indices restantes)
         let rawMain = [];
         const processDoc = (doc) => ({ id: doc.id, ...doc.data() });
-        
-        // Mapas para hidratación
         const exercisesById = {};
         const exercisesByName = {};
         const indexEx = (d) => {
@@ -243,33 +235,21 @@ export default async function handler(req, res) {
             if (d.name) exercisesByName[normalizeText(d.name)] = d;
         };
 
-        // Recorremos results desde el índice 1 en adelante (las colecciones principales)
         for (let i = 1; i < results.length; i++) {
-            results[i].forEach(doc => {
-                const d = processDoc(doc);
-                rawMain.push(d);
-                indexEx(d);
-            });
+            results[i].forEach(doc => { const d = processDoc(doc); rawMain.push(d); indexEx(d); });
         }
-        
         let rawUtility = [];
-        utilitySnap.forEach(doc => {
-            const d = processDoc(doc);
-            rawUtility.push(d);
-            indexEx(d);
-        });
+        utilitySnap.forEach(doc => { const d = processDoc(doc); rawUtility.push(d); indexEx(d); });
 
-        // --- FILTRADO ESTRICTO ---
+        // --- FILTRADO ---
         const validMain = filterExercisesSmart(rawMain, profileData.availableEquipment);
-        
-        // Utility: También pasamos el filtro smart (para validar si tiene rodillo/bandas)
         const validUtility = filterExercisesSmart(rawUtility, profileData.availableEquipment);
 
-        // --- SEGMENTACIÓN POR TIPO Y MUSCULO ---
+        // --- SEGMENTACIÓN ---
         const targetMuscles = getMuscleGroupFromFocus(targetSession.sessionFocus);
         const isFullBody = targetMuscles.includes('full') || targetMuscles.length === 0;
 
-        // 1. MAIN: Filtro muscular
+        // 1. MAIN
         let mainCandidates = validMain.filter(ex => {
             const target = normalizeText(ex.musculoObjetivo || ex.muscleTarget || "");
             const bodyPart = normalizeText(ex.parteCuerpo || ex.bodyPart || "");
@@ -277,52 +257,23 @@ export default async function handler(req, res) {
             return targetMuscles.some(m => target.includes(m) || bodyPart.includes(m));
         });
         
-        mainCandidates = shuffleArray(mainCandidates).slice(0, 35);
+        mainCandidates = shuffleArray(mainCandidates).slice(0, 45); // Damos más opciones para que pueda llenar el circuito
 
-        // 2. WARMUP: Filtramos por 'tipo' normalizado
-        let warmupCandidates = validUtility.filter(ex => {
-            const t = normalizeText(ex.tipo || "");
-            return t === 'calentamiento';
-        }).slice(0, 10);
+        // 2. WARMUP
+        let warmupCandidates = validUtility.filter(ex => normalizeText(ex.tipo || "") === 'calentamiento').slice(0, 15);
 
-        // 3. COOLDOWN: Filtramos por 'tipo' normalizado
-        let cooldownCandidates = validUtility.filter(ex => {
-            const t = normalizeText(ex.tipo || "");
-            return t === 'estiramiento';
-        }).slice(0, 10);
+        // 3. COOLDOWN
+        let cooldownCandidates = validUtility.filter(ex => normalizeText(ex.tipo || "") === 'estiramiento').slice(0, 15);
 
-        // --- GENERACIÓN DE CONTEXTO ---
+        // --- GENERACIÓN DE CONTEXTO Y PROMPT ---
         const contextString = `
-        ${formatListForPrompt(warmupCandidates, "CALENTAMIENTO (WARMUP)")}
-        
+        ${formatListForPrompt(warmupCandidates, "CALENTAMIENTO")}
         ${formatListForPrompt(mainCandidates, "BLOQUE PRINCIPAL (Foco: " + targetSession.sessionFocus + ")")}
-        
-        ${formatListForPrompt(cooldownCandidates, "ENFRIAMIENTO (COOLDOWN)")}
+        ${formatListForPrompt(cooldownCandidates, "ENFRIAMIENTO")}
         `;
 
-        const systemPrompt = `
-        Eres un entrenador experto. Crea la sesión JSON usando SOLO el contexto provisto.
-
-        REGLAS ESTRICTAS:
-        1. Usa los IDs exactos de la lista. NO inventes ejercicios.
-        2. Para Calentamiento usa SOLO la lista 'CALENTAMIENTO'.
-        3. Para Enfriamiento usa SOLO la lista 'ENFRIAMIENTO'.
-        4. Respeta el equipo indicado en el contexto.
-
-        ESTRUCTURA JSON:
-        {
-            "sessionGoal": "...",
-            "estimatedDurationMin": 60,
-            "warmup": { "exercises": [{ "id": "...", "name": "...", "durationOrReps": "..." }] },
-            "mainBlocks": [
-                {
-                    "blockType": "station", 
-                    "exercises": [{ "id": "...", "name": "...", "sets": 3, "targetReps": "10-12", "rpe": 8 }]
-                }
-            ],
-            "cooldown": { "exercises": [{ "id": "...", "duration": "..." }] }
-        }
-        `;
+        // USAMOS EL GENERADOR DINÁMICO DE PROMPTS
+        const systemPrompt = generateSystemPrompt(isFullBody, targetSession.sessionFocus);
 
         const completion = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -334,7 +285,7 @@ export default async function handler(req, res) {
                 model: "openai/gpt-4o-mini",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Contexto:\n${contextString}\n\nGenera JSON:` }
+                    { role: "user", content: `Contexto:\n${contextString}\n\nOutput JSON:` }
                 ],
                 response_format: { type: "json_object" }
             })
@@ -345,7 +296,6 @@ export default async function handler(req, res) {
         try {
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch(e) {
-            console.error("Error JSON IA:", e);
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
@@ -378,13 +328,13 @@ export default async function handler(req, res) {
                 generatedAt: new Date().toISOString(),
                 week: currentWeekNum,
                 focus: targetSession.sessionFocus,
-                model: "gpt-4o-mini-v4-final"
+                model: "gpt-4o-mini-v5-logic"
             },
             completed: false
         };
 
         await userDocRef.update({ currentSession: finalSession });
-        console.log(">>> SESIÓN FINAL OK");
+        console.log(">>> SESIÓN V5 FINALIZADA");
         return res.status(200).json({ success: true, session: finalSession });
 
     } catch (error) {
