@@ -144,21 +144,94 @@
   },
   "planStatus": "active",
   "currentSession": {
-    "sessionGoal": "Entrenamiento",
+    "sessionGoal": "Sesión Básica (Fallback por Error IA): Full Body - Estabilidad",
     "estimatedDurationMin": 60,
     "warmup": {
-      "exercises": []
+      "exercises": [
+        {
+          "id": "xsGSXFhCwa65ZeKmAHhz",
+          "name": "Saltos de Tijera (Jumping Jacks)",
+          "instructions": "Activar ritmo cardiaco",
+          "durationOrReps": "60 seg",
+          "description": "Salta separando brazos y piernas, luego únelos. Movimiento rítmico para elevar la frecuencia cardíaca y calentar el cuerpo de forma general.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "custom",
+          "name": "Rotaciones Articulares",
+          "instructions": "Movilidad general",
+          "durationOrReps": "60 seg",
+          "description": "Movilidad general",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "General"
+        }
+      ]
     },
-    "mainBlocks": [],
+    "mainBlocks": [
+      {
+        "blockType": "circuit",
+        "exercises": [
+          {
+            "id": "custom",
+            "name": "Sentadillas (Air Squats)",
+            "sets": 4,
+            "targetReps": "15",
+            "rpe": 7,
+            "notes": "Controla la bajada.",
+            "description": "Ejecución controlada.",
+            "imageUrl": null,
+            "muscleTarget": "Full Body - Estabilidad",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Flexiones (Push Ups)",
+            "sets": 4,
+            "targetReps": "10-12",
+            "rpe": 8,
+            "notes": "Rodillas al suelo si es necesario.",
+            "description": "Ejecución controlada.",
+            "imageUrl": null,
+            "muscleTarget": "Full Body - Estabilidad",
+            "equipment": "General"
+          },
+          {
+            "id": "custom",
+            "name": "Plancha Abdominal",
+            "sets": 3,
+            "targetReps": "45s",
+            "rpe": 8,
+            "notes": "Espalda recta.",
+            "description": "Ejecución controlada.",
+            "imageUrl": null,
+            "muscleTarget": "Full Body - Estabilidad",
+            "equipment": "General"
+          }
+        ]
+      }
+    ],
     "cooldown": {
-      "exercises": []
+      "exercises": [
+        {
+          "id": "custom",
+          "name": "Estiramiento General",
+          "duration": "5 min",
+          "description": "Ejecución controlada.",
+          "imageUrl": null,
+          "muscleTarget": "Full Body - Estabilidad",
+          "equipment": "General"
+        }
+      ]
     },
     "meta": {
-      "date": "2025-11-20T19:17:34.618Z",
-      "generatedAt": "2025-11-20T19:17:53.026Z",
+      "date": "2025-11-20T19:25:47.174Z",
+      "generatedAt": "2025-11-20T19:26:09.213Z",
       "week": 1,
       "focus": "Full Body - Estabilidad",
-      "model": "gpt-4o-mini-v5-logic"
+      "model": "gpt-4o-mini-v6-safe"
     },
     "completed": false
   }

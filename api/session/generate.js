@@ -34,7 +34,7 @@ const safeMap = (collection, callback) => {
 };
 
 // ----------------------------------------------------
-// 2. LÓGICA DE FILTRADO EXACTA (V6.0 - ROBUSTA)
+// 2. LÓGICA DE FILTRADO Y FORMATO (V7.0)
 // ----------------------------------------------------
 
 const detectEnvironment = (equipmentList) => {
@@ -59,41 +59,45 @@ const filterExercisesSmart = (exercises, userEquipmentList) => {
     return exercises.filter(ex => {
         const reqEq = normalizeText(ex.equipment || ex.equipo || "sin equipo");
 
-        // Paso automático para bodyweight/sin equipo
         if (reqEq === "sin equipo" || reqEq === "peso corporal" || reqEq === "propio cuerpo" || reqEq === "suelo" || reqEq === "general" || reqEq === "ninguno") {
             return true; 
         }
 
         if (environment === 'bodyweight') return false;
 
-        // Lógica estricta de equipo
+        // Lógica estricta de equipo (mismo que V6)
         if (reqEq.includes("mini")) return userKeywords.some(k => k.includes("mini"));
-
         if (reqEq.includes("banda") || reqEq.includes("elastica") || reqEq.includes("liga")) {
             return userKeywords.some(k => (k.includes("banda") || k.includes("liga") || k.includes("asa")) && !k.includes("mini"));
         }
-
         if (reqEq.includes("rodillo") || reqEq.includes("foam")) return userKeywords.some(k => k.includes("rodillo") || k.includes("foam"));
-
         if (reqEq.includes("mancuerna") || reqEq.includes("dumbbell")) return userKeywords.some(k => k.includes("mancuerna") || k.includes("dumbbell"));
-
         if (reqEq.includes("kettlebell") || reqEq.includes("rusa")) return userKeywords.some(k => k.includes("kettlebell") || k.includes("rusa"));
-
         if (reqEq.includes("barra")) {
             if (reqEq.includes("dominada") || reqEq.includes("pull up")) return userKeywords.some(k => k.includes("dominada") || k.includes("pull up") || k.includes("marco"));
             return userKeywords.some(k => k.includes("barra de peso") || k.includes("olimpica") || k.includes("z") || k.includes("discos"));
         }
-
         if (reqEq.includes("polea") || reqEq.includes("cable")) return userKeywords.some(k => k.includes("polea") || k.includes("multiestacion"));
 
         return false;
     });
 };
 
+// FIX V7: SOLO INCLUIMOS TIPO PARA CALENTAMIENTO/ENFRIAMIENTO
 const formatListForPrompt = (list, label) => {
     if (!list || list.length === 0) return `[${label}]: NO HAY OPCIONES (Usa Bodyweight Básico)`;
-    return `--- OPCIONES PARA ${label} (Elegir de aquí) ---\n` + 
-    list.map(ex => `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'} | Tipo: ${ex.tipo || 'General'}`).join('\n');
+    const isUtility = label.includes("CALENTAMIENTO") || label.includes("ENFRIAMIENTO");
+    
+    const mappedList = list.map(ex => {
+        let entry = `ID: "${ex.id}" | Nombre: ${ex.nombre || ex.name} | Equipo: ${ex.equipment || ex.equipo || 'Sin equipo'}`;
+        // Solo incluimos Tipo si es una lista de utilidad
+        if (isUtility) {
+             entry += ` | Tipo: ${ex.tipo || 'General'}`;
+        }
+        return entry;
+    });
+
+    return `--- OPCIONES PARA ${label} (Elegir de aquí) ---\n` + mappedList.join('\n');
 };
 
 const getMuscleGroupFromFocus = (focusString) => {
@@ -134,32 +138,43 @@ const getEmergencySession = (focus) => ({
 });
 
 // ----------------------------------------------------
-// 3. GENERADOR DE PROMPT
+// 3. GENERADOR DE PROMPT (V7.0 - INSTRUCCIONES RÍGIDAS)
 // ----------------------------------------------------
 const generateSystemPrompt = (isFullBody, focus) => {
+    // Definimos el template de ejercicios para forzar la estructura
+    const mainExerciseTemplate = `{ "id": "...", "name": "...", "sets": 3, "targetReps": "12-15", "rpe": 7 }`;
+    
     if (isFullBody) {
         return `
-        Eres un entrenador experto diseñando una sesión FULL BODY de Alta Calidad.
-        OBJETIVO: Crear un CIRCUITO metabólico y de fuerza completo.
-        REGLAS OBLIGATORIAS:
-        1. **CALENTAMIENTO**: Selecciona 3 o 4 ejercicios. Duración: 60-90s c/u.
-        2. **BLOQUE PRINCIPAL (CIRCUITO)**:
-           - Selecciona **6 a 8 ejercicios**.
-           - Equilibra: Rodilla, Cadera, Empuje, Tracción, Core.
-        3. **ENFRIAMIENTO**: Selecciona 3 o 4 ejercicios de estiramiento.
-        - Usa SOLO IDs provistos. NO inventes.
+        Eres un entrenador experto. Crea una sesión FULL BODY de Alta Calidad en formato JSON.
+        
+        REGLAS OBLIGATORIAS (Estrictas):
+        1. **USAR SÓLO IDs** de las listas provistas. NO inventar ejercicios.
+        2. **CALENTAMIENTO**: Selecciona **3 o 4** ejercicios (duración 60-90s c/u).
+        3. **BLOQUE PRINCIPAL (CIRCUITO)**:
+           - Selecciona **EXACTAMENTE 6 a 8 ejercicios**.
+           - El bloque debe ser de tipo "circuit".
+           - **EQUILIBRIO MÍNIMO**: Incluye ejercicios para: Rodilla (2), Cadera (2), Empuje (1), Tracción (1), Core (1-2).
+           - **ESTRUCTURA DE EJERCICIO (Obligatoria):** ${mainExerciseTemplate}
+        4. **ENFRIAMIENTO**: Selecciona **3 o 4** ejercicios de estiramiento (duración 60s c/u).
+        
+        Verifica que el JSON de salida sea perfecto.
         `;
     } else {
         return `
-        Eres un entrenador experto diseñando una sesión de HIPERTROFIA para ${focus}.
-        OBJETIVO: Sesión de volumen y fuerza.
-        REGLAS OBLIGATORIAS:
-        1. **CALENTAMIENTO**: 3 ejercicios de movilidad.
-        2. **BLOQUE PRINCIPAL (ESTACIONES)**:
+        Eres un entrenador experto. Crea una sesión de HIPERTROFIA enfocada en ${focus} en formato JSON.
+        
+        REGLAS OBLIGATORIAS (Estrictas):
+        1. **USAR SÓLO IDs** de las listas provistas. NO inventar ejercicios.
+        2. **CALENTAMIENTO**: Selecciona **3** ejercicios de movilidad específica (duración 60-90s c/u).
+        3. **BLOQUE PRINCIPAL (ESTACIONES)**:
            - Selecciona **5 a 7 ejercicios**.
-           - Orden: Compuestos -> Aislamiento.
-        3. **ENFRIAMIENTO**: 3 estiramientos focalizados.
-        - Usa SOLO IDs provistos. NO inventes.
+           - Orden: Compuestos pesados primero -> Aislamiento después.
+           - El bloque debe ser de tipo "station" o "superseries".
+           - **ESTRUCTURA DE EJERCICIO (Obligatoria):** ${mainExerciseTemplate.replace('"sets": 3', '"sets": 4')}
+        4. **ENFRIAMIENTO**: Selecciona **3** estiramientos focalizados (duración 60s c/u).
+        
+        Verifica que el JSON de salida sea perfecto.
         `;
     }
 };
@@ -184,7 +199,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Token inválido.' });
     }
 
-    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN V6 (SAFE): ${userId}`);
+    console.log(`>>> [${new Date().toISOString()}] GENERANDO SESIÓN V7 (PROMPT OPTIMIZADO): ${userId}`);
 
     try {
         const userDocRef = db.collection('users').doc(userId);
@@ -261,7 +276,7 @@ export default async function handler(req, res) {
         
         mainCandidates = shuffleArray(mainCandidates).slice(0, 45);
 
-        // 2. WARMUP (Failsafe: Si no encuentra por 'tipo', rellena con utility genérico)
+        // 2. WARMUP (Failsafe)
         let warmupCandidates = validUtility.filter(ex => {
             const t = normalizeText(ex.tipo || ex.type || ex.category || ""); 
             return t.includes('calentamiento') || t.includes('warm') || t.includes('movilidad');
@@ -306,19 +321,21 @@ export default async function handler(req, res) {
         const llmResult = await completion.json();
         let sessionJSON;
         try {
+            // El LLM devuelve JSON
             sessionJSON = JSON.parse(llmResult.choices[0].message.content);
         } catch(e) {
+            // Error de parseo (JSON inválido)
             console.error("Error parsing JSON:", e);
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
-        // *** VALIDACIÓN CRÍTICA (AQUÍ ESTABA EL ERROR ANTERIOR) ***
+        // *** VALIDACIÓN CRÍTICA V6 (Bloque de Seguridad) ***
         let isValidSession = true;
         if (!sessionJSON.mainBlocks || !Array.isArray(sessionJSON.mainBlocks) || sessionJSON.mainBlocks.length === 0) isValidSession = false;
-        if (isValidSession && (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length === 0)) isValidSession = false;
+        if (isValidSession && (!sessionJSON.mainBlocks[0].exercises || sessionJSON.mainBlocks[0].exercises.length < 3)) isValidSession = false; // Mínimo 3 ejercicios para no considerarse vacío
         
         if (!isValidSession) {
-            console.warn("⚠️ IA devolvió sesión vacía. Usando Fallback de Emergencia.");
+            console.warn("⚠️ IA devolvió sesión vacía o incompleta. Usando Fallback de Emergencia.");
             sessionJSON = getEmergencySession(targetSession.sessionFocus);
         }
 
@@ -351,13 +368,13 @@ export default async function handler(req, res) {
                 generatedAt: new Date().toISOString(),
                 week: currentWeekNum,
                 focus: targetSession.sessionFocus,
-                model: "gpt-4o-mini-v6-safe"
+                model: "gpt-4o-mini-v7-final"
             },
             completed: false
         };
 
         await userDocRef.update({ currentSession: finalSession });
-        console.log(">>> SESIÓN V6 GUARDADA EXITOSAMENTE");
+        console.log(">>> SESIÓN V7 GUARDADA EXITOSAMENTE");
         return res.status(200).json({ success: true, session: finalSession });
 
     } catch (error) {
