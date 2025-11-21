@@ -1,13 +1,14 @@
 [
   {
-    "nombre": "Press de Banca con Mancuernas (Plano)",
-    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta que los codos estén ligeramente por debajo del banco. Empuja las mancuernas hacia arriba hasta extender los brazos sin bloquear los codos.",
+    "nombre": "Press en suelo con Mancuernas",
+    "descripcion": "Acuéstate en el suelo. Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta que los codos toquen ligeramente el suelo. Empuja las mancuernas hacia arriba hasta extender los brazos sin bloquear los codos.",
     "tipo": "Multiarticular",
     "parteCuerpo": "Pecho",
     "musculoObjetivo": "Pectoral Mayor (porción media)",
     "equipo": "Mancuernas",
     "nivel": "Principiante",
-    "url": ""
+    "url": "",
+    "video": ""
   },
   {
     "nombre": "Press de Banca con Mancuernas (Inclinado)",
