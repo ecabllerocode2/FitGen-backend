@@ -11,18 +11,8 @@
     "video": ""
   },
   {
-    "nombre": "Press de Banca con Mancuernas (Inclinado)",
-    "descripcion": "Acuéstate en un banco inclinado (aprox. 30-45 grados). Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja lentamente hasta sentir un estiramiento suave en el pecho. Empuja hacia arriba hasta extender los brazos sin bloquear.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor (porción clavicular/superior)",
-    "equipo": "Mancuernas",
-    "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Aperturas con Mancuernas (Plano)",
-    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas con los brazos extendidos sobre el pecho, palmas enfrentadas, codos ligeramente flexionados. Baja las pesas abriendo los brazos en un amplio arco. Contrae el pecho para volver a la posición inicial.",
+    "nombre": "Aperturas con Mancuernas en suelo",
+    "descripcion": "Acuéstate en el suelo. Sostén las mancuernas con los brazos extendidos sobre el pecho, palmas enfrentadas, codos ligeramente flexionados. Baja las pesas abriendo los brazos en un amplio arco. Contrae el pecho para volver a la posición inicial.",
     "tipo": "Aislamiento",
     "parteCuerpo": "Pecho",
     "musculoObjetivo": "Pectoral Mayor (porción media)",
