@@ -21,28 +21,8 @@
     "url": ""
   },
   {
-    "nombre": "Press de Banca con Agarre Neutro (Plano)",
-    "descripcion": "Acuéstate en un banco plano. Sostén las mancuernas con las palmas enfrentadas entre sí (agarre neutro). Baja y presiona las mancuernas de forma controlada. Las mancuernas se mantienen paralelas durante todo el movimiento.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor (porción media) y Tríceps",
-    "equipo": "Mancuernas",
-    "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Press de Banca con Mancuernas (Declinado)",
-    "descripcion": "Acuéstate en un banco declinado (pies elevados). Sostén las mancuernas sobre el pecho con las palmas hacia adelante. Baja y empuja hacia arriba, enfocándote en la parte inferior del pectoral. Mantén la tensión en el pecho.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor (porción abdominal/inferior)",
-    "equipo": "Mancuernas",
-    "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Pullover con Mancuerna (En Banco)",
-    "descripcion": "Acuéstate perpendicularmente a un banco, con solo la parte superior de la espalda apoyada. Sostén una mancuerna con ambas manos sobre el pecho. Baja la mancuerna en un arco por detrás de la cabeza hasta sentir un estiramiento. Regresa lentamente.",
+    "nombre": "Pullover con Mancuerna en suelo",
+    "descripcion": "Acuéstate en el suelo. Sostén una mancuerna con ambas manos sobre el pecho. Baja la mancuerna en un arco por detrás de la cabeza hasta sentir un estiramiento. Regresa lentamente.",
     "tipo": "Multiarticular",
     "parteCuerpo": "Pecho",
     "musculoObjetivo": "Pectoral Mayor (cabeza larga) y Dorsales",
@@ -51,63 +31,13 @@
     "url": ""
   },
   {
-    "nombre": "Press de Banca en el Suelo con Mancuernas",
-    "descripcion": "Acuéstate en el suelo con las rodillas dobladas y los pies planos. Sostén las mancuernas sobre el pecho. Baja hasta que la parte superior de los brazos toque el suelo. Empuja las mancuernas hacia el techo. El rango de movimiento es limitado.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor",
-    "equipo": "Mancuernas",
-    "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Aperturas Inclinadas con Mancuernas",
-    "descripcion": "Acuéstate en un banco inclinado. Sostén las mancuernas con los brazos extendidos sobre el pecho, palmas enfrentadas, codos ligeramente flexionados. Baja las pesas abriendo los brazos en un amplio arco. Siente la contracción en la parte superior del pecho al subir.",
-    "tipo": "Aislamiento",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor (porción clavicular/superior)",
-    "equipo": "Mancuernas",
-    "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Press Cerrado con Mancuernas (Plano)",
-    "descripcion": "Acuéstate en un banco. Sostén las mancuernas juntas sobre el pecho, tocándose. Bájalas de forma controlada manteniéndolas en contacto. Presiona hacia arriba concentrándote en apretar el pecho en el centro. Involucra mucho los tríceps.",
+    "nombre": "Press Cerrado con Mancuernas en suelo",
+    "descripcion": "Acuéstate en el suelo. Sostén las mancuernas juntas sobre el pecho, tocándose. Bájalas de forma controlada manteniéndolas en contacto. Presiona hacia arriba concentrándote en apretar el pecho en el centro. Involucra mucho los tríceps.",
     "tipo": "Multiarticular",
     "parteCuerpo": "Pecho",
     "musculoObjetivo": "Pectoral Mayor (región esternal) y Tríceps",
     "equipo": "Mancuernas",
     "nivel": "Principiante",
-    "url": ""
-  },
-  {
-    "nombre": "Press de Banca en el Suelo (Intermedio)",
-    "descripcion": "Acuéstate en el suelo, rodillas dobladas. Sostén las mancuernas. Baja hasta que la parte superior de los brazos toque el suelo. Presiona hacia arriba. El suelo limita el rango, forzando la estabilización y protegiendo los hombros.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor y Tríceps",
-    "equipo": "Mancuernas",
-    "nivel": "Intermedio",
-    "url": ""
-  },
-  {
-    "nombre": "Aperturas en el Suelo (Intermedio)",
-    "descripcion": "Acuéstate en el suelo, rodillas dobladas. Extiende los brazos sobre el pecho con codos ligeramente flexionados. Baja las pesas abriendo los brazos hasta que los codos toquen ligeramente el suelo. Contrae para cerrar.",
-    "tipo": "Aislamiento",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor",
-    "equipo": "Mancuernas",
-    "nivel": "Intermedio",
-    "url": ""
-  },
-  {
-    "nombre": "Pullover en el Suelo (Manos Juntas)",
-    "descripcion": "Acuéstate en el suelo. Sostén una mancuerna con ambas manos (en forma de diamante). Extiende la mancuerna por encima de la cabeza hasta que los brazos estén casi paralelos al suelo. Usa el core para evitar arquear la espalda.",
-    "tipo": "Multiarticular",
-    "parteCuerpo": "Pecho",
-    "musculoObjetivo": "Pectoral Mayor y Dorsales",
-    "equipo": "Mancuernas",
-    "nivel": "Intermedio",
     "url": ""
   },
   {
