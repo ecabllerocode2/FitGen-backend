@@ -69,7 +69,7 @@ const filterExercisesByEquipment = (exercises, userEquipmentList) => {
     });
 };
 
-// --- NUEVO: LÓGICA ESPECÍFICA PARA UTILITY (Calentamiento/Cooldown) ---
+// --- LÓGICA PARA UTILITY (Calentamiento/Cooldown) ---
 const selectUtilityExercises = (utilityPool, type, userEquipmentList, count = 2) => {
     const userKeywords = userEquipmentList.map(e => normalizeText(e));
     const targetType = normalizeText(type); // 'calentamiento' o 'estiramiento'
@@ -99,7 +99,9 @@ const selectUtilityExercises = (utilityPool, type, userEquipmentList, count = 2)
         name: ex.nombre,
         instructions: ex.descripcion, // Mapeo para el Frontend
         durationOrReps: targetType.includes('calenta') ? "60 seg" : "45 seg por lado",
-        imageUrl: ex.url,
+        // 👇 CORRECCIÓN 1: Mapeamos el video a 'url' explícitamente
+        url: ex.url || null, 
+        imageUrl: ex.imagen || null, 
         equipment: ex.equipo
     }));
 };
@@ -268,7 +270,7 @@ const assignTrainingVariables = (exercise, role, goal, blockType) => {
     return { sets, targetReps: reps, rpe };
 };
 
-// --- NUEVO: LÓGICA DE ESTRUCTURA DE BLOQUE (Station vs Circuit) ---
+// --- LÓGICA DE ESTRUCTURA DE BLOQUE (Station vs Circuit) ---
 const determineBlockStructure = (goal, level, sessionFocus) => {
     const g = normalizeText(goal);
     const l = normalizeText(level);
@@ -319,8 +321,7 @@ export default async function handler(req, res) {
         if (!userDoc.exists) return res.status(404).json({ error: 'Usuario no encontrado.' });
         const { profileData, currentMesocycle } = userDoc.data();
 
-        // Validar fecha y sesión del día (Lógica existente...)
-        // ... (Para brevedad, asumimos que se valida el día igual que en tu código anterior)
+        // Validar fecha y sesión del día
         let todayDate = req.body.date ? parseISO(req.body.date) : subHours(new Date(), 6);
         const startDate = parseISO(currentMesocycle.startDate);
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
@@ -361,7 +362,7 @@ export default async function handler(req, res) {
         // 3. Filtrar Main Exercises
         let availableMain = filterExercisesByEquipment(allMainExercises, profileData.availableEquipment);
         
-        // 4. Generar UTILITY (Warmup / Cooldown) - Usando la NUEVA función
+        // 4. Generar UTILITY (Warmup / Cooldown)
         const finalWarmup = selectUtilityExercises(utilityExercises, 'calentamiento', profileData.availableEquipment, 2);
         const finalCooldown = selectUtilityExercises(utilityExercises, 'estiramiento', profileData.availableEquipment, 2);
 
@@ -394,7 +395,9 @@ export default async function handler(req, res) {
                     id: selected.id,
                     name: selected.nombre || selected.name,
                     description: selected.descripcion, // Importante para el Player
-                    imageUrl: selected.url || null,
+                    // 👇 CORRECCIÓN 2: Asignar 'url' a la propiedad 'url', no a 'imageUrl'
+                    url: selected.url || null, 
+                    imageUrl: selected.imagen || null,
                     equipment: selected.equipo,
                     ...vars
                 });
