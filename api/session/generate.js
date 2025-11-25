@@ -29,7 +29,7 @@ const shuffleArray = (array) => {
 // ----------------------------------------------------
 // 2. LÓGICA DE SELECCIÓN DE EJERCICIOS (FILTROS)
 // ----------------------------------------------------
-// (detectEnvironment y filterExercisesByEquipment se mantienen igual)
+
 const detectEnvironment = (equipmentList) => {
     const eqString = JSON.stringify(equipmentList).toLowerCase();
     if (eqString.includes('gimnasio') || eqString.includes('comercial') || eqString.includes('gym')) return 'gym';
@@ -72,28 +72,11 @@ const filterExercisesByEquipment = (exercises, userEquipmentList) => {
 
 
 /**
- * Genera un calentamiento completo usando Utility y Bodyweight.
+ * Genera un calentamiento completo (para sesiones NO de recuperación).
  */
-const generateFullWarmup = (utilityPool, bodyweightPool, movilityPool, focus, isRecovery) => {
+const generateFullWarmup = (utilityPool, bodyweightPool, focus) => {
     const warmup = [];
     const normFocus = normalizeText(focus);
-    
-    // Regla 1: Si es recuperación forzada o programada, usamos solo ejercicios de Movilidad.
-    if (isRecovery) {
-        // Seleccionar 5 ejercicios de movilidad para recuperación activa
-        const selectedMovility = shuffleArray(movilityPool).slice(0, 5); 
-        return selectedMovility.map(ex => ({
-            id: ex.id,
-            name: ex.nombre || ex.name,
-            instructions: ex.descripcion,
-            durationOrReps: "60-90 seg por lado",
-            imageUrl: ex.imagen || null, 
-            equipment: ex.equipo,
-            notes: "Movilidad terapéutica. Enfócate en la respiración y el rango de movimiento."
-        }));
-    }
-
-    // Regla 2: Calentamiento para Sesión Normal (Utility + Activación Bodyweight)
 
     // A. Calentamiento General (Utility) - 3 ejercicios
     const utilityCandidates = utilityPool.filter(ex => normalizeText(ex.tipo || "").includes('calenta'));
@@ -116,7 +99,6 @@ const generateFullWarmup = (utilityPool, bodyweightPool, movilityPool, focus, is
         const parteCuerpo = normalizeText(ex.parteCuerpo || "");
         const tipo = normalizeText(ex.tipo || "");
         
-        // Debe ser de baja intensidad y relevante al foco
         const isLowIntensity = tipo.includes('general') || tipo.includes('asistida') || tipo.includes('basico');
 
         let isRelevantFocus = true;
@@ -143,7 +125,6 @@ const generateFullWarmup = (utilityPool, bodyweightPool, movilityPool, focus, is
         });
     });
 
-    // Aseguramos al menos 4-5 ejercicios en total
     return shuffleArray(warmup);
 };
 
@@ -151,24 +132,21 @@ const generateFullWarmup = (utilityPool, bodyweightPool, movilityPool, focus, is
 /**
  * Genera el bloque de Core.
  */
-const generateCoreBlock = (bodyweightPool, rpeModifier, isRecovery) => {
+const generateCoreBlock = (bodyweightPool, rpeModifier) => {
     const coreCandidates = bodyweightPool.filter(ex => normalizeText(ex.parteCuerpo || "") === 'core');
     
-    // Regla de exclusión: Si la fatiga es extrema o es recuperación programada, el Core es opcional o de menor volumen.
     if (coreCandidates.length === 0 || rpeModifier < -1) return [];
 
-    // Seleccionar 2 ejercicios: 1 Anti-Extensión/Flexión y 1 Anti-Rotación/Lateral
     const antiExtension = coreCandidates.filter(ex => normalizeText(ex.nombre).includes('plancha') || normalizeText(ex.nombre).includes('abdominales')).slice(0, 1);
     const antiRotation = coreCandidates.filter(ex => normalizeText(ex.nombre).includes('giro') || normalizeText(ex.nombre).includes('rotacion') || normalizeText(ex.nombre).includes('leñador') || normalizeText(ex.nombre).includes('lateral')).slice(0, 1);
     
     let selectedCore = shuffleArray([...antiExtension, ...antiRotation]);
     
-    // Si no encontramos los específicos, tomamos 2 random
     if (selectedCore.length < 2) {
         selectedCore = shuffleArray(coreCandidates).slice(0, 2);
     }
     
-    const isHighFatigue = rpeModifier < 0 || isRecovery; // Si es recuperación programada, reducir volumen
+    const isHighFatigue = rpeModifier < 0; 
     const baseSets = isHighFatigue ? 2 : 3;
     const baseReps = isHighFatigue ? "30 seg" : "45-60 seg";
 
@@ -194,27 +172,33 @@ const generateCoreBlock = (bodyweightPool, rpeModifier, isRecovery) => {
 };
 
 /**
- * Genera la vuelta a la calma (enfriamiento) asegurando mínimo 5 estiramientos relevantes.
+ * Genera la vuelta a la calma (enfriamiento) asegurando estiramientos relevantes.
  */
-const generateCooldown = (utilityPool, mainExercisesSelected) => {
-    const workedMuscles = new Set();
-    const muscleMap = new Map();
+const generateCooldown = (utilityPool, mainExercisesSelected, isRecovery = false) => {
     
-    mainExercisesSelected.forEach(ex => {
-        // Usar musculoObjetivo para ser más granular. Ejemplo: 'Cuádriceps', 'Glúteo Mayor', 'Pectoral'
-        const muscles = (ex.musculoObjetivo || ex.parteCuerpo || "").split(',').map(m => normalizeText(m).trim()).filter(m => m.length > 2);
-        muscles.forEach(m => {
-            workedMuscles.add(m);
-            // Mapear músculo al ejercicio para referencia
-            if (!muscleMap.has(m)) muscleMap.set(m, []);
-            muscleMap.get(m).push(ex.name);
-        });
-    });
+    const majorMuscleGroups = [
+        'isquiotibiales', 'cuadriceps', 'gluteo', 'pecho', 'espalda', 'hombro', 'triceps', 'biceps', 'gemelos', 'pantorrilla', 'trapecio'
+    ];
 
-    const targetMuscles = Array.from(workedMuscles);
+    let targetMuscles = [];
+    
+    if (isRecovery || mainExercisesSelected.length === 0) {
+        // En sesión de RECUPERACIÓN o si no se trabajó nada, estiramos todo el cuerpo
+        targetMuscles = majorMuscleGroups;
+    } else {
+        // En sesión de ENTRENAMIENTO, priorizamos lo trabajado
+        const workedMuscles = new Set();
+        mainExercisesSelected.forEach(ex => {
+            // Extraer músculos objetivos de los ejercicios principales
+            const muscles = (ex.musculoObjetivo || ex.parteCuerpo || "").split(',').map(m => normalizeText(m).trim()).filter(m => m.length > 2);
+            muscles.forEach(m => workedMuscles.add(m));
+        });
+        targetMuscles = Array.from(workedMuscles);
+    }
+
     const finalStretchList = [];
     
-    // 1. Priorizar un estiramiento por cada músculo principal trabajado
+    // 1. Priorizar un estiramiento por cada músculo principal/trabajado
     for (const muscle of targetMuscles) {
         const stretchCandidates = utilityPool.filter(ex => {
             const type = normalizeText(ex.tipo || "");
@@ -231,22 +215,25 @@ const generateCooldown = (utilityPool, mainExercisesSelected) => {
         }
     }
 
-    // 2. Si hay menos de 5 ejercicios, añadir estiramientos generales (cadera, hombros, espalda baja)
-    if (finalStretchList.length < 5) {
-        const generalAreas = ['cadera', 'espalda baja', 'hombro', 'general'];
+    // 2. Rellenar si es necesario (Min. 5 en normal, Min. 8 en recuperación)
+    const minStretches = isRecovery ? 8 : 5; 
+    
+    if (finalStretchList.length < minStretches) {
+        // En recuperación, usamos los grupos musculares mayores faltantes como áreas generales
+        const generalAreas = isRecovery ? majorMuscleGroups : ['cadera', 'espalda baja', 'general'];
         const generalCandidates = utilityPool.filter(ex => {
             const type = normalizeText(ex.tipo || "");
             const exMuscle = normalizeText(ex.musculoObjetivo || "");
-            return type.includes('estiramiento') && generalAreas.some(area => exMuscle.includes(area));
+            return type.includes('estiramiento') && generalAreas.some(area => exMuscle.includes(area)) && !finalStretchList.some(s => s.id === ex.id);
         });
         
-        const needed = 5 - finalStretchList.length;
-        const additionalStretches = shuffleArray(generalCandidates).filter(ex => !finalStretchList.some(s => s.id === ex.id)).slice(0, needed);
+        const needed = minStretches - finalStretchList.length;
+        const additionalStretches = shuffleArray(generalCandidates).slice(0, needed);
         finalStretchList.push(...additionalStretches);
     }
     
     // Mapear al formato de salida
-    return finalStretchList.slice(0, 5).map(ex => ({
+    return finalStretchList.slice(0, isRecovery ? 10 : 8).map(ex => ({ 
         id: ex.id,
         name: ex.nombre || ex.name,
         instructions: ex.descripcion,
@@ -257,9 +244,9 @@ const generateCooldown = (utilityPool, mainExercisesSelected) => {
     }));
 };
 
-// (getSessionRPEModifier, calculateOverloadVariables, getSessionTemplate se mantienen igual)
 // ----------------------------------------------------
 // 3. LÓGICA DE SOBRECARGA PROGRESIVA Y TEMPLATES
+// (Se mantienen inalterados)
 // ----------------------------------------------------
 
 const getSessionRPEModifier = (feedback) => {
@@ -290,7 +277,8 @@ const calculateOverloadVariables = (
             targetReps: "15-20", 
             rpe: targetRPE,
             weightSuggestion: "Peso muy ligero (30% menos). Movilidad y Bombeo.",
-            note: `¡ATENCIÓN! Sesión ajustada a RECUPERACIÓN FORZADA debido a tu baja energía/alto dolor. Enfócate en la técnica y el bombeo muscular.`
+            note: `¡ATENCIÓN! Sesión ajustada a RECUPERACIÓN FORZADA debido a tu baja energía/alto dolor. Enfócate en la técnica y el bombeo muscular.`,
+            isMobility: true // Para identificar que es una sesión de baja carga
         };
     }
     
@@ -423,20 +411,16 @@ export default async function handler(req, res) {
         // Manejo de Día de Descanso o Sesión de Recuperación Programada
         const isProgrammedRecovery = targetSession && normalizeText(targetSession.sessionFocus).includes('recuperacion');
         
-        if (!targetSession || isProgrammedRecovery || isForcedRecoverySession) {
-             if (!targetSession) {
-                 // Crear una sesión temporal de recuperación si el día es de descanso
-                 targetSession = { sessionFocus: "Descanso Activo / Movilidad" };
-             }
-             // Si es un día de recuperación (programada o forzada), saltamos la generación de bloques principales
-             if (!isForcedRecoverySession) {
-                 console.log("Sesión de recuperación o descanso activo programado.");
-             }
-        } else {
-             if (!targetSession) {
-                 return res.status(200).json({ isRestDay: true, message: "Hoy es día de descanso según tu plan." });
-             }
+        if (!targetSession || normalizeText(targetSession.sessionFocus).includes('descanso')) {
+            targetSession = { sessionFocus: "Descanso Activo / Movilidad" };
         }
+        
+        const isRecovery = isProgrammedRecovery || isForcedRecoverySession;
+
+        if (!isRecovery && !targetSession) {
+             return res.status(200).json({ isRestDay: true, message: "Hoy es día de descanso según tu plan." });
+        }
+
 
         // 4. LECTURA DE HISTORIAL (Inalterada)
         const historySnapshot = await db.collection('users').doc(userId).collection('history')
@@ -464,7 +448,7 @@ export default async function handler(req, res) {
             });
         }
 
-        // 5. Carga y Filtrado de Ejercicios (Incluyendo la nueva colección 'exercises_movility')
+        // 5. Carga y Filtrado de Ejercicios
         const environment = detectEnvironment(profileData.availableEquipment);
         
         let collectionsToFetch = [
@@ -487,31 +471,63 @@ export default async function handler(req, res) {
         const movilityExercises = results[2].docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         let allMainExercises = [];
-        for (let i = 3; i < results.length; i++) { // Las colecciones principales están a partir del índice 3
+        for (let i = 3; i < results.length; i++) {
             results[i].docs.forEach(doc => allMainExercises.push({ id: doc.id, ...doc.data() }));
         }
         allMainExercises.push(...bodyweightExercises.filter(ex => normalizeText(ex.parteCuerpo || "") !== 'core'));
 
         const availableMain = filterExercisesByEquipment(allMainExercises, profileData.availableEquipment);
 
-        // 6. Generar UTILITY, CORE y BLOQUE PRINCIPAL
+        // 6. Generar SESIÓN
         
-        const isRecovery = isProgrammedRecovery || isForcedRecoverySession;
-
-        // Warmup: Usar la nueva lógica avanzada con Movilidad.
-        const finalWarmup = generateFullWarmup(
-            utilityExercises, 
-            bodyweightExercises, 
-            movilityExercises, // Pasar la nueva colección
-            targetSession.sessionFocus, 
-            isRecovery
-        );
-
         let mainExercisesSelected = [];
         let finalCoreBlocks = [];
-        
-        // Solo generar Main y Core si NO es una sesión de recuperación total
-        if (!isRecovery) {
+        let finalWarmup = [];
+
+        if (isRecovery) {
+            // --- Lógica para Sesión de Recuperación: MOVILIDAD como Bloque Principal ---
+            
+            // 1. Bloque Principal: Movilidad (6-8 ejercicios de la nueva colección)
+            const selectedMovility = shuffleArray(movilityExercises).slice(0, 7); 
+            mainExercisesSelected = selectedMovility.map(ex => ({
+                id: ex.id,
+                name: ex.nombre || ex.name,
+                instructions: ex.descripcion,
+                sets: 1, 
+                targetReps: "60-90 seg por lado",
+                rpe: 3, 
+                weightSuggestion: "Peso Corporal / Mínimo",
+                note: "Sesión de Movilidad Activa. Enfócate en el rango de movimiento controlado.",
+                imageUrl: ex.imagen || null,
+                equipment: ex.equipo,
+                musculoObjetivo: ex.musculoObjetivo, 
+                parteCuerpo: ex.parteCuerpo,
+            }));
+            
+            // 2. Calentamiento: Mínimo (2 ejercicios utilitarios generales)
+            finalWarmup = utilityExercises
+                .filter(ex => normalizeText(ex.tipo || "").includes('calenta'))
+                .slice(0, 2)
+                .map(ex => ({
+                    id: ex.id,
+                    name: ex.nombre || ex.name,
+                    instructions: ex.descripcion,
+                    durationOrReps: "30 seg",
+                    imageUrl: ex.imagen || null, 
+                    equipment: ex.equipo,
+                    notes: "Activación ligera."
+                }));
+
+            // 3. Core: No aplica.
+            finalCoreBlocks = [];
+
+        } else {
+            // --- Lógica para Sesión Normal (Training) ---
+
+            // 1. Calentamiento Normal
+            finalWarmup = generateFullWarmup(utilityExercises, bodyweightExercises, targetSession.sessionFocus);
+
+            // 2. Generar Bloque Principal
             const template = getSessionTemplate(targetSession.sessionFocus, profileData.fitnessGoal);
             
             template.forEach(slot => {
@@ -554,15 +570,12 @@ export default async function handler(req, res) {
                 }
             });
 
-            // Generar Bloque de Core para sesiones de entrenamiento
-            finalCoreBlocks = generateCoreBlock(bodyweightExercises, rpeModifier, false); 
-        } else {
-             // Generar Bloque de Core de bajo impacto para sesiones de recuperación (opcional)
-             finalCoreBlocks = generateCoreBlock(bodyweightExercises, rpeModifier, true);
+            // 3. Generar Bloque de Core
+            finalCoreBlocks = generateCoreBlock(bodyweightExercises, rpeModifier); 
         }
 
-        // Enfriamiento: Usar la lógica reforzada de Cooldown
-        const finalCooldown = generateCooldown(utilityExercises, mainExercisesSelected);
+        // 7. Enfriamiento (Cooldown) - La lógica se adapta automáticamente si isRecovery es true
+        const finalCooldown = generateCooldown(utilityExercises, mainExercisesSelected, isRecovery); 
 
 
         // 8. Ensamblar Respuesta Final
@@ -572,8 +585,9 @@ export default async function handler(req, res) {
             warmup: { exercises: finalWarmup },
             mainBlocks: mainExercisesSelected.length > 0 ? [
                 {
-                    blockType: 'station', 
-                    restBetweenSetsSec: isForcedRecoverySession ? 45 : 90, 
+                    blockType: isRecovery ? 'circuit' : 'station', // Movilidad como Circuito para fluidez
+                    restBetweenSetsSec: isRecovery ? 10 : 90, 
+                    restBetweenExercisesSec: isRecovery ? 0 : 0, // Sin descanso entre ejercicios en movilidad
                     exercises: mainExercisesSelected.map(ex => ({ 
                         ...ex,
                         note: ex.note
@@ -585,7 +599,7 @@ export default async function handler(req, res) {
             meta: {
                 date: todayDate.toISOString(),
                 generatedAt: new Date().toISOString(),
-                algorithm: `v5.1-movility-cooldown-mod-${rpeModifier}` 
+                algorithm: `v5.2-movility-mainblock-cooldown-mod-${rpeModifier}` 
             },
             completed: false
         };
