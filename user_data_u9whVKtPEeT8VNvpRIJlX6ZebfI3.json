@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-11-24T23:24:25.963Z",
-  "lastProfileUpdate": "2025-11-24T23:24:25.963Z",
+  "createdAt": "2025-11-25T01:54:33.479Z",
+  "lastProfileUpdate": "2025-11-25T01:54:33.479Z",
   "profileData": {
     "gender": "Masculino",
     "injuriesOrLimitations": "Ninguna",
@@ -45,8 +45,8 @@
         "externalLoad": "extreme"
       }
     ],
-    "experienceLevel": "Intermedio",
-    "dateCompleted": "2025-11-24T23:24:25.717Z",
+    "experienceLevel": "Avanzado",
+    "dateCompleted": "2025-11-25T01:54:32.395Z",
     "availableEquipment": [
       "En Casa (Con Equipo Limitado)",
       "Mancuernas (Dumbbells)",
@@ -54,8 +54,7 @@
       "Barra de Dominadas",
       "Mini Bandas de Resistencia",
       "Rodillo de Espuma",
-      "Barra de Pesos Libres",
-      "Barra de Pesos Libres (20kg)"
+      "Barra de Pesos Libres"
     ],
     "name": "Eder",
     "preferredTrainingDays": [
@@ -71,11 +70,10 @@
   "userId": "u9whVKtPEeT8VNvpRIJlX6ZebfI3",
   "email": "caballerogarcia.ederaaron@gmail.com",
   "status": "approved",
-  "planStatus": "active",
   "currentMesocycle": {
     "llmModelUsed": "heuristic-algorithm-v3-carryover-aware",
     "endDate": "2025-12-22T00:00:00.000Z",
-    "generationDate": "2025-11-24T23:45:57.154Z",
+    "generationDate": "2025-11-25T01:54:38.161Z",
     "mesocyclePlan": {
       "durationWeeks": 4,
       "microcycles": [
@@ -247,111 +245,188 @@
     "startDate": "2025-11-24T00:00:00.000Z",
     "status": "active"
   },
+  "planStatus": "active",
+  "lastWorkoutDate": "2025-11-25T02:05:30.420Z",
   "currentSession": {
-    "sessionGoal": "Descanso Activo / Movilidad (Fatiga Acumulada)",
-    "estimatedDurationMin": 60,
+    "sessionGoal": "Torso - Fuerza e Hipertrofia",
+    "estimatedDurationMin": 70,
     "warmup": {
       "exercises": [
         {
           "id": "TLm0FmvIqT7sXrPtjJSi",
           "name": "El Estiramiento del Mundo (World's Greatest Stretch)",
           "instructions": "Zancada profunda, coloca la mano opuesta al pie delantero en el suelo. Baja el codo junto al pie y luego rota el torso abriendo el brazo libre hacia el techo. Movilidad completa.",
-          "durationOrReps": "60 seg / 15 reps",
-          "type": "Movilidad/Activación",
-          "imageUrl": null,
+          "durationOrReps": "45s",
+          "imageUrl": "",
           "equipment": "Peso Corporal"
         },
         {
-          "id": "xsGSXFhCwa65ZeKmAHhz",
-          "name": "Saltos de Tijera (Jumping Jacks)",
-          "instructions": "Salta separando brazos y piernas, luego únelos. Movimiento rítmico para elevar la frecuencia cardíaca y calentar el cuerpo de forma general.",
-          "durationOrReps": "60 seg / 15 reps",
-          "type": "Movilidad/Activación",
-          "imageUrl": null,
+          "id": "N2lkOc6cclOkCkV6iSqm",
+          "name": "Caminata Lateral (Side Walks) con Mini Banda",
+          "instructions": "Coloca la mini banda alrededor de los tobillos o las rodillas. Da pasos laterales cortos, manteniendo una ligera sentadilla y la tensión constante en la banda. Activación de glúteo medio.",
+          "durationOrReps": "45s",
+          "imageUrl": "",
           "equipment": "Peso Corporal"
         },
         {
-          "id": "h7D13HiDjOdvuqmNwW70",
-          "name": "Rodillas al Pecho (High Knees)",
-          "instructions": "Corre en el sitio elevando las rodillas rápidamente, intentando llevarlas a la altura de la cadera. Calentamiento cardiovascular y activación de flexores de cadera.",
-          "durationOrReps": "60 seg / 15 reps",
-          "type": "Movilidad/Activación",
-          "imageUrl": null,
+          "id": "WQbkdrReUvGLyIt7zNFf",
+          "name": "'Y' Tumbadas (Y-Raises)",
+          "instructions": "Acuéstate boca abajo, brazos rectos en forma de 'Y'. Levanta los brazos del suelo, concentrando el movimiento en la parte superior de la espalda y los hombros. Fortalece el manguito rotador.",
+          "durationOrReps": "15 reps",
+          "imageUrl": "",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "kCWVflgwf5HfCfubol48",
+          "name": "Remo Invertido con Agarre Estrecho",
+          "instructions": "Utiliza un agarre cerrado (a la altura de los hombros) en la mesa/silla. Esto enfatiza más el dorsal y los brazos (bíceps) que la espalda media.",
+          "durationOrReps": "15 reps",
+          "imageUrl": "",
           "equipment": "Peso Corporal"
         }
       ]
     },
-    "mainBlocks": [],
-    "coreBlocks": [
+    "mainBlocks": [
       {
-        "blockType": "superset",
-        "restBetweenSetsSec": 45,
-        "restBetweenExercisesSec": 0,
+        "blockType": "station",
+        "restBetweenSetsSec": 60,
+        "restBetweenExercisesSec": 60,
         "exercises": [
           {
-            "id": "hXtniyDWOH0IGSIRytet",
-            "name": "Plancha (Plank) Estándar",
-            "instructions": "Apóyate en los antebrazos y las puntas de los pies. Mantén el cuerpo en línea recta de cabeza a talones, apretando los glúteos y el abdomen. Mantener de forma isométrica.",
-            "imageUrl": "",
-            "sets": 3,
-            "targetReps": "12-15 reps",
+            "id": "gtOzlA1SWrNExbzLSmSe",
+            "name": "Press de Pecho en el Suelo (Bilateral)",
+            "instructions": "Acuéstate en el suelo, con una KB en cada mano. Realiza el Floor Press con ambos brazos simultáneamente. Mantén el agarre neutro para mayor comodidad.",
+            "imageUrl": null,
+            "equipment": "Kettlebell",
+            "originalEquipment": "Kettlebell",
+            "sets": 4,
+            "targetReps": "15-20 (Tempo 3-0-1)",
             "rpe": 8,
-            "notes": "Mantén el abdomen contraído."
+            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
+            "musculoObjetivo": "Pectoral Mayor"
           },
           {
-            "id": "xLwBGLOmxLUkzxlMXNmH",
-            "name": "Crunch de Abdominales (Abdominales Clásicos)",
-            "instructions": "Acuéstate boca arriba, rodillas dobladas. Levanta el torso ligeramente, contrayendo los abdominales para acercar el pecho a las caderas. Enfocarse en la contracción, no en jalar el cuello.",
-            "imageUrl": "",
-            "sets": 3,
-            "targetReps": "12-15 reps",
+            "id": "beGApuJfKvm9DjbL6MzW",
+            "name": "Remo Alto (High Pull) con KB",
+            "instructions": "Desde la posición de bisagra o ligera sentadilla, tira de la KB verticalmente hacia el pecho o el mentón de forma explosiva, terminando con los codos altos. Ejercicio de potencia.",
+            "imageUrl": null,
+            "equipment": "Kettlebell",
+            "originalEquipment": "Kettlebell",
+            "sets": 4,
+            "targetReps": "15-20 (Tempo 3-0-1)",
             "rpe": 8,
-            "notes": "Mantén el abdomen contraído."
+            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
+            "musculoObjetivo": "Trapecio, Deltoides y Potencia"
+          },
+          {
+            "id": "RXB3szFsN8vwnA0eMNVJ",
+            "name": "Flexiones a un Brazo (Asistidas)",
+            "instructions": "Apoya una mano en el suelo y la otra en una superficie elevada o una pelota para asistencia. Concentra la carga en un solo lado. Para progresar hacia la flexión a un brazo completa.",
+            "imageUrl": null,
+            "equipment": "Peso Corporal",
+            "originalEquipment": "Peso Corporal",
+            "sets": 4,
+            "targetReps": "15-20 (Tempo 3-0-1)",
+            "rpe": 8,
+            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
+            "musculoObjetivo": "Pectoral Mayor (Fuerza Unilateral)"
+          },
+          {
+            "id": "4pq0gXOnkAZ68nsaSkNx",
+            "name": "Encogimiento de Hombros (Shrugs) con KB",
+            "instructions": "De pie, sostén una KB en cada mano (o una KB muy pesada). Levanta los hombros directamente hacia las orejas. Contrae el trapecio superior fuertemente y baja lentamente.",
+            "imageUrl": null,
+            "equipment": "Kettlebell",
+            "originalEquipment": "Kettlebell",
+            "sets": 3,
+            "targetReps": "20-25",
+            "rpe": 9,
+            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
+            "musculoObjetivo": "Trapecio Superior"
+          },
+          {
+            "id": "0JJCeQMHIu40f886sQOZ",
+            "name": "Fondos de Banca (Dips) - Rodillas Dobladas",
+            "instructions": "Manos en el borde de una silla o banco estable. Rodillas dobladas (pies cerca de la silla). Baja lentamente doblando los codos hacia atrás. La posición más fácil para el tríceps.",
+            "imageUrl": null,
+            "equipment": "Peso Corporal",
+            "originalEquipment": "Peso Corporal",
+            "sets": 3,
+            "targetReps": "20-25",
+            "rpe": 9,
+            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
+            "musculoObjetivo": "Tríceps Braquial"
           }
         ]
       }
     ],
+    "coreBlocks": [
+      {
+        "blockType": "superset",
+        "restBetweenSetsSec": 60,
+        "restBetweenExercisesSec": 0,
+        "exercises": [
+          {
+            "id": "tp19ycNlzGM5yovSsLNF",
+            "name": "Flutter Kicks (Aleteo de Piernas)",
+            "instructions": "Acuéstate boca arriba, manos bajo los glúteos. Levanta las piernas ligeramente y realiza movimientos de aleteo cortos y rápidos. Mantén la espalda baja pegada al suelo.",
+            "imageUrl": "",
+            "sets": 2,
+            "targetReps": "15-20 reps",
+            "rpe": 7,
+            "notes": "Estabilidad."
+          },
+          {
+            "id": "lcD2big0wBWFBR5v6vBt",
+            "name": "Toes to Bar (Simulado - Tumbado)",
+            "instructions": "Acuéstate boca arriba. Con las piernas estiradas, súbelas por encima de la cabeza y toca los dedos de los pies con las manos (sin doblar las rodillas). Gran énfasis en el abdomen bajo.",
+            "imageUrl": "",
+            "sets": 2,
+            "targetReps": "15-20 reps",
+            "rpe": 7,
+            "notes": "Estabilidad."
+          }
+        ]
+      }
+    ],
+    "intensityLevel": "Alta",
     "cooldown": {
       "exercises": [
         {
-          "id": "sC4AG3ANq9VQCg4DibVA",
-          "name": "Estiramiento Pectoral en Marco de Puerta",
-          "instructions": "Coloca el antebrazo en un marco de puerta con el codo a 90 grados. Gira el torso suavemente hacia adelante hasta sentir la tensión en el pecho y el hombro delantero. Mantén cada lado.",
-          "durationOrReps": "30 seg por lado",
-          "imageUrl": "",
-          "notes": "Estiramiento estático. Relaja."
+          "id": "wazES8z4LpHADWvs3Mvy",
+          "name": "Estiramiento de Tríceps (Overhead)",
+          "instructions": "Lleva un codo por encima de la cabeza y dobla el brazo. Usa la mano opuesta para jalar el codo hacia abajo, sintiendo la tensión en la parte posterior del brazo.",
+          "durationOrReps": "30s por lado",
+          "imageUrl": ""
         },
         {
-          "id": "jexnJfx1wOI6SbyTuaJz",
-          "name": "Estiramiento Figura Cuatro Tumbado (Glúteo)",
-          "instructions": "Tumbado boca arriba, cruza un tobillo sobre la rodilla opuesta (forma de 4). Agarra el muslo de la pierna de apoyo y jála la rodilla hacia el pecho.",
-          "durationOrReps": "30 seg por lado",
-          "imageUrl": "",
-          "notes": "Estiramiento estático. Relaja."
-        },
-        {
-          "id": "XKCbiVdJIlfJE1KqBUbG",
-          "name": "Estiramiento de Antebrazo Flexor",
-          "instructions": "Brazo estirado al frente, palma hacia arriba. Usa la mano opuesta para jalar los dedos hacia el suelo. Estira la parte inferior del antebrazo.",
-          "durationOrReps": "30 seg por lado",
-          "imageUrl": "",
-          "notes": "Estiramiento estático. Relaja."
+          "id": "QNccWBqBy8xfUoc1KoJY",
+          "name": "Estiramiento Oblicuo de Pie (Standing Side Bend)",
+          "instructions": "De pie, con los pies a la altura de los hombros y los brazos extendidos sobre la cabeza. Inclínate hacia un lado, extendiendo el costado del torso y la espalda baja.",
+          "durationOrReps": "30s por lado",
+          "imageUrl": ""
         },
         {
           "id": "Zgks8uBDkrZi7RMBYFR5",
           "name": "Torsión Espinal Tumbada (Supine Spinal Twist)",
           "instructions": "Tumbado boca arriba, extiende los brazos a los lados. Lleva una rodilla al pecho y gírala sobre el cuerpo hacia el lado opuesto. Mantén ambos hombros en el suelo.",
-          "durationOrReps": "30 seg por lado",
-          "imageUrl": "",
-          "notes": "Estiramiento estático. Relaja."
+          "durationOrReps": "30s por lado",
+          "imageUrl": ""
+        },
+        {
+          "id": "gxt4Gqswir67nzXSFeDq",
+          "name": "Estiramiento de Antebrazo Extensor",
+          "instructions": "Brazo estirado al frente, palma hacia abajo. Usa la mano opuesta para jalar los dedos hacia el torso. Estira la parte superior del antebrazo.",
+          "durationOrReps": "30s por lado",
+          "imageUrl": ""
         }
       ]
     },
     "meta": {
-      "date": "2025-11-24T00:00:00.000Z",
-      "generatedAt": "2025-11-25T01:07:10.480Z",
-      "version": "3.0-data-aware"
-    },
-    "completed": false
+      "date": "2025-11-25T00:00:00.000Z",
+      "generatedAt": "2025-11-25T12:58:00.835Z",
+      "readinessScore": 4.333333333333333,
+      "sessionMode": "standard"
+    }
   }
 }
