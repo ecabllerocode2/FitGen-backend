@@ -3,7 +3,7 @@ import { format, differenceInCalendarWeeks, parseISO, isValid } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 // ====================================================================
-// 1. MOTORES DE LÓGICA DEPORTIVA (V4.1 - PRECISION WEIGHTS)
+// 1. MOTORES DE LÓGICA DEPORTIVA (V4.2 - STRICT EQUIPMENT MATCHING)
 // ====================================================================
 
 const setCORSHeaders = (res) => {
@@ -30,8 +30,6 @@ const shuffleArray = (array) => {
 const calculateReadiness = (feedback) => {
     const energy = feedback.energyLevel || 3;
     const soreness = feedback.sorenessLevel || 3; 
-
-    // Score del 0 al 5 (Energía pesa más)
     const readinessScore = ((energy * 2) + (6 - soreness)) / 3; 
 
     let mode = 'standard';
@@ -65,14 +63,11 @@ const getProgressiveOverload = (exerciseId, userHistory) => {
     const lastReps = lastExerciseData.targetReps || "10";
     const repsMatch = lastReps.toString().match(/(\d+)/);
     const prevRepVal = repsMatch ? parseInt(repsMatch[0]) : 10;
-    
-    // Recuperamos el peso que usó la última vez si está registrado en las notas o sugerencia
-    // (Nota: Esto es una mejora futura, por ahora nos basamos en RPE)
 
     if (lastRpe <= 7) {
-        return `⚡ PROGRESO: La última vez fue fácil (RPE ${lastRpe}). Sube el peso o haz +2 reps (Meta: ${prevRepVal + 2}).`;
+        return `⚡ PROGRESO: La última vez fue fácil (RPE ${lastRpe}). Intenta subir el peso o haz +2 reps.`;
     } else if (lastRpe >= 9) {
-        return `🛡️ MANTENIMIENTO: La última vez fue dura. Mantén peso, mejora técnica.`;
+        return `🛡️ MANTENIMIENTO: La última vez fue dura. Mantén peso y mejora la técnica.`;
     } else {
         return `🔥 RETO: Intenta hacer 1 repetición más que la vez pasada (${prevRepVal + 1}).`;
     }
@@ -97,12 +92,12 @@ const getDynamicSessionParams = (readiness, sessionFocus, equipmentType) => {
         params.setsCompound = 3; params.setsIsolation = 2;
         params.restCompound = 120; params.restIsolation = 90;
         params.rpeCompound = 6; params.rpeIsolation = 7;
-        params.techniqueNote = "Enfoque en técnica perfecta y control. No busques el fallo hoy.";
+        params.techniqueNote = "Enfoque total en técnica. No busques el fallo.";
     } else if (mode === 'performance') {
         params.setsCompound = 5; params.setsIsolation = 4;
         params.restCompound = 150; params.restIsolation = 75;
         params.rpeCompound = 9; params.rpeIsolation = 10;
-        params.techniqueNote = "Día de alto rendimiento. Ataca los pesos pesados con confianza.";
+        params.techniqueNote = "Ataca los pesos pesados con confianza.";
     }
 
     if (limitedWeight && !isMetabolic && mode !== 'survival') {
@@ -115,120 +110,131 @@ const getDynamicSessionParams = (readiness, sessionFocus, equipmentType) => {
     return params;
 };
 
-// --- D. LÓGICA DE SELECCIÓN DE PESO EXACTO (CORREGIDA) ---
+// --- D. SELECCIÓN DE PESO EXACTO (CORRECCIÓN DE CONFLICTOS) ---
 const assignLoadSuggestion = (exercise, userInventory, sessionMode) => {
     const targetEquipmentRaw = normalizeText(exercise.equipo || "");
     
-    // 1. Caso: Peso Corporal
+    // 1. Peso Corporal
     if (targetEquipmentRaw.includes("corporal") || targetEquipmentRaw.includes("suelo") || targetEquipmentRaw.includes("sin equipo")) {
         return { equipmentName: "Peso Corporal", suggestedLoad: "Tu propio peso" };
     }
 
-    // 2. Caso: Gimnasio Comercial (Asumimos tiene todo)
+    // 2. Gym Comercial
     if (detectEnvironment(userInventory) === 'gym') {
-        if (targetEquipmentRaw.includes('mancuerna')) return { equipmentName: "Mancuernas", suggestedLoad: "Peso exigente para el rango de reps" };
-        if (targetEquipmentRaw.includes('barra')) return { equipmentName: "Barra Olímpica", suggestedLoad: "Carga discos adecuados" };
-        if (targetEquipmentRaw.includes('cable') || targetEquipmentRaw.includes('polea')) return { equipmentName: "Polea", suggestedLoad: "Ajusta placa según RPE" };
-        return { equipmentName: exercise.equipo || "Equipo Gym", suggestedLoad: "Ajustar a RPE" };
-    }
-
-    // 3. Caso: Casa (Inventario Limitado) - LÓGICA DE PRECISIÓN
-    
-    // A. Detectar qué herramienta específica pide el ejercicio
-    let specificTool = null;
-    if (targetEquipmentRaw.includes("mancuerna")) specificTool = "mancuerna";
-    else if (targetEquipmentRaw.includes("barra")) specificTool = "barra"; // Cubre "barra de pesos", "barra z"
-    else if (targetEquipmentRaw.includes("kettlebell") || targetEquipmentRaw.includes("pesa rusa")) specificTool = "kettlebell";
-    
-    // Si no pide herramienta de peso (ej. banda), retornamos genérico o buscamos banda
-    if (!specificTool) {
-        if (targetEquipmentRaw.includes("banda") || targetEquipmentRaw.includes("liga")) {
-             // Buscar qué banda tiene
-             const band = userInventory.find(i => normalizeText(i).includes("banda") || normalizeText(i).includes("liga"));
-             return { equipmentName: band || "Banda Elástica", suggestedLoad: "Resistencia adecuada" };
+        if (targetEquipmentRaw.includes('mancuerna')) return { equipmentName: "Mancuernas", suggestedLoad: "Peso exigente" };
+        if (targetEquipmentRaw.includes('barra')) {
+             if (targetEquipmentRaw.includes('dominadas')) return { equipmentName: "Barra de Dominadas", suggestedLoad: "Peso Corporal" };
+             return { equipmentName: "Barra Olímpica", suggestedLoad: "Carga discos adecuados" };
         }
-        return { equipmentName: exercise.equipo, suggestedLoad: "Según disponibilidad" };
+        return { equipmentName: exercise.equipo, suggestedLoad: "Ajustar a RPE" };
     }
 
-    // B. Filtrar el inventario SOLO por esa herramienta
-    // Ejemplo: Si pide "Barra", filtramos strings que digan "Barra".
-    const relevantItems = userInventory.filter(item => normalizeText(item).includes(specificTool));
+    // 3. Lógica Home Limited (PRECISIÓN)
+    
+    let toolType = null;
+    // Identificamos qué busca el ejercicio
+    if (targetEquipmentRaw.includes("mancuerna")) toolType = "mancuerna";
+    else if (targetEquipmentRaw.includes("dominadas")) toolType = "dominadas"; // Prioridad alta
+    else if (targetEquipmentRaw.includes("barra")) toolType = "barra_peso";    // Si dice barra pero no dominadas
+    else if (targetEquipmentRaw.includes("kettlebell") || targetEquipmentRaw.includes("pesa rusa")) toolType = "kettlebell";
+    else if (targetEquipmentRaw.includes("banda") || targetEquipmentRaw.includes("liga")) toolType = "banda";
 
-    if (relevantItems.length === 0) {
-        // Fallback: Pide barra pero no tengo. ¿Tengo mancuernas?
-        if (specificTool === 'barra') {
+    if (!toolType) return { equipmentName: exercise.equipo, suggestedLoad: "Según disponibilidad" };
+
+    // Filtramos el inventario del usuario para encontrar coincidencias
+    const availableOptions = userInventory.filter(item => {
+        const normItem = normalizeText(item);
+        
+        if (toolType === 'dominadas') {
+            return normItem.includes('dominadas') || normItem.includes('pull up');
+        }
+        if (toolType === 'barra_peso') {
+            // CRÍTICO: Debe ser barra, pero NO de dominadas, ni de puerta
+            return normItem.includes('barra') && !normItem.includes('dominadas') && !normItem.includes('pull up');
+        }
+        if (toolType === 'mancuerna') return normItem.includes('mancuerna');
+        if (toolType === 'kettlebell') return normItem.includes('kettlebell') || normItem.includes('pesa rusa');
+        if (toolType === 'banda') return normItem.includes('banda') || normItem.includes('liga');
+        
+        return false;
+    });
+
+    if (availableOptions.length === 0) {
+        // Fallback: Si pide barra de peso y no hay, intenta mancuernas
+        if (toolType === 'barra_peso') {
              const dumbbells = userInventory.filter(i => normalizeText(i).includes('mancuerna'));
              if (dumbbells.length > 0) {
-                 // RECURSIVIDAD SIMPLE: Llamamos a la lógica como si pidiera mancuernas
-                 const mockEx = { ...exercise, equipo: "Mancuernas" };
-                 const fallbackResult = assignLoadSuggestion(mockEx, userInventory, sessionMode);
-                 return { 
-                     equipmentName: fallbackResult.equipmentName, 
-                     suggestedLoad: `${fallbackResult.suggestedLoad} (Sustituyendo Barra)` 
-                 };
+                 const sub = assignLoadSuggestion({ ...exercise, equipo: "Mancuernas" }, userInventory, sessionMode);
+                 return { equipmentName: "Mancuernas", suggestedLoad: `${sub.suggestedLoad} (Sustituyendo Barra)` };
              }
         }
-        return { equipmentName: exercise.equipo, suggestedLoad: "No tienes este equipo exacto" };
+        return { equipmentName: exercise.equipo, suggestedLoad: "Equipo no detectado exacto" };
     }
 
-    // C. Extraer pesos numéricos
-    // El frontend guarda: "Mancuernas (10kg)", "Barra de Pesos Libres (40kg)"
-    const weightedItems = relevantItems.map(item => {
-        const match = item.match(/\((\d+(\.\d+)?)\s*(kg|lbs)\)/i) || item.match(/(\d+)\s*(kg|lbs)/i);
-        const weightVal = match ? parseFloat(match[1]) : 0;
-        return {
-            fullName: item, // "Mancuernas (10kg)"
-            weight: weightVal
-        };
-    }).sort((a, b) => a.weight - b.weight); // Ordenar ascendente (Ligero -> Pesado)
+    // Si es equipo fijo (Dominadas, Bandas), devolvemos el nombre
+    if (toolType === 'dominadas' || toolType === 'banda') {
+        return { equipmentName: availableOptions[0], suggestedLoad: "Peso Corporal / Resistencia" };
+    }
 
-    // D. Selección Táctica del Peso
+    // Extracción de Pesos Numéricos para Mancuernas/Barras/KB
+    // El frontend guarda genéricos "Barra de Pesos" y específicos "Barra de Pesos (20kg)"
+    const weightedItems = availableOptions.map(item => {
+        // Buscamos números seguidos de kg/lbs/lb
+        const match = item.match(/(\d+(?:\.\d+)?)\s*(?:kg|lb)/i);
+        return {
+            fullName: item,
+            weight: match ? parseFloat(match[1]) : 0 
+        };
+    });
+
+    // FILTRADO CRÍTICO: Eliminamos los items genéricos (peso 0) SI existen items con peso específico
+    const specificWeights = weightedItems.filter(w => w.weight > 0).sort((a, b) => a.weight - b.weight);
+    
+    // Si solo tenemos el genérico (ej. usuario solo marcó el checkbox padre), usamos ese.
+    const finalPool = specificWeights.length > 0 ? specificWeights : weightedItems;
+
+    // Selección Táctica
     const exType = normalizeText(exercise.tipo || "");
     const isCompound = exType.includes("multi") || exType.includes("compuesto");
     
-    let selected = weightedItems[0]; // Default: el más ligero
+    let selected = finalPool[0]; 
 
-    if (weightedItems.length > 1) {
+    if (finalPool.length > 1) {
         if (sessionMode === 'survival') {
-            // Modo Supervivencia: Usar pesos medios/bajos siempre
-            const midIndex = Math.floor((weightedItems.length - 1) / 2);
-            selected = weightedItems[midIndex];
+            // Usar carga media
+            selected = finalPool[Math.floor((finalPool.length - 1) / 2)];
         } else {
-            // Modo Normal/Performance
+            // Performance
             if (isCompound) {
-                // Compuestos (Sentadilla, Press): Usar el PESADO
-                selected = weightedItems[weightedItems.length - 1]; 
+                selected = finalPool[finalPool.length - 1]; // El más pesado
             } else {
-                // Aislamiento (Curl, Elevaciones): Usar MEDIO o LIGERO (evitar el máximo si hay opciones)
-                // Si tengo [5, 10, 15, 20], para elevaciones laterales no quiero 20. Quiero 10.
-                const idealIndex = Math.max(0, Math.floor((weightedItems.length - 1) / 2));
-                selected = weightedItems[idealIndex];
+                // Aislamiento: Evitar el máximo, buscar medio-alto
+                selected = finalPool[Math.max(0, finalPool.length - 2)];
             }
         }
     }
 
-    // Si el peso es 0 (no se detectó número), devolvemos el nombre tal cual
-    const displayLoad = selected.weight > 0 
-        ? `Usa: ${selected.fullName}` 
-        : `Usa: ${selected.fullName}`;
-
+    // Construir string de salida. Si tiene peso específico, se muestra.
     return { 
-        equipmentName: selected.fullName.split('(')[0].trim(), // "Mancuernas" (sin el peso para el título corto)
-        suggestedLoad: displayLoad // "Usa: Mancuernas (10kg)"
+        equipmentName: selected.fullName.split('(')[0].trim(), 
+        suggestedLoad: `Usa: ${selected.fullName}` 
     };
 };
 
 // ====================================================================
-// 2. SELECCIÓN Y FILTRADO (CORREGIDO - BANDAS STRICT)
+// 2. FILTRADO DE EQUIPO (CORREGIDO Y ESTRICTO)
 // ====================================================================
 
 const detectEnvironment = (equipmentList) => {
     if (!equipmentList || equipmentList.length === 0) return 'bodyweight';
     const eqString = JSON.stringify(equipmentList).toLowerCase();
     if (eqString.includes('gimnasio') || eqString.includes('gym')) return 'gym';
+    // Detectar si hay carga externa real
     const hasLoad = equipmentList.some(item => {
         const i = normalizeText(item);
-        return i.includes('mancuerna') || i.includes('pesa') || i.includes('barra');
+        // Excluimos "barra de dominadas" de ser considerada "carga"
+        const isPullUp = i.includes('dominadas') || i.includes('pull');
+        return (i.includes('mancuerna') || i.includes('pesa') || (i.includes('barra') && !isPullUp));
     });
     return hasLoad ? 'home_limited' : 'bodyweight';
 };
@@ -242,27 +248,34 @@ const filterExercisesByEquipment = (exercises, userEquipmentList) => {
     return exercises.filter(ex => {
         const reqEq = normalizeText(ex.equipo || "peso corporal");
         
-        // 1. Peso Corporal siempre pasa
+        // 1. Peso Corporal: Siempre permitido
         if (reqEq.includes("corporal") || reqEq === "suelo" || reqEq === "sin equipo") return true;
-        if (environment === 'bodyweight') return false;
+        
+        // 2. Barras (CRÍTICO: Distinción Dominadas vs Pesos)
+        if (reqEq.includes("dominadas") || (reqEq.includes("barra") && reqEq.includes("pull"))) {
+            // El ejercicio pide barra de dominadas. ¿La tiene el usuario?
+            return userKeywords.some(k => k.includes("dominadas") || k.includes("pull up"));
+        }
+        if (reqEq.includes("barra") && !reqEq.includes("dominadas")) {
+            // El ejercicio pide barra de PESO. ¿La tiene el usuario? (Excluyendo la de dominadas)
+            return userKeywords.some(k => k.includes("barra") && !k.includes("dominadas") && !k.includes("pull"));
+        }
 
-        // 2. Lógica de Bandas ESTRICTA (CORRECCIÓN IMPORTANTE)
+        // 3. Bandas (CRÍTICO: Distinción Mini vs Larga)
         if (reqEq.includes("banda") || reqEq.includes("liga")) {
-            const needsMini = reqEq.includes("mini") || reqEq.includes("loop") || reqEq.includes("gluteo");
-            
+            const needsMini = reqEq.includes("mini") || reqEq.includes("gluteo") || reqEq.includes("tobillo");
             if (needsMini) {
-                // Si el ejercicio pide MINI, el usuario debe tener MINI
                 return userKeywords.some(k => k.includes("mini"));
             } else {
-                // Si el ejercicio pide BANDA (larga/asas), el usuario debe tener BANDA (no solo mini)
+                // Banda de resistencia normal
                 return userKeywords.some(k => (k.includes("banda") || k.includes("liga")) && !k.includes("mini"));
             }
         }
 
-        // 3. Resto del equipo (Coincidencia parcial segura)
+        // 4. Otros equipos estándar
         if (reqEq.includes("mancuerna") && userKeywords.some(k => k.includes("mancuerna"))) return true;
-        if (reqEq.includes("barra") && userKeywords.some(k => k.includes("barra"))) return true;
         if (reqEq.includes("kettlebell") && userKeywords.some(k => k.includes("kettlebell") || k.includes("pesa rusa"))) return true;
+        if (reqEq.includes("rodillo") && userKeywords.some(k => k.includes("rodillo") || k.includes("foam"))) return true;
 
         return false;
     });
@@ -279,7 +292,7 @@ const filterExercisesByLevel = (exercises, userLevel) => {
 };
 
 // ====================================================================
-// 3. GENERADORES DE BLOQUES
+// 3. GENERACIÓN DE BLOQUES (WARMUP, CORE, MAIN)
 // ====================================================================
 
 const generateWarmup = (utilityPool, bodyweightPool, focus) => {
@@ -288,21 +301,23 @@ const generateWarmup = (utilityPool, bodyweightPool, focus) => {
     if (normFocus.includes('pierna') || normFocus.includes('full')) target = 'pierna';
     if (normFocus.includes('torso') || normFocus.includes('pecho') || normFocus.includes('empuje')) target = 'superior';
 
+    // Filtro simple para Utility (Stretch/Mobility)
     const mobility = utilityPool.filter(ex => {
         const type = normalizeText(ex.tipo);
         const part = normalizeText(ex.parteCuerpo);
         return type.includes('calentamiento') || (type.includes('estiramiento') && part.includes(target));
     });
 
+    // Filtro simple para Activación (Bodyweight)
     const activation = bodyweightPool.filter(ex => {
         const part = normalizeText(ex.parteCuerpo);
-        return target === 'pierna' ? part.includes('pierna') || part.includes('gluteo')
-            : part.includes('pecho') || part.includes('espalda') || part.includes('hombro');
+        const isLeg = part.includes('pierna') || part.includes('gluteo');
+        return target === 'pierna' ? isLeg : !isLeg && !part.includes('core');
     });
 
     const selected = [
-        ...shuffleArray(mobility).slice(0, 2).map(e => ({ ...e, type: 'mobility', durationOrReps: '45s' })),
-        ...shuffleArray(activation).slice(0, 2).map(e => ({ ...e, type: 'activation', durationOrReps: '15 reps' }))
+        ...shuffleArray(mobility).slice(0, 2).map(e => ({ ...e, durationOrReps: '45s' })),
+        ...shuffleArray(activation).slice(0, 2).map(e => ({ ...e, durationOrReps: '15 reps' }))
     ];
 
     return selected.map(ex => ({
@@ -345,7 +360,6 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory) => {
     let isCircuit = false;
     const { setsCompound, setsIsolation, repsCompound, repsIsolation, rpeCompound, rpeIsolation, techniqueNote } = params;
 
-    // Patrones de Movimiento
     if (focus.includes('full') || focus.includes('metabolico') || focus.includes('acondicionamiento')) {
         isCircuit = true; 
         template = [
@@ -396,22 +410,20 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory) => {
             const targets = normalizeText((ex.musculoObjetivo || "") + " " + (ex.parteCuerpo || ""));
             const type = normalizeText(ex.tipo || "");
             const matchesPattern = slot.pattern.some(p => targets.includes(p));
-            // Prioridad de rol, pero flexible
             return matchesPattern;
         });
 
         if (candidates.length > 0) {
-            // Intentar buscar match perfecto de rol (compuesto vs aislamiento)
+            // Preferencia por rol compuesto/aislamiento
             let pick = candidates.find(c => slot.role === 'compound' ? normalizeText(c.tipo).includes('multi') : normalizeText(c.tipo).includes('aislamiento'));
-            if (!pick) pick = candidates[0]; // Fallback
+            if (!pick) pick = candidates[0];
 
             usedIds.add(pick.id);
             const isCompound = slot.role === 'compound';
             
-            // LÓGICA DE PESO EXACTO
+            // CÁLCULO DE PESO EXACTO
             const loadSuggestion = assignLoadSuggestion(pick, params.userInventory, params.sessionMode);
             const overloadNote = getProgressiveOverload(pick.id, userHistory);
-            
             const finalNotes = overloadNote ? `${overloadNote} ${techniqueNote}` : techniqueNote;
 
             selectedExercises.push({
@@ -421,7 +433,7 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory) => {
                 imageUrl: pick.url || null,
                 url: pick.videoUrl || null,
                 equipment: loadSuggestion.equipmentName,
-                suggestedLoad: loadSuggestion.suggestedLoad, // <--- "Usa: Mancuernas (15kg)"
+                suggestedLoad: loadSuggestion.suggestedLoad, // AQUI SALE "Usa: Barra de Pesos (40kg)"
                 sets: isCompound ? setsCompound : setsIsolation,
                 targetReps: isCompound ? repsCompound : repsIsolation,
                 rpe: isCompound ? rpeCompound : rpeIsolation,
@@ -481,7 +493,6 @@ export default async function handler(req, res) {
         let targetSession = targetMicrocycle.sessions.find(s => s.dayOfWeek.toLowerCase() === dayName.toLowerCase());
         if (!targetSession) targetSession = { sessionFocus: "Descanso / Recuperación" };
 
-        // Input de Feedback
         const feedback = req.body.realTimeFeedback || {};
         const isRecoveryFlag = req.body.isRecovery || normalizeText(targetSession.sessionFocus).includes('recuperacion');
 
@@ -509,7 +520,7 @@ export default async function handler(req, res) {
         const bodyweightEx = results[1].docs.map(d => ({ id: d.id, ...d.data() }));
         const mainExPoolRaw = results[2].docs.map(d => ({ id: d.id, ...d.data() }));
 
-        // UNIFICACIÓN Y FILTRADO (El filtro ahora es estricto con bandas)
+        // Filtrado Estricto
         let fullMainPool = [...mainExPoolRaw, ...bodyweightEx.filter(e => normalizeText(e.parteCuerpo) !== 'core')];
         fullMainPool = filterExercisesByEquipment(fullMainPool, profileData.availableEquipment || []);
         fullMainPool = filterExercisesByLevel(fullMainPool, profileData.experienceLevel);
@@ -517,7 +528,7 @@ export default async function handler(req, res) {
         const bodyweightFiltered = filterExercisesByLevel(bodyweightEx, profileData.experienceLevel);
         const corePool = bodyweightFiltered.filter(e => normalizeText(e.parteCuerpo) === 'core');
 
-        // Construcción
+        // Construcción de Sesión
         let finalSession = {
             sessionGoal: targetSession.sessionFocus,
             estimatedDurationMin: 60,
@@ -555,7 +566,6 @@ export default async function handler(req, res) {
         } else {
             finalSession.warmup.exercises = generateWarmup(utilityEx, bodyweightFiltered, targetSession.sessionFocus);
             
-            // MAIN BLOCK
             const mainBlock = generateMainBlock(fullMainPool, targetSession.sessionFocus, sessionParams, userHistory);
 
             const blockRestSets = mainBlock.type === 'circuit' ? Math.max(90, sessionParams.restCompound + 30) : sessionParams.restCompound;
