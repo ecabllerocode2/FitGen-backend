@@ -1,0 +1,357 @@
+{
+  "createdAt": "2025-11-24T23:24:25.963Z",
+  "lastProfileUpdate": "2025-11-24T23:24:25.963Z",
+  "profileData": {
+    "gender": "Masculino",
+    "injuriesOrLimitations": "Ninguna",
+    "heightCm": 169,
+    "focusArea": "General",
+    "fitnessGoal": "Ganancia Muscular",
+    "trainingDaysPerWeek": 4,
+    "weeklyScheduleContext": [
+      {
+        "day": "Lunes",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Martes",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Miércoles",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Jueves",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Viernes",
+        "canTrain": false,
+        "externalLoad": "medium"
+      },
+      {
+        "day": "Sábado",
+        "canTrain": false,
+        "externalLoad": "extreme"
+      },
+      {
+        "day": "Domingo",
+        "canTrain": false,
+        "externalLoad": "extreme"
+      }
+    ],
+    "experienceLevel": "Intermedio",
+    "dateCompleted": "2025-11-24T23:24:25.717Z",
+    "availableEquipment": [
+      "En Casa (Con Equipo Limitado)",
+      "Mancuernas (Dumbbells)",
+      "Mancuernas (Dumbbells) (10kg)",
+      "Barra de Dominadas",
+      "Mini Bandas de Resistencia",
+      "Rodillo de Espuma",
+      "Barra de Pesos Libres",
+      "Barra de Pesos Libres (20kg)"
+    ],
+    "name": "Eder",
+    "preferredTrainingDays": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves"
+    ],
+    "age": 31,
+    "initialWeight": 75
+  },
+  "plan": "free",
+  "userId": "u9whVKtPEeT8VNvpRIJlX6ZebfI3",
+  "email": "caballerogarcia.ederaaron@gmail.com",
+  "status": "approved",
+  "planStatus": "active",
+  "currentMesocycle": {
+    "llmModelUsed": "heuristic-algorithm-v3-carryover-aware",
+    "endDate": "2025-12-22T00:00:00.000Z",
+    "generationDate": "2025-11-24T23:45:57.154Z",
+    "mesocyclePlan": {
+      "durationWeeks": 4,
+      "microcycles": [
+        {
+          "week": 1,
+          "focus": "Adaptación Anatómica",
+          "intensityRpe": "6/10 (RPE 6)",
+          "notes": "Semana de introducción. Enfócate en la técnica perfecta y rango de movimiento completo. Deja 3-4 reps en reserva (RIR 3).",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            }
+          ]
+        },
+        {
+          "week": 2,
+          "focus": "Acumulación de Volumen",
+          "intensityRpe": "7/10 (RPE 7)",
+          "notes": "Aumentamos la carga de trabajo. Intenta añadir una serie extra o subir un poco el peso si la técnica fue buena. RIR 2-3.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            }
+          ]
+        },
+        {
+          "week": 3,
+          "focus": "Intensificación (Pico)",
+          "intensityRpe": "8-9/10 (RPE 8.5)",
+          "notes": "Semana de choque. Entrena duro, cerca del fallo técnico en las últimas series. Es el momento de buscar récords personales. RIR 1.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            }
+          ]
+        },
+        {
+          "week": 4,
+          "focus": "Descarga (Deload)",
+          "intensityRpe": "5/10 (RPE 5)",
+          "notes": "Semana de recuperación activa. Reduce el peso un 30% y haz la mitad de las series. Fundamental para disipar fatiga.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "context": {
+                "externalFatigue": "none",
+                "fatigueCarryOverCalculated": true
+              }
+            }
+          ]
+        }
+      ],
+      "mesocycleGoal": "Objetivo: Ganancia Muscular. Enfoque en General."
+    },
+    "progress": 0,
+    "currentWeek": 1,
+    "startDate": "2025-11-24T00:00:00.000Z",
+    "status": "active"
+  },
+  "currentSession": {
+    "sessionGoal": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+    "estimatedDurationMin": 60,
+    "warmup": {
+      "exercises": [
+        {
+          "id": "TLm0FmvIqT7sXrPtjJSi",
+          "name": "El Estiramiento del Mundo (World's Greatest Stretch)",
+          "instructions": "Zancada profunda, coloca la mano opuesta al pie delantero en el suelo. Baja el codo junto al pie y luego rota el torso abriendo el brazo libre hacia el techo. Movilidad completa.",
+          "durationOrReps": "60 seg / 15 reps",
+          "type": "Movilidad/Activación",
+          "imageUrl": null,
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "xsGSXFhCwa65ZeKmAHhz",
+          "name": "Saltos de Tijera (Jumping Jacks)",
+          "instructions": "Salta separando brazos y piernas, luego únelos. Movimiento rítmico para elevar la frecuencia cardíaca y calentar el cuerpo de forma general.",
+          "durationOrReps": "60 seg / 15 reps",
+          "type": "Movilidad/Activación",
+          "imageUrl": null,
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "h7D13HiDjOdvuqmNwW70",
+          "name": "Rodillas al Pecho (High Knees)",
+          "instructions": "Corre en el sitio elevando las rodillas rápidamente, intentando llevarlas a la altura de la cadera. Calentamiento cardiovascular y activación de flexores de cadera.",
+          "durationOrReps": "60 seg / 15 reps",
+          "type": "Movilidad/Activación",
+          "imageUrl": null,
+          "equipment": "Peso Corporal"
+        }
+      ]
+    },
+    "mainBlocks": [],
+    "coreBlocks": [
+      {
+        "blockType": "superset",
+        "restBetweenSetsSec": 45,
+        "restBetweenExercisesSec": 0,
+        "exercises": [
+          {
+            "id": "hXtniyDWOH0IGSIRytet",
+            "name": "Plancha (Plank) Estándar",
+            "instructions": "Apóyate en los antebrazos y las puntas de los pies. Mantén el cuerpo en línea recta de cabeza a talones, apretando los glúteos y el abdomen. Mantener de forma isométrica.",
+            "imageUrl": "",
+            "sets": 3,
+            "targetReps": "12-15 reps",
+            "rpe": 8,
+            "notes": "Mantén el abdomen contraído."
+          },
+          {
+            "id": "xLwBGLOmxLUkzxlMXNmH",
+            "name": "Crunch de Abdominales (Abdominales Clásicos)",
+            "instructions": "Acuéstate boca arriba, rodillas dobladas. Levanta el torso ligeramente, contrayendo los abdominales para acercar el pecho a las caderas. Enfocarse en la contracción, no en jalar el cuello.",
+            "imageUrl": "",
+            "sets": 3,
+            "targetReps": "12-15 reps",
+            "rpe": 8,
+            "notes": "Mantén el abdomen contraído."
+          }
+        ]
+      }
+    ],
+    "cooldown": {
+      "exercises": [
+        {
+          "id": "sC4AG3ANq9VQCg4DibVA",
+          "name": "Estiramiento Pectoral en Marco de Puerta",
+          "instructions": "Coloca el antebrazo en un marco de puerta con el codo a 90 grados. Gira el torso suavemente hacia adelante hasta sentir la tensión en el pecho y el hombro delantero. Mantén cada lado.",
+          "durationOrReps": "30 seg por lado",
+          "imageUrl": "",
+          "notes": "Estiramiento estático. Relaja."
+        },
+        {
+          "id": "jexnJfx1wOI6SbyTuaJz",
+          "name": "Estiramiento Figura Cuatro Tumbado (Glúteo)",
+          "instructions": "Tumbado boca arriba, cruza un tobillo sobre la rodilla opuesta (forma de 4). Agarra el muslo de la pierna de apoyo y jála la rodilla hacia el pecho.",
+          "durationOrReps": "30 seg por lado",
+          "imageUrl": "",
+          "notes": "Estiramiento estático. Relaja."
+        },
+        {
+          "id": "XKCbiVdJIlfJE1KqBUbG",
+          "name": "Estiramiento de Antebrazo Flexor",
+          "instructions": "Brazo estirado al frente, palma hacia arriba. Usa la mano opuesta para jalar los dedos hacia el suelo. Estira la parte inferior del antebrazo.",
+          "durationOrReps": "30 seg por lado",
+          "imageUrl": "",
+          "notes": "Estiramiento estático. Relaja."
+        },
+        {
+          "id": "Zgks8uBDkrZi7RMBYFR5",
+          "name": "Torsión Espinal Tumbada (Supine Spinal Twist)",
+          "instructions": "Tumbado boca arriba, extiende los brazos a los lados. Lleva una rodilla al pecho y gírala sobre el cuerpo hacia el lado opuesto. Mantén ambos hombros en el suelo.",
+          "durationOrReps": "30 seg por lado",
+          "imageUrl": "",
+          "notes": "Estiramiento estático. Relaja."
+        }
+      ]
+    },
+    "meta": {
+      "date": "2025-11-24T00:00:00.000Z",
+      "generatedAt": "2025-11-25T01:07:10.480Z",
+      "version": "3.0-data-aware"
+    },
+    "completed": false
+  }
+}

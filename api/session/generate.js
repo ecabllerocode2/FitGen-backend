@@ -3,7 +3,7 @@ import { format, differenceInCalendarWeeks, parseISO, startOfDay, isValid } from
 import { es } from 'date-fns/locale';
 
 // ====================================================================
-// 1. HELPERS DE UTILIDAD
+// 1. MOTORES DE LÓGICA DEPORTIVA
 // ====================================================================
 
 const setCORSHeaders = (res) => {
@@ -26,25 +26,135 @@ const shuffleArray = (array) => {
     return newArr;
 };
 
+// --- A. CÁLCULO DE LA CONDICIÓN DEL ATLETA ---
+const calculateReadiness = (feedback) => {
+    // Valores por defecto si el usuario cierra el modal o hay error
+    const energy = feedback.energyLevel || 3;
+    const soreness = feedback.sorenessLevel || 3; // 1=Exhausto, 5=Fresco
+
+    // Score del 0 al 10. 
+    // Energía tiene peso doble (mentalidad), Dolor peso simple (local).
+    // Nota: En tu modal Soreness 1=Exhausto/Dolor, 5=Nada.
+    const readinessScore = ((energy * 2) + soreness) / 3;
+
+    // Definimos el "Modo" de la sesión
+    let mode = 'standard';
+    if (readinessScore <= 2) mode = 'survival'; // Muy cansado
+    if (readinessScore >= 4.5) mode = 'performance'; // A tope
+
+    return { score: readinessScore, mode, energy, soreness };
+};
+
+// --- B. PARÁMETROS DINÁMICOS DE SESIÓN ---
+const getDynamicSessionParams = (readiness, sessionFocus, equipmentType) => {
+    const { mode } = readiness;
+    const isMetabolic = normalizeText(sessionFocus).includes('metabolico');
+    const isStrength = normalizeText(sessionFocus).includes('fuerza');
+    const limitedWeight = equipmentType === 'home_limited' || equipmentType === 'bodyweight';
+
+    let params = {
+        setsCompound: 4,
+        setsIsolation: 3,
+        repsCompound: "8-12",
+        repsIsolation: "12-15",
+        restCompound: 90,
+        restIsolation: 60,
+        techniqueNote: ""
+    };
+
+    // 1. AJUSTE POR MODO (Energía del usuario)
+    if (mode === 'survival') {
+        params.setsCompound = 3; // Reducir volumen
+        params.setsIsolation = 2;
+        params.restCompound = 120; // Más descanso para sobrevivir
+        params.restIsolation = 90;
+        params.techniqueNote = "Hoy prioriza la calidad sobre la cantidad. No llegues al fallo.";
+    } else if (mode === 'performance') {
+        params.setsCompound = 5; // Aumentar volumen
+        params.setsIsolation = 4;
+        params.restCompound = isMetabolic ? 45 : 90; // Si es metabólico y tiene energía, dale caña.
+        params.techniqueNote = "Hoy es día de romper récords. Ataca con intensidad.";
+    }
+
+    // 2. AJUSTE POR EQUIPO LIMITADO (El caso de Eder: Mancuernas 10kg)
+    if (limitedWeight && !isMetabolic) {
+        // Si no hay peso, compensamos con repeticiones altas o TEMPO
+        params.repsCompound = "15-20 (Tempo 3-0-1)";
+        params.repsIsolation = "20-25";
+        params.restCompound = Math.max(45, params.restCompound - 30); // Menos descanso para estrés metabólico
+        params.techniqueNote += " Controla la bajada en 3 segundos para compensar el peso ligero.";
+    }
+
+    return params;
+};
+
+// NUEVO HELPER: LÓGICA DE SELECCIÓN DE PESO ESPECÍFICO
 // ====================================================================
-// 2. LÓGICA CIENTÍFICA DE SELECCIÓN (FILTROS)
+const assignLoadSuggestion = (exercise, userInventory, sessionMode) => {
+    const targetEquipment = normalizeText(exercise.equipo || "");
+
+    // 1. Filtrar el inventario del usuario para encontrar coincidencias
+    // Ejemplo: Si el ejercicio pide "Mancuernas", buscamos "Mancuernas (10kg)", "Mancuernas (20kg)"
+    const relevantItems = userInventory.filter(item => {
+        const normItem = normalizeText(item);
+        // Lógica flexible de coincidencia
+        if (targetEquipment.includes("mancuerna") && normItem.includes("mancuerna")) return true;
+        if (targetEquipment.includes("barra") && normItem.includes("barra")) return true;
+        if (targetEquipment.includes("kettlebell") && (normItem.includes("kettlebell") || normItem.includes("pesa rusa"))) return true;
+        if (targetEquipment.includes("banda") && (normItem.includes("banda") || normItem.includes("liga"))) return true;
+        return false;
+    });
+
+    if (relevantItems.length === 0) return exercise.equipo; // Fallback genérico
+
+    // 2. Extraer números (pesos) de los strings para ordenar
+    // Formato esperado en array: { name: "Mancuernas 10kg", weight: 10 }
+    const weightedItems = relevantItems.map(item => {
+        const match = item.match(/(\d+)/); // Busca números
+        return {
+            name: item,
+            weight: match ? parseInt(match[0]) : 0
+        };
+    }).sort((a, b) => a.weight - b.weight); // Ordenar de menor a mayor
+
+    // 3. Decisión Táctica (Compound = Pesado, Isolation = Moderado/Ligero)
+    const exType = normalizeText(exercise.tipo || "");
+    let selectedItem = weightedItems[0]; // Por defecto el más ligero
+
+    if (weightedItems.length > 1) {
+        if (exType.includes("multi") || exType.includes("compuesto")) {
+            // Para multiarticulares, usamos el peso máximo disponible (o el segundo si es 'survival')
+            const index = sessionMode === 'survival' ? weightedItems.length - 2 : weightedItems.length - 1;
+            selectedItem = weightedItems[Math.max(0, index)];
+        } else {
+            // Para aislamiento, usamos peso medio o ligero
+            // Si tiene 3 pesos, agarra el de en medio. Si tiene 2, el ligero.
+            const middleIndex = Math.floor((weightedItems.length - 1) / 2);
+            selectedItem = weightedItems[middleIndex];
+        }
+    }
+
+    return selectedItem.name; // Devuelve ej: "Mancuernas (20kg)"
+};
+
+// ====================================================================
+// 2. SELECCIÓN Y FILTRADO
 // ====================================================================
 
 const detectEnvironment = (equipmentList) => {
+    if (!equipmentList) return 'bodyweight';
     const eqString = JSON.stringify(equipmentList).toLowerCase();
-    if (eqString.includes('gimnasio') || eqString.includes('comercial') || eqString.includes('gym')) return 'gym';
-    
-    // Detección basada en tus palabras clave de exercises_home_limited
+    if (eqString.includes('gimnasio') || eqString.includes('gym')) return 'gym';
+
     const hasLoad = equipmentList.some(item => {
         const i = normalizeText(item);
-        return i.includes('mancuerna') || i.includes('pesa') || i.includes('barra') || i.includes('disco') || i.includes('kettlebell') || i.includes('banda');
+        return i.includes('mancuerna') || i.includes('pesa') || i.includes('barra') || i.includes('disco');
     });
 
     if (!hasLoad) return 'bodyweight';
-    return 'home_equipment'; 
+    return 'home_limited';
 };
 
-// Filtra ejercicios por equipo disponible
 const filterExercisesByEquipment = (exercises, userEquipmentList) => {
     const environment = detectEnvironment(userEquipmentList);
     const userKeywords = userEquipmentList.map(e => normalizeText(e));
@@ -53,165 +163,102 @@ const filterExercisesByEquipment = (exercises, userEquipmentList) => {
 
     return exercises.filter(ex => {
         const reqEq = normalizeText(ex.equipo || "peso corporal");
-        
-        // Peso corporal siempre permitido (exercises_bodyweight_pure usa "Peso Corporal")
         if (reqEq.includes("corporal") || reqEq === "suelo" || reqEq === "sin equipo") return true;
-        
         if (environment === 'bodyweight') return false;
 
-        // Validaciones contra exercises_home_limited
+        // Lógica estricta para casa: Si el ejercicio pide "Barra", el usuario debe tener "Barra"
         if (reqEq.includes("mancuerna")) return userKeywords.some(k => k.includes("mancuerna"));
-        if (reqEq.includes("kettlebell")) return userKeywords.some(k => k.includes("kettlebell") || k.includes("rusa"));
-        if (reqEq.includes("banda") || reqEq.includes("liga")) return userKeywords.some(k => k.includes("banda") || k.includes("liga"));
         if (reqEq.includes("barra")) return userKeywords.some(k => k.includes("barra"));
-        if (reqEq.includes("foam") || reqEq.includes("rodillo")) return userKeywords.some(k => k.includes("rodillo") || k.includes("foam"));
+        if (reqEq.includes("banda") || reqEq.includes("liga")) return userKeywords.some(k => k.includes("banda") || k.includes("mini"));
+        if (reqEq.includes("kettlebell")) return userKeywords.some(k => k.includes("kettlebell") || k.includes("mancuerna")); // Mancuerna puede sustituir KB a veces
 
         return false;
     });
 };
 
-// NUEVO: Filtra ejercicios por Nivel del Usuario para evitar lesiones
-// Si el usuario es Principiante, eliminamos "Avanzado".
-// Si es Intermedio, aceptamos Principiante e Intermedio.
 const filterExercisesByLevel = (exercises, userLevel) => {
     const level = normalizeText(userLevel || "principiante");
-    
     return exercises.filter(ex => {
         const exLevel = normalizeText(ex.nivel || "principiante");
-        
-        if (level === 'principiante') {
-            return exLevel === 'principiante';
-        }
-        if (level === 'intermedio') {
-            return exLevel !== 'avanzado';
-        }
-        // Avanzado recibe todo
-        return true; 
+        if (level === 'principiante') return exLevel === 'principiante';
+        if (level === 'intermedio') return exLevel !== 'avanzado';
+        return true;
     });
 };
 
 // ====================================================================
-// 3. MOTORES DE GENERACIÓN (WARMUP, MAIN, COOL)
+// 3. GENERADORES DE BLOQUES
 // ====================================================================
 
-/**
- * Protocolo RAMP usando exercises_utility y exercises_bodyweight_pure
- */
-const generateScientificWarmup = (utilityPool, bodyweightPool, sessionFocus) => {
-    const focus = normalizeText(sessionFocus);
-    let targetArea = [];
-    
-    // Mapeo de áreas basado en tus datos
-    if (focus.includes('full') || focus.includes('cuerpo')) {
-        targetArea = ['general', 'hombro', 'cadera', 'espalda', 'pecho', 'pierna'];
-    } else if (focus.includes('pierna') || focus.includes('inferior')) {
-        targetArea = ['cadera', 'tobillo', 'rodilla', 'gluteo', 'isquios', 'cuadriceps', 'pierna'];
-    } else if (focus.includes('torso') || focus.includes('superior') || focus.includes('pecho') || focus.includes('espalda')) {
-        targetArea = ['hombro', 'toracica', 'pecho', 'espalda', 'muñeca'];
-    } else {
-        targetArea = ['general'];
-    }
+const generateWarmup = (utilityPool, bodyweightPool, focus) => {
+    // Protocolo RAMP simplificado
+    const normFocus = normalizeText(focus);
+    let target = 'general';
+    if (normFocus.includes('pierna') || normFocus.includes('full')) target = 'pierna';
+    if (normFocus.includes('torso') || normFocus.includes('pecho')) target = 'superior';
 
-    const warmupSequence = [];
-
-    // 1. PULSE RAISER & MOBILITY (Desde exercises_utility)
-    // Buscamos ejercicios de tipo "Calentamiento" que coincidan con el área
-    const mobilityCandidates = utilityPool.filter(ex => {
-        const type = normalizeText(ex.tipo || "");
-        const part = normalizeText(ex.parteCuerpo || "");
-        const name = normalizeText(ex.nombre || "");
-        
-        // Priorizar tipo "Calentamiento" (ej. Jumping Jacks, Rodar Foam Roller)
-        if (!type.includes('calentamiento')) return false;
-
-        const matchesArea = targetArea.some(area => part.includes(area) || name.includes(area) || part === 'general');
-        return matchesArea;
+    // 1. Movilidad (Utility)
+    const mobility = utilityPool.filter(ex => {
+        const type = normalizeText(ex.tipo);
+        const part = normalizeText(ex.parteCuerpo);
+        return type.includes('calentamiento') || (type.includes('estiramiento') && part.includes(target));
     });
 
-    const selectedMobility = shuffleArray(mobilityCandidates).slice(0, 3);
-    selectedMobility.forEach(ex => {
-        warmupSequence.push({
-            id: ex.id,
-            name: ex.nombre,
-            instructions: ex.descripcion,
-            durationOrReps: "60 seg / 15 reps",
-            type: "Movilidad/Activación",
-            imageUrl: ex.url || null,
-            equipment: ex.equipo
-        });
+    // 2. Activación (Bodyweight)
+    const activation = bodyweightPool.filter(ex => {
+        const part = normalizeText(ex.parteCuerpo);
+        // Excluir core intenso
+        return target === 'pierna' ? part.includes('pierna') || part.includes('gluteo')
+            : part.includes('pecho') || part.includes('espalda');
     });
 
-    // 2. ACTIVACIÓN ESPECÍFICA (Desde exercises_bodyweight_pure)
-    // Buscamos ejercicios de bajo impacto para pre-activar (ej. Escapulares, Glute Bridge)
-    const activationCandidates = bodyweightPool.filter(ex => {
-        const part = normalizeText(ex.parteCuerpo || "");
-        const musc = normalizeText(ex.musculoObjetivo || "");
-        const level = normalizeText(ex.nivel || "");
-        
-        if (part === 'core') return false; // Core va después
-        if (level === 'avanzado') return false; // Solo activación fácil
+    const selected = [
+        ...shuffleArray(mobility).slice(0, 2).map(e => ({ ...e, type: 'mobility', durationOrReps: '45s' })),
+        ...shuffleArray(activation).slice(0, 2).map(e => ({ ...e, type: 'activation', durationOrReps: '15 reps' }))
+    ];
 
-        return targetArea.some(area => part.includes(area) || musc.includes(area));
-    });
-
-    const selectedActivation = shuffleArray(activationCandidates).slice(0, 2);
-    selectedActivation.forEach(ex => {
-        warmupSequence.push({
-            id: ex.id,
-            name: ex.nombre, // Normalizando a 'nombre' como en tus JSON
-            instructions: ex.descripcion,
-            durationOrReps: "12-15 reps (Lento)",
-            type: "Potenciación",
-            notes: "Concéntrate en sentir el músculo, no en fatigarlo.",
-            imageUrl: ex.url || null,
-            equipment: "Peso Corporal"
-        });
-    });
-
-    return warmupSequence;
+    return selected.map(ex => ({
+        id: ex.id,
+        name: ex.nombre,
+        instructions: ex.descripcion,
+        durationOrReps: ex.durationOrReps,
+        imageUrl: ex.url,
+        equipment: "Peso Corporal"
+    }));
 };
 
-/**
- * Generador del Bloque Principal (Logic v3)
- */
-const generateMainBlock = (availableExercises, sessionFocus, rpeModifier) => {
+const generateMainBlock = (pool, sessionFocus, params) => {
     const focus = normalizeText(sessionFocus);
     let template = [];
     let isCircuit = false;
 
-    // Patrones de movimiento basados en exercises_home_limited
-    if (focus.includes('full') || focus.includes('cuerpo')) {
-        isCircuit = true;
+    // --- TEMPLATES INTELIGENTES ---
+    // Aseguran que Full Body toque los 5 patrones, y Torso/Pierna equilibren antagonistas.
+
+    if (focus.includes('full') || focus.includes('metabolico')) {
+        isCircuit = true; // Full body suele ser mejor en circuito o pares
         template = [
-            { pattern: ['pierna', 'cuadriceps'], type: 'Multiarticular', role: 'main' }, // ej. Sentadilla Goblet
-            { pattern: ['empuje', 'pecho', 'hombro'], type: 'Multiarticular', role: 'main' }, // ej. Press Militar
-            { pattern: ['gluteo', 'isquios', 'cadera'], type: 'Multiarticular', role: 'main' }, // ej. Peso Muerto Rumano
-            { pattern: ['traccion', 'espalda'], type: 'Multiarticular', role: 'main' }, // ej. Remo con Barra
-            { pattern: ['brazo', 'biceps', 'triceps', 'hombro'], type: 'Aislamiento', role: 'accessory' } 
+            { pattern: ['pierna', 'cuadriceps'], role: 'compound' }, // 1. Dominante Rodilla (Sentadilla)
+            { pattern: ['empuje', 'pecho', 'hombro'], role: 'compound' }, // 2. Empuje
+            { pattern: ['gluteo', 'isquios', 'cadera'], role: 'compound' }, // 3. Dominante Cadera (Peso Muerto)
+            { pattern: ['traccion', 'espalda'], role: 'compound' }, // 4. Tracción
+            { pattern: ['core', 'abdominales'], role: 'isolation' } // 5. Core/Carry
         ];
-    } else if (focus.includes('torso') || focus.includes('superior')) {
+    } else if (focus.includes('torso')) {
         template = [
-            { pattern: ['pecho', 'empuje'], type: 'Multiarticular', role: 'main' }, 
-            { pattern: ['espalda', 'traccion'], type: 'Multiarticular', role: 'main' },
-            { pattern: ['hombro', 'pecho'], type: 'Multiarticular', role: 'secondary' },
-            { pattern: ['espalda', 'traccion'], type: 'Aislamiento', role: 'secondary' }, // ej. Vuelos Inversos
-            { pattern: ['triceps', 'biceps'], type: 'Aislamiento', role: 'finisher' }, 
-            { pattern: ['biceps', 'triceps'], type: 'Aislamiento', role: 'finisher' } 
-        ];
-    } else if (focus.includes('pierna') || focus.includes('inferior')) {
-        template = [
-            { pattern: ['cuadriceps', 'pierna'], type: 'Multiarticular', role: 'main' }, // ej. Zancadas
-            { pattern: ['isquios', 'gluteo'], type: 'Multiarticular', role: 'main' }, // ej. RDL
-            { pattern: ['pierna', 'cuadriceps'], type: 'Aislamiento', role: 'secondary' }, 
-            { pattern: ['gluteo', 'cadera'], type: 'Aislamiento', role: 'secondary' }, // ej. Hip Thrust
-            { pattern: ['gemelos', 'pantorrilla'], type: 'Aislamiento', role: 'finisher' } // ej. Elevación talones
+            { pattern: ['pecho', 'empuje'], role: 'compound' }, // Press Principal
+            { pattern: ['espalda', 'traccion'], role: 'compound' }, // Remo Principal
+            { pattern: ['hombro', 'pecho'], role: 'compound' }, // Press Vertical/Inclinado
+            { pattern: ['espalda', 'traccion'], role: 'isolation' }, // Aislamiento Espalda (Vuelos)
+            { pattern: ['triceps', 'biceps'], role: 'isolation' } // Brazos
         ];
     } else {
-        // Fallback genérico
+        // Pierna o General
         template = [
-            { pattern: [focus], type: 'Multiarticular', role: 'main' },
-            { pattern: [focus], type: 'Multiarticular', role: 'secondary' },
-            { pattern: [focus], type: 'Aislamiento', role: 'finisher' }
+            { pattern: ['cuadriceps', 'pierna'], role: 'compound' },
+            { pattern: ['isquios', 'gluteo'], role: 'compound' },
+            { pattern: ['pierna', 'cuadriceps'], role: 'isolation' },
+            { pattern: ['gemelos', 'pantorrilla'], role: 'isolation' }
         ];
     }
 
@@ -219,67 +266,54 @@ const generateMainBlock = (availableExercises, sessionFocus, rpeModifier) => {
     const usedIds = new Set();
 
     template.forEach(slot => {
-        const candidates = availableExercises.filter(ex => {
+        const candidates = pool.filter(ex => {
             if (usedIds.has(ex.id)) return false;
+            const targets = normalizeText((ex.musculoObjetivo || "") + " " + (ex.parteCuerpo || ""));
+            const type = normalizeText(ex.tipo || "");
 
-            const exType = normalizeText(ex.tipo || "");
-            const exBodyPart = normalizeText(ex.parteCuerpo || "");
-            const exMuscle = normalizeText(ex.musculoObjetivo || ""); // Clave: usar musculoObjetivo de tus JSONs
-            const combinedTargets = exBodyPart + " " + exMuscle;
+            const matchesPattern = slot.pattern.some(p => targets.includes(p));
+            // Priorizar compuestos para roles compuestos
+            const matchesRole = slot.role === 'compound' ? type.includes('multi') : true;
 
-            const typeMatch = slot.type === 'Any' ? true : exType.includes(normalizeText(slot.type));
-            const muscleMatch = slot.pattern.some(p => combinedTargets.includes(p));
-
-            return typeMatch && muscleMatch;
+            return matchesPattern && matchesRole;
         });
 
         if (candidates.length > 0) {
             const pick = shuffleArray(candidates)[0];
             usedIds.add(pick.id);
 
-            let sets = 3;
-            let reps = "10-12";
-            let rpe = 7 + rpeModifier;
-
-            if (slot.role === 'main') {
-                sets = 4;
-                reps = "8-10"; 
-                rpe = 8 + rpeModifier;
-            } else if (slot.role === 'finisher') {
-                sets = 2;
-                reps = "15-20"; 
-                rpe = 9 + rpeModifier;
-            }
-
-            if (rpeModifier < 0) {
-                sets = Math.max(2, sets - 1);
-                rpe = Math.max(5, rpe - 2);
-            }
+            // CALCULAR SUGERENCIA DE CARGA ESPECÍFICA
+            // userInventory viene de profileData.availableEquipment
+            // sessionMode viene de readiness.mode ('performance', 'survival', 'standard')
+            const specificEquipment = assignLoadSuggestion(pick, params.userInventory, params.sessionMode);
 
             selectedExercises.push({
                 id: pick.id,
-                name: pick.nombre, // Usando 'nombre' del JSON
+                name: pick.nombre,
                 instructions: pick.descripcion,
                 imageUrl: pick.url || null,
-                equipment: pick.equipo,
-                sets: sets,
-                targetReps: reps,
-                rpe: rpe,
-                notes: slot.role === 'main' ? "Mantén la técnica estricta. Carga pesada." : "Controla la fase negativa.",
-                musculoObjetivo: pick.musculoObjetivo || pick.parteCuerpo 
+                equipment: specificEquipment, // <--- AQUÍ SE GUARDA EL ESPECÍFICO
+                originalEquipment: pick.equipo, // Guardamos el genérico por si acaso
+                sets: slot.role === 'compound' ? params.setsCompound : params.setsIsolation,
+                targetReps: slot.role === 'compound' ? params.repsCompound : params.repsIsolation,
+                rpe: slot.role === 'compound' ? 8 : 9,
+                notes: params.techniqueNote,
+                musculoObjetivo: pick.musculoObjetivo || pick.parteCuerpo
             });
         }
     });
 
     return {
         type: isCircuit ? 'circuit' : 'station',
+        restSets: isCircuit ? 0 : params.restCompound, // En circuito no descansas entre ejercicios, solo al final de vuelta
+        restExercises: isCircuit ? 0 : params.restIsolation,
         exercises: selectedExercises
     };
 };
 
-// ----------------------------------------------------
-// HANDLER PRINCIPAL
-// ----------------------------------------------------
+// ====================================================================
+// 4. HANDLER PRINCIPAL
+// ====================================================================
 
 export default async function handler(req, res) {
     setCORSHeaders(res);
@@ -297,176 +331,185 @@ export default async function handler(req, res) {
     try {
         const userDoc = await db.collection('users').doc(userId).get();
         if (!userDoc.exists) return res.status(404).json({ error: 'Usuario no encontrado.' });
-        const { profileData, currentMesocycle } = userDoc.data();
 
+        const { profileData, currentMesocycle } = userDoc.data();
         if (!currentMesocycle) return res.status(400).json({ error: 'No hay plan activo.' });
 
-        // --- CONTEXTO ---
+        // --- 1. DETERMINAR CONTEXTO DE FECHA ---
         let todayDate = new Date();
         if (req.body.date) {
             const parsed = parseISO(req.body.date);
             if (isValid(parsed)) todayDate = parsed;
         }
-        
+
         const startDate = parseISO(currentMesocycle.startDate);
         const weeksPassed = differenceInCalendarWeeks(todayDate, startDate, { weekStartsOn: 1 });
         const currentWeekNum = weeksPassed + 1;
-        
+
         const targetMicrocycle = currentMesocycle.mesocyclePlan.microcycles.find(m => m.week === currentWeekNum);
+        // Si no hay microciclo (fin del plan), devolver error o último
         if (!targetMicrocycle) return res.status(400).json({ error: "Plan finalizado." });
 
         const dayName = format(todayDate, 'EEEE', { locale: es });
         let targetSession = targetMicrocycle.sessions.find(s => s.dayOfWeek.toLowerCase() === dayName.toLowerCase());
 
+        // Manejo de descanso
         if (!targetSession) targetSession = { sessionFocus: "Descanso / Recuperación" };
 
-        const realTimeFeedback = req.body.realTimeFeedback || {};
-        const rpeModifier = req.body.isRecovery ? -2 : 0; 
-        const isRecovery = req.body.isRecovery || normalizeText(targetSession.sessionFocus).includes('recuperacion');
-        const userLevel = profileData.fitnessLevel || "Principiante"; // Asegurar dato
+        // --- 2. INTEGRACIÓN DE FEEDBACK (EL CEREBRO DE LA PERSONALIZACIÓN) ---
+        const feedback = req.body.realTimeFeedback || {};
+        const isRecoveryFlag = req.body.isRecovery || normalizeText(targetSession.sessionFocus).includes('recuperacion') || normalizeText(targetSession.sessionFocus).includes('descanso');
 
-        // --- CARGA DE EJERCICIOS (SOLO LO QUE EXISTE) ---
-        // Eliminada la llamada a 'exercises_movility'
+        // Calculamos el estado del atleta
+        const readiness = calculateReadiness(feedback);
+        const equipmentType = detectEnvironment(profileData.availableEquipment);
+
+        // Calculamos parámetros físicos (Volumen, Intensidad, Descanso)
+        const sessionParams = getDynamicSessionParams(readiness, targetSession.sessionFocus, equipmentType);
+
+        sessionParams.userInventory = profileData.availableEquipment || [];
+        sessionParams.sessionMode = readiness.mode;
+
+        let intensityLabel = "Media";
+        if (readiness.mode === 'performance' || normalizeText(targetSession.sessionFocus).includes('fuerza')) {
+            intensityLabel = "Alta";
+        } else if (readiness.mode === 'survival' || isRecoveryFlag) {
+            intensityLabel = "Baja / Recuperación";
+        }
+
+        // --- 3. OBTENCIÓN DE DATOS ---
         const promises = [
             db.collection('exercises_utility').get(),        // [0]
             db.collection('exercises_bodyweight_pure').get() // [1]
         ];
 
-        const environment = detectEnvironment(profileData.availableEquipment || []);
-        if (environment === 'gym') {
+        if (equipmentType === 'gym') {
             promises.push(db.collection('exercises_gym_full').get());
         } else {
             promises.push(db.collection('exercises_home_limited').get());
         }
 
         const results = await Promise.all(promises);
-
         const utilityEx = results[0].docs.map(d => ({ id: d.id, ...d.data() }));
         const bodyweightEx = results[1].docs.map(d => ({ id: d.id, ...d.data() }));
         const mainExPoolRaw = results[2].docs.map(d => ({ id: d.id, ...d.data() }));
-        
-        // Unir pools para selección principal
-        // Nota: Bodyweight Pure siempre es útil
+
+        // Unificar pools y filtrar
         let fullMainPool = [...mainExPoolRaw, ...bodyweightEx.filter(e => normalizeText(e.parteCuerpo) !== 'core')];
-        
-        // FILTRO 1: EQUIPO
         fullMainPool = filterExercisesByEquipment(fullMainPool, profileData.availableEquipment || []);
-        
-        // FILTRO 2: NIVEL (Nuevo)
-        fullMainPool = filterExercisesByLevel(fullMainPool, userLevel);
-        const bodyweightFiltered = filterExercisesByLevel(bodyweightEx, userLevel);
+        fullMainPool = filterExercisesByLevel(fullMainPool, profileData.experienceLevel);
+        const bodyweightFiltered = filterExercisesByLevel(bodyweightEx, profileData.experienceLevel);
 
-        // --- CONSTRUCCIÓN ---
-        let finalWarmup = [];
-        let mainBlockData = { exercises: [], type: 'station' };
-        let finalCore = [];
-        let finalCooldown = [];
+        // --- 4. CONSTRUCCIÓN DE LA SESIÓN ---
 
-        if (isRecovery) {
-            // RECUPERACIÓN: Usamos exercises_utility (Estiramientos/Movilidad)
-            
-            // Warmup suave
-            finalWarmup = utilityEx.filter(e => normalizeText(e.tipo).includes('calentamiento')).slice(0, 2).map(ex => ({
-                ...ex, durationOrReps: "1 min suave", instructions: ex.descripcion
-            }));
+        let finalSession = {
+            sessionGoal: targetSession.sessionFocus,
+            estimatedDurationMin: 60,
+            warmup: { exercises: [] },
+            mainBlocks: [],
+            coreBlocks: [],
+            intensityLevel: intensityLabel,
+            cooldown: { exercises: [] },
+            meta: {
+                date: todayDate.toISOString(),
+                generatedAt: new Date().toISOString(),
+                readinessScore: readiness.score,
+                sessionMode: readiness.mode
+            }
+        };
 
-            // Flujo principal de movilidad (Estiramientos dinámicos/estáticos)
-            const mobilityFlow = shuffleArray(utilityEx.filter(e => normalizeText(e.tipo).includes('estiramiento'))).slice(0, 6);
-            
-            mainBlockData = {
-                type: 'circuit',
+        if (isRecoveryFlag) {
+            // --- MODO RECUPERACIÓN (Lógica Simplificada) ---
+            const mobilityFlow = shuffleArray(utilityEx.filter(e => normalizeText(e.tipo).includes('estiramiento'))).slice(0, 8);
+
+            finalSession.sessionGoal = "Recuperación Activa & Movilidad";
+            finalSession.estimatedDurationMin = 30;
+            finalSession.mainBlocks = [{
+                blockType: 'circuit',
+                restBetweenSetsSec: 0,
+                restBetweenExercisesSec: 15,
                 exercises: mobilityFlow.map(ex => ({
                     id: ex.id,
                     name: ex.nombre,
                     instructions: ex.descripcion,
                     imageUrl: ex.url,
                     sets: 2,
-                    targetReps: "45 seg hold",
+                    targetReps: "45 seg",
                     rpe: 2,
-                    notes: "Respira profundo, busca relajar el músculo.",
+                    notes: "Movimiento fluido y controlado.",
                     musculoObjetivo: ex.parteCuerpo
                 }))
-            };
+            }];
 
         } else {
-            // ENTRENAMIENTO
+            // --- MODO ENTRENAMIENTO ---
 
-            // 1. Calentamiento RAMP (Utility + Bodyweight Activación)
-            finalWarmup = generateScientificWarmup(utilityEx, bodyweightFiltered, targetSession.sessionFocus);
+            // 1. Warmup
+            finalSession.warmup.exercises = generateWarmup(utilityEx, bodyweightFiltered, targetSession.sessionFocus);
 
-            // 2. Bloque Principal
-            mainBlockData = generateMainBlock(fullMainPool, targetSession.sessionFocus, rpeModifier);
+            // 2. Main Block (Usando los parámetros dinámicos calculados)
+            const mainBlock = generateMainBlock(fullMainPool, targetSession.sessionFocus, sessionParams);
 
-            // 3. Core (Usamos exercises_bodyweight_pure, filtrando por 'Core')
-            const corePool = bodyweightFiltered.filter(e => normalizeText(e.parteCuerpo) === 'core');
-            if (corePool.length > 0) {
-                const pickedCore = shuffleArray(corePool).slice(0, 2);
-                finalCore = [{
-                    blockType: 'superset',
-                    restBetweenSetsSec: 45,
-                    restBetweenExercisesSec: 0,
-                    exercises: pickedCore.map(ex => ({
-                        id: ex.id,
-                        name: ex.nombre,
-                        instructions: ex.descripcion,
-                        imageUrl: ex.url,
-                        sets: 3,
-                        targetReps: "12-15 reps", // exercises_bodyweight_pure suele ser por reps
-                        rpe: 8,
-                        notes: "Mantén el abdomen contraído."
-                    }))
-                }];
+            // Ajuste fino de descansos para el JSON final
+            // Si es circuito: descanso entre ejercicios 0, descanso entre VUELTAS (sets) alto.
+            // Si es estación: descanso entre sets normal, descanso entre ejercicios normal.
+            const blockRestSets = mainBlock.type === 'circuit' ? Math.max(90, sessionParams.restCompound + 30) : sessionParams.restCompound;
+            const blockRestEx = mainBlock.type === 'circuit' ? 15 : sessionParams.restIsolation;
+
+            finalSession.mainBlocks = [{
+                blockType: mainBlock.type,
+                restBetweenSetsSec: blockRestSets,
+                restBetweenExercisesSec: blockRestEx,
+                exercises: mainBlock.exercises
+            }];
+
+            // 3. Core (Si readiness lo permite y no es pierna mortal)
+            if (readiness.score > 3) {
+                const corePool = bodyweightFiltered.filter(e => normalizeText(e.parteCuerpo) === 'core');
+                if (corePool.length > 0) {
+                    const coreEx = shuffleArray(corePool).slice(0, 2);
+                    finalSession.coreBlocks = [{
+                        blockType: 'superset',
+                        restBetweenSetsSec: 60,
+                        restBetweenExercisesSec: 0,
+                        exercises: coreEx.map(ex => ({
+                            id: ex.id,
+                            name: ex.nombre,
+                            instructions: ex.descripcion,
+                            imageUrl: ex.url,
+                            sets: 2, // Core volumen moderado
+                            targetReps: "15-20 reps",
+                            rpe: 7,
+                            notes: "Estabilidad."
+                        }))
+                    }];
+                }
             }
+
+            // 4. Cooldown
+            const workedMuscles = mainBlock.exercises.map(e => normalizeText(e.musculoObjetivo || "")).join(" ");
+            let stretches = utilityEx.filter(ex => normalizeText(ex.tipo).includes('estiramiento'));
+            // Priorizar músculos trabajados
+            let priority = stretches.filter(ex => workedMuscles.includes(normalizeText(ex.parteCuerpo).split(' ')[0]));
+            if (priority.length < 4) {
+                const filler = shuffleArray(stretches.filter(x => !priority.includes(x))).slice(0, 4 - priority.length);
+                priority = [...priority, ...filler];
+            }
+            finalSession.cooldown.exercises = priority.map(ex => ({
+                id: ex.id,
+                name: ex.nombre,
+                instructions: ex.descripcion,
+                durationOrReps: "30s por lado",
+                imageUrl: ex.url
+            }));
+
+            // Duración estimada
+            const setsTotal = mainBlock.exercises.reduce((acc, curr) => acc + curr.sets, 0) + (finalSession.coreBlocks[0]?.exercises.length * 2 || 0);
+            finalSession.estimatedDurationMin = 10 + (setsTotal * 2.5) + 5; // Warmup + (Sets * avg time) + Cool
         }
 
-        // 4. Enfriamiento (Utility: Estiramientos)
-        // Buscamos estiramientos que coincidan con los músculos trabajados
-        const workedMuscles = mainBlockData.exercises.map(e => normalizeText(e.musculoObjetivo || "")).join(" ");
-        
-        let cooldownCandidates = utilityEx.filter(ex => normalizeText(ex.tipo).includes('estiramiento'));
-        
-        let priorityStretches = cooldownCandidates.filter(ex => {
-            const stretchPart = normalizeText(ex.parteCuerpo || "");
-            // Coincidencia simple: si trabajamos 'pecho', buscamos estiramiento de 'pecho'
-            return workedMuscles.includes(stretchPart.split(' ')[0]); 
-        });
-
-        if (priorityStretches.length < 4) {
-            const filler = shuffleArray(cooldownCandidates.filter(x => !priorityStretches.includes(x))).slice(0, 4 - priorityStretches.length);
-            priorityStretches = [...priorityStretches, ...filler];
-        }
-
-        finalCooldown = shuffleArray(priorityStretches).slice(0, 4).map(ex => ({
-            id: ex.id,
-            name: ex.nombre,
-            instructions: ex.descripcion,
-            durationOrReps: "30 seg por lado",
-            imageUrl: ex.url,
-            notes: "Estiramiento estático. Relaja."
-        }));
-
-        const finalSession = {
-            sessionGoal: targetSession.sessionFocus,
-            estimatedDurationMin: isRecovery ? 30 : 60,
-            warmup: { exercises: finalWarmup },
-            mainBlocks: mainBlockData.exercises.length > 0 ? [{
-                blockType: mainBlockData.type,
-                restBetweenSetsSec: isRecovery ? 0 : 60,
-                restBetweenExercisesSec: 0,
-                exercises: mainBlockData.exercises
-            }] : [],
-            coreBlocks: finalCore,
-            cooldown: { exercises: finalCooldown },
-            meta: {
-                date: todayDate.toISOString(),
-                generatedAt: new Date().toISOString(),
-                version: "3.0-data-aware"
-            },
-            completed: false
-        };
-
+        // GUARDADO
         await db.collection('users').doc(userId).update({ currentSession: finalSession });
-
         return res.status(200).json({ success: true, session: finalSession });
 
     } catch (error) {
