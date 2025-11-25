@@ -1,10 +1,7 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { format, differenceInCalendarWeeks, parseISO, startOfDay, isValid } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { setLogLevel } from 'firebase/firestore'; 
-
-// Habilitar logs para depuración en el entorno de desarrollo
-// setLogLevel('debug'); 
+// Eliminada la importación incorrecta de setLogLevel del SDK Cliente.
 
 // ====================================================================
 // 1. MOTORES DE LÓGICA DEPORTIVA (EVIDENCIA ÉLITE)
