@@ -1,5 +1,3 @@
-// 📄 server.js (Final)
-
 import express from 'express';
 import cors from 'cors';
 // Nota: Importar db y auth aquí asegura que Firebase Admin se inicialice al iniciar el servidor
@@ -11,7 +9,8 @@ import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
 import motivationHandler from './api/profile/motivation.js';
 import mesocycleGenerateHandler from './api/mesocycle/generate.js';
 import sessionGenerateHandler from './api/session/generate.js'; 
-import sessionCompleteHandler from './api/session/complete.js'; // 👈 IMPORTACIÓN NUEVA
+import sessionCompleteHandler from './api/session/complete.js';
+import sessionSwapHandler from './api/session/swap-exercise.js'; // 👈 NUEVA IMPORTACIÓN DEL HANDLER
 
 const app = express();
 const PORT = 3000;
@@ -48,7 +47,10 @@ app.post('/api/mesocycle/generate', mesocycleGenerateHandler);
 app.post('/api/session/generate', sessionGenerateHandler);
 
 // Completar Sesión (Guardar Feedback e Historial)
-app.post('/api/session/complete', sessionCompleteHandler); // 👈 RUTA NUEVA
+app.post('/api/session/complete', sessionCompleteHandler);
+
+// 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
+app.post('/api/session/swap-exercise', sessionSwapHandler); // 👈 NUEVA RUTA A AGREGAR
 
 
 // Ruta de estado (Health Check)
@@ -63,7 +65,8 @@ app.get('/', (req, res) => {
             'POST /api/profile/motivation',
             'POST /api/mesocycle/generate',
             'POST /api/session/generate',
-            'POST /api/session/complete' // 👈 LISTADO EN EL INDEX
+            'POST /api/session/complete',
+            'POST /api/session/swap-exercise' // 👈 LISTADO ACTUALIZADO
         ]
     });
 });
