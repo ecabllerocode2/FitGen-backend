@@ -140,10 +140,6 @@ export default async function handler(req, res) {
         const userId = decoded.uid;
 
         // --- A. RECIBIR COORDENADAS EXACTAS ---
-        // blockType: 'warmup' | 'main' | 'core' | 'cooldown'
-        // blockIndex: índice del bloque (0 para warmup/cooldown)
-        // exerciseIndex: índice del ejercicio dentro del bloque
-        // targetId: ID del ejercicio a reemplazar (doble check de seguridad)
         const { blockType, blockIndex, exerciseIndex, targetId } = req.body;
 
         if (blockIndex === undefined || exerciseIndex === undefined || !targetId) {
@@ -161,7 +157,7 @@ export default async function handler(req, res) {
         if (!currentSession) return res.status(400).json({ error: "No hay sesión activa." });
 
         // --- C. LOCALIZAR EL EJERCICIO EN EL DOCUMENTO ---
-        let exercisesListRef = null; // Referencia al array que vamos a modificar
+        let exercisesListRef = null; 
         let targetExercise = null;
 
         if (blockType === 'warmup') {
@@ -186,7 +182,6 @@ export default async function handler(req, res) {
         }
 
         // --- D. BUSCAR CANDIDATOS (TODAS LAS COLECCIONES) ---
-        // Buscamos en todo el universo de ejercicios para maximizar opciones
         const collections = [
             'exercises_utility', 
             'exercises_bodyweight_pure', 
@@ -213,13 +208,13 @@ export default async function handler(req, res) {
 
         // Datos clave del objetivo
         const targetMuscle = normalizeText(targetExercise.musculoObjetivo || targetExercise.parteCuerpo || "");
-        const targetTypeRaw = normalizeText(targetExercise.tipo || ""); // "Multiarticular" vs "Aislamiento" vs "Cardio"
+        const targetTypeRaw = normalizeText(targetExercise.tipo || ""); 
         const isCompound = targetTypeRaw.includes('multi') || targetTypeRaw.includes('compuesto');
         const isWarmup = blockType === 'warmup' || blockType === 'cooldown';
 
         const validReplacements = allCandidates.filter(candidate => {
             // A. Filtro Básico
-            if (usedIds.has(candidate.id)) return false; // Ya está en uso
+            if (usedIds.has(candidate.id)) return false; 
             
             // B. Filtro de Inventario (CRÍTICO)
             if (!checkEquipmentAvailability(candidate, availableEquipment || [])) return false;
@@ -232,16 +227,14 @@ export default async function handler(req, res) {
             // D. Filtro Biomecánico (Músculo/Función)
             const candMuscle = normalizeText(candidate.musculoObjetivo || candidate.parteCuerpo || "");
             
-            // Si es Calentamiento/Cooldown, somos flexibles con el músculo exacto, buscamos tipo 'movilidad/estiramiento'
+            // Si es Calentamiento/Cooldown, somos flexibles con el músculo exacto
             if (isWarmup) {
                  const candType = normalizeText(candidate.tipo || "");
-                 const targetRole = normalizeText(targetExercise.name); // A veces el nombre indica 'Estiramiento'
-                 // Buscamos coincidencia parcial
+                 const targetRole = normalizeText(targetExercise.name); 
                  return candType.includes('estiramiento') || candType.includes('movilidad') || candType.includes('activacion');
             }
 
             // Para Bloques Principales/Core: Match estricto de músculo
-            // Ejemplo: target="Pectoral Mayor", cand="Pecho". Coincidencia parcial requerida.
             const muscleMatch = candMuscle.includes(targetMuscle) || targetMuscle.includes(candMuscle);
             if (!muscleMatch) return false;
 
@@ -250,12 +243,6 @@ export default async function handler(req, res) {
                 const candType = normalizeText(candidate.tipo || "");
                 const candIsCompound = candType.includes('multi') || candType.includes('compuesto');
                 
-                // Intentamos mantener el rol.
-                // Si el original es Compuesto, buscamos Compuesto.
-                // EXCEPCIÓN: Si el usuario tiene equipo limitado, a veces un compuesto pesado (Press Banca)
-                // debe sustituirse por un aislamiento o compuesto ligero (Flexiones).
-                // Por tanto, priorizamos match, pero si no hay, permitimos cruce? 
-                // -> Para ser CIENTÍFICO: Intentamos forzar el rol.
                 if (isCompound !== candIsCompound) return false; 
             }
 
@@ -270,8 +257,6 @@ export default async function handler(req, res) {
             selectedCandidate = validReplacements[Math.floor(Math.random() * validReplacements.length)];
         } else {
             // FALLBACK DE EMERGENCIA:
-            // Si no encontramos match estricto (ej. no hay otro "Multiarticular de Pecho" con el equipo disponible),
-            // relajamos el filtro de "Rol" (Tipo), pero mantenemos Músculo e Inventario.
             const relaxedReplacements = allCandidates.filter(candidate => {
                 if (usedIds.has(candidate.id)) return false;
                 if (!checkEquipmentAvailability(candidate, availableEquipment || [])) return false;
@@ -286,7 +271,7 @@ export default async function handler(req, res) {
             }
         }
 
-        // --- G. CONSTRUCCIÓN DEL NUEVO EJERCICIO ---
+        // --- G. CONSTRUCCIÓN DEL NUEVO EJERCICIO (CORREGIDO PARA FIRESTORE) ---
         const loadInfo = assignLoadSuggestion(selectedCandidate, availableEquipment || [], currentSession.meta?.sessionMode || 'standard');
 
         const newExerciseData = {
@@ -294,14 +279,18 @@ export default async function handler(req, res) {
             name: selectedCandidate.nombre,
             instructions: selectedCandidate.descripcion,
             imageUrl: selectedCandidate.url || null,
-            videoUrl: selectedCandidate.videoUrl || null,
+            videoUrl: selectedCandidate.videoUrl ?? null, // Usa ?? null
             equipment: loadInfo.equipmentName,
-            // Mantenemos las variables de programación del bloque original (sets, reps, rpe)
-            // para preservar el volumen de entrenamiento diseñado por el algoritmo original.
-            sets: targetExercise.sets,
-            targetReps: targetExercise.targetReps, 
-            rpe: targetExercise.rpe,
-            durationOrReps: targetExercise.durationOrReps, // Para warmup
+            
+            // 🚨 CORRECCIÓN CLAVE: Esto soluciona ambos problemas (Firestore y Programación)
+            // Copiamos los valores del ejercicio antiguo y convertimos 'undefined' a 'null'.
+            // Esto asegura que la programación de series/reps/duración del bloque original se mantenga.
+            sets: targetExercise.sets ?? null,
+            targetReps: targetExercise.targetReps ?? null, 
+            rpe: targetExercise.rpe ?? null,
+            durationOrReps: targetExercise.durationOrReps ?? null, 
+            // --------------------------------------------------------------------------------
+
             notes: targetExercise.notes ? `(Alt) ${targetExercise.notes}` : "Alternativa seleccionada.",
             musculoObjetivo: selectedCandidate.musculoObjetivo || selectedCandidate.parteCuerpo,
             suggestedLoad: loadInfo.suggestedLoad // UX Importante
@@ -320,6 +309,7 @@ export default async function handler(req, res) {
         }
 
         // Guardar sesión completa actualizada
+        // currentSession es un objeto anidado, update es la forma correcta.
         await userRef.update({ currentSession });
 
         // --- I. RESPUESTA AL CLIENTE ---
@@ -331,6 +321,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error("SWAP ERROR:", error);
+        // Devolvemos el mensaje de error de Vercel si es un error de Firebase/otra librería
         return res.status(500).json({ error: error.message });
     }
 }
