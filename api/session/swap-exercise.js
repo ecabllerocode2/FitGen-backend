@@ -227,16 +227,38 @@ export default async function handler(req, res) {
             // D. Filtro Biomecánico (Músculo/Función)
             const candMuscle = normalizeText(candidate.musculoObjetivo || candidate.parteCuerpo || "");
             
-            // Si es Calentamiento/Cooldown, somos flexibles con el músculo exacto
+            // 1. Calentamiento/Cooldown: Flexibilidad
             if (isWarmup) {
                  const candType = normalizeText(candidate.tipo || "");
-                 const targetRole = normalizeText(targetExercise.name); 
+                 // Match por tipo de ejercicio de utilidad
                  return candType.includes('estiramiento') || candType.includes('movilidad') || candType.includes('activacion');
             }
 
-            // Para Bloques Principales/Core: Match estricto de músculo
+            // 2. Reglas Específicas del Bloque Core 🚨 CORRECCIÓN CLAVE para evitar Espalda/Dorsal
+            if (blockType === 'core') {
+                 // Palabras clave EXCLUIDAS (músculos de tracción/espalda alta)
+                 const primaryBackMuscles = ['dorsales', 'trapecio', 'traccion']; 
+                 if (primaryBackMuscles.some(m => candMuscle.includes(m))) {
+                     return false; 
+                 }
+                 
+                 // Palabras clave aceptadas para Core 
+                 const coreKeywords = ['core', 'abdominales', 'oblicuos', 'lumbar'];
+                 const isCoreCandidate = coreKeywords.some(keyword => candMuscle.includes(keyword));
+
+                 // El candidato debe ser de Core para pasar el filtro estricto.
+                 if (isCoreCandidate) return true;
+                 
+                 // Si no es un candidato de Core aceptable y no fue excluido, rechazar.
+                 return false;
+            }
+
+
+            // 3. Main Block Logic (Match de Músculo Estricto)
+            // Para Bloques Principales: Match estricto de músculo (usa targetMuscle del original)
             const muscleMatch = candMuscle.includes(targetMuscle) || targetMuscle.includes(candMuscle);
             if (!muscleMatch) return false;
+
 
             // E. Filtro de Rol (Compound vs Isolation) - SOLO para Main Blocks
             if (blockType === 'main') {
@@ -249,7 +271,7 @@ export default async function handler(req, res) {
             return true;
         });
 
-        // --- F. SELECCIÓN Y FALLBACK ---
+        // --- F. SELECCIÓN Y FALLBACK (Ajuste para aplicar la exclusión de espalda al fallback) ---
         let selectedCandidate = null;
 
         if (validReplacements.length > 0) {
@@ -261,17 +283,38 @@ export default async function handler(req, res) {
                 if (usedIds.has(candidate.id)) return false;
                 if (!checkEquipmentAvailability(candidate, availableEquipment || [])) return false;
                 const candMuscle = normalizeText(candidate.musculoObjetivo || candidate.parteCuerpo || "");
+                // Regla de relajación: Coincidencia muscular básica
                 return candMuscle.includes(targetMuscle) || targetMuscle.includes(candMuscle);
             });
 
             if (relaxedReplacements.length > 0) {
-                selectedCandidate = relaxedReplacements[Math.floor(Math.random() * relaxedReplacements.length)];
+                 // Aplicar la regla de exclusión Core/Espalda (versión fuerte) al fallback también si es Core
+                 const primaryBackMuscles = ['dorsales', 'trapecio', 'traccion'];
+                 const coreKeywords = ['core', 'abdominales', 'oblicuos', 'lumbar'];
+
+                 const finalFallback = relaxedReplacements.filter(candidate => {
+                     if (blockType !== 'core') return true; 
+
+                     const candMuscle = normalizeText(candidate.musculoObjetivo || candidate.parteCuerpo || "");
+                     
+                     // 1. Excluir si tiene músculos grandes de espalda
+                     if (primaryBackMuscles.some(m => candMuscle.includes(m))) return false;
+                     // 2. Aceptar solo si es un candidato de Core aceptable
+                     return coreKeywords.some(keyword => candMuscle.includes(keyword));
+                 });
+
+
+                if (finalFallback.length > 0) {
+                   selectedCandidate = finalFallback[Math.floor(Math.random() * finalFallback.length)];
+                } else {
+                    return res.status(400).json({ error: "No se encontraron alternativas válidas para tu equipo ni con filtros relajados." });
+                }
             } else {
                 return res.status(400).json({ error: "No se encontraron alternativas válidas para tu equipo." });
             }
         }
 
-        // --- G. CONSTRUCCIÓN DEL NUEVO EJERCICIO (CORREGIDO PARA FIRESTORE) ---
+        // --- G. CONSTRUCCIÓN DEL NUEVO EJERCICIO ---
         const loadInfo = assignLoadSuggestion(selectedCandidate, availableEquipment || [], currentSession.meta?.sessionMode || 'standard');
 
         const newExerciseData = {
@@ -279,12 +322,10 @@ export default async function handler(req, res) {
             name: selectedCandidate.nombre,
             instructions: selectedCandidate.descripcion,
             imageUrl: selectedCandidate.url || null,
-            videoUrl: selectedCandidate.videoUrl ?? null, // Usa ?? null
+            videoUrl: selectedCandidate.videoUrl ?? null, 
             equipment: loadInfo.equipmentName,
             
-            // 🚨 CORRECCIÓN CLAVE: Esto soluciona ambos problemas (Firestore y Programación)
-            // Copiamos los valores del ejercicio antiguo y convertimos 'undefined' a 'null'.
-            // Esto asegura que la programación de series/reps/duración del bloque original se mantenga.
+            // Mantenemos la programación del bloque original, usando ?? null para evitar errores de Firestore.
             sets: targetExercise.sets ?? null,
             targetReps: targetExercise.targetReps ?? null, 
             rpe: targetExercise.rpe ?? null,
@@ -293,11 +334,10 @@ export default async function handler(req, res) {
 
             notes: targetExercise.notes ? `(Alt) ${targetExercise.notes}` : "Alternativa seleccionada.",
             musculoObjetivo: selectedCandidate.musculoObjetivo || selectedCandidate.parteCuerpo,
-            suggestedLoad: loadInfo.suggestedLoad // UX Importante
+            suggestedLoad: loadInfo.suggestedLoad 
         };
 
         // --- H. ACTUALIZAR BASE DE DATOS ---
-        // Modificamos el array en memoria
         if (blockType === 'warmup') {
             currentSession.warmup.exercises[exerciseIndex] = newExerciseData;
         } else if (blockType === 'cooldown') {
@@ -308,8 +348,6 @@ export default async function handler(req, res) {
             currentSession.coreBlocks[blockIndex].exercises[exerciseIndex] = newExerciseData;
         }
 
-        // Guardar sesión completa actualizada
-        // currentSession es un objeto anidado, update es la forma correcta.
         await userRef.update({ currentSession });
 
         // --- I. RESPUESTA AL CLIENTE ---
@@ -321,7 +359,6 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error("SWAP ERROR:", error);
-        // Devolvemos el mensaje de error de Vercel si es un error de Firebase/otra librería
         return res.status(500).json({ error: error.message });
     }
 }
