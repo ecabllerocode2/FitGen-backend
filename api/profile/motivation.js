@@ -9,7 +9,7 @@ import fetch from 'node-fetch';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // Modelo LLM a usar cuando esté activo (Aseguramos que es el correcto)
-const LLM_MODEL = 'openai/gpt-4o-mini'; 
+const LLM_MODEL = ''; 
 
 // ----------------------------------------------------
 // 🚨 MODO DE DESARROLLO/MOCKING

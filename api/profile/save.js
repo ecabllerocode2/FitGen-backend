@@ -1,12 +1,13 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
+import admin from 'firebase-admin'; // 📌 NECESARIO para usar deleteField
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido. Solo POST.' });
     }
 
-    // Asegúrate de que el Frontend envíe userId y userEmail en el body
-    const { userId: bodyUserId, userEmail: bodyUserEmail, profileData } = req.body;
+    // Asegúrate de que el Frontend envíe userId, userEmail, profileData y AHORA 'action' en el body
+    const { userId: bodyUserId, userEmail: bodyUserEmail, profileData, action } = req.body;
     let userId;
     let userEmail;
     
@@ -35,7 +36,8 @@ export default async function handler(req, res) {
     
     // Validación de datos
     const requiredKeys = ['name', 'age', 'experienceLevel', 'trainingDaysPerWeek', 'availableEquipment', 'initialWeight', 'fitnessGoal'];
-    const missingKeys = requiredKeys.filter(key => !profileData.hasOwnProperty(key));
+    // Se valida profileData y sus propiedades, no es necesario validar 'action' ya que es opcional para el primer onboarding
+    const missingKeys = requiredKeys.filter(key => !profileData.hasOwnProperty(key)); 
 
     if (!profileData || typeof profileData !== 'object' || missingKeys.length > 0) {
         return res.status(400).json({ 
@@ -59,16 +61,37 @@ export default async function handler(req, res) {
     try {
         const userRef = db.collection('users').doc(userId);
         
-        await userRef.set({
+        // 📌 INICIO DE MODIFICACIÓN: Lógica de la Acción
+        
+        const updatePayload = {
             userId: userId,
             email: userEmail, 
             plan: 'free', 
-            status: 'approved', 
+            status: 'approved', // Siempre establecemos status como aprobado tras el onboarding/edición exitosa
             profileData: finalProfileData,
             lastProfileUpdate: new Date().toISOString(),
-            createdAt: new Date().toISOString()
-        }, { merge: true });
+        };
 
+        if (action === 'profile_update_and_invalidate_plan') {
+            console.log(`[${userId}]: Perfil actualizado en modo EDICIÓN. Invalidando plan actual.`);
+            
+            // Si es modo edición, eliminamos el mesociclo y la sesión actuales.
+            // Esto obligará al frontend a generar uno nuevo.
+            updatePayload.currentMesocycle = admin.firestore.FieldValue.delete();
+            updatePayload.currentSession = admin.firestore.FieldValue.delete();
+
+        } else if (action === 'initial_onboarding_complete') {
+            console.log(`[${userId}]: Onboarding inicial completado.`);
+            
+            // Solo creamos el campo createdAt si es el onboarding inicial
+            updatePayload.createdAt = new Date().toISOString();
+        }
+
+        await userRef.set(updatePayload, { merge: true });
+        
+        // 📌 FIN DE MODIFICACIÓN
+        
+        // Aseguramos que los claims estén establecidos
         await auth.setCustomUserClaims(userId, { role: 'approved' });
 
         return res.status(200).json({ 
