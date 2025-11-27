@@ -1,11 +1,11 @@
 {
-  "createdAt": "2025-11-25T01:54:33.479Z",
-  "lastProfileUpdate": "2025-11-25T01:54:33.479Z",
+  "createdAt": "2025-11-26T00:03:19.431Z",
+  "lastProfileUpdate": "2025-11-26T00:03:19.431Z",
   "profileData": {
     "gender": "Masculino",
-    "injuriesOrLimitations": "Ninguna",
+    "injuriesOrLimitations": "Irritación de hell pad",
     "heightCm": 169,
-    "focusArea": "General",
+    "focusArea": "Hombros y pectoral",
     "fitnessGoal": "Ganancia Muscular",
     "trainingDaysPerWeek": 4,
     "weeklyScheduleContext": [
@@ -32,7 +32,7 @@
       {
         "day": "Viernes",
         "canTrain": false,
-        "externalLoad": "medium"
+        "externalLoad": "low"
       },
       {
         "day": "Sábado",
@@ -46,15 +46,15 @@
       }
     ],
     "experienceLevel": "Avanzado",
-    "dateCompleted": "2025-11-25T01:54:32.395Z",
+    "dateCompleted": "2025-11-26T00:03:13.627Z",
     "availableEquipment": [
       "En Casa (Con Equipo Limitado)",
       "Mancuernas (Dumbbells)",
       "Mancuernas (Dumbbells) (10kg)",
-      "Barra de Dominadas",
       "Mini Bandas de Resistencia",
-      "Rodillo de Espuma",
-      "Barra de Pesos Libres"
+      "Barra de Pesos Libres",
+      "Barra de Pesos Libres (20kg)",
+      "Barra de Pesos Libres (40kg)"
     ],
     "name": "Eder",
     "preferredTrainingDays": [
@@ -63,6 +63,7 @@
       "Miércoles",
       "Jueves"
     ],
+    "location": "En Casa (Con Equipo Limitado)",
     "age": 31,
     "initialWeight": 75
   },
@@ -70,89 +71,98 @@
   "userId": "u9whVKtPEeT8VNvpRIJlX6ZebfI3",
   "email": "caballerogarcia.ederaaron@gmail.com",
   "status": "approved",
+  "planStatus": "active",
+  "lastWorkoutDate": "2025-11-27T00:46:48.205Z",
   "currentMesocycle": {
-    "llmModelUsed": "heuristic-algorithm-v3-carryover-aware",
-    "endDate": "2025-12-22T00:00:00.000Z",
-    "generationDate": "2025-11-25T01:54:38.161Z",
+    "llmModelUsed": "v7-universal-heuristic-engine",
+    "generationDate": "2025-11-26T00:03:28.408Z",
     "mesocyclePlan": {
       "durationWeeks": 4,
       "microcycles": [
         {
           "week": 1,
           "focus": "Adaptación Anatómica",
-          "intensityRpe": "6/10 (RPE 6)",
-          "notes": "Semana de introducción. Enfócate en la técnica perfecta y rango de movimiento completo. Deja 3-4 reps en reserva (RIR 3).",
+          "intensityRpe": "RPE 7",
+          "notes": "Fase de Introducción: Prioriza la calidad de movimiento y establece tus pesos base. Intensidad alta requerida para estímulo.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
-              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "sessionFocus": "Empuje (Push)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Empuje (Push)"
               }
             },
             {
               "dayOfWeek": "Martes",
-              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "sessionFocus": "Tracción (Pull)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Tracción (Pull)"
               }
             },
             {
               "dayOfWeek": "Miércoles",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Pierna (Legs)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Pierna (Legs)"
               }
             },
             {
               "dayOfWeek": "Jueves",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Torso/Brazos (Pump)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Torso/Brazos (Pump)"
               }
             }
           ]
         },
         {
           "week": 2,
-          "focus": "Acumulación de Volumen",
-          "intensityRpe": "7/10 (RPE 7)",
-          "notes": "Aumentamos la carga de trabajo. Intenta añadir una serie extra o subir un poco el peso si la técnica fue buena. RIR 2-3.",
+          "focus": "Sobrecarga Progresiva",
+          "intensityRpe": "RPE 8",
+          "notes": "Fase de Carga: Intenta aumentar ligeramente el peso o las repeticiones respecto a la semana anterior. Intensidad alta requerida para estímulo.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
-              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "sessionFocus": "Empuje (Push)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Empuje (Push)"
               }
             },
             {
               "dayOfWeek": "Martes",
-              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "sessionFocus": "Tracción (Pull)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Tracción (Pull)"
               }
             },
             {
               "dayOfWeek": "Miércoles",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Pierna (Legs)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Pierna (Legs)"
               }
             },
             {
               "dayOfWeek": "Jueves",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Torso/Brazos (Pump)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Torso/Brazos (Pump)"
               }
             }
           ]
@@ -160,39 +170,43 @@
         {
           "week": 3,
           "focus": "Intensificación (Pico)",
-          "intensityRpe": "8-9/10 (RPE 8.5)",
-          "notes": "Semana de choque. Entrena duro, cerca del fallo técnico en las últimas series. Es el momento de buscar récords personales. RIR 1.",
+          "intensityRpe": "RPE 9",
+          "notes": "Fase de Choque: Entrenamientos exigentes. Mantén 1-2 repeticiones en reserva (RIR 1-2). Intensidad alta requerida para estímulo.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
-              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "sessionFocus": "Empuje (Push)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Empuje (Push)"
               }
             },
             {
               "dayOfWeek": "Martes",
-              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "sessionFocus": "Tracción (Pull)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Tracción (Pull)"
               }
             },
             {
               "dayOfWeek": "Miércoles",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Pierna (Legs)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Pierna (Legs)"
               }
             },
             {
               "dayOfWeek": "Jueves",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Torso/Brazos (Pump)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Torso/Brazos (Pump)"
               }
             }
           ]
@@ -200,233 +214,55 @@
         {
           "week": 4,
           "focus": "Descarga (Deload)",
-          "intensityRpe": "5/10 (RPE 5)",
-          "notes": "Semana de recuperación activa. Reduce el peso un 30% y haz la mitad de las series. Fundamental para disipar fatiga.",
+          "intensityRpe": "RPE 6",
+          "notes": "Fase de Recuperación: Reduce el peso un 30% y el volumen a la mitad. Vital para el progreso a largo plazo. Intensidad alta requerida para estímulo.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
-              "sessionFocus": "Descanso Activo / Movilidad (Fatiga Acumulada)",
+              "sessionFocus": "Empuje (Push)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Empuje (Push)"
               }
             },
             {
               "dayOfWeek": "Martes",
-              "sessionFocus": "Torso - Fuerza e Hipertrofia",
+              "sessionFocus": "Tracción (Pull)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Tracción (Pull)"
               }
             },
             {
               "dayOfWeek": "Miércoles",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Pierna (Legs)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Pierna (Legs)"
               }
             },
             {
               "dayOfWeek": "Jueves",
-              "sessionFocus": "Full Body - Estímulo Metabólico",
+              "sessionFocus": "Torso/Brazos (Pump)",
               "context": {
                 "externalFatigue": "none",
-                "fatigueCarryOverCalculated": true
+                "adjustmentApplied": null,
+                "basePlan": "Torso/Brazos (Pump)"
               }
             }
           ]
         }
       ],
-      "mesocycleGoal": "Objetivo: Ganancia Muscular. Enfoque en General."
+      "mesocycleGoal": "Objetivo: Ganancia Muscular. Nivel: Avanzado.",
+      "strategy": "Split 4 días (Avanzado)"
     },
     "progress": 0,
-    "currentWeek": 1,
     "startDate": "2025-11-24T00:00:00.000Z",
-    "status": "active"
-  },
-  "planStatus": "active",
-  "lastWorkoutDate": "2025-11-25T02:05:30.420Z",
-  "currentSession": {
-    "sessionGoal": "Torso - Fuerza e Hipertrofia",
-    "estimatedDurationMin": 70,
-    "warmup": {
-      "exercises": [
-        {
-          "id": "TLm0FmvIqT7sXrPtjJSi",
-          "name": "El Estiramiento del Mundo (World's Greatest Stretch)",
-          "instructions": "Zancada profunda, coloca la mano opuesta al pie delantero en el suelo. Baja el codo junto al pie y luego rota el torso abriendo el brazo libre hacia el techo. Movilidad completa.",
-          "durationOrReps": "45s",
-          "imageUrl": "",
-          "equipment": "Peso Corporal"
-        },
-        {
-          "id": "N2lkOc6cclOkCkV6iSqm",
-          "name": "Caminata Lateral (Side Walks) con Mini Banda",
-          "instructions": "Coloca la mini banda alrededor de los tobillos o las rodillas. Da pasos laterales cortos, manteniendo una ligera sentadilla y la tensión constante en la banda. Activación de glúteo medio.",
-          "durationOrReps": "45s",
-          "imageUrl": "",
-          "equipment": "Peso Corporal"
-        },
-        {
-          "id": "WQbkdrReUvGLyIt7zNFf",
-          "name": "'Y' Tumbadas (Y-Raises)",
-          "instructions": "Acuéstate boca abajo, brazos rectos en forma de 'Y'. Levanta los brazos del suelo, concentrando el movimiento en la parte superior de la espalda y los hombros. Fortalece el manguito rotador.",
-          "durationOrReps": "15 reps",
-          "imageUrl": "",
-          "equipment": "Peso Corporal"
-        },
-        {
-          "id": "kCWVflgwf5HfCfubol48",
-          "name": "Remo Invertido con Agarre Estrecho",
-          "instructions": "Utiliza un agarre cerrado (a la altura de los hombros) en la mesa/silla. Esto enfatiza más el dorsal y los brazos (bíceps) que la espalda media.",
-          "durationOrReps": "15 reps",
-          "imageUrl": "",
-          "equipment": "Peso Corporal"
-        }
-      ]
-    },
-    "mainBlocks": [
-      {
-        "blockType": "station",
-        "restBetweenSetsSec": 60,
-        "restBetweenExercisesSec": 60,
-        "exercises": [
-          {
-            "id": "gtOzlA1SWrNExbzLSmSe",
-            "name": "Press de Pecho en el Suelo (Bilateral)",
-            "instructions": "Acuéstate en el suelo, con una KB en cada mano. Realiza el Floor Press con ambos brazos simultáneamente. Mantén el agarre neutro para mayor comodidad.",
-            "imageUrl": null,
-            "equipment": "Kettlebell",
-            "originalEquipment": "Kettlebell",
-            "sets": 4,
-            "targetReps": "15-20 (Tempo 3-0-1)",
-            "rpe": 8,
-            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
-            "musculoObjetivo": "Pectoral Mayor"
-          },
-          {
-            "id": "beGApuJfKvm9DjbL6MzW",
-            "name": "Remo Alto (High Pull) con KB",
-            "instructions": "Desde la posición de bisagra o ligera sentadilla, tira de la KB verticalmente hacia el pecho o el mentón de forma explosiva, terminando con los codos altos. Ejercicio de potencia.",
-            "imageUrl": null,
-            "equipment": "Kettlebell",
-            "originalEquipment": "Kettlebell",
-            "sets": 4,
-            "targetReps": "15-20 (Tempo 3-0-1)",
-            "rpe": 8,
-            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
-            "musculoObjetivo": "Trapecio, Deltoides y Potencia"
-          },
-          {
-            "id": "RXB3szFsN8vwnA0eMNVJ",
-            "name": "Flexiones a un Brazo (Asistidas)",
-            "instructions": "Apoya una mano en el suelo y la otra en una superficie elevada o una pelota para asistencia. Concentra la carga en un solo lado. Para progresar hacia la flexión a un brazo completa.",
-            "imageUrl": null,
-            "equipment": "Peso Corporal",
-            "originalEquipment": "Peso Corporal",
-            "sets": 4,
-            "targetReps": "15-20 (Tempo 3-0-1)",
-            "rpe": 8,
-            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
-            "musculoObjetivo": "Pectoral Mayor (Fuerza Unilateral)"
-          },
-          {
-            "id": "4pq0gXOnkAZ68nsaSkNx",
-            "name": "Encogimiento de Hombros (Shrugs) con KB",
-            "instructions": "De pie, sostén una KB en cada mano (o una KB muy pesada). Levanta los hombros directamente hacia las orejas. Contrae el trapecio superior fuertemente y baja lentamente.",
-            "imageUrl": null,
-            "equipment": "Kettlebell",
-            "originalEquipment": "Kettlebell",
-            "sets": 3,
-            "targetReps": "20-25",
-            "rpe": 9,
-            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
-            "musculoObjetivo": "Trapecio Superior"
-          },
-          {
-            "id": "0JJCeQMHIu40f886sQOZ",
-            "name": "Fondos de Banca (Dips) - Rodillas Dobladas",
-            "instructions": "Manos en el borde de una silla o banco estable. Rodillas dobladas (pies cerca de la silla). Baja lentamente doblando los codos hacia atrás. La posición más fácil para el tríceps.",
-            "imageUrl": null,
-            "equipment": "Peso Corporal",
-            "originalEquipment": "Peso Corporal",
-            "sets": 3,
-            "targetReps": "20-25",
-            "rpe": 9,
-            "notes": " Controla la bajada en 3 segundos para compensar el peso ligero.",
-            "musculoObjetivo": "Tríceps Braquial"
-          }
-        ]
-      }
-    ],
-    "coreBlocks": [
-      {
-        "blockType": "superset",
-        "restBetweenSetsSec": 60,
-        "restBetweenExercisesSec": 0,
-        "exercises": [
-          {
-            "id": "tp19ycNlzGM5yovSsLNF",
-            "name": "Flutter Kicks (Aleteo de Piernas)",
-            "instructions": "Acuéstate boca arriba, manos bajo los glúteos. Levanta las piernas ligeramente y realiza movimientos de aleteo cortos y rápidos. Mantén la espalda baja pegada al suelo.",
-            "imageUrl": "",
-            "sets": 2,
-            "targetReps": "15-20 reps",
-            "rpe": 7,
-            "notes": "Estabilidad."
-          },
-          {
-            "id": "lcD2big0wBWFBR5v6vBt",
-            "name": "Toes to Bar (Simulado - Tumbado)",
-            "instructions": "Acuéstate boca arriba. Con las piernas estiradas, súbelas por encima de la cabeza y toca los dedos de los pies con las manos (sin doblar las rodillas). Gran énfasis en el abdomen bajo.",
-            "imageUrl": "",
-            "sets": 2,
-            "targetReps": "15-20 reps",
-            "rpe": 7,
-            "notes": "Estabilidad."
-          }
-        ]
-      }
-    ],
-    "intensityLevel": "Alta",
-    "cooldown": {
-      "exercises": [
-        {
-          "id": "wazES8z4LpHADWvs3Mvy",
-          "name": "Estiramiento de Tríceps (Overhead)",
-          "instructions": "Lleva un codo por encima de la cabeza y dobla el brazo. Usa la mano opuesta para jalar el codo hacia abajo, sintiendo la tensión en la parte posterior del brazo.",
-          "durationOrReps": "30s por lado",
-          "imageUrl": ""
-        },
-        {
-          "id": "QNccWBqBy8xfUoc1KoJY",
-          "name": "Estiramiento Oblicuo de Pie (Standing Side Bend)",
-          "instructions": "De pie, con los pies a la altura de los hombros y los brazos extendidos sobre la cabeza. Inclínate hacia un lado, extendiendo el costado del torso y la espalda baja.",
-          "durationOrReps": "30s por lado",
-          "imageUrl": ""
-        },
-        {
-          "id": "Zgks8uBDkrZi7RMBYFR5",
-          "name": "Torsión Espinal Tumbada (Supine Spinal Twist)",
-          "instructions": "Tumbado boca arriba, extiende los brazos a los lados. Lleva una rodilla al pecho y gírala sobre el cuerpo hacia el lado opuesto. Mantén ambos hombros en el suelo.",
-          "durationOrReps": "30s por lado",
-          "imageUrl": ""
-        },
-        {
-          "id": "gxt4Gqswir67nzXSFeDq",
-          "name": "Estiramiento de Antebrazo Extensor",
-          "instructions": "Brazo estirado al frente, palma hacia abajo. Usa la mano opuesta para jalar los dedos hacia el torso. Estira la parte superior del antebrazo.",
-          "durationOrReps": "30s por lado",
-          "imageUrl": ""
-        }
-      ]
-    },
-    "meta": {
-      "date": "2025-11-25T00:00:00.000Z",
-      "generatedAt": "2025-11-25T12:58:00.835Z",
-      "readinessScore": 4.333333333333333,
-      "sessionMode": "standard"
-    }
+    "status": "active",
+    "currentWeek": 4,
+    "endDate": "2025-11-24T00:00:00.000Z"
   }
 }

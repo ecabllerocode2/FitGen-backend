@@ -40,7 +40,7 @@ const calculateOverloadAdjustment = (sessionHistory, targetAvgRpe = 7.5) => {
 };
 
 export default async function handler(req, res) {
-    // CORS Setup
+    // CORS Setup y validación de método
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
@@ -56,12 +56,13 @@ export default async function handler(req, res) {
         const decoded = await auth.verifyIdToken(authHeader.split('Bearer ')[1]);
         const userId = decoded.uid;
 
-        // 2. Obtener datos del Body (El formulario que llena el usuario)
+        // 2. Obtener datos del Body
         const { 
             difficultyScore, // 1 (Muy fácil) a 5 (Muy difícil) - Input del usuario
             likedMesocycle,  // Boolean
             painAreas,       // Array de strings ['knees', 'lower_back'] o []
-            nextGoalPreference // Opcional: Si el usuario quiere cambiar de "Fuerza" a "Hipertrofia" manualmente
+            nextGoalPreference, // Opcional
+            notes // Notas libres que vienen del frontend
         } = req.body;
 
         // 3. Referencias a DB
@@ -71,10 +72,12 @@ export default async function handler(req, res) {
         
         const userData = userDoc.data();
         const currentMeso = userData.currentMesocycle;
+        const completionDate = new Date().toISOString();
 
-        // 4. Leer HISTORIAL REAL de sesiones (La subcolección 'history')
-        // Traemos las sesiones que pertenezcan a este mesociclo (por fecha aprox o ID si lo tuvieras)
-        // Aquí asumimos que traemos las últimas 20 y filtramos por fecha de inicio del mesociclo
+        // Usamos la fecha de inicio del ciclo como ID de archivo, ya que es única para este mesociclo
+        const mesocycleIdForArchive = currentMeso.startDate; 
+
+        // 4. Leer HISTORIAL REAL de sesiones
         const startDate = new Date(currentMeso.startDate);
         const historySnapshot = await userRef.collection('history')
             .where('completedAt', '>=', startDate.toISOString())
@@ -85,33 +88,66 @@ export default async function handler(req, res) {
         const sessionHistory = historySnapshot.docs.map(doc => doc.data());
 
         // 5. ANÁLISIS HEURÍSTICO
-        // A. Ajuste por RPE Real (Datos objetivos)
         const rpeAnalysis = calculateOverloadAdjustment(sessionHistory);
         
-        // B. Ajuste por Feedback Subjetivo (Lo que siente el usuario)
         let subjectiveFactor = 1.0;
-        if (difficultyScore === 1) subjectiveFactor = 1.1; // "Muy fácil" -> Sube más
-        if (difficultyScore === 5) subjectiveFactor = 0.85; // "Muy difícil" -> Baja
+        if (difficultyScore === 1) subjectiveFactor = 1.1;
+        if (difficultyScore === 5) subjectiveFactor = 0.85;
 
-        // C. Factor Combinado
         const nextVolumeIntensityFactor = rpeAnalysis.factor * subjectiveFactor;
 
-        // 6. ACTUALIZACIÓN DEL PERFIL (PREPARACIÓN PARA EL SIGUIENTE GENERATE)
-        // En lugar de generar aquí, actualizamos 'profileData' y un nuevo campo 'nextCycleConfig'
-        // que el endpoint 'generate' leerá.
 
-        const updates = {
-            'lastEvaluation': new Date().toISOString(),
-            'currentMesocycle.status': 'completed', // Cierra el ciclo actual
-            'currentMesocycle.completionStats': {
+        // ====================================================================
+        // 6. ARCHIVADO Y ACTUALIZACIÓN (USANDO BATCH PARA ATOMICIDAD)
+        // ====================================================================
+
+        const batch = db.batch();
+
+        // 6.A. PREPARAR Y ARCHIVAR DATOS DE EVALUACIÓN (Subcolección 'evaluations')
+        const evaluationArchiveData = {
+            // Identificadores y Fechas
+            mesocycleId: mesocycleIdForArchive,
+            archiveDate: completionDate,
+            
+            // Datos del Mesociclo Finalizado
+            durationWeeks: currentMeso.mesocyclePlan.durationWeeks,
+            mesocycleGoal: currentMeso.mesocyclePlan.mesocycleGoal,
+            
+            // Feedback Subjetivo (Crucial para Stats y Logros)
+            difficultyScore: difficultyScore, 
+            likedMesocycle: likedMesocycle,
+            painAreas: painAreas, 
+            nextGoalPreference: nextGoalPreference || userData.profileData.fitnessGoal,
+            notes: notes || "", 
+
+            // Resultados del Análisis Heurístico y Estadísticas de Adherencia
+            rpeAnalysis: {
                 avgRpe: rpeAnalysis.avgRpe || 0,
-                adherenceCount: sessionHistory.length
-            }
+                rpeAction: rpeAnalysis.action,
+                reason: rpeAnalysis.reason,
+            },
+            adherenceStats: {
+                totalSessionsReported: sessionHistory.length
+            },
+            
+            // Factor de Ajuste
+            nextVolumeIntensityFactor: nextVolumeIntensityFactor,
         };
+        
+        // Añadir la escritura a la subcolección 'evaluations'
+        const evaluationRef = userRef.collection('evaluations').doc(mesocycleIdForArchive); 
+        batch.set(evaluationRef, evaluationArchiveData);
 
+
+        // 6.B. PREPARAR Y APLICAR ACTUALIZACIONES AL DOCUMENTO PRINCIPAL DEL USUARIO
+        const updates = {
+            'lastEvaluation': completionDate,
+            'currentMesocycle.status': 'completed', // Cierra el ciclo actual
+            // Ya no incluimos 'completionStats' aquí, ya que viven en el archivo
+        };
+        
         // Si el usuario reportó dolor, actualizamos limitaciones
         if (painAreas && painAreas.length > 0) {
-            // Agregamos a las limitaciones existentes sin borrar las viejas si no queremos
             const currentInjuries = userData.profileData.injuriesOrLimitations || "";
             const newInjuries = painAreas.join(", ");
             updates['profileData.injuriesOrLimitations'] = currentInjuries === "Ninguna" 
@@ -124,19 +160,22 @@ export default async function handler(req, res) {
             updates['profileData.fitnessGoal'] = nextGoalPreference;
         }
 
-        // GUARDAMOS LA CONFIGURACIÓN "CARRYOVER" PARA EL SIGUIENTE CICLO
-        // Esto es clave: El generate.js leerá esto para saber si hacer el siguiente más duro o suave.
+        // GUARDAMOS LA CONFIGURACIÓN "CARRYOVER"
         updates['nextCycleConfig'] = {
-            overloadFactor: nextVolumeIntensityFactor, // Ej: 1.1 (10% más duro)
+            overloadFactor: nextVolumeIntensityFactor,
             focusSuggestion: painAreas.length > 0 ? "Rehab/Prehab" : "Progressive Overload",
             previousAdherence: sessionHistory.length
         };
+        
+        // Añadir la actualización al documento principal
+        batch.update(userRef, updates);
 
-        await userRef.update(updates);
+        // 6.C. EJECUTAR EL BATCH
+        await batch.commit();
 
         return res.status(200).json({ 
             success: true, 
-            message: "Evaluación procesada. Perfil actualizado para el siguiente ciclo.",
+            message: "Evaluación procesada. Perfil actualizado y datos de evaluación archivados.",
             analysis: {
                 rpeAction: rpeAnalysis.action,
                 nextFactor: nextVolumeIntensityFactor
