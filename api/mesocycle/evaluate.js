@@ -9,14 +9,20 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
  * basado en el RPE reportado vs el RPE objetivo.
  */
 const calculateOverloadAdjustment = (sessionHistory, targetAvgRpe = 7.5) => {
-    if (!sessionHistory || sessionHistory.length === 0) return { action: 'maintain', factor: 1.0 };
+    // Caso 1: Sin historial (salida temprana)
+    if (!sessionHistory || sessionHistory.length === 0) {
+        return { action: 'maintain', factor: 1.0, reason: "Historial de sesiones vacío.", avgRpe: 0 }; // <--- CORRECCIÓN DE REASON Y avgRpe
+    }
 
     // Extraer RPEs válidos
     const rpes = sessionHistory
         .map(s => s.feedback?.rpe)
         .filter(r => typeof r === 'number' && r > 0);
 
-    if (rpes.length === 0) return { action: 'maintain', factor: 1.0 };
+    // Caso 2: Sin RPEs en el historial (salida temprana)
+    if (rpes.length === 0) {
+        return { action: 'maintain', factor: 1.0, reason: "No se encontró RPE en el historial.", avgRpe: 0 }; // <--- CORRECCIÓN DE REASON Y avgRpe
+    }
 
     // Calcular promedio
     const avgRpe = rpes.reduce((a, b) => a + b, 0) / rpes.length;
@@ -26,16 +32,16 @@ const calculateOverloadAdjustment = (sessionHistory, targetAvgRpe = 7.5) => {
     // Lógica de Ajuste Heurístico
     if (avgRpe <= (targetAvgRpe - 1.5)) {
         // Estaba muy fácil (< 6)
-        return { action: 'increase_aggressive', factor: 1.15, reason: "RPE reportado muy bajo." };
+        return { action: 'increase_aggressive', factor: 1.15, reason: "RPE reportado muy bajo.", avgRpe };
     } else if (avgRpe <= (targetAvgRpe - 0.5)) {
         // Estaba algo fácil (~7)
-        return { action: 'increase_moderate', factor: 1.05, reason: "Espacio para mejora detectado." };
+        return { action: 'increase_moderate', factor: 1.05, reason: "Espacio para mejora detectado.", avgRpe };
     } else if (avgRpe >= (targetAvgRpe + 1.5)) {
         // Estaba destructivo (> 9)
-        return { action: 'decrease', factor: 0.90, reason: "RPE excesivo, riesgo de burnout." };
+        return { action: 'decrease', factor: 0.90, reason: "RPE excesivo, riesgo de burnout.", avgRpe };
     } else {
         // Estaba en el punto dulce
-        return { action: 'maintain', factor: 1.0, reason: "Intensidad adecuada." };
+        return { action: 'maintain', factor: 1.0, reason: "Intensidad adecuada.", avgRpe };
     }
 };
 
@@ -57,11 +63,9 @@ export default async function handler(req, res) {
         const userId = decoded.uid;
 
         // 2. Obtener datos del Body
-        // CORRECCIÓN: Asignamos 'null' como valor por defecto a likedMesocycle 
-        // para evitar el error de Firestore si no viene en el body.
         const { 
             difficultyScore, // 1 (Muy fácil) a 5 (Muy difícil) - Input del usuario
-            likedMesocycle = null, // <--- CORRECCIÓN APLICADA AQUÍ
+            likedMesocycle = null,  // CORRECCIÓN ANTERIOR: default a null
             painAreas,       // Array de strings ['knees', 'lower_back'] o []
             nextGoalPreference, // Opcional
             notes // Notas libres que vienen del frontend
@@ -117,16 +121,15 @@ export default async function handler(req, res) {
             
             // Feedback Subjetivo (Crucial para Stats y Logros)
             difficultyScore: difficultyScore, 
-            likedMesocycle: likedMesocycle, // Ahora es null si no se envió, lo cual es válido
+            likedMesocycle: likedMesocycle,
             painAreas: painAreas, 
             nextGoalPreference: nextGoalPreference || userData.profileData.fitnessGoal,
             notes: notes || "", 
 
             // Resultados del Análisis Heurístico y Estadísticas de Adherencia
             rpeAnalysis: {
-                // Aquí el rpeAnalysis.avgRpe puede ser 0 si no hay historial, 
-                // lo cual es un valor numérico válido en Firestore.
-                avgRpe: rpeAnalysis.avgRpe || 0,
+                // Ahora rpeAnalysis.avgRpe y rpeAnalysis.reason están garantizados.
+                avgRpe: rpeAnalysis.avgRpe, 
                 rpeAction: rpeAnalysis.action,
                 reason: rpeAnalysis.reason,
             },
