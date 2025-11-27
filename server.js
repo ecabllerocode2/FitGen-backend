@@ -7,10 +7,11 @@ import { db, auth } from './lib/firebaseAdmin.js';
 import saveProfileHandler from './api/profile/save.js';
 import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
 import motivationHandler from './api/profile/motivation.js';
-import mesocycleGenerateHandler from './api/mesocycle/generate.js';
+import mesocycleGenerateHandler from './api/mesocycle/generate.js'; 
+import mesocycleEvaluateHandler from './api/mesocycle/evaluate.js'; // 👈 NUEVA IMPORTACIÓN
 import sessionGenerateHandler from './api/session/generate.js'; 
 import sessionCompleteHandler from './api/session/complete.js';
-import sessionSwapHandler from './api/session/swap-exercise.js'; // 👈 NUEVA IMPORTACIÓN DEL HANDLER
+import sessionSwapHandler from './api/session/swap-exercise.js'; 
 
 const app = express();
 const PORT = 3000;
@@ -40,6 +41,9 @@ app.post('/api/admin/aprobar-usuario', aprobarUsuarioHandler);
 // Motivación
 app.post('/api/profile/motivation', motivationHandler);
 
+// Evaluación del Mesociclo (NUEVA RUTA)
+app.post('/api/mesocycle/evaluate', mesocycleEvaluateHandler); // 👈 RUTA AÑADIDA
+
 // Generación del Mesociclo
 app.post('/api/mesocycle/generate', mesocycleGenerateHandler);
 
@@ -50,7 +54,7 @@ app.post('/api/session/generate', sessionGenerateHandler);
 app.post('/api/session/complete', sessionCompleteHandler);
 
 // 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
-app.post('/api/session/swap-exercise', sessionSwapHandler); // 👈 NUEVA RUTA A AGREGAR
+app.post('/api/session/swap-exercise', sessionSwapHandler);
 
 
 // Ruta de estado (Health Check)
@@ -63,10 +67,11 @@ app.get('/', (req, res) => {
             'POST /api/profile/save',
             'POST /api/admin/aprobar-usuario',
             'POST /api/profile/motivation',
+            'POST /api/mesocycle/evaluate', // 👈 LISTADO ACTUALIZADO
             'POST /api/mesocycle/generate',
             'POST /api/session/generate',
             'POST /api/session/complete',
-            'POST /api/session/swap-exercise' // 👈 LISTADO ACTUALIZADO
+            'POST /api/session/swap-exercise' 
         ]
     });
 });
