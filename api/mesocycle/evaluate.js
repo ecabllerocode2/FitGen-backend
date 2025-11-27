@@ -57,9 +57,11 @@ export default async function handler(req, res) {
         const userId = decoded.uid;
 
         // 2. Obtener datos del Body
+        // CORRECCIÓN: Asignamos 'null' como valor por defecto a likedMesocycle 
+        // para evitar el error de Firestore si no viene en el body.
         const { 
             difficultyScore, // 1 (Muy fácil) a 5 (Muy difícil) - Input del usuario
-            likedMesocycle,  // Boolean
+            likedMesocycle = null, // <--- CORRECCIÓN APLICADA AQUÍ
             painAreas,       // Array de strings ['knees', 'lower_back'] o []
             nextGoalPreference, // Opcional
             notes // Notas libres que vienen del frontend
@@ -115,13 +117,15 @@ export default async function handler(req, res) {
             
             // Feedback Subjetivo (Crucial para Stats y Logros)
             difficultyScore: difficultyScore, 
-            likedMesocycle: likedMesocycle,
+            likedMesocycle: likedMesocycle, // Ahora es null si no se envió, lo cual es válido
             painAreas: painAreas, 
             nextGoalPreference: nextGoalPreference || userData.profileData.fitnessGoal,
             notes: notes || "", 
 
             // Resultados del Análisis Heurístico y Estadísticas de Adherencia
             rpeAnalysis: {
+                // Aquí el rpeAnalysis.avgRpe puede ser 0 si no hay historial, 
+                // lo cual es un valor numérico válido en Firestore.
                 avgRpe: rpeAnalysis.avgRpe || 0,
                 rpeAction: rpeAnalysis.action,
                 reason: rpeAnalysis.reason,
@@ -143,7 +147,6 @@ export default async function handler(req, res) {
         const updates = {
             'lastEvaluation': completionDate,
             'currentMesocycle.status': 'completed', // Cierra el ciclo actual
-            // Ya no incluimos 'completionStats' aquí, ya que viven en el archivo
         };
         
         // Si el usuario reportó dolor, actualizamos limitaciones
