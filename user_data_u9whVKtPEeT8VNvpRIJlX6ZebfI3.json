@@ -1,6 +1,13 @@
 {
   "createdAt": "2025-11-26T00:03:19.431Z",
-  "lastProfileUpdate": "2025-11-26T00:03:19.431Z",
+  "plan": "free",
+  "userId": "u9whVKtPEeT8VNvpRIJlX6ZebfI3",
+  "email": "caballerogarcia.ederaaron@gmail.com",
+  "status": "approved",
+  "planStatus": "active",
+  "lastEvaluation": "2025-11-27T02:41:02.253Z",
+  "nextCycleConfig": null,
+  "lastProfileUpdate": "2025-12-01T13:21:49.831Z",
   "profileData": {
     "gender": "Masculino",
     "injuriesOrLimitations": "Irritación de hell pad",
@@ -46,7 +53,6 @@
       }
     ],
     "experienceLevel": "Avanzado",
-    "dateCompleted": "2025-11-26T00:03:13.627Z",
     "availableEquipment": [
       "En Casa (Con Equipo Limitado)",
       "Mancuernas (Dumbbells)",
@@ -65,25 +71,21 @@
     ],
     "location": "En Casa (Con Equipo Limitado)",
     "age": 31,
-    "initialWeight": 75
+    "initialWeight": 75,
+    "dateCompleted": "2025-12-01T13:21:44.364Z"
   },
-  "plan": "free",
-  "userId": "u9whVKtPEeT8VNvpRIJlX6ZebfI3",
-  "email": "caballerogarcia.ederaaron@gmail.com",
-  "status": "approved",
-  "planStatus": "active",
-  "lastWorkoutDate": "2025-11-27T00:46:48.205Z",
   "currentMesocycle": {
-    "llmModelUsed": "v7-universal-heuristic-engine",
-    "generationDate": "2025-11-26T00:03:28.408Z",
+    "llmModelUsed": "v7-universal-heuristic-engine-adaptive",
+    "endDate": "2025-12-29T00:00:00.000Z",
+    "generationDate": "2025-12-01T13:22:08.287Z",
     "mesocyclePlan": {
       "durationWeeks": 4,
       "microcycles": [
         {
           "week": 1,
           "focus": "Adaptación Anatómica",
-          "intensityRpe": "RPE 7",
-          "notes": "Fase de Introducción: Prioriza la calidad de movimiento y establece tus pesos base. Intensidad alta requerida para estímulo.",
+          "intensityRpe": "6/10 (RPE 6)",
+          "notes": "Fase de Introducción: Prioriza la calidad de movimiento.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
@@ -126,8 +128,8 @@
         {
           "week": 2,
           "focus": "Sobrecarga Progresiva",
-          "intensityRpe": "RPE 8",
-          "notes": "Fase de Carga: Intenta aumentar ligeramente el peso o las repeticiones respecto a la semana anterior. Intensidad alta requerida para estímulo.",
+          "intensityRpe": "7/10 (RPE 7)",
+          "notes": "Fase de Carga: Intenta aumentar peso o reps.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
@@ -170,8 +172,8 @@
         {
           "week": 3,
           "focus": "Intensificación (Pico)",
-          "intensityRpe": "RPE 9",
-          "notes": "Fase de Choque: Entrenamientos exigentes. Mantén 1-2 repeticiones en reserva (RIR 1-2). Intensidad alta requerida para estímulo.",
+          "intensityRpe": "8.5/10 (RPE 8.5)",
+          "notes": "Fase de Choque: Cerca del fallo técnico (RIR 1-2).",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
@@ -214,8 +216,8 @@
         {
           "week": 4,
           "focus": "Descarga (Deload)",
-          "intensityRpe": "RPE 6",
-          "notes": "Fase de Recuperación: Reduce el peso un 30% y el volumen a la mitad. Vital para el progreso a largo plazo. Intensidad alta requerida para estímulo.",
+          "intensityRpe": "5/10 (RPE 5)",
+          "notes": "Fase de Recuperación: Reduce peso 30% y volumen 50%.",
           "sessions": [
             {
               "dayOfWeek": "Lunes",
@@ -256,13 +258,201 @@
           ]
         }
       ],
-      "mesocycleGoal": "Objetivo: Ganancia Muscular. Nivel: Avanzado.",
-      "strategy": "Split 4 días (Avanzado)"
+      "mesocycleGoal": "Objetivo: Ganancia Muscular.",
+      "strategy": "Split 4 días. Adaptación: Estándar"
     },
     "progress": 0,
-    "startDate": "2025-11-24T00:00:00.000Z",
-    "status": "active",
-    "currentWeek": 4,
-    "endDate": "2025-11-24T00:00:00.000Z"
+    "currentWeek": 1,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "status": "active"
+  },
+  "lastWorkoutDate": "2025-12-01T20:17:44.260Z",
+  "currentSession": {
+    "sessionGoal": "Tracción (Pull)",
+    "estimatedDurationMin": 51,
+    "warmup": {
+      "exercises": [
+        {
+          "id": "h7D13HiDjOdvuqmNwW70",
+          "name": "Rodillas al Pecho (High Knees)",
+          "instructions": "Corre en el sitio elevando las rodillas rápidamente, intentando llevarlas a la altura de la cadera. Calentamiento cardiovascular y activación de flexores de cadera.",
+          "durationOrReps": "45s",
+          "imageUrl": "",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "L6dnDQJOaJVGLjZI6GLl",
+          "name": "Rotación Interna de Hombro con Mini Banda",
+          "instructions": "Sujeta la banda a un punto fijo. Codo a 90 grados. Rota el antebrazo hacia el cuerpo. Activación del manguito rotador subescapular.",
+          "durationOrReps": "45s",
+          "imageUrl": "",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "GYXFFrDvl7MlOt5J58vE",
+          "name": "Remo con Toalla (Simulación Isométrica)",
+          "instructions": "Sentado o de rodillas, agarra una toalla. Intenta 'romper' la toalla con un movimiento de remo, contrayendo voluntariamente el dorsal y la espalda media. Enfoca la activación.",
+          "durationOrReps": "15 reps",
+          "imageUrl": "",
+          "equipment": "Peso Corporal"
+        },
+        {
+          "id": "P50QuIdZkF6muwTD5Vyu",
+          "name": "Elevaciones Tumbadas en 'Y'",
+          "instructions": "Acuéstate boca abajo. Extiende los brazos en forma de 'Y' sobre la cabeza. Levanta los brazos del suelo, contrayendo la parte posterior de los hombros y la espalda alta. Excelente para el manguito rotador.",
+          "durationOrReps": "15 reps",
+          "imageUrl": "",
+          "equipment": "Peso Corporal"
+        }
+      ]
+    },
+    "mainBlocks": [
+      {
+        "blockType": "station",
+        "restBetweenSetsSec": 120,
+        "restBetweenExercisesSec": 90,
+        "exercises": [
+          {
+            "id": "3n0w943mV392izZkBkeu",
+            "name": "Remo Pendlay con Barra (Explosivo)",
+            "instructions": "Inclina el torso a 90 grados. Rema la barra explosivamente hacia el pecho, deteniéndola brevemente. La barra debe tocar el suelo y 'reiniciarse' en cada repetición. Alto enfoque en la potencia.",
+            "imageUrl": null,
+            "url": null,
+            "equipment": "Barra de Pesos Libres",
+            "suggestedLoad": "Usa: Barra de Pesos Libres (20kg)",
+            "sets": 3,
+            "targetReps": "8-12",
+            "rpe": 6,
+            "notes": "Enfoque total en técnica. No busques el fallo.",
+            "musculoObjetivo": "Dorsal Ancho y Explosividad"
+          },
+          {
+            "id": "VFvgs33e7gVWgD81sSm4",
+            "name": "Puente de Glúteo con Abducción Final",
+            "instructions": "Con banda en las rodillas. Sube al puente de glúteo. En la cima, haz una breve abducción (separación) de las rodillas contra la banda. Baja y repite. Combina contracciones.",
+            "imageUrl": null,
+            "url": null,
+            "equipment": "Mini Bandas de Resistencia",
+            "suggestedLoad": "Peso Corporal / Resistencia",
+            "sets": 3,
+            "targetReps": "8-12",
+            "rpe": 6,
+            "notes": "Enfoque total en técnica. No busques el fallo.",
+            "musculoObjetivo": "Glúteos (Doble Contracción)"
+          },
+          {
+            "id": "0g9DoVYhRf8LyDx8p9RS",
+            "name": "Buenos Días (Good Mornings) con Barra",
+            "instructions": "Coloca la barra ligeramente sobre la espalda (trapecios). Empuja las caderas hacia atrás, doblando el torso hacia adelante mientras mantienes la espalda recta. Gran ejercicio para los erectores espinales y femorales.",
+            "imageUrl": "https://youtu.be/sF20gn-Y2jM",
+            "url": null,
+            "equipment": "Barra de Pesos Libres",
+            "suggestedLoad": "Usa: Barra de Pesos Libres (20kg)",
+            "sets": 2,
+            "targetReps": "12-15",
+            "rpe": 7,
+            "notes": "Enfoque total en técnica. No busques el fallo.",
+            "musculoObjetivo": "Erectores Espinales (Espalda Baja)"
+          },
+          {
+            "id": "4j3272cvT4sRKu0RTABU",
+            "name": "Curl Zottman (De pie o sentado)",
+            "instructions": "Sube con agarre supino (palma arriba). En la cima, rota la muñeca 180° a agarre prono (palma abajo). Baja lentamente con el agarre prono. Fortalece el agarre y el Braquiorradial.",
+            "imageUrl": null,
+            "url": null,
+            "equipment": "Mancuernas",
+            "suggestedLoad": "Usa: Mancuernas (Dumbbells) (10kg)",
+            "sets": 2,
+            "targetReps": "12-15",
+            "rpe": 7,
+            "notes": "Enfoque total en técnica. No busques el fallo.",
+            "musculoObjetivo": "Bíceps Braquial y Antebrazos"
+          },
+          {
+            "id": "62xpWDi6POLzjIerk0QN",
+            "name": "Curl de Brazo Largo con Supinación Total",
+            "instructions": "Al estar de pie, permite que el brazo cuelgue ligeramente *detrás* de la cadera. Sube la mancuerna con supinación total (palma al hombro). Esta posición inicial estira la cabeza larga.",
+            "imageUrl": null,
+            "url": null,
+            "equipment": "Mancuernas",
+            "suggestedLoad": "Usa: Mancuernas (Dumbbells) (10kg)",
+            "sets": 2,
+            "targetReps": "12-15",
+            "rpe": 7,
+            "notes": "Enfoque total en técnica. No busques el fallo.",
+            "musculoObjetivo": "Bíceps Braquial (Énfasis en Cabeza Larga)"
+          }
+        ]
+      }
+    ],
+    "coreBlocks": [
+      {
+        "blockType": "superset",
+        "restBetweenSetsSec": 60,
+        "restBetweenExercisesSec": 0,
+        "exercises": [
+          {
+            "id": "7bFIKm6hgSm2wVTVcIe8",
+            "name": "Tijeras (Scissor Kicks)",
+            "instructions": "Acuéstate boca arriba, manos bajo los glúteos o a los lados. Levanta las piernas ligeramente del suelo y crúzalas alternadamente (una sobre la otra). Enfoca el abdomen bajo.",
+            "imageUrl": "",
+            "equipment": "Peso Corporal",
+            "sets": 1,
+            "targetReps": "15-20 reps",
+            "rpe": 7,
+            "notes": "Abdomen contraído."
+          },
+          {
+            "id": "VPt9F1aRnCGXecA1f5nq",
+            "name": "Abdominales 'Limpiaparabrisas' (Windshield Wipers)",
+            "instructions": "Acuéstate boca arriba, piernas levantadas y estiradas (90 grados). Baja las piernas juntas hacia un lado y luego hacia el otro, manteniendo los hombros pegados al suelo. Aísla fuertemente los oblicuos.",
+            "imageUrl": "",
+            "equipment": "Peso Corporal",
+            "sets": 1,
+            "targetReps": "15-20 reps",
+            "rpe": 7,
+            "notes": "Abdomen contraído."
+          }
+        ]
+      }
+    ],
+    "cooldown": {
+      "exercises": [
+        {
+          "id": "1l2nndfJS6TUK5QNeFJR",
+          "name": "Estiramiento de Glúteo Sentado con Torsión",
+          "instructions": "Sentado, cruza una pierna sobre la otra. Usa el brazo opuesto para abrazar la rodilla levantada y gírate hacia la rodilla, mirando por encima del hombro.",
+          "durationOrReps": "30s",
+          "imageUrl": ""
+        },
+        {
+          "id": "SQD99hHUtbBOhFa1yArE",
+          "name": "Postura de la Paloma (Pigeon Pose) - Versión Baja",
+          "instructions": "Lleva una rodilla al frente, doblando la pierna a 90 grados (o lo más cerca posible). Estira la pierna trasera. Inclina el torso hacia adelante sobre la rodilla delantera.",
+          "durationOrReps": "30s",
+          "imageUrl": ""
+        },
+        {
+          "id": "XKCbiVdJIlfJE1KqBUbG",
+          "name": "Estiramiento de Antebrazo Flexor",
+          "instructions": "Brazo estirado al frente, palma hacia arriba. Usa la mano opuesta para jalar los dedos hacia el suelo. Estira la parte inferior del antebrazo.",
+          "durationOrReps": "30s",
+          "imageUrl": ""
+        },
+        {
+          "id": "Zgks8uBDkrZi7RMBYFR5",
+          "name": "Torsión Espinal Tumbada (Supine Spinal Twist)",
+          "instructions": "Tumbado boca arriba, extiende los brazos a los lados. Lleva una rodilla al pecho y gírala sobre el cuerpo hacia el lado opuesto. Mantén ambos hombros en el suelo.",
+          "durationOrReps": "30s",
+          "imageUrl": ""
+        }
+      ]
+    },
+    "meta": {
+      "date": "2025-12-02",
+      "generatedAt": "2025-12-02T14:54:51.049Z",
+      "readinessScore": 2.6666666666666665,
+      "sessionMode": "survival"
+    }
   }
 }

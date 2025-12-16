@@ -18,8 +18,10 @@ export default async function handler(req, res) {
         const userId = decodedToken.uid;
 
         // 2. Obtener feedback del body
-        const { sessionFeedback } = req.body; 
-        // Esperamos: { rpe: number, notes: string }
+        const { sessionFeedback, exercisesPerformance } = req.body; 
+        // Esperamos: 
+        // sessionFeedback: { rpe: number, notes: string, energyLevel: number, sorenessLevel: number }
+        // exercisesPerformance: [{ exerciseId: string, actualSets: [{ set: 1, reps: 12, rir: 2, load: '20kg' }] }]
 
         if (!sessionFeedback) {
             return res.status(400).json({ error: 'Falta el feedback de la sesión.' });
@@ -40,12 +42,33 @@ export default async function handler(req, res) {
         // 4. Preparar el objeto de sesión finalizada
         const completionDate = new Date().toISOString();
         
+        // ⭐ INTEGRAR RENDIMIENTO REAL DE EJERCICIOS
+        const sessionCopy = { ...userData.currentSession };
+        
+        // Actualizar cada ejercicio con su rendimiento real
+        if (exercisesPerformance && Array.isArray(exercisesPerformance)) {
+            sessionCopy.mainBlocks?.forEach(block => {
+                block.exercises.forEach(exercise => {
+                    const performance = exercisesPerformance.find(p => p.exerciseId === exercise.id);
+                    if (performance && performance.actualSets) {
+                        exercise.performanceData = {
+                            ...exercise.performanceData,
+                            actualSets: performance.actualSets,
+                            completedAt: completionDate
+                        };
+                    }
+                });
+            });
+        }
+        
         const completedSessionData = {
-            ...userData.currentSession, // Copia todos los datos del ejercicio
+            ...sessionCopy,
             completed: true,
             feedback: {
                 rpe: sessionFeedback.rpe,
                 notes: sessionFeedback.notes || "",
+                energyLevel: sessionFeedback.energyLevel,
+                sorenessLevel: sessionFeedback.sorenessLevel,
                 completedAt: completionDate
             }
         };
