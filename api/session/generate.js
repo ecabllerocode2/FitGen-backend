@@ -91,7 +91,7 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     if (!lastPerformance) {
         return {
             targetRIR: 2, // RIR 2 = 2 repeticiones en reserva
-            targetReps: equipmentContext === 'gym' ? '8-12' : '12-15',
+            targetReps: equipmentContext === 'gym' ? 10 : 15,
             loadProgression: 'initial',
             notes: '📊 LÍNEA BASE: Primera vez. Termina con RIR 2 (2 reps en reserva).',
             technique: 'standard'
@@ -103,10 +103,16 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     if (lastSets.length === 0) {
         // No hay datos de rendimiento específico, usar RPE de sesión
         const lastRPE = lastPerformance.sessionRPE;
+        let baseReps = lastPerformance.targetReps;
+        if (typeof baseReps === 'string' && baseReps.match(/\d+/)) {
+            baseReps = parseInt(baseReps.match(/\d+/)[0]);
+        } else if (!baseReps) {
+            baseReps = equipmentContext === 'gym' ? 10 : 15;
+        }
         if (lastRPE <= 6) {
             return {
                 targetRIR: 2,
-                targetReps: 'Aumenta +2 reps',
+                targetReps: baseReps + 2,
                 loadProgression: 'increase_volume',
                 notes: `⚡ PROGRESO: RPE ${lastRPE} fue bajo. Aumenta volumen o carga.`,
                 technique: 'standard'
@@ -114,7 +120,7 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
         }
         return {
             targetRIR: 2,
-            targetReps: lastPerformance.targetReps,
+            targetReps: baseReps,
             loadProgression: 'maintain',
             notes: '🔄 MANTÉN: Misma carga, mejora la técnica.',
             technique: 'standard'
@@ -124,7 +130,7 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     // ANÁLISIS DETALLADO POR SERIE
     const avgRepsPerformed = lastSets.reduce((sum, set) => sum + (set.reps || 0), 0) / lastSets.length;
     const avgRIR = lastSets.reduce((sum, set) => sum + (set.rir || 2), 0) / lastSets.length;
-    const avgLoad = lastSets[0]?.load || 'N/A'; // Asumimos que carga es constante
+    let baseReps = avgRepsPerformed;
 
     // LÓGICA DE PROGRESIÓN
     let progression = {};
@@ -132,28 +138,25 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     // GIMNASIO: Progresión de Carga (Load)
     if (equipmentContext === 'gym') {
         if (avgRIR >= 3) {
-            // Tuvo 3+ reps en reserva = Fue muy fácil
             progression = {
                 targetRIR: 2,
-                targetReps: lastPerformance.targetReps,
+                targetReps: Math.round(baseReps),
                 loadProgression: 'increase_load_5pct',
                 notes: `⚡ PROGRESO: RIR promedio ${avgRIR.toFixed(1)} fue alto. Aumenta peso +5%.`,
                 technique: 'standard'
             };
         } else if (avgRIR <= 1) {
-            // Fue muy duro, casi al fallo
             progression = {
                 targetRIR: 2,
-                targetReps: lastPerformance.targetReps,
+                targetReps: Math.round(baseReps),
                 loadProgression: 'maintain',
                 notes: `🛡️ CONSOLIDACIÓN: RIR ${avgRIR.toFixed(1)} fue bajo. Mantén y perfecciona.`,
                 technique: 'standard'
             };
         } else {
-            // RIR óptimo (2)
             progression = {
                 targetRIR: 2,
-                targetReps: 'Intenta +1 rep',
+                targetReps: Math.round(baseReps) + 1,
                 loadProgression: 'increase_reps',
                 notes: `🔥 DENSIDAD: Ejecuta 1 rep extra por serie manteniendo RIR 2.`,
                 technique: 'standard'
@@ -163,28 +166,25 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     // EQUIPO LIMITADO: Progresión de Densidad/Volumen/Técnica
     else {
         if (avgRepsPerformed < 15) {
-            // Todavía hay margen para aumentar volumen
             progression = {
                 targetRIR: 2,
-                targetReps: `${Math.floor(avgRepsPerformed) + 2}-${Math.floor(avgRepsPerformed) + 4}`,
+                targetReps: Math.round(baseReps) + 2,
                 loadProgression: 'increase_volume',
-                notes: `📈 VOLUMEN: Aumenta a ${Math.floor(avgRepsPerformed) + 3} reps por serie (RIR 2).`,
+                notes: `📈 VOLUMEN: Aumenta a ${Math.round(baseReps) + 2} reps por serie (RIR 2).`,
                 technique: 'standard'
             };
         } else if (avgRepsPerformed >= 15 && avgRepsPerformed < 25) {
-            // Activar Técnicas de Intensidad
             progression = {
                 targetRIR: 1,
-                targetReps: `${Math.floor(avgRepsPerformed)}-${Math.floor(avgRepsPerformed) + 2}`,
+                targetReps: Math.round(baseReps),
                 loadProgression: 'technique_tempo',
                 notes: `🐢 TEMPO LENTO: Aplica 3-0-3 (3s bajada, 3s subida) para simular más peso.`,
                 technique: 'tempo_3-0-3'
             };
         } else {
-            // Ya es demasiado volumen, cambiar a rest-pause
             progression = {
                 targetRIR: 0,
-                targetReps: '12-15 (Rest-Pause)',
+                targetReps: 15,
                 loadProgression: 'rest_pause',
                 notes: `⏸️ REST-PAUSE: Reduce descanso a 30s y trabaja cerca del fallo.`,
                 technique: 'rest_pause'
@@ -266,7 +266,8 @@ const getDynamicSessionParams = (readiness, sessionFocus, equipmentType, current
 };
 
 // --- D. SELECCIÓN DE PESO EXACTO (CORRECCIÓN DE CONFLICTOS) ---
-const assignLoadSuggestion = (exercise, userInventory, sessionMode) => {
+// Mejorada: Progresión real de peso con varias barras
+const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory = []) => {
     const targetEquipmentRaw = normalizeText(exercise.equipo || "");
     
     // 1. Peso Corporal
@@ -341,38 +342,55 @@ const assignLoadSuggestion = (exercise, userInventory, sessionMode) => {
             weight: match ? parseFloat(match[1]) : 0 
         };
     });
-
     // FILTRADO CRÍTICO: Eliminamos los items genéricos (peso 0) SI existen items con peso específico
     const specificWeights = weightedItems.filter(w => w.weight > 0).sort((a, b) => a.weight - b.weight);
-    
     // Si solo tenemos el genérico (ej. usuario solo marcó el checkbox padre), usamos ese.
     const finalPool = specificWeights.length > 0 ? specificWeights : weightedItems;
-
     // Selección Táctica
     const exType = normalizeText(exercise.tipo || "");
     const isCompound = exType.includes("multi") || exType.includes("compuesto");
-    
-    let selected = finalPool[0]; 
-
-    if (finalPool.length > 1) {
+    let selected = finalPool[0];
+    // Progresión real: Si hay historial y se usó un peso, sugerir el siguiente más alto si corresponde
+    if (finalPool.length > 1 && isCompound && userHistory.length > 0) {
+        // Buscar el último peso usado para este ejercicio
+        let lastLoad = null;
+        for (const session of userHistory) {
+            if (!session.mainBlocks) continue;
+            for (const block of session.mainBlocks) {
+                const found = block.exercises.find(e => e.id === exercise.id);
+                if (found && found.performanceData && found.performanceData.actualSets && found.performanceData.actualSets.length > 0) {
+                    // Buscar el peso más usado
+                    const loads = found.performanceData.actualSets.map(s => parseFloat((s.load||'').toString().replace(/[^\d.]/g, ''))).filter(x => !isNaN(x));
+                    if (loads.length > 0) {
+                        lastLoad = Math.max(...loads);
+                        break;
+                    }
+                }
+            }
+            if (lastLoad !== null) break;
+        }
+        if (lastLoad !== null) {
+            // Buscar el siguiente peso más alto disponible
+            const next = finalPool.find(w => w.weight > lastLoad);
+            if (next) selected = next;
+            else selected = finalPool[finalPool.length - 1];
+        } else {
+            selected = finalPool[0];
+        }
+    } else if (finalPool.length > 1) {
         if (sessionMode === 'survival') {
-            // Usar carga media
             selected = finalPool[Math.floor((finalPool.length - 1) / 2)];
         } else {
-            // Performance
             if (isCompound) {
-                selected = finalPool[finalPool.length - 1]; // El más pesado
+                selected = finalPool[finalPool.length - 1];
             } else {
-                // Aislamiento: Evitar el máximo, buscar medio-alto
                 selected = finalPool[Math.max(0, finalPool.length - 2)];
             }
         }
     }
-
-    // Construir string de salida. Si tiene peso específico, se muestra.
-    return { 
-        equipmentName: selected.fullName.split('(')[0].trim(), 
-        suggestedLoad: `Usa: ${selected.fullName}` 
+    return {
+        equipmentName: selected.fullName.split('(')[0].trim(),
+        suggestedLoad: `Usa: ${selected.fullName}`
     };
 };
 
@@ -447,29 +465,22 @@ const filterExercisesByLevel = (exercises, userLevel) => {
 };
 
 // ====================================================================
-// D. EVITAR REPETICIÓN DE EJERCICIOS (Historial por Día de Semana)
+// D. EVITAR REPETICIÓN DE EJERCICIOS (Historial últimos 14 días)
 // ====================================================================
 /**
- * Obtiene ejercicios realizados en las últimas N sesiones del mismo día de la semana.
+ * Obtiene ejercicios realizados en los últimos N días (por defecto 14).
  * Esto evita la monotonía y permite rotación inteligente.
  */
-const getExercisesFromSameDayHistory = (userHistory, targetDayOfWeek, weeksBack = 2) => {
+const getExercisesFromRecentHistory = (userHistory, daysBack = 14, today = new Date()) => {
     const usedExerciseIds = new Set();
-    const targetDayNorm = normalizeText(targetDayOfWeek);
-    
-    let sessionsAnalyzed = 0;
+    const todayDate = today instanceof Date ? today : new Date();
     for (const session of userHistory) {
-        if (sessionsAnalyzed >= weeksBack) break;
-        
-        // Verificar si es del mismo día de la semana
         const sessionDate = session.meta?.date;
         if (!sessionDate) continue;
-        
         try {
-            const sessionDay = format(parseISO(sessionDate), 'EEEE', { locale: es });
-            if (normalizeText(sessionDay) !== targetDayNorm) continue;
-            
-            // Recolectar ejercicios de esta sesión
+            const parsed = parseISO(sessionDate);
+            const diffDays = Math.abs((todayDate - parsed) / (1000 * 60 * 60 * 24));
+            if (diffDays > daysBack) continue;
             if (session.mainBlocks) {
                 session.mainBlocks.forEach(block => {
                     block.exercises.forEach(ex => {
@@ -477,13 +488,10 @@ const getExercisesFromSameDayHistory = (userHistory, targetDayOfWeek, weeksBack 
                     });
                 });
             }
-            
-            sessionsAnalyzed++;
         } catch (e) {
             continue;
         }
     }
-    
     return usedExerciseIds;
 };
 
@@ -543,12 +551,14 @@ const generateWarmup = (utilityPool, bodyweightPool, focus) => {
     }));
 };
 
-const generateCoreBlock = (corePool, readiness) => {
+const generateCoreBlock = (corePool, readiness, userLevel = 'principiante') => {
     if (corePool.length === 0) return null;
-    let sets = readiness.mode === 'survival' ? 1 : 3;
+    // Más series para avanzados
+    let sets = 3;
+    if (userLevel && normalizeText(userLevel) === 'avanzado') sets = 4;
+    if (readiness.mode === 'survival') sets = 1;
     let rpe = readiness.mode === 'performance' ? 9 : 7;
-    const coreEx = shuffleArray(corePool).slice(0, 2);
-
+    const coreEx = shuffleArray(corePool).slice(0, 3); // hasta 3 ejercicios core
     return {
         blockType: 'superset',
         restBetweenSetsSec: 60,
@@ -567,43 +577,49 @@ const generateCoreBlock = (corePool, readiness) => {
     };
 };
 
-const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentContext, currentWeekPhase) => {
+const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentContext, currentWeekPhase, userLevel = 'principiante') => {
     const focus = normalizeText(sessionFocus);
     let template = [];
     let isCircuit = false;
-    const { setsCompound, setsIsolation, targetRIR, techniqueNote } = params;
-
+    let setsCompound = params.setsCompound;
+    let setsIsolation = params.setsIsolation;
+    // Más series para avanzados
+    if (userLevel && normalizeText(userLevel) === 'avanzado') {
+        setsCompound = Math.max(5, setsCompound);
+        setsIsolation = Math.max(4, setsIsolation);
+    }
+    const { targetRIR, techniqueNote } = params;
     if (focus.includes('full') || focus.includes('metabolico') || focus.includes('acondicionamiento')) {
-        isCircuit = true; 
+        isCircuit = true;
         template = [
-            { pattern: ['pierna', 'cuadriceps'], role: 'compound' }, 
-            { pattern: ['empuje', 'pecho', 'hombro'], role: 'compound' }, 
-            { pattern: ['traccion', 'espalda'], role: 'compound' }, 
-            { pattern: ['gluteo', 'isquios'], role: 'compound' }, 
+            { pattern: ['pierna', 'cuadriceps'], role: 'compound' },
+            { pattern: ['empuje', 'pecho', 'hombro'], role: 'compound' },
+            { pattern: ['traccion', 'espalda'], role: 'compound' },
+            { pattern: ['gluteo', 'isquios'], role: 'compound' },
         ];
     } else if (focus.includes('torso') || focus.includes('superior')) {
         template = [
-            { pattern: ['pecho', 'empuje'], role: 'compound' }, 
-            { pattern: ['espalda', 'traccion'], role: 'compound' }, 
-            { pattern: ['hombro', 'pecho'], role: 'compound' }, 
-            { pattern: ['espalda', 'traccion'], role: 'isolation' }, 
-            { pattern: ['triceps', 'biceps'], role: 'isolation' } 
+            { pattern: ['pecho', 'empuje'], role: 'compound' },
+            { pattern: ['espalda', 'traccion'], role: 'compound' },
+            { pattern: ['hombro', 'pecho'], role: 'compound' },
+            { pattern: ['espalda', 'traccion'], role: 'isolation' },
+            { pattern: ['triceps', 'biceps'], role: 'isolation' }
         ];
     } else if (focus.includes('empuje') || focus.includes('push') || focus.includes('pecho')) {
         template = [
-            { pattern: ['pecho', 'pectoral'], role: 'compound' }, 
-            { pattern: ['hombro', 'deltoides'], role: 'compound' }, 
-            { pattern: ['pecho', 'hombro'], role: 'isolation' }, 
-            { pattern: ['triceps'], role: 'isolation' }, 
-            { pattern: ['triceps'], role: 'isolation' } 
+            { pattern: ['pecho', 'pectoral'], role: 'compound' },
+            { pattern: ['hombro', 'deltoides'], role: 'compound' },
+            { pattern: ['pecho', 'hombro'], role: 'isolation' },
+            { pattern: ['triceps'], role: 'isolation' },
+            { pattern: ['triceps'], role: 'isolation' }
         ];
     } else if (focus.includes('traccion') || focus.includes('pull') || focus.includes('espalda')) {
         template = [
-            { pattern: ['espalda', 'dorsal'], role: 'compound' }, 
-            { pattern: ['traccion', 'remo'], role: 'compound' }, 
-            { pattern: ['espalda', 'posterior'], role: 'isolation' }, 
-            { pattern: ['biceps'], role: 'isolation' }, 
-            { pattern: ['biceps'], role: 'isolation' } 
+            { pattern: ['espalda', 'dorsal'], role: 'compound' },
+            { pattern: ['traccion', 'remo'], role: 'compound' },
+            { pattern: ['espalda', 'posterior'], role: 'isolation' },
+            { pattern: ['biceps'], role: 'isolation' },
+            { pattern: ['biceps'], role: 'isolation' }
         ];
     } else {
         template = [
@@ -613,10 +629,8 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
             { pattern: ['gemelos', 'pantorrilla'], role: 'isolation' }
         ];
     }
-
     const selectedExercises = [];
     const usedIds = new Set();
-
     template.forEach(slot => {
         const candidates = pool.filter(ex => {
             if (usedIds.has(ex.id)) return false;
@@ -625,29 +639,22 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
             const matchesPattern = slot.pattern.some(p => targets.includes(p));
             return matchesPattern;
         });
-
         if (candidates.length > 0) {
-            // Preferencia por rol compuesto/aislamiento
             let pick = candidates.find(c => slot.role === 'compound' ? normalizeText(c.tipo).includes('multi') : normalizeText(c.tipo).includes('aislamiento'));
             if (!pick) pick = candidates[0];
-
             usedIds.add(pick.id);
             const isCompound = slot.role === 'compound';
-            
             // ===== SOBRECARGA PROGRESIVA CIENTÍFICA =====
             const progression = calculateProgressiveOverload(
-                pick.id, 
-                userHistory, 
-                equipmentContext, 
+                pick.id,
+                userHistory,
+                equipmentContext,
                 currentWeekPhase
             );
-            
             // CÁLCULO DE PESO EXACTO
-            const loadSuggestion = assignLoadSuggestion(pick, params.userInventory, params.sessionMode);
-            
+            const loadSuggestion = assignLoadSuggestion(pick, params.userInventory, params.sessionMode, userHistory);
             // COMBINAR NOTAS
             const finalNotes = `${progression.notes}\n${techniqueNote}`.trim();
-
             selectedExercises.push({
                 id: pick.id,
                 name: pick.nombre,
@@ -663,15 +670,13 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
                 technique: progression.technique,
                 notes: finalNotes,
                 musculoObjetivo: pick.musculoObjetivo || pick.parteCuerpo,
-                // ⭐ NUEVO: Estructura para capturar rendimiento real
                 performanceData: {
                     plannedSets: isCompound ? setsCompound : setsIsolation,
-                    actualSets: [] // Se llenará durante la sesión: [{ set: 1, reps: 12, rir: 2, load: '20kg' }]
+                    actualSets: []
                 }
             });
         }
     });
-
     return {
         type: isCircuit ? 'circuit' : 'station',
         restSets: isCircuit ? 0 : params.restCompound,
@@ -754,8 +759,8 @@ export default async function handler(req, res) {
         sessionParams.userInventory = profileData.availableEquipment || [];
         sessionParams.sessionMode = readiness.mode;
 
-        // ===== OBTENER EJERCICIOS DEL MISMO DÍA DE SEMANAS ANTERIORES =====
-        const usedExercisesIds = getExercisesFromSameDayHistory(userHistory, dayName, 2);
+        // ===== OBTENER EJERCICIOS DE LOS ÚLTIMOS 14 DÍAS =====
+        const usedExercisesIds = getExercisesFromRecentHistory(userHistory, 14, sessionDate);
 
         // Carga de Pools
         const promises = [
@@ -836,12 +841,13 @@ export default async function handler(req, res) {
             finalSession.warmup.exercises = generateWarmup(utilityEx, bodyweightFiltered, targetSession.sessionFocus);
             
             const mainBlock = generateMainBlock(
-                fullMainPool, 
-                targetSession.sessionFocus, 
-                sessionParams, 
+                fullMainPool,
+                targetSession.sessionFocus,
+                sessionParams,
                 userHistory,
                 equipmentType,
-                targetMicrocycle.focus
+                targetMicrocycle.focus,
+                profileData.experienceLevel || 'principiante'
             );
 
             const blockRestSets = mainBlock.type === 'circuit' ? Math.max(90, sessionParams.restCompound + 30) : sessionParams.restCompound;
@@ -855,8 +861,8 @@ export default async function handler(req, res) {
             }];
 
             if (corePool.length > 0) {
-                 const coreBlock = generateCoreBlock(corePool, readiness);
-                 if (coreBlock) finalSession.coreBlocks.push(coreBlock);
+                const coreBlock = generateCoreBlock(corePool, readiness, profileData.experienceLevel || 'principiante');
+                if (coreBlock) finalSession.coreBlocks.push(coreBlock);
             }
 
             const workedMuscles = finalSession.mainBlocks.flatMap(b => b.exercises).map(e => normalizeText(e.musculoObjetivo || "")).join(" ");
