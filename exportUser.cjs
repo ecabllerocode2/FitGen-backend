@@ -34,6 +34,19 @@ async function exportUserData(userId) {
     }
 
     const userData = docSnap.data();
+
+    // === Obtener el documento específico de la subcolección history ===
+    const historyDocId = '0MjZUcZ7nC39Q5Lrfdvm';
+    const historyDocSnap = await userDocRef.collection('history').doc(historyDocId).get();
+    let historyData = null;
+    if (historyDocSnap.exists) {
+      historyData = historyDocSnap.data();
+    }
+
+    // Adjuntar el documento de history al objeto exportado
+    userData._history = {};
+    userData._history[historyDocId] = historyData;
+
     const outputFileName = `user_data_${userId}.json`;
     const outputPath = path.join(__dirname, outputFileName);
 
@@ -44,7 +57,7 @@ async function exportUserData(userId) {
     fs.writeFileSync(outputPath, jsonContent, 'utf8');
     
     console.log(`\n\n✅ Datos exportados exitosamente a: ${outputPath}`);
-    console.log("👉 Abre el archivo y revisa especialmente las propiedades de 'currentMesocycle'.");
+    console.log("👉 Abre el archivo y revisa especialmente las propiedades de 'currentMesocycle' y '_history'.");
 
   } catch (error) {
     console.error("Error al exportar los datos del usuario:", error);

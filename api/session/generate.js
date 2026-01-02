@@ -94,7 +94,11 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
             targetReps: equipmentContext === 'gym' ? 10 : 15,
             loadProgression: 'initial',
             notes: '📊 LÍNEA BASE: Primera vez. Termina con RIR 2 (2 reps en reserva).',
-            technique: 'standard'
+            technique: 'standard',
+            avgRepsPerformed: null,
+            avgRIR: null,
+            prevTargetReps: null,
+            lastSessionDate: null
         };
     }
 
@@ -115,7 +119,11 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
                 targetReps: baseReps + 2,
                 loadProgression: 'increase_volume',
                 notes: `⚡ PROGRESO: RPE ${lastRPE} fue bajo. Aumenta volumen o carga.`,
-                technique: 'standard'
+                technique: 'standard',
+                avgRepsPerformed: null,
+                avgRIR: lastRPE,
+                prevTargetReps: baseReps,
+                lastSessionDate: lastPerformance.sessionDate || null
             };
         }
         return {
@@ -123,7 +131,11 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
             targetReps: baseReps,
             loadProgression: 'maintain',
             notes: '🔄 MANTÉN: Misma carga, mejora la técnica.',
-            technique: 'standard'
+            technique: 'standard',
+            avgRepsPerformed: null,
+            avgRIR: lastRPE,
+            prevTargetReps: baseReps,
+            lastSessionDate: lastPerformance.sessionDate || null
         };
     }
 
@@ -132,12 +144,19 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
     const avgRIR = lastSets.reduce((sum, set) => sum + (set.rir || 2), 0) / lastSets.length;
     let baseReps = avgRepsPerformed;
 
+    // Rep target previo (si existe) para comparar
+    let prevTargetReps = lastPerformance.targetReps;
+    if (typeof prevTargetReps === 'string' && prevTargetReps.match(/\d+/)) {
+        prevTargetReps = parseInt(prevTargetReps.match(/\d+/)[0]);
+    }
+
     // LÓGICA DE PROGRESIÓN
     let progression = {};
 
     // GIMNASIO: Progresión de Carga (Load)
     if (equipmentContext === 'gym') {
         if (avgRIR >= 3) {
+            // Muy fácil: subir peso manteniendo reps
             progression = {
                 targetRIR: 2,
                 targetReps: Math.round(baseReps),
@@ -146,14 +165,16 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
                 technique: 'standard'
             };
         } else if (avgRIR <= 1) {
+            // Demasiado duro: bajar carga (peso o reps)
             progression = {
                 targetRIR: 2,
-                targetReps: Math.round(baseReps),
-                loadProgression: 'maintain',
-                notes: `🛡️ CONSOLIDACIÓN: RIR ${avgRIR.toFixed(1)} fue bajo. Mantén y perfecciona.`,
+                targetReps: Math.max(5, Math.round(baseReps) - 2),
+                loadProgression: 'decrease_load_step',
+                notes: `⚠️ SOBRECARGA EXCESIVA: RIR ${avgRIR.toFixed(1)} fue muy bajo. Reduce peso o repeticiones.`,
                 technique: 'standard'
             };
         } else {
+            // Zona adecuada: ligera progresión en reps
             progression = {
                 targetRIR: 2,
                 targetReps: Math.round(baseReps) + 1,
@@ -163,14 +184,24 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
             };
         }
     } 
-    // EQUIPO LIMITADO: Progresión de Densidad/Volumen/Técnica
+    // EQUIPO LIMITADO / PESO CORPORAL: Progresión de Densidad/Volumen/Técnica
     else {
-        if (avgRepsPerformed < 15) {
+        if (avgRIR >= 3 && avgRepsPerformed < 15) {
+            // Fácil y con margen de reps: subir volumen
             progression = {
                 targetRIR: 2,
                 targetReps: Math.round(baseReps) + 2,
                 loadProgression: 'increase_volume',
                 notes: `📈 VOLUMEN: Aumenta a ${Math.round(baseReps) + 2} reps por serie (RIR 2).`,
+                technique: 'standard'
+            };
+        } else if (avgRIR <= 1) {
+            // Muy duro: bajar repeticiones manteniendo misma carga (no hay más ligero)
+            progression = {
+                targetRIR: 2,
+                targetReps: Math.max(5, Math.round(baseReps) - 2),
+                loadProgression: 'decrease_volume',
+                notes: `⚠️ SOBRECARGA EXCESIVA: RIR ${avgRIR.toFixed(1)} fue muy bajo. Reduce repeticiones manteniendo la técnica.`,
                 technique: 'standard'
             };
         } else if (avgRepsPerformed >= 15 && avgRepsPerformed < 25) {
@@ -181,7 +212,7 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
                 notes: `🐢 TEMPO LENTO: Aplica 3-0-3 (3s bajada, 3s subida) para simular más peso.`,
                 technique: 'tempo_3-0-3'
             };
-        } else {
+        } else if (avgRepsPerformed >= 25) {
             progression = {
                 targetRIR: 0,
                 targetReps: 15,
@@ -189,10 +220,25 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
                 notes: `⏸️ REST-PAUSE: Reduce descanso a 30s y trabaja cerca del fallo.`,
                 technique: 'rest_pause'
             };
+        } else {
+            // Zona intermedia: mantener
+            progression = {
+                targetRIR: 2,
+                targetReps: Math.round(baseReps),
+                loadProgression: 'maintain',
+                notes: '🔄 MANTÉN: Misma carga y reps, mejora la técnica.',
+                technique: 'standard'
+            };
         }
     }
 
-    return progression;
+    return {
+        ...progression,
+        avgRepsPerformed,
+        avgRIR,
+        prevTargetReps: prevTargetReps || null,
+        lastSessionDate: lastPerformance.sessionDate || null
+    };
 };
 
 // ====================================================================
@@ -266,8 +312,8 @@ const getDynamicSessionParams = (readiness, sessionFocus, equipmentType, current
 };
 
 // --- D. SELECCIÓN DE PESO EXACTO (CORRECCIÓN DE CONFLICTOS) ---
-// Mejorada: Progresión real de peso con varias barras
-const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory = []) => {
+// Mejorada: Progresión real de peso con varias barras, respetando la dirección de progresión
+const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory = [], loadProgression = 'maintain') => {
     const targetEquipmentRaw = normalizeText(exercise.equipo || "");
     
     // 1. Peso Corporal
@@ -320,7 +366,7 @@ const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory 
         if (toolType === 'barra_peso') {
              const dumbbells = userInventory.filter(i => normalizeText(i).includes('mancuerna'));
              if (dumbbells.length > 0) {
-                 const sub = assignLoadSuggestion({ ...exercise, equipo: "Mancuernas" }, userInventory, sessionMode);
+                 const sub = assignLoadSuggestion({ ...exercise, equipo: "Mancuernas" }, userInventory, sessionMode, userHistory, loadProgression);
                  return { equipmentName: "Mancuernas", suggestedLoad: `${sub.suggestedLoad} (Sustituyendo Barra)` };
              }
         }
@@ -350,17 +396,19 @@ const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory 
     const exType = normalizeText(exercise.tipo || "");
     const isCompound = exType.includes("multi") || exType.includes("compuesto");
     let selected = finalPool[0];
-    // Progresión real: Si hay historial y se usó un peso, sugerir el siguiente más alto si corresponde
+    let lastLoad = null;
+    let loadDecision = 'none';
+
     if (finalPool.length > 1 && isCompound && userHistory.length > 0) {
         // Buscar el último peso usado para este ejercicio
-        let lastLoad = null;
         for (const session of userHistory) {
             if (!session.mainBlocks) continue;
             for (const block of session.mainBlocks) {
                 const found = block.exercises.find(e => e.id === exercise.id);
                 if (found && found.performanceData && found.performanceData.actualSets && found.performanceData.actualSets.length > 0) {
-                    // Buscar el peso más usado
-                    const loads = found.performanceData.actualSets.map(s => parseFloat((s.load||'').toString().replace(/[^\d.]/g, ''))).filter(x => !isNaN(x));
+                    const loads = found.performanceData.actualSets
+                        .map(s => parseFloat((s.load || '').toString().replace(/[^\d.]/g, '')))
+                        .filter(x => !isNaN(x));
                     if (loads.length > 0) {
                         lastLoad = Math.max(...loads);
                         break;
@@ -369,15 +417,43 @@ const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory 
             }
             if (lastLoad !== null) break;
         }
+
         if (lastLoad !== null) {
-            // Buscar el siguiente peso más alto disponible
-            const next = finalPool.find(w => w.weight > lastLoad);
-            if (next) selected = next;
-            else selected = finalPool[finalPool.length - 1];
-        } else {
-            selected = finalPool[0];
+            // Índice del peso actual en la lista ordenada
+            const currentIndex = finalPool.findIndex(w => w.weight === lastLoad);
+            if (loadProgression.startsWith('increase_load')) {
+                // Subir un escalón de peso si es posible
+                if (currentIndex >= 0 && currentIndex < finalPool.length - 1) {
+                    selected = finalPool[currentIndex + 1];
+                } else {
+                    selected = finalPool[finalPool.length - 1];
+                }
+                loadDecision = 'increase';
+            } else if (loadProgression.startsWith('decrease_load')) {
+                // Bajar un escalón de peso si es posible
+                if (currentIndex > 0) {
+                    selected = finalPool[currentIndex - 1];
+                } else {
+                    selected = finalPool[0];
+                }
+                loadDecision = 'decrease';
+            } else {
+                // Mantener el mismo peso si existe; si no, el más cercano
+                if (currentIndex >= 0) {
+                    selected = finalPool[currentIndex];
+                } else {
+                    selected = finalPool[0];
+                }
+                loadDecision = 'maintain';
+            }
         }
-    } else if (finalPool.length > 1) {
+    }
+
+    // Si no había historial o no se pudo determinar lastLoad, usar heurística por modo
+    if (!selected && finalPool.length > 0) {
+        selected = finalPool[0];
+    }
+    if (finalPool.length > 1 && (!userHistory || userHistory.length === 0)) {
         if (sessionMode === 'survival') {
             selected = finalPool[Math.floor((finalPool.length - 1) / 2)];
         } else {
@@ -388,9 +464,28 @@ const assignLoadSuggestion = (exercise, userInventory, sessionMode, userHistory 
             }
         }
     }
+
+    const equipmentName = selected.fullName.split('(')[0].trim();
+    const suggestedLoad = `Usa: ${selected.fullName}`;
+
+    let rationale = '';
+    if (lastLoad !== null) {
+        if (loadDecision === 'increase') {
+            rationale = `Peso aumentado desde ~${lastLoad}kg hasta ${selected.weight}kg por buen margen de RIR.`;
+        } else if (loadDecision === 'decrease') {
+            rationale = `Peso reducido desde ~${lastLoad}kg hasta ${selected.weight}kg por esfuerzo alto en la sesión previa.`;
+        } else if (loadDecision === 'maintain') {
+            rationale = `Se mantiene peso cercano a ${lastLoad}kg para consolidar el estímulo.`;
+        }
+    }
+
     return {
-        equipmentName: selected.fullName.split('(')[0].trim(),
-        suggestedLoad: `Usa: ${selected.fullName}`
+        equipmentName,
+        suggestedLoad,
+        lastLoad,
+        selectedWeight: selected.weight,
+        loadDecision,
+        loadRationale: rationale
     };
 };
 
@@ -651,10 +746,40 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
                 equipmentContext,
                 currentWeekPhase
             );
-            // CÁLCULO DE PESO EXACTO
-            const loadSuggestion = assignLoadSuggestion(pick, params.userInventory, params.sessionMode, userHistory);
-            // COMBINAR NOTAS
-            const finalNotes = `${progression.notes}\n${techniqueNote}`.trim();
+            // CÁLCULO DE PESO EXACTO (respeta loadProgression)
+            const loadSuggestion = assignLoadSuggestion(
+                pick,
+                params.userInventory,
+                params.sessionMode,
+                userHistory,
+                progression.loadProgression
+            );
+
+            // Construcción de notas explicativas
+            let historyNote = '';
+            if (progression.avgRepsPerformed && progression.avgRIR !== null) {
+                const avgReps = Math.round(progression.avgRepsPerformed);
+                const avgRIR = progression.avgRIR.toFixed(1);
+                if (progression.prevTargetReps) {
+                    historyNote = `La última vez el objetivo era ~${progression.prevTargetReps} reps y realizaste ~${avgReps} reps por serie con RIR medio ${avgRIR}.`;
+                } else {
+                    historyNote = `La última vez realizaste ~${avgReps} reps por serie con RIR medio ${avgRIR}.`;
+                }
+            }
+            if (!historyNote && progression.lastSessionDate) {
+                historyNote = `Última sesión de este ejercicio el ${progression.lastSessionDate}.`;
+            }
+
+            const loadNote = loadSuggestion.loadRationale || '';
+
+            const notesPieces = [
+                progression.notes || '',
+                historyNote,
+                loadNote,
+                techniqueNote || ''
+            ].filter(Boolean);
+
+            const finalNotes = notesPieces.join('\n');
             selectedExercises.push({
                 id: pick.id,
                 name: pick.nombre,
