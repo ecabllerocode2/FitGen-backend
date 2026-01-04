@@ -61,40 +61,73 @@ const calculateReadiness = (feedback, externalLoad = 'none') => {
 };
 
 // ====================================================================
-// B. SOBRECARGA PROGRESIVA CIENTÍFICA (Basado en RIR/RPE Real)
+// B. SOBRECARGA PROGRESIVA CIENTÍFICA (Basado en RIR/RPE Real + Feedback)
 // ====================================================================
 /**
  * Calcula la sobrecarga para un ejercicio específico basándose en el historial.
- * Retorna: { targetLoad, targetReps, targetRIR, technique, notes }
+ * MEJORADO: Ahora maneja tanto reps como tiempo, y usa feedback post-sesión.
+ * Retorna: { targetLoad, targetReps, targetRIR, technique, notes, measureType }
  */
-const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext, currentWeekPhase) => {
+const calculateProgressiveOverload = (exercise, userHistory, equipmentContext, currentWeekPhase) => {
+    const exerciseId = exercise.id;
+    const measureType = exercise.measureType || 'reps'; // 'reps' o 'time'
+    
     // Buscar el ejercicio en el historial (última vez que se hizo)
     let lastPerformance = null;
+    let lastSessionFeedback = null;
     
     for (const session of userHistory) {
-        if (!session.mainBlocks) continue;
-        for (const block of session.mainBlocks) {
-            const found = block.exercises.find(e => e.id === exerciseId);
-            if (found && found.performanceData) {
-                lastPerformance = {
-                    ...found,
-                    sessionRPE: session.feedback?.rpe || 7,
-                    sessionDate: session.meta?.date
-                };
-                break;
+        if (!session.mainBlocks && !session.coreBlocks) continue;
+        
+        // Buscar en mainBlocks
+        if (session.mainBlocks) {
+            for (const block of session.mainBlocks) {
+                const found = block.exercises.find(e => e.id === exerciseId);
+                if (found && found.performanceData) {
+                    lastPerformance = {
+                        ...found,
+                        sessionRPE: session.feedback?.rpe || 7,
+                        sessionEnergy: session.feedback?.energyLevel || 3,
+                        sessionSoreness: session.feedback?.sorenessLevel || 3,
+                        sessionDate: session.meta?.date
+                    };
+                    lastSessionFeedback = session.feedback;
+                    break;
+                }
             }
         }
+        
+        // Buscar en coreBlocks si no se encontró
+        if (!lastPerformance && session.coreBlocks) {
+            for (const block of session.coreBlocks) {
+                const found = block.exercises.find(e => e.id === exerciseId);
+                if (found && found.performanceData) {
+                    lastPerformance = {
+                        ...found,
+                        sessionRPE: session.feedback?.rpe || 7,
+                        sessionEnergy: session.feedback?.energyLevel || 3,
+                        sessionSoreness: session.feedback?.sorenessLevel || 3,
+                        sessionDate: session.meta?.date
+                    };
+                    lastSessionFeedback = session.feedback;
+                    break;
+                }
+            }
+        }
+        
         if (lastPerformance) break;
     }
 
     // DEFAULT: Si no hay historial previo
     if (!lastPerformance) {
+        const defaultValue = measureType === 'time' ? '45s' : (equipmentContext === 'gym' ? 10 : 15);
         return {
-            targetRIR: 2, // RIR 2 = 2 repeticiones en reserva
-            targetReps: equipmentContext === 'gym' ? 10 : 15,
+            targetRIR: 2,
+            targetReps: defaultValue,
             loadProgression: 'initial',
-            notes: '📊 LÍNEA BASE: Primera vez. Termina con RIR 2 (2 reps en reserva).',
+            notes: `📊 LÍNEA BASE: Primera vez. Termina con RIR 2 (esfuerzo controlado).`,
             technique: 'standard',
+            measureType: measureType,
             avgRepsPerformed: null,
             avgRIR: null,
             prevTargetReps: null,
@@ -104,141 +137,270 @@ const calculateProgressiveOverload = (exerciseId, userHistory, equipmentContext,
 
     // ANÁLISIS DE RENDIMIENTO PREVIO
     const lastSets = lastPerformance.performanceData?.actualSets || [];
+    
+    // Si no hay datos detallados, usar RPE de sesión + feedback general
     if (lastSets.length === 0) {
-        // No hay datos de rendimiento específico, usar RPE de sesión
         const lastRPE = lastPerformance.sessionRPE;
-        let baseReps = lastPerformance.targetReps;
-        if (typeof baseReps === 'string' && baseReps.match(/\d+/)) {
-            baseReps = parseInt(baseReps.match(/\d+/)[0]);
-        } else if (!baseReps) {
-            baseReps = equipmentContext === 'gym' ? 10 : 15;
-        }
-        if (lastRPE <= 6) {
+        const lastEnergy = lastPerformance.sessionEnergy;
+        const lastSoreness = lastPerformance.sessionSoreness;
+        
+        let baseValue = lastPerformance.targetReps;
+        
+        if (measureType === 'time') {
+            // Extraer segundos del string (ej: "45s" -> 45)
+            if (typeof baseValue === 'string') {
+                const match = baseValue.match(/(\d+)/);
+                baseValue = match ? parseInt(match[1]) : 45;
+            }
+            
+            // Progresión para ejercicios por tiempo
+            if (lastRPE <= 6 && lastEnergy >= 3) {
+                return {
+                    targetRIR: 2,
+                    targetReps: `${baseValue + 5}s`,
+                    loadProgression: 'increase_time',
+                    notes: `⚡ PROGRESO: RPE ${lastRPE} fue bajo y energía buena. Aumenta +5s.`,
+                    technique: 'standard',
+                    measureType: 'time',
+                    avgRepsPerformed: null,
+                    avgRIR: lastRPE,
+                    prevTargetReps: `${baseValue}s`,
+                    lastSessionDate: lastPerformance.sessionDate || null
+                };
+            } else if (lastRPE >= 8 || lastSoreness >= 4) {
+                return {
+                    targetRIR: 3,
+                    targetReps: `${Math.max(20, baseValue - 5)}s`,
+                    loadProgression: 'decrease_time',
+                    notes: `⚠️ SOBRECARGA: RPE ${lastRPE} o dolor muscular alto. Reduce -5s.`,
+                    technique: 'standard',
+                    measureType: 'time',
+                    avgRepsPerformed: null,
+                    avgRIR: lastRPE,
+                    prevTargetReps: `${baseValue}s`,
+                    lastSessionDate: lastPerformance.sessionDate || null
+                };
+            }
             return {
                 targetRIR: 2,
-                targetReps: baseReps + 2,
-                loadProgression: 'increase_volume',
-                notes: `⚡ PROGRESO: RPE ${lastRPE} fue bajo. Aumenta volumen o carga.`,
+                targetReps: `${baseValue}s`,
+                loadProgression: 'maintain',
+                notes: '🔄 MANTÉN: Mismo tiempo, mejora la técnica.',
                 technique: 'standard',
+                measureType: 'time',
                 avgRepsPerformed: null,
                 avgRIR: lastRPE,
-                prevTargetReps: baseReps,
+                prevTargetReps: `${baseValue}s`,
+                lastSessionDate: lastPerformance.sessionDate || null
+            };
+        } else {
+            // Progresión para ejercicios por reps
+            if (typeof baseValue === 'string' && baseValue.match(/\d+/)) {
+                baseValue = parseInt(baseValue.match(/\d+/)[0]);
+            } else if (!baseValue) {
+                baseValue = equipmentContext === 'gym' ? 10 : 15;
+            }
+            
+            if (lastRPE <= 6 && lastEnergy >= 3) {
+                return {
+                    targetRIR: 2,
+                    targetReps: baseValue + 2,
+                    loadProgression: 'increase_volume',
+                    notes: `⚡ PROGRESO: RPE ${lastRPE} fue bajo y energía buena. Aumenta volumen.`,
+                    technique: 'standard',
+                    measureType: 'reps',
+                    avgRepsPerformed: null,
+                    avgRIR: lastRPE,
+                    prevTargetReps: baseValue,
+                    lastSessionDate: lastPerformance.sessionDate || null
+                };
+            } else if (lastRPE >= 8 || lastSoreness >= 4) {
+                return {
+                    targetRIR: 3,
+                    targetReps: Math.max(5, baseValue - 2),
+                    loadProgression: 'decrease_volume',
+                    notes: `⚠️ SOBRECARGA: RPE ${lastRPE} o dolor muscular alto. Reduce volumen.`,
+                    technique: 'standard',
+                    measureType: 'reps',
+                    avgRepsPerformed: null,
+                    avgRIR: lastRPE,
+                    prevTargetReps: baseValue,
+                    lastSessionDate: lastPerformance.sessionDate || null
+                };
+            }
+            return {
+                targetRIR: 2,
+                targetReps: baseValue,
+                loadProgression: 'maintain',
+                notes: '🔄 MANTÉN: Misma carga, mejora la técnica.',
+                technique: 'standard',
+                measureType: 'reps',
+                avgRepsPerformed: null,
+                avgRIR: lastRPE,
+                prevTargetReps: baseValue,
                 lastSessionDate: lastPerformance.sessionDate || null
             };
         }
+    }
+
+    // ANÁLISIS DETALLADO POR SERIE (con datos reales de performance)
+    const lastEnergy = lastPerformance.sessionEnergy;
+    const lastSoreness = lastPerformance.sessionSoreness;
+    
+    if (measureType === 'time') {
+        // Para ejercicios por tiempo, extraer segundos
+        const timesPerformed = lastSets.map(set => {
+            if (typeof set.reps === 'string') {
+                const match = set.reps.match(/(\d+)/);
+                return match ? parseInt(match[1]) : 45;
+            }
+            return set.reps || 45;
+        });
+        
+        const avgTime = timesPerformed.reduce((sum, t) => sum + t, 0) / timesPerformed.length;
+        const avgRIR = lastSets.reduce((sum, set) => sum + (set.rir || 2), 0) / lastSets.length;
+        
+        let progression = {};
+        
+        if (avgRIR >= 3 && lastEnergy >= 3) {
+            progression = {
+                targetRIR: 2,
+                targetReps: `${Math.round(avgTime) + 10}s`,
+                loadProgression: 'increase_time',
+                notes: `⚡ PROGRESO: RIR ${avgRIR.toFixed(1)} alto y buena energía. Aumenta +10s.`,
+                technique: 'standard',
+                measureType: 'time'
+            };
+        } else if (avgRIR <= 1 || lastSoreness >= 4) {
+            progression = {
+                targetRIR: 3,
+                targetReps: `${Math.max(20, Math.round(avgTime) - 10)}s`,
+                loadProgression: 'decrease_time',
+                notes: `⚠️ SOBRECARGA: RIR ${avgRIR.toFixed(1)} muy bajo o dolor alto. Reduce -10s.`,
+                technique: 'standard',
+                measureType: 'time'
+            };
+        } else {
+            progression = {
+                targetRIR: 2,
+                targetReps: `${Math.round(avgTime) + 5}s`,
+                loadProgression: 'slight_increase_time',
+                notes: `📈 PROGRESIÓN: Aumenta +5s manteniendo control.`,
+                technique: 'standard',
+                measureType: 'time'
+            };
+        }
+        
         return {
-            targetRIR: 2,
-            targetReps: baseReps,
-            loadProgression: 'maintain',
-            notes: '🔄 MANTÉN: Misma carga, mejora la técnica.',
-            technique: 'standard',
-            avgRepsPerformed: null,
-            avgRIR: lastRPE,
-            prevTargetReps: baseReps,
+            ...progression,
+            avgRepsPerformed: avgTime,
+            avgRIR,
+            prevTargetReps: `${Math.round(avgTime)}s`,
+            lastSessionDate: lastPerformance.sessionDate || null
+        };
+    } else {
+        // Para ejercicios por reps (lógica existente mejorada con feedback)
+        const avgRepsPerformed = lastSets.reduce((sum, set) => sum + (set.reps || 0), 0) / lastSets.length;
+        const avgRIR = lastSets.reduce((sum, set) => sum + (set.rir || 2), 0) / lastSets.length;
+        let baseReps = avgRepsPerformed;
+
+        // Rep target previo (si existe) para comparar
+        let prevTargetReps = lastPerformance.targetReps;
+        if (typeof prevTargetReps === 'string' && prevTargetReps.match(/\d+/)) {
+            prevTargetReps = parseInt(prevTargetReps.match(/\d+/)[0]);
+        }
+
+        // LÓGICA DE PROGRESIÓN
+        let progression = {};
+
+        // GIMNASIO: Progresión de Carga (Load)
+        if (equipmentContext === 'gym') {
+            if (avgRIR >= 3 && lastEnergy >= 3) {
+                // Muy fácil y buena energía: subir peso manteniendo reps
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.round(baseReps),
+                    loadProgression: 'increase_load_5pct',
+                    notes: `⚡ PROGRESO: RIR ${avgRIR.toFixed(1)} alto y energía ${lastEnergy}/5. Aumenta peso +5%.`,
+                    technique: 'standard'
+                };
+            } else if (avgRIR <= 1 || lastSoreness >= 4) {
+                // Demasiado duro o dolor alto: bajar carga
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.max(5, Math.round(baseReps) - 2),
+                    loadProgression: 'decrease_load_step',
+                    notes: `⚠️ SOBRECARGA: RIR ${avgRIR.toFixed(1)} bajo o dolor muscular ${lastSoreness}/5. Reduce peso.`,
+                    technique: 'standard'
+                };
+            } else {
+                // Zona adecuada: ligera progresión en reps
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.round(baseReps) + 1,
+                    loadProgression: 'increase_reps',
+                    notes: `🔥 DENSIDAD: Ejecuta 1 rep extra por serie manteniendo RIR 2.`,
+                    technique: 'standard'
+                };
+            }
+        } 
+        // EQUIPO LIMITADO / PESO CORPORAL: Progresión de Densidad/Volumen/Técnica
+        else {
+            if (avgRIR >= 3 && avgRepsPerformed < 15 && lastEnergy >= 3) {
+                // Fácil y con margen de reps: subir volumen
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.round(baseReps) + 2,
+                    loadProgression: 'increase_volume',
+                    notes: `📈 VOLUMEN: Aumenta a ${Math.round(baseReps) + 2} reps por serie (RIR 2).`,
+                    technique: 'standard'
+                };
+            } else if (avgRIR <= 1 || lastSoreness >= 4) {
+                // Muy duro o dolor alto: bajar repeticiones
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.max(5, Math.round(baseReps) - 2),
+                    loadProgression: 'decrease_volume',
+                    notes: `⚠️ SOBRECARGA: RIR ${avgRIR.toFixed(1)} bajo o dolor ${lastSoreness}/5. Reduce reps.`,
+                    technique: 'standard'
+                };
+            } else if (avgRepsPerformed >= 15 && avgRepsPerformed < 25) {
+                progression = {
+                    targetRIR: 1,
+                    targetReps: Math.round(baseReps),
+                    loadProgression: 'technique_tempo',
+                    notes: `🐢 TEMPO LENTO: Aplica 3-0-3 (3s bajada, 3s subida) para simular más peso.`,
+                    technique: 'tempo_3-0-3'
+                };
+            } else if (avgRepsPerformed >= 25) {
+                progression = {
+                    targetRIR: 0,
+                    targetReps: 15,
+                    loadProgression: 'rest_pause',
+                    notes: `⏸️ REST-PAUSE: Reduce descanso a 30s y trabaja cerca del fallo.`,
+                    technique: 'rest_pause'
+                };
+            } else {
+                // Zona intermedia: mantener
+                progression = {
+                    targetRIR: 2,
+                    targetReps: Math.round(baseReps),
+                    loadProgression: 'maintain',
+                    notes: '🔄 MANTÉN: Misma carga y reps, mejora la técnica.',
+                    technique: 'standard'
+                };
+            }
+        }
+
+        return {
+            ...progression,
+            measureType: 'reps',
+            avgRepsPerformed,
+            avgRIR,
+            prevTargetReps: prevTargetReps || null,
             lastSessionDate: lastPerformance.sessionDate || null
         };
     }
-
-    // ANÁLISIS DETALLADO POR SERIE
-    const avgRepsPerformed = lastSets.reduce((sum, set) => sum + (set.reps || 0), 0) / lastSets.length;
-    const avgRIR = lastSets.reduce((sum, set) => sum + (set.rir || 2), 0) / lastSets.length;
-    let baseReps = avgRepsPerformed;
-
-    // Rep target previo (si existe) para comparar
-    let prevTargetReps = lastPerformance.targetReps;
-    if (typeof prevTargetReps === 'string' && prevTargetReps.match(/\d+/)) {
-        prevTargetReps = parseInt(prevTargetReps.match(/\d+/)[0]);
-    }
-
-    // LÓGICA DE PROGRESIÓN
-    let progression = {};
-
-    // GIMNASIO: Progresión de Carga (Load)
-    if (equipmentContext === 'gym') {
-        if (avgRIR >= 3) {
-            // Muy fácil: subir peso manteniendo reps
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.round(baseReps),
-                loadProgression: 'increase_load_5pct',
-                notes: `⚡ PROGRESO: RIR promedio ${avgRIR.toFixed(1)} fue alto. Aumenta peso +5%.`,
-                technique: 'standard'
-            };
-        } else if (avgRIR <= 1) {
-            // Demasiado duro: bajar carga (peso o reps)
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.max(5, Math.round(baseReps) - 2),
-                loadProgression: 'decrease_load_step',
-                notes: `⚠️ SOBRECARGA EXCESIVA: RIR ${avgRIR.toFixed(1)} fue muy bajo. Reduce peso o repeticiones.`,
-                technique: 'standard'
-            };
-        } else {
-            // Zona adecuada: ligera progresión en reps
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.round(baseReps) + 1,
-                loadProgression: 'increase_reps',
-                notes: `🔥 DENSIDAD: Ejecuta 1 rep extra por serie manteniendo RIR 2.`,
-                technique: 'standard'
-            };
-        }
-    } 
-    // EQUIPO LIMITADO / PESO CORPORAL: Progresión de Densidad/Volumen/Técnica
-    else {
-        if (avgRIR >= 3 && avgRepsPerformed < 15) {
-            // Fácil y con margen de reps: subir volumen
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.round(baseReps) + 2,
-                loadProgression: 'increase_volume',
-                notes: `📈 VOLUMEN: Aumenta a ${Math.round(baseReps) + 2} reps por serie (RIR 2).`,
-                technique: 'standard'
-            };
-        } else if (avgRIR <= 1) {
-            // Muy duro: bajar repeticiones manteniendo misma carga (no hay más ligero)
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.max(5, Math.round(baseReps) - 2),
-                loadProgression: 'decrease_volume',
-                notes: `⚠️ SOBRECARGA EXCESIVA: RIR ${avgRIR.toFixed(1)} fue muy bajo. Reduce repeticiones manteniendo la técnica.`,
-                technique: 'standard'
-            };
-        } else if (avgRepsPerformed >= 15 && avgRepsPerformed < 25) {
-            progression = {
-                targetRIR: 1,
-                targetReps: Math.round(baseReps),
-                loadProgression: 'technique_tempo',
-                notes: `🐢 TEMPO LENTO: Aplica 3-0-3 (3s bajada, 3s subida) para simular más peso.`,
-                technique: 'tempo_3-0-3'
-            };
-        } else if (avgRepsPerformed >= 25) {
-            progression = {
-                targetRIR: 0,
-                targetReps: 15,
-                loadProgression: 'rest_pause',
-                notes: `⏸️ REST-PAUSE: Reduce descanso a 30s y trabaja cerca del fallo.`,
-                technique: 'rest_pause'
-            };
-        } else {
-            // Zona intermedia: mantener
-            progression = {
-                targetRIR: 2,
-                targetReps: Math.round(baseReps),
-                loadProgression: 'maintain',
-                notes: '🔄 MANTÉN: Misma carga y reps, mejora la técnica.',
-                technique: 'standard'
-            };
-        }
-    }
-
-    return {
-        ...progression,
-        avgRepsPerformed,
-        avgRIR,
-        prevTargetReps: prevTargetReps || null,
-        lastSessionDate: lastPerformance.sessionDate || null
-    };
 };
 
 // ====================================================================
@@ -553,8 +715,11 @@ const filterExercisesByLevel = (exercises, userLevel) => {
     const level = normalizeText(userLevel || "principiante");
     return exercises.filter(ex => {
         const exLevel = normalizeText(ex.nivel || "principiante");
+        // Principiantes: solo ejercicios principiantes
         if (level === 'principiante') return exLevel === 'principiante';
-        if (level === 'intermedio') return exLevel !== 'avanzado';
+        // Intermedios: principiantes e intermedios
+        if (level === 'intermedio') return exLevel === 'principiante' || exLevel === 'intermedio';
+        // Avanzados: todos los niveles (pueden incluir ejercicios de niveles inferiores)
         return true; 
     });
 };
@@ -611,42 +776,58 @@ const filterExercisesByHistory = (exercises, usedExerciseIds, minimumRequired = 
 // 3. GENERACIÓN DE BLOQUES (WARMUP, CORE, MAIN)
 // ====================================================================
 
-const generateWarmup = (utilityPool, bodyweightPool, focus) => {
+const generateWarmup = (unifiedPool, focus) => {
     const normFocus = normalizeText(focus);
     let target = 'general';
     if (normFocus.includes('pierna') || normFocus.includes('full')) target = 'pierna';
-    if (normFocus.includes('torso') || normFocus.includes('pecho') || normFocus.includes('empuje')) target = 'superior';
+    if (normFocus.includes('torso') || normFocus.includes('pecho') || normFocus.includes('empuje') || normFocus.includes('hombro') || normFocus.includes('brazo')) target = 'superior';
+    if (normFocus.includes('espalda') || normFocus.includes('traccion')) target = 'superior';
 
-    // Filtro simple para Utility (Stretch/Mobility)
-    const mobility = utilityPool.filter(ex => {
+    // Filtro para ejercicios de calentamiento y movilidad
+    const mobility = unifiedPool.filter(ex => {
         const type = normalizeText(ex.tipo);
         const part = normalizeText(ex.parteCuerpo);
-        return type.includes('calentamiento') || (type.includes('estiramiento') && part.includes(target));
+        return type.includes('calentamiento') || type.includes('movilidad') || 
+               (type.includes('estiramiento') && !ex.isDynamic && (target === 'general' || part.includes(target)));
     });
 
-    // Filtro simple para Activación (Bodyweight)
-    const activation = bodyweightPool.filter(ex => {
+    // Filtro para ejercicios de activación (peso corporal, dinámicos, fáciles)
+    const activation = unifiedPool.filter(ex => {
+        const type = normalizeText(ex.tipo);
         const part = normalizeText(ex.parteCuerpo);
-        const isLeg = part.includes('pierna') || part.includes('gluteo');
-        return target === 'pierna' ? isLeg : !isLeg && !part.includes('core');
+        const equip = normalizeText(ex.equipo);
+        const isBodyweight = equip.includes('corporal') || equip.includes('sin equipo');
+        const isLeg = part.includes('pierna') || part.includes('gluteo') || part.includes('cuadriceps');
+        const isUpper = part.includes('pecho') || part.includes('hombro') || part.includes('espalda') || part.includes('brazo');
+        
+        return isBodyweight && ex.isDynamic && !part.includes('core') &&
+               (target === 'pierna' ? isLeg : target === 'superior' ? isUpper : true);
     });
 
     const selected = [
-        ...shuffleArray(mobility).slice(0, 2).map(e => ({ ...e, durationOrReps: '45s' })),
-        ...shuffleArray(activation).slice(0, 2).map(e => ({ ...e, durationOrReps: '15 reps' }))
+        ...shuffleArray(mobility).slice(0, 2).map(e => ({ ...e, durationOrReps: e.measureType === 'time' ? '45s' : '10 reps' })),
+        ...shuffleArray(activation).slice(0, 2).map(e => ({ ...e, durationOrReps: '12 reps' }))
     ];
 
     return selected.map(ex => ({
-        id: ex.id,
+        id: ex.id || `warmup-${Math.random().toString(36).substr(2, 9)}`,
         name: ex.nombre,
         instructions: ex.descripcion,
         durationOrReps: ex.durationOrReps,
         imageUrl: ex.url,
-        equipment: "Peso Corporal"
+        equipment: ex.equipo || "Peso Corporal"
     }));
 };
 
-const generateCoreBlock = (corePool, readiness, userLevel = 'principiante') => {
+const generateCoreBlock = (unifiedPool, readiness, userLevel = 'principiante') => {
+    // Filtrar ejercicios core de la colección unificada
+    const corePool = unifiedPool.filter(ex => {
+        const part = normalizeText(ex.parteCuerpo);
+        const type = normalizeText(ex.tipo);
+        return (part.includes('core') || part.includes('abdomen') || part.includes('oblicuo')) &&
+               !type.includes('estiramiento') && !type.includes('calentamiento');
+    });
+    
     if (corePool.length === 0) return null;
     // Más series para avanzados
     let sets = 3;
@@ -659,16 +840,178 @@ const generateCoreBlock = (corePool, readiness, userLevel = 'principiante') => {
         restBetweenSetsSec: 60,
         restBetweenExercisesSec: 0,
         exercises: coreEx.map(ex => ({
-            id: ex.id,
+            id: ex.id || `core-${Math.random().toString(36).substr(2, 9)}`,
             name: ex.nombre,
             instructions: ex.descripcion,
             imageUrl: ex.url,
-            equipment: "Peso Corporal",
+            equipment: ex.equipo || "Peso Corporal",
             sets: sets,
-            targetReps: "15-20 reps",
+            targetReps: ex.measureType === 'time' ? "45-60s" : "15-20 reps",
             rpe: rpe,
             notes: "Abdomen contraído."
         }))
+    };
+};
+
+// ====================================================================
+// E. SISTEMA DE AUTO-NIVEL (Detección Automática de Progresión)
+// ====================================================================
+/**
+ * Determina si el usuario debe subir de nivel automáticamente.
+ * Criterios múltiples: sesiones completadas, consistencia, performance, tiempo entrenando
+ * Retorna: { shouldUpgrade: boolean, newLevel: string, reason: string }
+ */
+const evaluateUserLevelProgression = (userData, userHistory) => {
+    const currentLevel = normalizeText(userData.experienceLevel || 'principiante');
+    
+    // Ya es avanzado, no hay más niveles
+    if (currentLevel === 'avanzado') {
+        return { shouldUpgrade: false, newLevel: 'avanzado', reason: 'Ya estás en el nivel máximo' };
+    }
+    
+    // Calcular métricas del usuario
+    const completedSessions = userHistory.filter(s => s.feedback && s.feedback.completed).length;
+    const totalSessions = userHistory.length;
+    const completionRate = totalSessions > 0 ? completedSessions / totalSessions : 0;
+    
+    // Fecha de inicio (primera sesión o creación del perfil)
+    let startDate = null;
+    if (userHistory.length > 0) {
+        const dates = userHistory.map(s => s.meta?.date).filter(Boolean).sort();
+        if (dates.length > 0) {
+            startDate = new Date(dates[0]);
+        }
+    }
+    
+    const weeksTraining = startDate ? Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24 * 7)) : 0;
+    
+    // Análisis de performance promedio
+    const sessionsWithFeedback = userHistory.filter(s => s.feedback);
+    const avgRPE = sessionsWithFeedback.length > 0 
+        ? sessionsWithFeedback.reduce((sum, s) => sum + (s.feedback.rpe || 7), 0) / sessionsWithFeedback.length
+        : 7;
+    
+    const avgEnergy = sessionsWithFeedback.length > 0
+        ? sessionsWithFeedback.reduce((sum, s) => sum + (s.feedback.energyLevel || 3), 0) / sessionsWithFeedback.length
+        : 3;
+    
+    // Calcular progresión en cargas (análisis de sobrecarga real)
+    let progressionCount = 0;
+    let totalExercisesTracked = 0;
+    
+    for (let i = 1; i < userHistory.length; i++) {
+        const current = userHistory[i];
+        const previous = userHistory[i - 1];
+        
+        if (!current.mainBlocks || !previous.mainBlocks) continue;
+        
+        current.mainBlocks.forEach(block => {
+            block.exercises.forEach(ex => {
+                // Buscar el mismo ejercicio en la sesión anterior
+                previous.mainBlocks.forEach(prevBlock => {
+                    const prevEx = prevBlock.exercises.find(e => e.id === ex.id);
+                    if (prevEx && ex.performanceData && prevEx.performanceData) {
+                        totalExercisesTracked++;
+                        
+                        const currentAvg = ex.performanceData.actualSets?.reduce((sum, s) => sum + (s.reps || 0), 0) 
+                            / (ex.performanceData.actualSets?.length || 1);
+                        const prevAvg = prevEx.performanceData.actualSets?.reduce((sum, s) => sum + (s.reps || 0), 0) 
+                            / (prevEx.performanceData.actualSets?.length || 1);
+                        
+                        if (currentAvg > prevAvg) progressionCount++;
+                    }
+                });
+            });
+        });
+    }
+    
+    const progressionRate = totalExercisesTracked > 0 ? progressionCount / totalExercisesTracked : 0;
+    
+    // ====== CRITERIOS DE UPGRADE ======
+    
+    // PRINCIPIANTE -> INTERMEDIO
+    if (currentLevel === 'principiante') {
+        const criteria = {
+            minSessions: 24, // ~8 semanas con 3 sesiones/semana
+            minWeeks: 8,
+            minCompletionRate: 0.75,
+            minProgressionRate: 0.3,
+            maxAvgRPE: 8.5 // No debe estar constantemente agotado
+        };
+        
+        const meetsSessionCount = completedSessions >= criteria.minSessions;
+        const meetsTimeRequirement = weeksTraining >= criteria.minWeeks;
+        const meetsConsistency = completionRate >= criteria.minCompletionRate;
+        const meetsProgression = progressionRate >= criteria.minProgressionRate;
+        const meetsRecovery = avgRPE <= criteria.maxAvgRPE;
+        
+        const passedCriteria = [meetsSessionCount, meetsTimeRequirement, meetsConsistency, meetsProgression, meetsRecovery]
+            .filter(Boolean).length;
+        
+        if (passedCriteria >= 4) { // 4 de 5 criterios
+            return {
+                shouldUpgrade: true,
+                newLevel: 'intermedio',
+                reason: `🎉 ¡UPGRADE A INTERMEDIO! Has completado ${completedSessions} sesiones en ${weeksTraining} semanas con ${(completionRate * 100).toFixed(0)}% consistencia y excelente progresión (${(progressionRate * 100).toFixed(0)}%).`,
+                metrics: {
+                    completedSessions,
+                    weeksTraining,
+                    completionRate: (completionRate * 100).toFixed(0) + '%',
+                    progressionRate: (progressionRate * 100).toFixed(0) + '%',
+                    avgRPE: avgRPE.toFixed(1)
+                }
+            };
+        }
+    }
+    
+    // INTERMEDIO -> AVANZADO
+    if (currentLevel === 'intermedio') {
+        const criteria = {
+            minSessions: 60, // ~20 semanas con 3 sesiones/semana
+            minWeeks: 20,
+            minCompletionRate: 0.80,
+            minProgressionRate: 0.25, // Más difícil progresar en intermedio
+            minAvgEnergy: 3.2 // Debe tener buena capacidad de recuperación
+        };
+        
+        const meetsSessionCount = completedSessions >= criteria.minSessions;
+        const meetsTimeRequirement = weeksTraining >= criteria.minWeeks;
+        const meetsConsistency = completionRate >= criteria.minCompletionRate;
+        const meetsProgression = progressionRate >= criteria.minProgressionRate;
+        const meetsRecovery = avgEnergy >= criteria.minAvgEnergy;
+        
+        const passedCriteria = [meetsSessionCount, meetsTimeRequirement, meetsConsistency, meetsProgression, meetsRecovery]
+            .filter(Boolean).length;
+        
+        if (passedCriteria >= 4) { // 4 de 5 criterios
+            return {
+                shouldUpgrade: true,
+                newLevel: 'avanzado',
+                reason: `🏆 ¡UPGRADE A AVANZADO! Has completado ${completedSessions} sesiones en ${weeksTraining} semanas con ${(completionRate * 100).toFixed(0)}% consistencia. Capacidad de recuperación excelente (${avgEnergy.toFixed(1)}/5).`,
+                metrics: {
+                    completedSessions,
+                    weeksTraining,
+                    completionRate: (completionRate * 100).toFixed(0) + '%',
+                    progressionRate: (progressionRate * 100).toFixed(0) + '%',
+                    avgEnergy: avgEnergy.toFixed(1)
+                }
+            };
+        }
+    }
+    
+    // No cumple criterios para upgrade
+    return {
+        shouldUpgrade: false,
+        newLevel: currentLevel,
+        reason: `Sigue progresando. Métricas actuales: ${completedSessions} sesiones, ${weeksTraining} semanas, ${(completionRate * 100).toFixed(0)}% consistencia.`,
+        metrics: {
+            completedSessions,
+            weeksTraining,
+            completionRate: (completionRate * 100).toFixed(0) + '%',
+            progressionRate: (progressionRate * 100).toFixed(0) + '%',
+            avgRPE: avgRPE.toFixed(1),
+            avgEnergy: avgEnergy.toFixed(1)
+        }
     };
 };
 
@@ -684,13 +1027,43 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
         setsIsolation = Math.max(4, setsIsolation);
     }
     const { targetRIR, techniqueNote } = params;
-    if (focus.includes('full') || focus.includes('metabolico') || focus.includes('acondicionamiento')) {
+    
+    // ====== CATEGORIZACIÓN INTELIGENTE DE SESIONES ======
+    if (focus.includes('full') || focus.includes('metabolico') || focus.includes('acondicionamiento') || focus.includes('circuito')) {
         isCircuit = true;
         template = [
             { pattern: ['pierna', 'cuadriceps'], role: 'compound' },
             { pattern: ['empuje', 'pecho', 'hombro'], role: 'compound' },
             { pattern: ['traccion', 'espalda'], role: 'compound' },
             { pattern: ['gluteo', 'isquios'], role: 'compound' },
+        ];
+    } else if (focus.includes('cardio') || focus.includes('abs')) {
+        // Sesiones de Cardio/Abs (acondicionamiento metabólico + core)
+        isCircuit = true;
+        template = [
+            { pattern: ['core', 'abdomen', 'oblicuo'], role: 'compound' },
+            { pattern: ['pierna', 'cuadriceps'], role: 'compound' },
+            { pattern: ['core', 'abdomen'], role: 'isolation' },
+            { pattern: ['pierna', 'gluteo'], role: 'compound' },
+        ];
+    } else if (focus.includes('hyper') || focus.includes('hipertrofia') || focus.includes('pump') || focus.includes('débil')) {
+        // Sesiones de Hipertrofia/Pump (más volumen, menos descanso)
+        template = [
+            { pattern: ['pecho', 'empuje'], role: 'compound' },
+            { pattern: ['espalda', 'traccion'], role: 'compound' },
+            { pattern: ['hombro', 'deltoides'], role: 'isolation' },
+            { pattern: ['biceps'], role: 'isolation' },
+            { pattern: ['triceps'], role: 'isolation' },
+            { pattern: ['pierna', 'gluteo'], role: 'isolation' }
+        ];
+    } else if (focus.includes('fuerza') || focus.includes('sentadilla') || focus.includes('peso muerto') || focus.includes('bench') || focus.includes('banca')) {
+        // Sesiones de Fuerza (menos reps, más carga, más descanso)
+        setsCompound = Math.max(5, setsCompound);
+        template = [
+            { pattern: ['cuadriceps', 'sentadilla', 'pierna'], role: 'compound' },
+            { pattern: ['isquios', 'peso muerto', 'femoral'], role: 'compound' },
+            { pattern: ['pecho', 'press', 'banca'], role: 'compound' },
+            { pattern: ['gluteo', 'pierna'], role: 'isolation' }
         ];
     } else if (focus.includes('torso') || focus.includes('superior')) {
         template = [
@@ -716,12 +1089,32 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
             { pattern: ['biceps'], role: 'isolation' },
             { pattern: ['biceps'], role: 'isolation' }
         ];
-    } else {
+    } else if (focus.includes('hombro') || focus.includes('brazo')) {
+        // Día específico de hombro/brazo
+        template = [
+            { pattern: ['hombro', 'deltoides'], role: 'compound' },
+            { pattern: ['hombro', 'deltoides'], role: 'compound' },
+            { pattern: ['hombro', 'deltoides'], role: 'isolation' },
+            { pattern: ['biceps'], role: 'isolation' },
+            { pattern: ['triceps'], role: 'isolation' }
+        ];
+    } else if (focus.includes('pierna') || focus.includes('gluteo') || focus.includes('legs')) {
+        // Día específico de pierna
         template = [
             { pattern: ['cuadriceps', 'sentadilla'], role: 'compound' },
             { pattern: ['isquios', 'peso muerto', 'femoral'], role: 'compound' },
             { pattern: ['prensa', 'zancada', 'gluteo'], role: 'isolation' },
             { pattern: ['gemelos', 'pantorrilla'], role: 'isolation' }
+        ];
+    } else {
+        // Fallback: Full Body balanceado
+        console.log(`⚠️ Sesión con focus no reconocido: "${sessionFocus}". Usando template Full Body por defecto.`);
+        isCircuit = true;
+        template = [
+            { pattern: ['pierna', 'cuadriceps'], role: 'compound' },
+            { pattern: ['empuje', 'pecho'], role: 'compound' },
+            { pattern: ['traccion', 'espalda'], role: 'compound' },
+            { pattern: ['gluteo', 'isquios'], role: 'compound' },
         ];
     }
     const selectedExercises = [];
@@ -741,7 +1134,7 @@ const generateMainBlock = (pool, sessionFocus, params, userHistory, equipmentCon
             const isCompound = slot.role === 'compound';
             // ===== SOBRECARGA PROGRESIVA CIENTÍFICA =====
             const progression = calculateProgressiveOverload(
-                pick.id,
+                pick, // Ahora pasamos el ejercicio completo para acceder a measureType
                 userHistory,
                 equipmentContext,
                 currentWeekPhase
@@ -838,6 +1231,26 @@ export default async function handler(req, res) {
         if (!currentMesocycle) return res.status(400).json({ error: 'No hay plan activo.' });
 
         const userHistory = historySnapshot.docs.map(doc => doc.data());
+        
+        // ===== EVALUACIÓN AUTOMÁTICA DE NIVEL =====
+        const levelEvaluation = evaluateUserLevelProgression(userDoc.data(), userHistory);
+        let levelUpgradeApplied = false;
+        
+        if (levelEvaluation.shouldUpgrade) {
+            // Actualizar nivel del usuario automáticamente
+            await userRef.update({
+                'profileData.experienceLevel': levelEvaluation.newLevel,
+                'profileData.lastLevelUpgrade': new Date().toISOString(),
+                'profileData.levelUpgradeReason': levelEvaluation.reason
+            });
+            
+            // Actualizar el profileData local para esta sesión
+            profileData.experienceLevel = levelEvaluation.newLevel;
+            levelUpgradeApplied = true;
+            
+            console.log(`✨ Usuario ${userId}升级 a ${levelEvaluation.newLevel}: ${levelEvaluation.reason}`);
+        }
+        
         const dateStringRaw = req.body.date || format(new Date(), 'yyyy-MM-dd');
         const sessionDate = parseISO(dateStringRaw);
 
@@ -887,33 +1300,41 @@ export default async function handler(req, res) {
         // ===== OBTENER EJERCICIOS DE LOS ÚLTIMOS 14 DÍAS =====
         const usedExercisesIds = getExercisesFromRecentHistory(userHistory, 14, sessionDate);
 
-        // Carga de Pools
-        const promises = [
-            db.collection('exercises_utility').get(),        
-            db.collection('exercises_bodyweight_pure').get() 
-        ];
-
-        if (equipmentType === 'gym') {
-            promises.push(db.collection('exercises_gym_full').get());
-        } else {
-            promises.push(db.collection('exercises_home_limited').get());
+        // ===== CARGA DE EJERCICIOS UNIFICADOS =====
+        // 🆕 Todos los ejercicios están en: unified_exercises/all con campo 'exercises'
+        const unifiedDoc = await db.collection('unified_exercises').doc('all').get();
+        
+        if (!unifiedDoc.exists) {
+            return res.status(500).json({ error: 'No se encontró la colección de ejercicios unificados.' });
         }
 
-        const results = await Promise.all(promises);
-        const utilityEx = results[0].docs.map(d => ({ id: d.id, ...d.data() }));
-        const bodyweightEx = results[1].docs.map(d => ({ id: d.id, ...d.data() }));
-        const mainExPoolRaw = results[2].docs.map(d => ({ id: d.id, ...d.data() }));
+        const allExercises = unifiedDoc.data().exercises || [];
+        
+        // Agregar IDs únicos a cada ejercicio basado en su posición si no tienen
+        const allExercisesWithIds = allExercises.map((ex, index) => ({
+            id: ex.id || `ex-${index}-${normalizeText(ex.nombre).replace(/\s+/g, '-')}`,
+            ...ex
+        }));
 
-        // Filtrado Estricto
-        let fullMainPool = [...mainExPoolRaw, ...bodyweightEx.filter(e => normalizeText(e.parteCuerpo) !== 'core')];
+        // Separar por tipo de ejercicio
+        const warmupAndStretchEx = allExercisesWithIds.filter(ex => {
+            const tipo = normalizeText(ex.tipo);
+            return tipo.includes('calentamiento') || tipo.includes('estiramiento') || tipo.includes('movilidad');
+        });
+
+        const mainExercisesRaw = allExercisesWithIds.filter(ex => {
+            const tipo = normalizeText(ex.tipo);
+            return tipo.includes('multiarticular') || tipo.includes('aislamiento') || 
+                   (!tipo.includes('calentamiento') && !tipo.includes('estiramiento') && !tipo.includes('movilidad'));
+        });
+
+        // Filtrado Estricto de ejercicios principales
+        let fullMainPool = mainExercisesRaw;
         fullMainPool = filterExercisesByEquipment(fullMainPool, profileData.availableEquipment || []);
         fullMainPool = filterExercisesByLevel(fullMainPool, profileData.experienceLevel);
         
         // ⭐ FILTRAR POR HISTORIAL (Evitar repetición del mismo día)
         fullMainPool = filterExercisesByHistory(fullMainPool, usedExercisesIds, 10);
-        
-        const bodyweightFiltered = filterExercisesByLevel(bodyweightEx, profileData.experienceLevel);
-        const corePool = bodyweightFiltered.filter(e => normalizeText(e.parteCuerpo) === 'core');
 
         // Construcción de Sesión
         let finalSession = {
@@ -934,7 +1355,7 @@ export default async function handler(req, res) {
         // ===== CONSTRUCCIÓN DE SESIÓN =====
         if (isRecoveryFlag) {
             // ⭐ DÍA DE DESCANSO O RECUPERACIÓN = SOLO MOVILIDAD
-            const mobilityExercises = utilityEx.filter(e => {
+            const mobilityExercises = warmupAndStretchEx.filter(e => {
                 const tipo = normalizeText(e.tipo);
                 return tipo.includes('estiramiento') || tipo.includes('movilidad') || tipo.includes('calentamiento');
             });
@@ -953,9 +1374,9 @@ export default async function handler(req, res) {
                     name: ex.nombre,
                     instructions: ex.descripcion,
                     imageUrl: ex.url,
-                    equipment: "Peso Corporal",
+                    equipment: ex.equipo || "Peso Corporal",
                     sets: 2,
-                    targetReps: "45-60s",
+                    targetReps: ex.measureType === 'time' ? "45-60s" : "8-10 reps",
                     targetRIR: 5,
                     notes: "Movimiento fluido y controlado. Sin esfuerzo.",
                     performanceData: { plannedSets: 2, actualSets: [] }
@@ -963,7 +1384,7 @@ export default async function handler(req, res) {
             }];
         } else {
             // ⭐ SESIÓN DE ENTRENAMIENTO NORMAL
-            finalSession.warmup.exercises = generateWarmup(utilityEx, bodyweightFiltered, targetSession.sessionFocus);
+            finalSession.warmup.exercises = generateWarmup(allExercisesWithIds, targetSession.sessionFocus);
             
             const mainBlock = generateMainBlock(
                 fullMainPool,
@@ -985,13 +1406,12 @@ export default async function handler(req, res) {
                 exercises: mainBlock.exercises
             }];
 
-            if (corePool.length > 0) {
-                const coreBlock = generateCoreBlock(corePool, readiness, profileData.experienceLevel || 'principiante');
-                if (coreBlock) finalSession.coreBlocks.push(coreBlock);
-            }
+            // ⭐ BLOQUE DE CORE
+            const coreBlock = generateCoreBlock(allExercisesWithIds, readiness, profileData.experienceLevel || 'principiante');
+            if (coreBlock) finalSession.coreBlocks.push(coreBlock);
 
             const workedMuscles = finalSession.mainBlocks.flatMap(b => b.exercises).map(e => normalizeText(e.musculoObjetivo || "")).join(" ");
-            let stretches = utilityEx.filter(ex => normalizeText(ex.tipo).includes('estiramiento'));
+            let stretches = warmupAndStretchEx.filter(ex => normalizeText(ex.tipo).includes('estiramiento'));
             let priority = stretches.filter(ex => workedMuscles.includes(normalizeText(ex.parteCuerpo).split(' ')[0]));
             if (priority.length < 3) {
                 const filler = shuffleArray(stretches.filter(x => !priority.includes(x))).slice(0, 3 - priority.length);
@@ -1001,7 +1421,7 @@ export default async function handler(req, res) {
                 id: ex.id,
                 name: ex.nombre,
                 instructions: ex.descripcion,
-                durationOrReps: "30s",
+                durationOrReps: ex.measureType === 'time' ? "30s" : "8 reps",
                 imageUrl: ex.url
             }));
 
@@ -1025,7 +1445,20 @@ export default async function handler(req, res) {
                 readinessMode: readiness.mode,
                 externalLoad: externalLoad,
                 isRestDay: isRestDay,
-                exercisesAvoidedFromHistory: usedExercisesIds.size
+                exercisesAvoidedFromHistory: usedExercisesIds.size,
+                currentLevel: profileData.experienceLevel
+            },
+            // Información de upgrade de nivel (si aplica)
+            levelUpgrade: levelUpgradeApplied ? {
+                upgraded: true,
+                newLevel: levelEvaluation.newLevel,
+                reason: levelEvaluation.reason,
+                metrics: levelEvaluation.metrics
+            } : {
+                upgraded: false,
+                currentLevel: profileData.experienceLevel,
+                progressInfo: levelEvaluation.reason,
+                metrics: levelEvaluation.metrics
             }
         });
 

@@ -181,21 +181,21 @@ export default async function handler(req, res) {
             return res.status(409).json({ error: "Sincronización fallida. Recarga la sesión." });
         }
 
-        // --- D. BUSCAR CANDIDATOS (TODAS LAS COLECCIONES) ---
-        const collections = [
-            'exercises_utility', 
-            'exercises_bodyweight_pure', 
-            'exercises_home_limited', 
-            'exercises_gym_full'
-        ];
+        // --- D. BUSCAR CANDIDATOS (COLECCIÓN UNIFICADA) ---
+        // 🆕 Todos los ejercicios están en: unified_exercises/all con campo 'exercises'
+        const unifiedDoc = await db.collection('unified_exercises').doc('all').get();
+        
+        if (!unifiedDoc.exists) {
+            return res.status(500).json({ error: 'No se encontró la colección de ejercicios unificados.' });
+        }
 
-        let allCandidates = [];
-        const snapshotPromises = collections.map(col => db.collection(col).get());
-        const snapshots = await Promise.all(snapshotPromises);
-
-        snapshots.forEach(snap => {
-            snap.docs.forEach(doc => allCandidates.push({ id: doc.id, ...doc.data() }));
-        });
+        let allCandidates = unifiedDoc.data().exercises || [];
+        
+        // Agregar IDs únicos a cada ejercicio si no tienen
+        allCandidates = allCandidates.map((ex, index) => ({
+            id: ex.id || `ex-${index}-${normalizeText(ex.nombre).replace(/\s+/g, '-')}`,
+            ...ex
+        }));
 
         // --- E. ALGORITMO DE FILTRADO CIENTÍFICO ---
         
@@ -219,10 +219,17 @@ export default async function handler(req, res) {
             // B. Filtro de Inventario (CRÍTICO)
             if (!checkEquipmentAvailability(candidate, availableEquipment || [])) return false;
 
-            // C. Filtro de Nivel
+            // C. Filtro de Nivel (usuarios intermedios y avanzados pueden usar ejercicios de niveles inferiores)
             const exLevel = normalizeText(candidate.nivel || "principiante");
             const userLevel = normalizeText(experienceLevel || "principiante");
-            if (userLevel === 'principiante' && exLevel === 'avanzado') return false;
+            if (userLevel === 'principiante') {
+                // Principiantes: solo ejercicios principiantes
+                if (exLevel !== 'principiante') return false;
+            } else if (userLevel === 'intermedio') {
+                // Intermedios: principiantes e intermedios
+                if (exLevel === 'avanzado') return false;
+            }
+            // Avanzados: todos los niveles (pueden incluir ejercicios de niveles inferiores)
 
             // D. Filtro Biomecánico (Músculo/Función)
             const candMuscle = normalizeText(candidate.musculoObjetivo || candidate.parteCuerpo || "");
