@@ -17,3 +17,8 @@ serviceAccountKey.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Credentials
+.env
+*.backup.json
+.env
+*.backup.json

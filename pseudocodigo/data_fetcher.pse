@@ -1,0 +1,29 @@
+MODULO DataFetcher
+
+FUNCIÓN obtener_datos_contextuales(user_id):
+    
+    1. CONEXIÓN A BASE DE DATOS (Firestore/NoSQL)
+       - Iniciar instancia de conexión segura.
+    
+    2. OBTENER DOCUMENTO DE USUARIO (user_doc)
+       - BUSCAR en colección "users" donde id == user_id
+       - VALIDAR si el documento existe:
+            SI NO existe:
+                LANZAR error "Usuario no encontrado"
+       - EXTRAER propiedades críticas:
+            - profileData (Para lesiones, nivel de experiencia, altura, etc.)
+            - currentMesocycle (El plan macro actual)
+            - history (El array de sesiones pasadas para calcular sobrecarga progresiva)
+            
+    3. OBTENER BASE DE DATOS DE EJERCICIOS (exercise_db)
+       - BUSCAR documento maestro "exercises_catalog" o colección completa.
+       - OPTIMIZACIÓN: Si es posible, cachear esto en memoria (Redis/Vercel KV) ya que no cambia por usuario.
+       - ESTRUCTURA ESPERADA: Array de objetos JSON según el esquema "ESTRUCTURA-EJERCICIOS.md".
+
+    4. RETORNAR OBJETO CONSOLIDADO:
+       {
+           usuario: user_doc,
+           catalogo_ejercicios: exercise_db
+       }
+
+FIN FUNCIÓN

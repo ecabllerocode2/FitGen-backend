@@ -1,0 +1,76 @@
+MODULO EquipmentFilter
+
+FUNCIÓN filtrar_ejercicios_disponibles(catalogo_completo, ubicacion_usuario, inventario_usuario_lista):
+
+    // ENTRADAS:
+    // catalogo_completo: Array de Objetos (Estructura ESTRUCTURA-EJERCICIOS.md)
+    // ubicacion_usuario: String ("gym" | "home")
+    // inventario_usuario_lista: Array de Strings (ej: ["Mancuernas", "Ligas", "Banco"])
+
+    INICIALIZAR ejercicios_validos = []
+
+    PARA CADA ejercicio EN catalogo_completo:
+
+        // --- NIVEL 1: FILTRADO POR UBICACIÓN GENERAL ---
+        
+        SI ubicacion_usuario == "gym":
+            // LÓGICA GYM:
+            // Asumimos que el Gym tiene todo, PERO priorizamos ejercicios de "Alta Calidad"
+            // Descartamos ejercicios que son exclusivamente "parches" para casa si existen versiones mejores.
+            // (Opcional: Si el ejercicio tiene un flag 'isHomeOnly', lo saltamos)
+            
+            AGREGAR ejercicio A ejercicios_validos
+            CONTINUAR iteración
+
+        SINO SI ubicacion_usuario == "home":
+            // LÓGICA HOME: ESTRICTA
+            
+            DEFINIR equipo_requerido = ejercicio.equipo // Esto es un Array en la DB
+            DEFINIR es_viable = FALSO
+
+            // Caso A: Ejercicio de Peso Corporal
+            // Siempre viable, independientemente del equipo
+            SI "Peso Corporal" ESTÁ EN equipo_requerido:
+                es_viable = VERDADERO
+            
+            // Caso B: Coincidencia de Inventario
+            // La propiedad "equipo" en la DB suele ser una lista de opciones válidas OR requerimientos.
+            // Asumimos lógica OR para tipos de resistencia (Mancuernas O Barra) 
+            // pero lógica AND para accesorios (Banco).
+            
+            // ANALISIS DEL ARRAY "equipo" DEL EJERCICIO:
+            // Si el ejercicio pide ["Mancuernas", "Banco Ajustable"] -> Necesita AMBOS?
+            // Generalmente en DBs simples, se etiqueta con lo necesario.
+            // Vamos a asumir la intersección estricta de requerimientos críticos.
+
+            // Simplificación robusta:
+            // Verificamos si CADA elemento requerido por el ejercicio está en el inventario del usuario.
+            // PERO, si el ejercicio tiene opciones multiples (ej: Press Pecho con Barra O Mancuernas),
+            // la DB debería tener entradas separadas o un array de variantes.
+            // Asumiremos que el ejercicio es viable si EL USUARIO TIENE AL MENOS UNO de los items de carga principales listados
+            // Y todos los accesorios requeridos.
+
+            // REGLA DE FILTRADO (INTERSECCIÓN):
+            // Si el ejercicio requiere X, Y, Z. El usuario debe tener X, Y, Z.
+            // Excepción: Si "equipo" incluye "Peso Corporal", pasa directo (arriba).
+            
+            SI es_viable == FALSO:
+                // Comprobamos si el usuario tiene TODO el equipo listado en el ejercicio
+                // (Esto asume que la DB lista REQUISITOS, no opciones. 
+                // Ej: "Press Mancuernas" requiere ["Mancuernas", "Banco"])
+                
+                DEFINIR tiene_todo_el_equipo = VERDADERO
+                PARA CADA item EN equipo_requerido:
+                    SI item NO ESTÁ EN inventario_usuario_lista:
+                        tiene_todo_el_equipo = FALSO
+                        ROMPER
+                
+                SI tiene_todo_el_equipo ES VERDADERO:
+                    es_viable = VERDADERO
+
+            SI es_viable ES VERDADERO:
+                AGREGAR ejercicio A ejercicios_validos
+
+    RETORNAR ejercicios_validos
+
+FIN FUNCIÓN

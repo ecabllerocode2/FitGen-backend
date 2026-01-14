@@ -1,0 +1,83 @@
+MODULO RampGenerator
+
+FUNCIÓN generar_calentamiento(sesion_focus, lesiones_usuario, inventario_ejercicios_validos):
+
+    // ENTRADAS:
+    // sesion_focus: String (ej: "Pierna", "Pecho/Espalda")
+    // lesiones_usuario: String o Array (ej: "Hombro derecho", "Ninguna")
+    // inventario_ejercicios_validos: Array (Ya filtrado por ubicación)
+
+    INICIALIZAR bloque_ramp = []
+    
+    // Mapear el 'Focus' de la sesión a Partes del Cuerpo específicas
+    // Esto sirve para buscar en la DB
+    DEFINIR objetivos_musculares = []
+    SI sesion_focus CONTIENE "Pierna": AGREGAR ["Cuádriceps", "Isquiotibiales", "Glúteos"] A objetivos_musculares
+    SI sesion_focus CONTIENE "Pecho": AGREGAR ["Pecho", "Hombros"] A objetivos_musculares
+    SI sesion_focus CONTIENE "Espalda": AGREGAR ["Espalda", "Bíceps"] A objetivos_musculares
+    SI sesion_focus CONTIENE "Full Body": AGREGAR ["General"] A objetivos_musculares
+
+    // --- FASE 1: R - RAISE (Elevar temperatura) ---
+    // Genérico, metabólico, baja carga.
+    
+    CREAR ejercicio_raise = {
+        fase: "Raise",
+        nombre: "Cardio Ligero / Movilidad Dinámica",
+        duracion: "3-5 minutos",
+        detalle: "Trote estático, Jumping Jacks o Bicicleta suave. Objetivo: Sudor leve.",
+        tipo: "cardio"
+    }
+    AGREGAR ejercicio_raise A bloque_ramp
+
+    // --- FASE 2: A & M - ACTIVATE & MOBILIZE (Activar y Movilizar) ---
+    // Aquí cruzamos datos con las LESIONES y el OBJETIVO.
+
+    // 2.1 Pre-habilitación por Lesión (Prioridad Máxima)
+    SI lesiones_usuario CONTIENE "Hombro":
+        BUSCAR ejercicio EN inventario_ejercicios_validos DONDE:
+            categoriaBloque == "calentamiento" Y
+            parteCuerpo == "Hombros" Y
+            prioridad == 1 // Alta prioridad correctiva
+        AGREGAR resultado A bloque_ramp con nota "Protección de Hombro"
+
+    SI lesiones_usuario CONTIENE "Rodilla":
+        BUSCAR ejercicio EN inventario_ejercicios_validos DONDE:
+            categoriaBloque == "calentamiento" Y
+            (parteCuerpo == "Glúteos" O parteCuerpo == "Isquiotibiales") // Activar cadena posterior protege rodilla
+        AGREGAR resultado A bloque_ramp con nota "Estabilidad de Rodilla"
+
+    // 2.2 Activación Específica de la Sesión
+    // Buscamos ejercicios marcados como 'Activate' o 'Mobilize' en la DB para los músculos de hoy
+    
+    PARA CADA musculo EN objetivos_musculares:
+        BUSCAR CANDIDATOS EN inventario_ejercicios_validos DONDE:
+            categoriaBloque == "calentamiento" Y
+            parteCuerpo == musculo Y
+            faseRAMP ESTÁ EN ["Activate", "Mobilize"]
+        
+        SELECCIONAR MEJOR CANDIDATO (Priorizar "Banda de Resistencia" si el usuario tiene, si no "Peso Corporal")
+        AGREGAR A bloque_ramp (Máximo 2 ejercicios por grupo muscular para no fatigar)
+
+    // --- FASE 3: P - POTENTIATE (Potenciación) ---
+    // Preparación del Sistema Nervioso. Debe imitar el patrón de movimiento principal.
+    
+    DEFINIR patron_principal = NULL
+    SI sesion_focus == "Pierna": patron_principal = "Rodilla" // Sentadilla
+    SI sesion_focus == "Pecho/Espalda": patron_principal = "Empuje_H" // Press
+
+    SI patron_principal NO ES NULL:
+        BUSCAR CANDIDATO EN inventario_ejercicios_validos DONDE:
+            categoriaBloque == "calentamiento" Y
+            faseRAMP == "Potentiate" Y
+            patronMovimiento == patron_principal
+        
+        // Ejemplos típicos: Saltos (Pierna), Plyo Pushups (Pecho), Med Ball Slam (Espalda)
+        
+        SI CANDIDATO EXISTE:
+            AGREGAR CANDIDATO A bloque_ramp
+            ESTABLECER sets: 2, reps: 3, intesidad: "Explosiva"
+            // La ciencia dice: Bajo volumen, máxima velocidad de ejecución.
+
+    RETORNAR bloque_ramp
+
+FIN FUNCIÓN

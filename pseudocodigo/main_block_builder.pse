@@ -1,0 +1,74 @@
+MODULO MainBlockBuilder
+
+FUNCIÓN construir_bloque_principal(sesion_obj, microciclo, historial, ajustes, inventario, nivel_exp, db_ejercicios):
+
+    // ENTRADAS:
+    // sesion_obj: El documento de la sesión (ej: "Empuje/Tracción")
+    // ajustes: Objeto del ReadinessManager (factores de volumen y RPE)
+    // inventario: Ejercicios ya filtrados por equipo disponible
+    // historial: Array de últimas 30 sesiones del usuario
+
+    INICIALIZAR bloque_final = []
+    
+    // 1. MAPEO DE PATRONES DE MOVIMIENTO (Prioridad Científica)
+    // Extraemos qué patrones deben cubrirse hoy según el "sessionFocus"
+    DEFINIR patrones_a_cubrir = MAPEAR_FOCUS_A_PATRONES(sesion_obj.sessionFocus)
+    // Ej: "Empuje" -> [Empuje_H (Banca), Empuje_V (Hombro), Tríceps (Aislamiento)]
+
+    // 2. DETERMINACIÓN DE SLOTS (Estructura de la Sesión)
+    // Para un usuario AVANZADO (como indica el perfil), la estructura es:
+    // Slot 1: Primario (Multiarticular Pesado, Prioridad 1, Dificultad Alta)
+    // Slot 2: Secundario (Multiarticular, Prioridad 1-2, Dificultad Media)
+    // Slot 3: Accesorio (Unilateral o Máquina, Prioridad 2)
+    // Slot 4: Aislamiento (Prioridad 3, Estrés Metabólico)
+
+    PARA CADA patron EN patrones_a_cubrir:
+        
+        // 3. SELECCIÓN BIOMECÁNICA POR PRIORIDAD
+        // Buscamos el ejercicio que mejor se adapte al equipo disponible
+        PARA prioridad_buscada DESDE 1 HASTA 3:
+            
+            DEFINIR candidatos = BUSCAR EN inventario DONDE:
+                patronMovimiento == patron Y
+                prioridad == prioridad_buscada
+            
+            SI candidatos ESTÁ VACÍO: CONTINUAR (Siguiente prioridad)
+
+            // CRITERIO DE SELECCIÓN "INTELIGENTE":
+            // Evitamos repetir el mismo ejercicio exacto de la sesión anterior si el historial 
+            // muestra estancamiento (meseta) en las últimas 3 sesiones.
+            DEFINIR ejercicio_elegido = SELECCIONAR_MEJOR_CANDIDATO(candidatos, historial)
+
+            // 4. PRESCRIPCIÓN DE CARGA Y VOLUMEN (Llamada al experto en matemáticas)
+            DEFINIR prescripcion = LLAMAR LoadCalculator.calcular_carga_precisa(
+                ejercicio_elegido,
+                historial,
+                microciclo,
+                ajustes
+            )
+
+            // 5. AJUSTE DE VOLUMEN (Sets)
+            // Tomamos el volumen base del microciclo y aplicamos el modificador de fatiga
+            DEFINIR sets_base = (prioridad_buscada == 1) ? 4 : 3 
+            DEFINIR sets_finales = REDONDEAR(sets_base * ajustes.factor_volumen)
+
+            // 6. ENSAMBLAJE DEL EJERCICIO
+            AGREGAR A bloque_final: {
+                id: ejercicio_elegido.id,
+                nombre: ejercicio_elegido.nombre,
+                sets: sets_finales,
+                reps: prescripcion.reps_objetivo,
+                peso: prescripcion.peso_sugerido,
+                rpe_target: prescripcion.rpe_final,
+                rir_target: prescripcion.rir_final,
+                descanso: microciclo.restProtocol.betweenSets,
+                tempo: prescripcion.tempo,
+                notas_tecnicas: ejercicio_elegido.correcciones,
+                justificacion_carga: prescripcion.explicacion
+            }
+
+            ROMPER (Saltar al siguiente patrón para no saturar con una sola prioridad)
+
+    RETORNAR bloque_final
+
+FIN FUNCIÓN

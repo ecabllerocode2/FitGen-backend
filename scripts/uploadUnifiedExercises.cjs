@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Inicializa Firebase Admin con la clave de servicio
-const serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = require('../serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });

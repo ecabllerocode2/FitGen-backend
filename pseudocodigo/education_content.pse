@@ -1,0 +1,39 @@
+MODULO EducationContent
+
+FUNCIÓN generar_narrativa_didactica(sesion, ajustes, bloque_principal, ubicacion):
+
+    INICIALIZAR contenido = {
+        resumen_fisiologico: "",
+        fases_explicadas: [],
+        consejo_tecnico: ""
+    }
+
+    // 1. EXPLICACIÓN DEL ENFOQUE (Contexto del Mesociclo)
+    contenido.resumen_fisiologico = "Hoy tu sesión se enfoca en " + sesion.sessionFocus + ". "
+    SI sesion.mesocycleGoal == "Adaptacion_Anatomica_y_Control":
+        contenido.resumen_fisiologico += "Estamos en fase de Adaptación: el objetivo es fortalecer tendones y perfeccionar el patrón motor antes de subir cargas pesadas."
+
+    // 2. EXPLICACIÓN DE LA AUTOREGULACIÓN
+    SI ajustes.factor_volumen < 1.0:
+        contenido.consejo_tecnico = "Notamos que tu energía es baja hoy. La ciencia muestra que es mejor reducir la cantidad de series que el peso para mantener tus ganancias de fuerza. ¡Calidad sobre cantidad!"
+
+    // 3. DESGLOSE DIDÁCTICO POR BLOQUE (Para el Frontend)
+    AGREGAR A contenido.fases_explicadas: {
+        fase: "RAMP (Calentamiento)",
+        explicacion: "No es solo estirar. Elevamos tu temperatura, activamos músculos débiles y 'despertamos' tu sistema nervioso para los ejercicios pesados."
+    }
+
+    AGREGAR A contenido.fases_explicadas: {
+        fase: "Bloque Principal",
+        explicacion: "Ordenamos los ejercicios de mayor a menor demanda neurológica. Empezamos con movimientos multiarticulares para maximizar la liberación hormonal y el reclutamiento de fibras."
+    }
+
+    SI ubicacion == "home":
+        AGREGAR A contenido.fases_explicadas: {
+            fase: "Entrenamiento en Casa",
+            explicacion: "Al no tener máquinas pesadas, usamos 'Manipulación de Variables Temporales' (Tempos lentos). Esto genera el mismo estrés metabólico necesario para el crecimiento muscular."
+        }
+
+    RETORNAR contenido
+
+FIN FUNCIÓN

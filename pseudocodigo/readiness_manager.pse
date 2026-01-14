@@ -1,0 +1,80 @@
+MODULO ReadinessManager
+
+FUNCIÓN calcular_ajustes_autoregulacion(nivel_energia, nivel_dolor, zona_dolor, musculos_sesion_hoy, fase_mesociclo):
+
+    // ENTRADAS:
+    // nivel_energia: Entero (1-5) | 1=Agotado, 5=Eufórico
+    // nivel_dolor: Entero (1-5) | 1=Sin dolor, 5=Incapacitante
+    // zona_dolor: String (ej: "Hombros")
+    // musculos_sesion_hoy: Lista de Strings (ej: ["Pecho", "Hombros", "Tríceps"])
+    // fase_mesociclo: String (ej: "Sobrecarga", "Descarga")
+
+    INICIALIZAR ajustes = {
+        factor_volumen: 1.0,           // Multiplicador de Series (Sets)
+        delta_rpe: 0,                  // Ajuste al RPE objetivo (ej: -1)
+        delta_rir: 0,                  // Ajuste a las Reps en Reserva
+        protocolo_descanso: "normal",  // "normal", "extendido", "activo"
+        tipo_sesion_modificada: NULL,  // Si cambia drásticamente (ej: a "Recuperación")
+        advertencias: []               // Feedback educativo para el usuario
+    }
+
+    // --- 1. ANÁLISIS DEL SISTEMA NERVIOSO CENTRAL (SNC) ---
+    // Basado en nivel_energia. El SNC regula la fuerza máxima y la coordinación.
+    
+    CASO nivel_energia:
+        1: // Estado de "Crash" o enfermedad inminente
+            ajustes.factor_volumen = 0.5  // Cortar volumen a la mitad (Regla de Prilepin modificada)
+            ajustes.delta_rpe = -2        // Reducir intensidad drásticamente
+            ajustes.delta_rir = +2        // Alejarse del fallo
+            ajustes.protocolo_descanso = "extendido"
+            AGREGAR "Energía crítica: Sesión convertida a 'Técnica/Recuperación'. Prioridad: Movimiento sin fatiga." A ajustes.advertencias
+        
+        2: // Fatiga acumulada notable
+            ajustes.factor_volumen = 0.75 // Reducir 25% del volumen (ej: quitar 1 set de ejercicios secundarios)
+            // NOTA CIENTÍFICA: Mantenemos la intensidad (RPE) si es posible para no perder adaptaciones neurales, 
+            // pero reducimos la "cantidad" de trabajo.
+            AGREGAR "Fatiga detectada: Reducimos el volumen total para preservar la calidad de cada repetición." A ajustes.advertencias
+
+        3: // Normal / Mantenimiento
+            // Sin cambios
+        
+        4 O 5: // Estado de Potenciación
+            SI fase_mesociclo ES "Sobrecarga" O "Intensificación":
+                ajustes.delta_rpe = +0.5  // Permitir leve incremento si el usuario se siente capaz
+                AGREGAR "Estado óptimo: Tienes luz verde para buscar el límite superior del RPE hoy." A ajustes.advertencias
+            SINO (Si es "Descarga" o "Adaptación"):
+                // FRENAR al usuario. Aunque tenga energía, debe respetar la fase.
+                AGREGAR "Alta energía detectada, pero recuerda: esta semana es de 'Control'. Usa esa energía para perfeccionar la técnica (Tempo), no para subir peso." A ajustes.advertencias
+
+    // --- 2. ANÁLISIS DE DAÑO TISULAR LOCAL (DOMS/DOLOR) ---
+    // Verificar si el dolor coincide con lo que vamos a entrenar hoy.
+    
+    DEFINIR hay_conflicto_muscular = FALSO
+    SI zona_dolor ESTÁ INCLUIDA EN musculos_sesion_hoy:
+        hay_conflicto_muscular = VERDADERO
+
+    SI hay_conflicto_muscular ES VERDADERO:
+        CASO nivel_dolor:
+            1 O 2: 
+                // Dolor leve, continuar plan. El calentamiento suele disiparlo.
+            
+            3: // Dolor moderado
+                ajustes.delta_rir = +1    // Dejar una repetición extra en reserva para seguridad
+                ajustes.protocolo_descanso = "activo" // Más movilidad entre sets
+                AGREGAR `Precaución en ${zona_dolor}. Aumentamos el RIR para evitar fallos técnicos.` A ajustes.advertencias
+
+            4: // Dolor severo (Riesgo de lesión)
+                ajustes.tipo_sesion_modificada = "Hipertrofia_Metabolica" 
+                // CAMBIO DE ESTRATEGIA: Dejamos de buscar Tensión Mecánica (peso alto) y pasamos a Estrés Metabólico (peso bajo, altas reps, bombeo).
+                ajustes.delta_rpe = -3
+                ajustes.factor_volumen = 0.8
+                AGREGAR `Dolor alto en ${zona_dolor}. Cambiamos enfoque a 'Bombeo' para nutrir el músculo sin estresar tendones.` A ajustes.advertencias
+
+            5: // Dolor incapacitante
+                ajustes.factor_volumen = 0
+                AGREGAR `ALERTA: El dolor en ${zona_dolor} es excesivo. Descanso total sugerido para este grupo muscular.` A ajustes.advertencias
+                // Nota: El orquestador debería probablemente cancelar los ejercicios de este grupo muscular.
+
+    RETORNAR ajustes
+
+FIN FUNCIÓN

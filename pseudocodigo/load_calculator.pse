@@ -1,0 +1,67 @@
+MODULO LoadCalculator
+
+FUNCIÓN calcular_carga_precisa(ejercicio, historial, microciclo, ajustes):
+
+    // 1. BUSCAR DATA EN EL HISTORIAL
+    // Filtramos las últimas 3 veces que el usuario hizo este ejercicio exacto
+    DEFINIR registros_pasados = historial.FILTRAR(h => h.exerciseId == ejercicio.id)
+    
+    // Variables base del microciclo
+    DEFINIR rpe_base = microciclo.intensityRpe // ej: 8
+    DEFINIR rir_objetivo = microciclo.targetRIR // ej: 2
+    DEFINIR rpe_final = rpe_base + ajustes.delta_rpe
+
+    SI registros_pasados ES VACÍO:
+        // Lógica de "Primera Sesión" o "Sin Datos"
+        RETORNAR {
+            peso_sugerido: "Exploratorio (RPE " + rpe_final + ")",
+            reps_objetivo: "10-12",
+            tempo: "3-1-1-0", // Tempo lento por seguridad en ejercicio nuevo
+            explicacion: "No tenemos historial para este ejercicio. Busca un peso que te permita terminar sintiendo que podrías hacer " + rir_objetivo + " más."
+        }
+
+    // 2. CÁLCULO DE FUERZA ACTUAL (e1RM)
+    // Usamos la última entrada del historial para estimar el 1RM
+    DEFINIR ultimo = registros_pasados[0]
+    // Fórmula de Brzycki: 1RM = Peso / (1.0278 - (0.0278 * Reps))
+    // Ajustamos Reps sumando el RIR que el usuario reportó la última vez
+    DEFINIR reps_reales = ultimo.reps_completadas + ultimo.rir_reportado
+    DEFINIR e1RM = ultimo.peso_usado / (1.0278 - (0.0278 * reps_reales))
+
+    // 3. DETERMINAR PESO OBJETIVO PARA HOY
+    // Aplicamos la tabla de porcentajes de intensidad según el RPE y Reps programadas (ej: 8 reps)
+    DEFINIR reps_hoy = 8 // Default para avanzados en fase de fuerza/hipertrofia
+    DEFINIR porcentaje_esfuerzo = OBTENER_PORCENTAJE_TABLA_PRILEPIN(rpe_final, reps_hoy)
+    
+    DEFINIR peso_teorico = e1RM * porcentaje_esfuerzo
+
+    // 4. GUARDRAILS DE SEGURIDAD (Critical!)
+    DEFINIR peso_maximo_seguro = ultimo.peso_usado * 1.05 // Máximo incremento del 5%
+    DEFINIR peso_final = peso_teorico
+
+    SI peso_final > peso_maximo_seguro:
+        peso_final = peso_maximo_seguro
+        DEFINIR razon = "Incremento limitado al 5% por seguridad biomecánica."
+    SINO:
+        DEFINIR razon = "Sobrecarga calculada según tu e1RM actual."
+
+    // 5. AJUSTE PARA CASA (EQUIPO LIMITADO)
+    // Si el peso sugerido es 20kg pero el usuario solo tiene mancuernas de 10kg
+    SI peso_final > EQUIPO_DISPONIBLE_MAX(ejercicio):
+        RETORNAR {
+            peso_sugerido: EQUIPO_DISPONIBLE_MAX(ejercicio),
+            reps_objetivo: "Fallo Técnico (AMRAP)",
+            tempo: "4-2-1-0", // Ralentizar excéntrica e isométrica para compensar carga
+            explicacion: "Superas el peso disponible en casa. Aumentamos el Tiempo bajo Tensión (Tempo) para generar la misma fatiga muscular."
+        }
+
+    RETORNAR {
+        peso_sugerido: REDONDEAR_A_DISCO_MINIMO(peso_final),
+        reps_objetivo: reps_hoy,
+        rpe_final: rpe_final,
+        rir_final: rir_objetivo,
+        tempo: "2-0-1-0",
+        explicacion: razon
+    }
+
+FIN FUNCIÓN

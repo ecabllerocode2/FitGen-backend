@@ -7,8 +7,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "emulators": "firebase emulators:start",
     "deploy": "vercel --prod",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "upload-exercises": "node uploadExercises.js"
   },
   "keywords": [
     "fitness",
@@ -18,12 +20,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.967.0",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "firebase-admin": "^13.6.0",
-    "lucide-react": "^0.554.0"
+    "lucide-react": "^0.554.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.11",

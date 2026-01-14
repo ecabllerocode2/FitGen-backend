@@ -1,0 +1,130 @@
+ALGORITMO Orchestrator (Endpoint Principal)
+
+ENTRADAS (Desde Frontend):
+    - input_user_id (String)
+    - input_energy_level (Entero 1-5)
+    - input_soreness_level (Entero 1-5)
+    - input_soreness_area (String, ej: "Pecho", opcional)
+    - input_location ("gym" | "home")
+    - input_available_equipment (Array de Strings)
+
+PASO 1: RECUPERACIÓN DE DATOS
+    LLAMAR a DataFetcher.obtener_datos_contextuales(input_user_id)
+    GUARDAR en variables: user_profile, mesocycle_data, exercise_db, user_history
+
+PASO 2: DETERMINACIÓN DEL CONTEXTO TEMPORAL (¿Qué toca hoy?)
+    DEFINIR fecha_inicio = FECHA(mesocycle_data.currentMesocycle.startDate)
+    DEFINIR fecha_hoy = FECHA_ACTUAL()
+    
+    CALCULAR dias_transcurridos = DIFERENCIA_DIAS(fecha_hoy, fecha_inicio)
+    CALCULAR indice_semana_actual = SUELO(dias_transcurridos / 7)
+    
+    // Validar límites del mesociclo
+    SI indice_semana_actual >= mesocycle_data.mesocyclePlan.durationWeeks:
+        RETORNAR Excepción "Mesociclo finalizado. Generar nuevo ciclo."
+
+    // Obtener la semana específica (Microciclo)
+    DEFINIR microciclo_actual = mesocycle_data.mesocyclePlan.microcycles[indice_semana_actual]
+    
+    // Determinar día de la semana (Lunes, Martes...)
+    DEFINIR dia_semana_string = OBTENER_DIA_SEMANA(fecha_hoy) 
+    
+    // Buscar la sesión programada para hoy en el array 'sessions'
+    DEFINIR sesion_objetivo = BUSCAR en microciclo_actual.sessions DONDE session.dayOfWeek == dia_semana_string
+
+    SI sesion_objetivo ES NULL:
+        RETORNAR Respuesta "Día de descanso" (O lógica de reprogramación si el usuario insiste en entrenar)
+
+PASO 3: ANÁLISIS DE PREPARACIÓN (READINESS) Y AUTOREGULACIÓN
+    // Aquí aplicamos Ciencia del Deporte: Modelo de Aptitud-Fatiga
+    
+    INICIALIZAR factores_ajuste = {
+        modificador_volumen: 1.0,      // 100% de los sets planeados
+        modificador_intensidad_rpe: 0, // Sin cambio en RPE
+        modificador_foco: "normal",    // Sin cambio de estructura
+        aviso_usuario: []
+    }
+
+    // A. Regla de Energía (SNC)
+    SI input_energy_level <= 2:
+        factores_ajuste.modificador_volumen = 0.6 // Reducir volumen al 60%
+        factores_ajuste.modificador_intensidad_rpe = -1 // Bajar 1 punto el RPE objetivo
+        AGREGAR a aviso_usuario: "Energía baja detectada. Priorizamos mantener la intensidad pero bajamos el volumen para no fatigar el SNC."
+
+    // B. Regla de Dolor Local (DOMS) - Específico al grupo muscular de hoy
+    DEFINIR musculos_sesion_hoy = PARSEAR(sesion_objetivo.sessionFocus) // Ej: ["Pecho", "Espalda"]
+    
+    SI input_soreness_level >= 4 Y (input_soreness_area ESTÁ EN musculos_sesion_hoy):
+        // Si duele mucho lo que vamos a entrenar hoy
+        factores_ajuste.modificador_foco = "metabolico_recuperacion"
+        factores_ajuste.modificador_intensidad_rpe = -2
+        AGREGAR a aviso_usuario: "Alto dolor muscular local. Cambiamos a estrés metabólico (bombeo) para promover flujo sanguíneo sin daño mecánico."
+
+PASO 4: DEFINICIÓN DE INVENTARIO DISPONIBLE (LOGÍSTICA)
+    DEFINIR equipamiento_final = []
+
+    SI input_location == "gym":
+        // Asumimos acceso total
+    
+    SINO (input_location == "home"):
+        equipamiento_final = input_available_equipment
+        // Asegurar que Peso Corporal siempre esté disponible
+        SI "Peso Corporal" NO ESTÁ EN equipamiento_final:
+            AGREGAR "Peso Corporal" a equipamiento_final
+
+PASO 5: GENERACIÓN DE BLOQUES (LLAMADAS A SUB-MÓDULOS)
+    
+    // 5.1 CALENTAMIENTO (RAMP)
+    // Pasamos las lesiones para que el calentamiento incluya pre-habilitación
+    DEFINIR bloque_warmup = LLAMAR RampGenerator(
+        objetivo_sesion: sesion_objetivo.sessionFocus,
+        perfil_lesiones: user_profile.profileData.injuriesOrLimitations,
+        equipamiento: equipamiento_final,
+        base_datos: exercise_db
+    )
+
+    // 5.2 BLOQUE PRINCIPAL (MAIN)
+    // Este es el corazón biomecánico.
+    DEFINIR bloque_principal = LLAMAR MainBlockBuilder(
+        sesion_estructura: sesion_objetivo, // El objeto session del JSON
+        microciclo_contexto: microciclo_actual, // Para saber targetRIR, intensityRpe global
+        historial_usuario: user_history, // Para calcular pesos (load calculation)
+        ajustes_readiness: factores_ajuste, // Para modificar sets/reps según energía
+        equipamiento: equipamiento_final,
+        nivel_experiencia: user_profile.profileData.experienceLevel, // "Avanzado"
+        base_datos: exercise_db
+    )
+
+    // 5.3 BLOQUE DE CORE (Si aplica)
+    DEFINIR bloque_core = NULL
+    SI sesion_objetivo.includeCore == TRUE:
+        bloque_core = LLAMAR CoreBuilder(
+            foco_core: sesion_objetivo.coreFocus, // Ej: "Anti-movimiento pesado"
+            equipamiento: equipamiento_final,
+            base_datos: exercise_db
+        )
+
+    // 5.4 ENFRIAMIENTO (COOL DOWN)
+    DEFINIR bloque_cooldown = LLAMAR CoolDownGenerator(
+        objetivo_sesion: sesion_objetivo.sessionFocus,
+        intensidad_sesion: microciclo_actual.intensityRpe
+    )
+
+PASO 6: CONSTRUCCIÓN Y RETORNO DE RESPUESTA
+    CONSTRUIR objeto_respuesta:
+        - metadata:
+            - titulo: sesion_objetivo.sessionFocus
+            - fase_mesociclo: microciclo_actual.focus // Ej: "Adaptación"
+            - duracion_estimada: CALCULAR_TIEMPO(bloque_warmup, bloque_principal, bloque_core)
+            - explicacion_ajustes: factores_ajuste.aviso_usuario
+        - estructura_sesion:
+            - calentamiento: bloque_warmup
+            - bloque_principal: bloque_principal
+            - core: bloque_core
+            - enfriamiento: bloque_cooldown
+        - educacion:
+            - tip_del_dia: GENERAR_TIP_BASADO_EN(microciclo_actual.notes)
+
+    RETORNAR objeto_respuesta
+
+FIN ALGORITMO

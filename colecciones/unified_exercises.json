@@ -7,7 +7,7 @@
     "musculoObjetivo": "Pecho y Hombros",
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
-    "url": "",
+    "url": "https://youtu.be/kVCY7k5U4rM",
     "isDynamic": false,
     "measureType": "time"
   },
@@ -19,7 +19,7 @@
     "musculoObjetivo": "Pecho y Deltoides Anterior",
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
-    "url": "",
+    "url": "https://youtu.be/edQTgersXDI",
     "isDynamic": false,
     "measureType": "time"
   },
@@ -31,7 +31,7 @@
     "musculoObjetivo": "Espalda/Dorsal Ancho",
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
-    "url": "",
+    "url": "https://youtu.be/irWOzr2t-5E",
     "isDynamic": false,
     "measureType": "time"
   },
@@ -43,7 +43,7 @@
     "musculoObjetivo": "Espalda y Lumbares",
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
-    "url": "",
+    "url": "https://youtu.be/fBFsaEuw0tk",
     "isDynamic": false,
     "measureType": "time"
   },
@@ -55,7 +55,7 @@
     "musculoObjetivo": "Hombros",
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
-    "url": "",
+    "url": "https://youtu.be/MuUDXD3Jxsc",
     "isDynamic": false,
     "measureType": "time"
   },
@@ -104,8 +104,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento Figura Cuatro Tumbado (Glúteo)",
@@ -164,8 +164,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento Oblicuo de Pie (Standing Side Bend)",
@@ -200,8 +200,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento de Antebrazo Extensor",
@@ -224,8 +224,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Flexión de Tronco hacia Adelante (De Pie)",
@@ -248,8 +248,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento de la Cadena Lateral (Side Lunge Stretch)",
@@ -260,8 +260,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento de Cobra (Cobra Pose)",
@@ -272,8 +272,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento de Muñeca (Dorso)",
@@ -284,8 +284,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento de Antebrazo Flexor",
@@ -380,8 +380,8 @@
     "equipo": "Peso Corporal",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": false,
-    "measureType": "time"
+    "isDynamic": true,
+    "measureType": "reps"
   },
   {
     "nombre": "Gato-Vaca (Cat-Cow)",
@@ -428,8 +428,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rodar el Cuádriceps (Rolling Quads)",
@@ -440,8 +440,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rodar los Glúteos y Piriforme",
@@ -452,8 +452,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rodar la Columna Torácica (T-Spine Extension)",
@@ -464,8 +464,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rodar los Femorales (Hamstrings)",
@@ -476,8 +476,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Caminata Lateral (Side Walks) con Mini Banda",
@@ -596,8 +596,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rodar la Banda IT (IT Band)",
@@ -608,8 +608,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Rotación de Tobillos (Ankle Rolls)",
@@ -632,8 +632,8 @@
     "equipo": "Foam Roller",
     "nivel": "Principiante",
     "url": "",
-    "isDynamic": true,
-    "measureType": "reps"
+    "isDynamic": false,
+    "measureType": "time"
   },
   {
     "nombre": "Estiramiento Dinámico de Muñecas (Flexión/Extensión)",

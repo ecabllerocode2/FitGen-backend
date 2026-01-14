@@ -1,0 +1,1181 @@
+{
+  "createdAt": "2026-01-13T21:40:42.070Z",
+  "lastProfileUpdate": "2026-01-13T21:40:42.070Z",
+  "profileData": {
+    "gender": "Masculino",
+    "injuriesOrLimitations": "Ninguna",
+    "heightCm": 175,
+    "hasHomeEquipment": true,
+    "focusArea": "Tren_Superior",
+    "fitnessGoal": "Hipertrofia",
+    "trainingDaysPerWeek": 5,
+    "weeklyScheduleContext": [
+      {
+        "day": "Lunes",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Martes",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Miércoles",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Jueves",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Viernes",
+        "canTrain": true,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Sábado",
+        "canTrain": false,
+        "externalLoad": "none"
+      },
+      {
+        "day": "Domingo",
+        "canTrain": false,
+        "externalLoad": "none"
+      }
+    ],
+    "experienceLevel": "Avanzado",
+    "dateCompleted": "2026-01-13T21:40:41.972Z",
+    "availableEquipment": [
+      "Mancuernas (Dumbbells)",
+      "Mancuernas (Dumbbells) (10kg)"
+    ],
+    "name": "EDER PRUEBA",
+    "preferredTrainingDays": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes"
+    ],
+    "age": 31,
+    "initialWeight": 75
+  },
+  "plan": "free",
+  "userId": "GfaHSZoykbu45aXoGA1EF5RCtjTp",
+  "email": "ochoahudson@gmail.com",
+  "status": "approved",
+  "lastMesocycleGeneration": "2026-01-13T21:40:46.899Z",
+  "currentMesocycle": {
+    "metadata": {
+      "trainingDaysPerWeek": 5,
+      "userLevel": "Avanzado",
+      "userGoal": "Hipertrofia",
+      "phaseGoal": "Adaptacion_Anatomica_y_Control",
+      "adaptiveAdjustmentApplied": false
+    },
+    "llmModelUsed": "v8-algoritmo-pseudocodigo-completo",
+    "endDate": "2026-02-09T06:00:00.000Z",
+    "generationDate": "2026-01-13T21:40:46.898Z",
+    "mesocyclePlan": {
+      "durationWeeks": 4,
+      "goalReason": "Primer mesociclo: fase de adaptación anatómica y aprendizaje motor",
+      "methodDescription": "Estaciones convencionales",
+      "splitDescription": "Split de 5 días para nivel Avanzado",
+      "coreFrequency": 2,
+      "microcycles": [
+        {
+          "week": 1,
+          "focus": "Adaptación/Cargas Introductorias",
+          "intensityRpe": "6/10 (RPE 6)",
+          "targetRIR": 4,
+          "notes": "Fase de Introducción: Prioriza la calidad de movimiento y aprendizaje motor.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pecho/Espalda",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pecho/Espalda",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pierna",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Hombro/Brazo",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Hombro/Brazo",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Full Body",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Core/Cardio",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Core/Cardio",
+                "futureRisk": "safe"
+              }
+            }
+          ],
+          "restProtocol": {
+            "betweenSets": 90,
+            "betweenExercises": 60
+          }
+        },
+        {
+          "week": 2,
+          "focus": "Acumulación de Volumen",
+          "intensityRpe": "7/10 (RPE 7)",
+          "targetRIR": 3,
+          "notes": "Fase de Carga: Intenta aumentar peso o repeticiones manteniendo buena técnica.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pecho/Espalda",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pecho/Espalda",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pierna",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Hombro/Brazo",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Hombro/Brazo",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Full Body",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Core/Cardio",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Core/Cardio",
+                "futureRisk": "safe"
+              }
+            }
+          ],
+          "restProtocol": {
+            "betweenSets": 90,
+            "betweenExercises": 60
+          }
+        },
+        {
+          "week": 3,
+          "focus": "Sobrecarga/Intensificación",
+          "intensityRpe": "8.5/10 (RPE 8.5)",
+          "targetRIR": 1.5,
+          "notes": "Fase de Pico: Cerca del fallo técnico. Máxima intensidad de todo el ciclo.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pecho/Espalda",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pecho/Espalda",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pierna",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Hombro/Brazo",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Hombro/Brazo",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Full Body",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Core/Cardio",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Core/Cardio",
+                "futureRisk": "safe"
+              }
+            }
+          ],
+          "restProtocol": {
+            "betweenSets": 90,
+            "betweenExercises": 60
+          }
+        },
+        {
+          "week": 4,
+          "focus": "Descarga (Deload)",
+          "intensityRpe": "5/10 (RPE 5)",
+          "targetRIR": 5,
+          "notes": "Fase de Recuperación: Reduce peso 30% y volumen 50%. Permite supercompensación.",
+          "sessions": [
+            {
+              "dayOfWeek": "Lunes",
+              "sessionFocus": "Pecho/Espalda",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pecho/Espalda",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Martes",
+              "sessionFocus": "Pierna",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Pierna",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Miércoles",
+              "sessionFocus": "Hombro/Brazo",
+              "structureType": "Estaciones_Puras",
+              "includeCore": true,
+              "coreFocus": "Anti-movimiento pesado",
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Hombro/Brazo",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Jueves",
+              "sessionFocus": "Full Body",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Full Body",
+                "futureRisk": "safe"
+              }
+            },
+            {
+              "dayOfWeek": "Viernes",
+              "sessionFocus": "Core/Cardio",
+              "structureType": "Estaciones_Puras",
+              "includeCore": false,
+              "coreFocus": null,
+              "context": {
+                "externalFatigue": "none",
+                "adjustmentApplied": null,
+                "basePlan": "Core/Cardio",
+                "futureRisk": "safe"
+              }
+            }
+          ],
+          "restProtocol": {
+            "betweenSets": 90,
+            "betweenExercises": 60
+          }
+        }
+      ],
+      "mesocycleGoal": "Adaptacion_Anatomica_y_Control",
+      "coreIntensity": "Alta",
+      "strategy": "Split_5_Dias_Avanzado con Estaciones_Puras",
+      "coreFocus": "Anti-movimiento pesado"
+    },
+    "progress": 0,
+    "currentWeek": 1,
+    "startDate": "2026-01-12T06:00:00.000Z",
+    "status": "active"
+  },
+  "nextCycleConfig": null,
+  "planStatus": "active",
+  "currentSession": {
+    "id": "mkdc09rk249crtg36",
+    "generatedAt": "2026-01-14T01:18:05.168Z",
+    "generationTimeMs": 87,
+    "version": "2.0.0",
+    "userId": "GfaHSZoykbu45aXoGA1EF5RCtjTp",
+    "mesocycleId": "meso_1768197600000",
+    "microcycleIndex": 0,
+    "sessionIndex": 1,
+    "sessionFocus": "Pierna",
+    "dayOfWeek": "Martes",
+    "phase": "Adaptación/Cargas Introductorias",
+    "weekNumber": 1,
+    "trainingParameters": {
+      "rpeTarget": 6,
+      "rirTarget": 5,
+      "volumeConfig": {
+        "setsPerMuscleGroup": {
+          "min": 14,
+          "max": 22
+        },
+        "setsPerExercise": {
+          "compound": 5,
+          "isolation": 4
+        },
+        "totalExercises": {
+          "min": 6,
+          "max": 9
+        },
+        "repsRange": {
+          "strength": "3-5",
+          "hypertrophy": "6-10",
+          "endurance": "10-15"
+        }
+      },
+      "restProtocol": {
+        "compound": {
+          "min": 90,
+          "max": 150
+        },
+        "isolation": {
+          "min": 60,
+          "max": 90
+        },
+        "betweenExercises": 90
+      },
+      "ambiente": "gym",
+      "readinessCategory": "normal",
+      "adjustmentsApplied": []
+    },
+    "warmup": [
+      {
+        "id": "kettlebell_pirate_ships",
+        "nombre": "Barco Pirata con Kettlebell",
+        "fase": "Raise",
+        "duracion": "3-5 min",
+        "instrucciones": "Sujeta la kettlebell con ambas manos. Gira el torso balanceando la pesa hacia un lado hasta la altura de la cabeza, luego déjala caer y llévala hacia el lado opuesto.",
+        "equipo": [
+          "Kettlebell"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pirate_ships_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pirate_ships_1.webp",
+        "tipo": "raise",
+        "parteCuerpo": "Hombros"
+      },
+      {
+        "id": "Band_Hip_Adductions",
+        "nombre": "Aducción de cadera con banda",
+        "fase": "Activate",
+        "duracion": "10-15 reps",
+        "instrucciones": "Ancla una banda a un poste y sujétala a tu tobillo más cercano al anclaje. Cruza la pierna hacia el centro del cuerpo venciendo la resistencia de la banda.",
+        "equipo": [
+          "Bandas de Resistencia"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Hip_Adductions_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Hip_Adductions_1.webp",
+        "tipo": "activate",
+        "parteCuerpo": "Isquiotibiales"
+      },
+      {
+        "id": "Squats_-_With_Bands",
+        "nombre": "Sentadilla con Bandas de Resistencia",
+        "fase": "Activate",
+        "duracion": "10-15 reps",
+        "instrucciones": "Pisa el centro de la banda con los pies a la anchura de los hombros, sujeta las asas a la altura de la cara y desciende hasta que los muslos estén paralelos al suelo.",
+        "equipo": [
+          "Bandas de Resistencia"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_1.webp",
+        "tipo": "activate",
+        "parteCuerpo": "Cuádriceps"
+      },
+      {
+        "id": "Calves-SMR",
+        "nombre": "Liberación Miofascial de Pantorrillas",
+        "fase": "Mobilize",
+        "duracion": "8-10 reps por lado",
+        "instrucciones": "Siéntate en el suelo con un rodillo de espuma debajo de la parte inferior de la pierna. Cruza la otra pierna por encima para aumentar la presión. Eleva la cadera y rueda desde debajo de la rodilla hasta justo encima del tobillo, deteniéndote en los puntos de mayor tensión.",
+        "equipo": [
+          "Foam Roller"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calves-SMR_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calves-SMR_1.webp",
+        "tipo": "mobilize",
+        "parteCuerpo": "Pantorrillas"
+      },
+      {
+        "id": "hamstring-smr",
+        "nombre": "Liberación Miofascial de Isquiotibiales",
+        "fase": "Mobilize",
+        "duracion": "8-10 reps por lado",
+        "instrucciones": "Siéntate con las piernas extendidas sobre un rodillo de espuma. Levanta la cadera con las manos y desplaza el peso hacia una pierna, rodando desde la cadera hasta justo encima de la rodilla, pausando en puntos de tensión.",
+        "equipo": [
+          "Foam Roller"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring-smr_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring-smr_1.webp",
+        "tipo": "mobilize",
+        "parteCuerpo": "Isquiotibiales"
+      },
+      {
+        "id": "Lateral_Bound",
+        "nombre": "Salto Lateral Pliométrico",
+        "fase": "Potentiate",
+        "duracion": "2-3 series x 3-5 reps",
+        "instrucciones": "Salto de potencia lateral partiendo de media sentadilla. Se empuja con una pierna para cubrir la mayor distancia lateral posible.",
+        "equipo": [
+          "Peso Corporal"
+        ],
+        "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Bound_0.webp",
+        "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Bound_1.webp",
+        "tipo": "potentiate",
+        "parteCuerpo": "Cuádriceps",
+        "intensidad": "Explosiva",
+        "descanso": "60-90s",
+        "notas": "Máxima velocidad de ejecución. Calidad sobre cantidad."
+      }
+    ],
+    "mainBlock": {
+      "tipo": "estaciones",
+      "descripcion": "Completa todas las series de un ejercicio antes de pasar al siguiente",
+      "bloques": [
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Alternating_Hang_Clean",
+              "nombre": "Cargada Colgante Alterna con Kettlebell",
+              "descripcion": "Desde una posición de semiflexión (hang), lleve una kettlebell al hombro mediante una extensión explosiva de cadera y rodillas, rotando la muñeca para recibir la pesa.",
+              "correcciones": [
+                "El movimiento debe ser impulsado por la cadera, no por los brazos.",
+                "Mantener la espalda neutra durante toda la fase de inicio."
+              ],
+              "sets": 5,
+              "reps": 12,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "90s",
+              "equipo": [
+                "Kettlebell"
+              ],
+              "patronMovimiento": "Cadera",
+              "parteCuerpo": "Isquiotibiales",
+              "prioridad": 1,
+              "rolSesion": "primario",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "El movimiento debe ser impulsado por la cadera, no por los brazos. | Mantener la espalda neutra durante toda la fase de inicio.",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 12 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternating_Hang_Clean_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternating_Hang_Clean_1.webp",
+              "performanceData": {
+                "plannedSets": 5,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Dumbbell_Lunges",
+              "nombre": "Zancadas con Mancuernas",
+              "descripcion": "Da un paso adelante y baja la cadera hasta que ambas rodillas formen un ángulo de 90 grados. Mantén el torso erguido.",
+              "correcciones": [
+                "Evitar que la rodilla delantera sobrepase la punta del pie",
+                "Mantener el equilibrio evitando que el tronco se incline hacia adelante"
+              ],
+              "sets": 5,
+              "reps": 12,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "90s",
+              "equipo": [
+                "Mancuernas"
+              ],
+              "patronMovimiento": "Rodilla",
+              "parteCuerpo": "Cuádriceps",
+              "prioridad": 1,
+              "rolSesion": "primario",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Evitar que la rodilla delantera sobrepase la punta del pie | Mantener el equilibrio evitando que el tronco se incline hacia adelante",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 12 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Lunges_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Lunges_1.webp",
+              "performanceData": {
+                "plannedSets": 5,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Elevated_Back_Lunge",
+              "nombre": "Zancada Trasera Elevada",
+              "descripcion": "Con una barra sobre la espalda, dé un paso atrás desde una plataforma elevada. Descienda hasta que la rodilla toque el suelo y extienda cadera y rodilla para volver.",
+              "correcciones": [
+                "Mantener la verticalidad de la tibia delantera",
+                "Controlar el descenso para evitar impactos bruscos con la rodilla trasera"
+              ],
+              "sets": 5,
+              "reps": 12,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "90s",
+              "equipo": [
+                "Barra Olímpica",
+                "Rack de Potencia"
+              ],
+              "patronMovimiento": "Rodilla",
+              "parteCuerpo": "Cuádriceps",
+              "prioridad": 1,
+              "rolSesion": "primario",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Mantener la verticalidad de la tibia delantera | Controlar el descenso para evitar impactos bruscos con la rodilla trasera",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 12 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elevated_Back_Lunge_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elevated_Back_Lunge_1.webp",
+              "performanceData": {
+                "plannedSets": 5,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Barbell_Walking_Lunge",
+              "nombre": "Zancadas caminadas con barra",
+              "descripcion": "Camine hacia adelante dando pasos largos, descendiendo la cadera hasta que la rodilla trasera casi toque el suelo. Empuje con el talón delantero para avanzar al siguiente paso.",
+              "correcciones": [
+                "Evitar que el torso se incline demasiado hacia adelante.",
+                "No permitir que la rodilla delantera sobrepase excesivamente la punta del pie."
+              ],
+              "sets": 4,
+              "reps": 14,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "60s",
+              "equipo": [
+                "Barra Olímpica"
+              ],
+              "patronMovimiento": "Rodilla",
+              "parteCuerpo": "Cuádriceps",
+              "prioridad": 2,
+              "rolSesion": "secundario",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Evitar que el torso se incline demasiado hacia adelante. | No permitir que la rodilla delantera sobrepase excesivamente la punta del pie.",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 14 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Walking_Lunge_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Walking_Lunge_1.webp",
+              "performanceData": {
+                "plannedSets": 4,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Barbell_Step_Ups",
+              "nombre": "Step Ups con barra",
+              "descripcion": "Con una barra tras los hombros, coloque un pie sobre una plataforma elevada y suba extendiendo cadera y rodilla. Regrese bajando la pierna trasera de forma controlada.",
+              "correcciones": [
+                "Evitar impulsarse con el pie que está en el suelo.",
+                "Mantener la rodilla de la pierna de apoyo estable sin oscilaciones laterales."
+              ],
+              "sets": 4,
+              "reps": 14,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "60s",
+              "equipo": [
+                "Barra Olímpica",
+                "Cajón Pliométrico"
+              ],
+              "patronMovimiento": "Rodilla",
+              "parteCuerpo": "Cuádriceps",
+              "prioridad": 2,
+              "rolSesion": "secundario",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Evitar impulsarse con el pie que está en el suelo. | Mantener la rodilla de la pierna de apoyo estable sin oscilaciones laterales.",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 14 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Step_Ups_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Step_Ups_1.webp",
+              "performanceData": {
+                "plannedSets": 4,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Cable_Hip_Adduction",
+              "nombre": "Aducción de Cadera en Polea",
+              "descripcion": "De pie lateralmente a la polea baja, con una tobillera conectada, cruza la pierna por delante de la pierna de apoyo hacia el lado opuesto.",
+              "correcciones": [
+                "Mantener el torso estable y evitar inclinaciones laterales excesivas.",
+                "Realizar el movimiento de forma controlada, especialmente en el regreso."
+              ],
+              "sets": 4,
+              "reps": 15,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "60s",
+              "equipo": [
+                "Poleas"
+              ],
+              "patronMovimiento": "General",
+              "parteCuerpo": "Cuádriceps",
+              "prioridad": 3,
+              "rolSesion": "aislamiento",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Mantener el torso estable y evitar inclinaciones laterales excesivas. | Realizar el movimiento de forma controlada, especialmente en el regreso.",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 15 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Hip_Adduction_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Hip_Adduction_1.webp",
+              "performanceData": {
+                "plannedSets": 4,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        },
+        {
+          "tipo": "estacion",
+          "ejercicios": [
+            {
+              "id": "Dumbbell_Seated_One-Leg_Calf_Raise",
+              "nombre": "Elevación de Talón Sentado a una Pierna",
+              "descripcion": "Sentado en un banco con una mancuerna sobre el muslo izquierdo. Coloca el metatarso sobre un bloque. Eleva el talón contrayendo el gemelo al máximo y desciende lentamente buscando un estiramiento profundo.",
+              "correcciones": [
+                "Realizar el rango de movimiento completo, enfatizando la pausa en contracción.",
+                "Evitar rebotar en la parte inferior del movimiento."
+              ],
+              "sets": 4,
+              "reps": 15,
+              "peso": "Exploratorio",
+              "rpeTarget": 6,
+              "rirTarget": 5,
+              "tempo": "4-2-2-1",
+              "descanso": "60s",
+              "equipo": [
+                "Mancuernas",
+                "Banco Ajustable"
+              ],
+              "patronMovimiento": "General",
+              "parteCuerpo": "Pantorrillas",
+              "prioridad": 3,
+              "rolSesion": "aislamiento",
+              "tipoProgresion": "initial",
+              "indicadores": {
+                "avgRepsAnterior": null,
+                "avgRIRAnterior": null,
+                "e1RMEstimado": null,
+                "porcentajeObjetivo": null
+              },
+              "notasTecnicas": "Realizar el rango de movimiento completo, enfatizando la pausa en contracción. | Evitar rebotar en la parte inferior del movimiento.",
+              "justificacionCarga": "No tenemos historial para este ejercicio. Busca un peso que te permita completar 15 reps sintiendo que podrías hacer 5 más (RIR 5).",
+              "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Seated_One-Leg_Calf_Raise_0.webp",
+              "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Seated_One-Leg_Calf_Raise_1.webp",
+              "performanceData": {
+                "plannedSets": 4,
+                "actualSets": []
+              }
+            }
+          ],
+          "descansoEntreSeries": 90,
+          "descansoEntreEjercicios": 60
+        }
+      ]
+    },
+    "coreBlock": {
+      "tipo": "core",
+      "nombre": "Entrenamiento de Core",
+      "duracionEstimada": 9,
+      "ejercicios": [
+        {
+          "id": "Advanced_Kettlebell_Windmill",
+          "nombre": "Molinillo Avanzado con Kettlebell",
+          "descripcion": "Con una pesa rusa bloqueada sobre la cabeza, desplazar la cadera hacia el lado del brazo extendido y bajar el torso lateralmente manteniendo las piernas rectas y la vista en la pesa. Los pies deben estar a 45 grados.",
+          "correcciones": [
+            "Mantener el brazo de la carga perfectamente vertical en todo momento",
+            "No flexionar la columna vertebral de forma lateral; el movimiento nace de la cadera"
+          ],
+          "categoriaBloque": "core",
+          "faseRAMP": null,
+          "prioridad": 1,
+          "patronMovimiento": "Core",
+          "parteCuerpo": "Core",
+          "dificultadTecnica": "Alta",
+          "equipo": "Kettlebell",
+          "isUnilateral": true,
+          "isDynamic": true,
+          "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Advanced_Kettlebell_Windmill_0.webp",
+          "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Advanced_Kettlebell_Windmill_1.webp",
+          "prescripcion": {
+            "series": 1,
+            "reps": 20,
+            "repsOTiempo": "20 reps",
+            "descanso": 20,
+            "rpeObjetivo": 5,
+            "notaUnilateral": "Por lado",
+            "tipo": "dinamico"
+          },
+          "notas": "Mantén el core activo durante todo el movimiento. Respira de manera controlada sin contener la respiración. Calidad sobre cantidad.",
+          "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Advanced_Kettlebell_Windmill_0.webp",
+          "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Advanced_Kettlebell_Windmill_1.webp"
+        },
+        {
+          "id": "3_4_Sit-Up",
+          "nombre": "Abdominales 3/4",
+          "descripcion": "Acostado boca arriba con las rodillas flexionadas y los pies asegurados, elevar el torso hacia las rodillas mediante la flexión de cadera y columna hasta quedar perpendicular al suelo. Bajar controladamente solo hasta las 3/4 partes del recorrido para mantener la tensión.",
+          "correcciones": [
+            "Evitar tirones excesivos del cuello con las manos",
+            "Mantener la tensión en el core durante el descenso parcial"
+          ],
+          "categoriaBloque": "core",
+          "faseRAMP": null,
+          "prioridad": 2,
+          "patronMovimiento": "Core",
+          "parteCuerpo": "Core",
+          "dificultadTecnica": "Baja",
+          "equipo": "Peso Corporal",
+          "isUnilateral": false,
+          "isDynamic": true,
+          "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/3_4_Sit-Up_0.webp",
+          "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/3_4_Sit-Up_1.webp",
+          "prescripcion": {
+            "series": 1,
+            "reps": 20,
+            "repsOTiempo": "20 reps",
+            "descanso": 20,
+            "rpeObjetivo": 5,
+            "notaUnilateral": null,
+            "tipo": "dinamico"
+          },
+          "notas": "Mantén el core activo durante todo el movimiento. Respira de manera controlada sin contener la respiración. Calidad sobre cantidad.",
+          "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/3_4_Sit-Up_0.webp",
+          "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/3_4_Sit-Up_1.webp"
+        },
+        {
+          "id": "hanging_leg_raise",
+          "nombre": "Elevación de piernas colgado",
+          "descripcion": "Colgado de una barra de dominadas, eleva las piernas rectas hasta que formen un ángulo de 90 grados con el torso. Baja de forma lenta y controlada.",
+          "correcciones": [
+            "Evitar el balanceo del cuerpo usando el momentum",
+            "Mantener el control abdominal durante la fase de descenso (excéntrica)"
+          ],
+          "categoriaBloque": "core",
+          "faseRAMP": null,
+          "prioridad": 2,
+          "patronMovimiento": "Core",
+          "parteCuerpo": "Core",
+          "dificultadTecnica": "Alta",
+          "equipo": [
+            "Barra de Dominadas"
+          ],
+          "isUnilateral": false,
+          "isDynamic": true,
+          "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hanging_leg_raise_0.webp",
+          "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hanging_leg_raise_1.webp",
+          "prescripcion": {
+            "series": 1,
+            "reps": 20,
+            "repsOTiempo": "20 reps",
+            "descanso": 20,
+            "rpeObjetivo": 5,
+            "notaUnilateral": null,
+            "tipo": "dinamico"
+          },
+          "notas": "Mantén el core activo durante todo el movimiento. Respira de manera controlada sin contener la respiración. Calidad sobre cantidad.",
+          "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hanging_leg_raise_0.webp",
+          "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hanging_leg_raise_1.webp"
+        }
+      ],
+      "estructura": "circuito",
+      "instrucciones": "Realiza todos los ejercicios seguidos con descanso mínimo. Descansa 45 segundos entre rondas.",
+      "rondas": 3
+    },
+    "cooldown": {
+      "tipo": "cooldown",
+      "nombre": "Enfriamiento y Recuperación",
+      "duracionEstimada": 8,
+      "fases": [
+        {
+          "fase": "Bajada de Intensidad",
+          "duracion": 2,
+          "icono": "💨",
+          "descripcion": "Reduce gradualmente la intensidad del entrenamiento",
+          "contenido": {
+            "tipo": "actividad_ligera",
+            "opciones": [
+              "Caminar suave en el lugar (2 minutos)",
+              "Movilidad articular suave y circular",
+              "Movimientos de bajo impacto con respiración profunda"
+            ],
+            "explicacion": "Permite que el ritmo cardíaco descienda gradualmente, evitando mareos por acumulación de sangre en las extremidades."
+          }
+        },
+        {
+          "fase": "Estiramientos Específicos",
+          "duracion": 4,
+          "icono": "🧘",
+          "descripcion": "Estiramientos enfocados en los músculos trabajados hoy",
+          "contenido": {
+            "tipo": "estiramientos",
+            "ejercicios": [
+              {
+                "id": "estiramiento_pectoral_pared",
+                "nombre": "Estiramiento de Pectoral en Pared",
+                "tiempo": "40s",
+                "musculoObjetivo": "pecho",
+                "instrucciones": "Coloca el antebrazo contra la pared a 90°. Gira el torso alejándote hasta sentir tensión en el pecho."
+              },
+              {
+                "id": "child_pose",
+                "nombre": "Postura del Niño (Child Pose)",
+                "tiempo": "40s",
+                "musculoObjetivo": "espalda",
+                "instrucciones": "Rodillas separadas, brazos extendidos al frente, hunde el pecho hacia el suelo. Respira profundamente."
+              },
+              {
+                "id": "estiramiento_cuadriceps_pie",
+                "nombre": "Estiramiento de Cuádriceps de Pie",
+                "tiempo": "40s",
+                "musculoObjetivo": "cuadriceps",
+                "instrucciones": "De pie, lleva el talón al glúteo sosteniendo el tobillo. Mantén las rodillas juntas."
+              },
+              {
+                "id": "estiramiento_isquio_pie",
+                "nombre": "Estiramiento de Isquiotibiales de Pie",
+                "tiempo": "40s",
+                "musculoObjetivo": "isquiotibiales",
+                "instrucciones": "Pie sobre superficie elevada, pierna recta. Inclínate desde la cadera manteniendo espalda neutral."
+              },
+              {
+                "id": "90_90_Hamstring",
+                "nombre": "Estiramiento Isquiotibial 90/90",
+                "tiempo": "30s",
+                "instrucciones": "Mantén la posición respirando profundamente.",
+                "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/90_90_Hamstring_0.webp",
+                "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/90_90_Hamstring_1.webp",
+                "deCatalogo": true
+              },
+              {
+                "id": "Adductor",
+                "nombre": "Liberación de Aductores con Foam Roller",
+                "tiempo": "30s",
+                "instrucciones": "Mantén la posición respirando profundamente.",
+                "imageUrl": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Adductor_0.webp",
+                "imageUrl2": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Adductor_1.webp",
+                "deCatalogo": true
+              }
+            ],
+            "instrucciones": "Mantén cada posición respirando profundamente. Intenta profundizar ligeramente en cada exhalación."
+          }
+        },
+        {
+          "fase": "Estiramientos Globales",
+          "duracion": 2,
+          "icono": "🌊",
+          "descripcion": "Estiramientos de todo el cuerpo para recuperación integral",
+          "contenido": {
+            "tipo": "estiramientos_generales",
+            "ejercicios": [
+              {
+                "nombre": "Happy Baby",
+                "tiempo": "45s",
+                "objetivo": "Caderas, espalda baja, liberación de tensión",
+                "instrucciones": "45s total"
+              },
+              {
+                "nombre": "World's Greatest Stretch",
+                "tiempo": "45s",
+                "objetivo": "Caderas, columna torácica, isquiotibiales",
+                "porLado": true,
+                "instrucciones": "45s por cada lado"
+              },
+              {
+                "nombre": "Torsión Espinal Supina",
+                "tiempo": "45s",
+                "objetivo": "Columna, oblicuos, pecho",
+                "porLado": true,
+                "instrucciones": "45s por cada lado"
+              }
+            ],
+            "instrucciones": "Fluye entre posturas respirando profundamente. Este es tu momento para desconectar y sentir tu cuerpo."
+          }
+        },
+        {
+          "fase": "Respiración de Recuperación",
+          "duracion": 1,
+          "icono": "🫁",
+          "descripcion": "Activación del sistema nervioso parasimpático",
+          "contenido": {
+            "nombre": "Respiración Cuadrada (Box Breathing)",
+            "duracion": 90,
+            "instrucciones": "Inhala 4s - Mantén 4s - Exhala 4s - Mantén 4s. Repite 4-6 ciclos.",
+            "beneficio": "Equilibra el sistema nervioso, reduce ansiedad, mejora concentración."
+          }
+        }
+      ]
+    },
+    "education": {
+      "resumenFisiologico": "📊 **Hoy tu sesión se enfoca en Pierna**. Estamos en **fase de Adaptación Anatómica**: el objetivo principal es fortalecer tendones, ligamentos y tejido conectivo mientras perfeccionas los patrones motores. Las cargas son moderadas para permitir este proceso de acondicionamiento estructural.",
+      "objetivoDelDia": "🎯 **Tu objetivo de hoy**: Terminar cada serie sintiendo que podrías hacer aproximadamente **4 repeticiones más** (RIR 4). Esto corresponde a un esfuerzo percibido de **RPE 6/10**.",
+      "fasesExplicadas": [
+        {
+          "fase": "Calentamiento RAMP",
+          "icono": "🔥",
+          "explicacion": "El protocolo RAMP no es solo \"estirar\". Sus fases (Raise-Activate-Mobilize-Potentiate) elevan tu temperatura, activan músculos débiles, mejoran el rango de movimiento y \"despiertan\" tu Sistema Nervioso Central para maximizar el rendimiento en los ejercicios pesados.",
+          "ciencia": "La investigación muestra que un calentamiento específico aumenta la potencia en ~10% y reduce significativamente el riesgo de lesión."
+        },
+        {
+          "fase": "Bloque Principal",
+          "icono": "💪",
+          "explicacion": "Los ejercicios están ordenados por demanda neurológica: empezamos con movimientos multiarticulares (sentadillas, press, remos) cuando tu SNC está fresco. Esto maximiza la liberación hormonal (testosterona, hormona del crecimiento) y el reclutamiento de fibras musculares tipo II.",
+          "ciencia": "El principio de \"ejercicios pesados primero\" está respaldado por décadas de investigación en fisiología del ejercicio (Kraemer & Ratamess, 2004)."
+        },
+        {
+          "fase": "Entrenamiento de Core",
+          "icono": "🧱",
+          "explicacion": "El core no es solo \"abdominales\". Trabajamos la capacidad de ANTI-movimiento (anti-extensión, anti-rotación, anti-flexión lateral). Esto protege tu columna y transfiere fuerza eficientemente en los levantamientos principales.",
+          "ciencia": "Stuart McGill, experto mundial en biomecánica espinal, enfatiza que el core debe resistir movimiento, no crearlo, para máxima protección vertebral."
+        }
+      ],
+      "consejoTecnico": "✅ Tu estado de readiness es óptimo. Entrena con confianza siguiendo la prescripción.",
+      "cienciaDestacada": {
+        "titulo": "📚 Ciencia del día: Tiempo Bajo Tensión (TUT)",
+        "contenido": "El músculo no sabe cuánto peso hay en la barra - solo conoce la tensión. Un tempo lento con menos peso puede generar tanto estímulo como peso pesado con tempo rápido.",
+        "fuente": "Investigación de Burd et al. (2012)"
+      },
+      "motivacion": "💪 Cada repetición te acerca a la versión más fuerte de ti mismo.",
+      "proximoEntrenamiento": {
+        "titulo": "🔄 Preparación para tu próximo entrenamiento",
+        "consejos": [
+          {
+            "icono": "💧",
+            "consejo": "Rehidratación",
+            "detalle": "Bebe 500ml de agua en la próxima hora. La hidratación es crítica para la síntesis proteica."
+          },
+          {
+            "icono": "🍗",
+            "consejo": "Ventana anabólica",
+            "detalle": "Consume proteína (20-40g) en las próximas 2 horas. La síntesis proteica muscular está elevada post-entrenamiento."
+          },
+          {
+            "icono": "😴",
+            "consejo": "Sueño reparador",
+            "detalle": "Apunta a 7-9 horas de sueño. El 95% de la hormona del crecimiento se libera durante el sueño profundo."
+          },
+          {
+            "icono": "🧘",
+            "consejo": "Recuperación activa",
+            "detalle": "Si sientes rigidez mañana, 10 minutos de movilidad ligera aceleran la recuperación más que el descanso total."
+          }
+        ]
+      }
+    },
+    "tipOfTheDay": "💡 **Tip del día**: Fase de Introducción: Prioriza la calidad de movimiento y aprendizaje motor.",
+    "summary": {
+      "duracionEstimada": "27 min",
+      "duracionMinutos": 27,
+      "ejerciciosTotales": 3,
+      "seriesTotales": 9,
+      "musculosTrabajos": []
+    },
+    "meta": {
+      "date": "2026-01-14T01:18:05.184Z",
+      "generatedAt": "2026-01-14T01:18:05.168Z",
+      "sessionId": "mkdc09rk249crtg36",
+      "focus": "Pierna"
+    },
+    "completed": false
+  }
+}
