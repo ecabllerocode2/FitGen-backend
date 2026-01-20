@@ -118,7 +118,8 @@ export default async function handler(req, res) {
         const { microciclo, sesion, microcycleIdx, sessionIdx } = determinarSesionActual(
             mesocicloActivo,
             microcycleIndex,
-            sessionIndex
+            sessionIndex,
+            usuario // Pasar usuario para cálculo correcto según zona horaria del usuario
         );
 
         if (!sesion) {
@@ -664,7 +665,7 @@ export default async function handler(req, res) {
 /**
  * Determina la sesión actual basada en índices, día de la semana o progreso
  */
-function determinarSesionActual(mesociclo, microcycleIndexParam, sessionIndexParam) {
+function determinarSesionActual(mesociclo, microcycleIndexParam, sessionIndexParam, usuario = {}) {
     const microciclos = mesociclo.mesocyclePlan?.microcycles || mesociclo.microcycles || [];
     
     // Si se proporcionan ambos índices, usarlos directamente
@@ -681,18 +682,28 @@ function determinarSesionActual(mesociclo, microcycleIndexParam, sessionIndexPar
             sessionIdx: sessionIndexParam
         };
     }
-    
-    // Obtener el día de la semana actual en español
-    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const hoy = new Date();
-    const diaHoy = diasSemana[hoy.getDay()];
-    
-    // Calcular el índice del microciclo actual basado en la fecha de inicio
+
+    // Determinar la zona horaria del usuario (fallback a UTC)
+    const tz = usuario.timezone || usuario.timeZone || usuario.preferredTimezone || usuario.preferredTimeZone || usuario.localeTimezone || (usuario.profileData && usuario.profileData.timezone) || 'UTC';
+
+    // Obtener el día de la semana actual en la zona horaria del usuario usando Intl
+    // Esto evita depender del reloj del servidor (puede estar en UTC)
+    const diaHoy = new Date().toLocaleString('es-ES', { weekday: 'long', timeZone: tz });
+    console.log(`[determinarsesion] usuario.timezone=${tz}, diaHoy (usuario tz)=${diaHoy}`);
+
+    // Calcular el índice del microciclo actual basado en la fecha de inicio, usando "fechas locales" del usuario
     let microcycleIdx = 0;
     if (mesociclo.startDate) {
         const startDate = new Date(mesociclo.startDate);
-        const diffTime = hoy.getTime() - startDate.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        // Normalizar a cadenas YYYY-MM-DD en la zona horaria del usuario y calcular la diferencia en días
+        const todayStr = new Date().toLocaleString('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' });
+        const startStr = startDate.toLocaleString('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' });
+
+        const todayMid = Date.parse(`${todayStr}T00:00:00`);
+        const startMid = Date.parse(`${startStr}T00:00:00`);
+        const diffDays = Math.floor((todayMid - startMid) / (1000 * 60 * 60 * 24));
+
         microcycleIdx = Math.floor(diffDays / 7);
         microcycleIdx = Math.max(0, Math.min(microcycleIdx, microciclos.length - 1));
     }
