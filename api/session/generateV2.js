@@ -78,6 +78,23 @@ export default async function handler(req, res) {
 
         const { usuario, mesocicloActivo, catalogoEjercicios, historialSesiones, recentSessions } = contextualData;
 
+        // Inyectar zona horaria enviada por frontend (si existe) para asegurar que las decisiones de "hoy" se hagan en la TZ del usuario
+        const clientTimezone = req.body.timezone || usuario.timezone || usuario.profileData?.timezone || 'UTC';
+        // Añadir al objeto usuario para uso en todas las funciones subsiguientes
+        usuario.timezone = clientTimezone;
+
+        // Persistir en el perfil del usuario si aún no existe (mejora: evita tener que enviarlo siempre desde frontend)
+        try {
+            if (!usuario.profileData?.timezone && clientTimezone) {
+                await db.collection('users').doc(userId).set({ profileData: { timezone: clientTimezone } }, { merge: true });
+                console.log(`[SessionGen V2] Persisted timezone for user ${userId}: ${clientTimezone}`);
+                usuario.profileData = usuario.profileData || {};
+                usuario.profileData.timezone = clientTimezone;
+            }
+        } catch (e) {
+            console.warn('[SessionGen V2] Could not persist timezone to user profile:', e && e.message ? e.message : e);
+        }
+
         // Validar que hay mesociclo activo
         if (!mesocicloActivo) {
             return res.status(400).json({
@@ -588,6 +605,7 @@ export default async function handler(req, res) {
             generatedAt: new Date().toISOString(),
             generationTimeMs: Date.now() - startTime,
             version: '2.0.0',
+            timezone: usuario.timezone || 'UTC',
             
             // Contexto
             userId,
@@ -1028,10 +1046,15 @@ async function guardarSesionGenerada(userId, sesion) {
         
         // 2. Actualizar currentSession en el documento del usuario
         // Esto es lo que el frontend verifica para saber si la sesión está lista
+        const tz = sesion.timezone || sesion.timeZone || 'UTC';
+        const localDate = new Date().toLocaleString('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' });
+
         const currentSessionData = removeUndefinedValues({
             ...sesionLimpia,
             meta: {
-                date: new Date().toISOString(), // Fecha de hoy para que el frontend la detecte
+                date: new Date().toISOString(), // UTC ISO
+                localDate, // YYYY-MM-DD in user's timezone
+                timezone: tz,
                 generatedAt: sesion.generatedAt,
                 sessionId: sesion.id,
                 focus: sesion.sessionFocus
