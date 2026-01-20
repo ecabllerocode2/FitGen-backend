@@ -1,0 +1,31 @@
+{
+  "userId": "test-senior-limited",
+  "profileData": {
+    "age": 58,
+    "weight": 92,
+    "height": 172,
+    "gender": "male",
+    "experienceLevel": "Principiante",
+    "fitnessGoal": "Perdida_Grasa",
+    "preferredTrainingLocation": "home",
+    "homeEquipment": [
+      "Mancuernas",
+      "Bandas de Resistencia"
+    ],
+    "homeWeights": {
+      "dumbbells": [3, 5, 8, 10],
+      "barbell": null
+    },
+    "weeklyScheduleContext": [
+      { "day": "Lunes", "canTrain": true },
+      { "day": "Martes", "canTrain": false },
+      { "day": "Miércoles", "canTrain": true },
+      { "day": "Jueves", "canTrain": false },
+      { "day": "Viernes", "canTrain": true },
+      { "day": "Sábado", "canTrain": false },
+      { "day": "Domingo", "canTrain": false }
+    ]
+  },
+  "recentSessions": [],
+  "sessionHistory": []
+}

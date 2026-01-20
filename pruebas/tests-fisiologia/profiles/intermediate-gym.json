@@ -1,0 +1,32 @@
+{
+  "userId": "test-intermediate-gym",
+  "profileData": {
+    "age": 32,
+    "weight": 82,
+    "height": 178,
+    "gender": "male",
+    "experienceLevel": "Intermedio",
+    "fitnessGoal": "Fuerza_Maxima",
+    "preferredTrainingLocation": "gym",
+    "availableEquipment": [
+      "Peso Corporal",
+      "Mancuernas",
+      "Barra Olímpica",
+      "Poleas",
+      "Máquinas",
+      "Banco Ajustable",
+      "Rack de Potencia"
+    ],
+    "weeklyScheduleContext": [
+      { "day": "Lunes", "canTrain": true },
+      { "day": "Martes", "canTrain": true },
+      { "day": "Miércoles", "canTrain": false },
+      { "day": "Jueves", "canTrain": true },
+      { "day": "Viernes", "canTrain": true },
+      { "day": "Sábado", "canTrain": false },
+      { "day": "Domingo", "canTrain": false }
+    ]
+  },
+  "recentSessions": [],
+  "sessionHistory": []
+}

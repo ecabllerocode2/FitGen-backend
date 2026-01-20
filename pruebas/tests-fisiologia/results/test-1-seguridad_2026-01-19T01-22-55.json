@@ -1,0 +1,157 @@
+{
+  "test": "Test 1: Seguridad Biomecánica",
+  "timestamp": "2026-01-19T01:22:55.586Z",
+  "resumen": {
+    "total": 6,
+    "pasados": 6,
+    "fallados": 0,
+    "porcentajeExito": "100.0%"
+  },
+  "advertencias": 0,
+  "resultados": [
+    {
+      "caso": "Principiante - RPE Seguro",
+      "passed": true,
+      "detalles": {
+        "nivelExperiencia": "Principiante",
+        "rpeObjetivo": 6,
+        "validacionGeneral": {
+          "valido": true,
+          "rpe": 6,
+          "maxSeguro": 7,
+          "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+        },
+        "validacionesEjercicios": [
+          {
+            "ejercicio": "Flexiones",
+            "valido": true,
+            "rpe": 6,
+            "maxSeguro": 7,
+            "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+          },
+          {
+            "ejercicio": "Sentadilla",
+            "valido": true,
+            "rpe": 6,
+            "maxSeguro": 7,
+            "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Adulto Mayor - Safety Profile",
+      "passed": true,
+      "detalles": {
+        "edad": 58,
+        "tieneSafetyNote": true,
+        "rpeConservador": true,
+        "rpe": 5,
+        "pesoInicial": 5
+      }
+    },
+    {
+      "caso": "Incrementos de Carga Seguros",
+      "passed": true,
+      "detalles": {
+        "validaciones": [
+          {
+            "ejercicio": "Sentadilla Barra",
+            "valido": true,
+            "incrementoPorcentaje": 0.025,
+            "maxIncremento": 0.025,
+            "pesoAnterior": 60,
+            "pesoNuevo": 61.5,
+            "mensaje": "✅ Incremento 2.5% dentro de límite seguro"
+          },
+          {
+            "ejercicio": "Curl Mancuerna",
+            "valido": true,
+            "incrementoPorcentaje": 0.05,
+            "maxIncremento": 0.05,
+            "pesoAnterior": 10,
+            "pesoNuevo": 10.5,
+            "mensaje": "✅ Incremento 5.0% dentro de límite seguro"
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Pesos Limitados en Casa",
+      "passed": true,
+      "detalles": {
+        "pesosDisponibles": [
+          5,
+          10,
+          15,
+          20
+        ],
+        "pesoMax": 20,
+        "validaciones": [
+          {
+            "ejercicio": "Press Mancuerna",
+            "peso": 15,
+            "pesoValido": true,
+            "noExcede": true,
+            "valido": true
+          },
+          {
+            "ejercicio": "Remo Mancuerna",
+            "peso": 20,
+            "pesoValido": true,
+            "noExcede": true,
+            "valido": true
+          },
+          {
+            "ejercicio": "Curl Mancuerna",
+            "peso": 10,
+            "pesoValido": true,
+            "noExcede": true,
+            "valido": true
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Filtrado por Lesiones",
+      "passed": true,
+      "detalles": {
+        "lesionesReportadas": [
+          "hombro"
+        ],
+        "ejerciciosGenerados": [
+          "Flexiones",
+          "Sentadilla",
+          "Plancha"
+        ],
+        "ejerciciosRiesgosos": []
+      }
+    },
+    {
+      "caso": "Safety Profile - Evitar Axiales",
+      "passed": true,
+      "detalles": {
+        "safetyProfile": {
+          "reason": "high_bmi_beginner",
+          "avoidAxial": true,
+          "loadCoef": 0.7
+        },
+        "ejercicios": [
+          {
+            "nombre": "Prensa de Piernas",
+            "esAxial": false
+          },
+          {
+            "nombre": "Remo Mancuerna",
+            "esAxial": false
+          },
+          {
+            "nombre": "Flexiones",
+            "esAxial": false
+          }
+        ],
+        "hayEjerciciosAxiales": false
+      }
+    }
+  ]
+}

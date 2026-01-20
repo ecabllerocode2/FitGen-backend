@@ -5,6 +5,8 @@
 // ====================================================================
 
 import { db } from '../../lib/firebaseAdmin.js';
+import fs from 'fs';
+import path from 'path';
 
 // Importar todos los módulos de generación
 import { obtenerDatosContextuales } from '../../lib/sessionGeneration/dataFetcher.js';
@@ -17,6 +19,12 @@ import { generarEnfriamiento } from '../../lib/sessionGeneration/coolDownGenerat
 import { generarNarrativaDidactica, generarTipDelDia } from '../../lib/sessionGeneration/educationContent.js';
 import { parseRPE, normalizeText, generateSimpleId, formatDuration } from '../../lib/sessionGeneration/utils.js';
 import { VOLUME_CONFIG, REST_PROTOCOLS } from '../../lib/sessionGeneration/constants.js';
+
+// --- ELITE PERFORMANCE GENERATORS ---
+import { optimizeDailyLoad } from '../../lib/sessionGeneration/generators/loadOptimiser.js';
+import { translateBiomechanics } from '../../lib/sessionGeneration/generators/mechanicsTranslater.js';
+import { generateSpecificRAMP } from '../../lib/sessionGeneration/generators/exerciseSelector.js';
+// ------------------------------------
 
 /**
  * Handler principal para generación de sesiones
@@ -43,9 +51,7 @@ export default async function handler(req, res) {
             sleepQuality,       // Calidad de sueño (1-5)
             stressLevel,        // Nivel de estrés (1-5)
             availableTime,      // Tiempo disponible en minutos
-            location,           // 'gym' | 'home'
-            availableEquipment, // Array de equipo disponible desde formulario pre-sesión (REQUERIDO)
-            homeWeights         // Pesos específicos en casa: { dumbbells: [5, 10, 15], barbell: 20 }
+            externalFatigue     // Fatiga externa del día (none/moderate/high/extreme)
         } = req.body;
 
         // Validaciones
@@ -53,22 +59,6 @@ export default async function handler(req, res) {
             return res.status(400).json({ 
                 error: 'userId es requerido',
                 code: 'MISSING_USER_ID'
-            });
-        }
-
-        // Validar que se envíe ubicación
-        if (!location || !['gym', 'home'].includes(location)) {
-            return res.status(400).json({
-                error: 'location es requerido y debe ser "gym" o "home"',
-                code: 'INVALID_LOCATION'
-            });
-        }
-
-        // Validar que se envíe equipamiento disponible
-        if (!availableEquipment || !Array.isArray(availableEquipment)) {
-            return res.status(400).json({
-                error: 'availableEquipment es requerido y debe ser un array',
-                code: 'MISSING_EQUIPMENT'
             });
         }
 
@@ -86,7 +76,7 @@ export default async function handler(req, res) {
             });
         }
 
-        const { usuario, mesocicloActivo, catalogoEjercicios, historialSesiones } = contextualData;
+        const { usuario, mesocicloActivo, catalogoEjercicios, historialSesiones, recentSessions } = contextualData;
 
         // Validar que hay mesociclo activo
         if (!mesocicloActivo) {
@@ -95,6 +85,32 @@ export default async function handler(req, res) {
                 code: 'NO_ACTIVE_MESOCYCLE'
             });
         }
+
+        // ================================================================
+        // 2.5. OBTENER UBICACIÓN Y EQUIPAMIENTO DEL PERFIL
+        // ================================================================
+        // CRÍTICO: Obtener del perfil para mantener consistencia en sobrecarga progresiva
+        const location = usuario.preferredTrainingLocation || 'gym';
+        const availableEquipment = usuario.availableEquipment || [];
+        const homeWeights = usuario.homeWeights || null;
+
+        // Validar que el perfil tenga la información necesaria
+        if (!location || !['gym', 'home'].includes(location)) {
+            return res.status(400).json({
+                error: 'El perfil del usuario no tiene una ubicación de entrenamiento válida (preferredTrainingLocation)',
+                code: 'INVALID_PROFILE_LOCATION'
+            });
+        }
+
+        if (!availableEquipment || !Array.isArray(availableEquipment) || availableEquipment.length === 0) {
+            return res.status(400).json({
+                error: 'El perfil del usuario no tiene equipamiento configurado (availableEquipment)',
+                code: 'MISSING_PROFILE_EQUIPMENT'
+            });
+        }
+
+        console.log(`[SessionGen V2] Ubicación desde perfil: ${location}, Equipamiento: ${availableEquipment.join(', ')}`);
+
 
         // ================================================================
         // 3. DETERMINAR SESIÓN Y MICROCICLO ACTUAL
@@ -113,6 +129,7 @@ export default async function handler(req, res) {
         }
 
         console.log(`[SessionGen V2] Sesión: ${sesion.sessionFocus}, Microciclo ${microcycleIdx + 1}, Fase: ${microciclo.focus}`);
+        console.log(`[SessionGen V2] structureType: ${sesion.structureType || 'undefined'}`);
 
         // ================================================================
         // 4. DETECTAR AMBIENTE Y FILTRAR EJERCICIOS
@@ -164,10 +181,10 @@ export default async function handler(req, res) {
         
         const contextExtra = {
             historial: historialSesiones || [],
-            cargaExterna: null, // Podría venir del weeklyScheduleContext
+            cargaExterna: externalFatigue || null, // ← CONECTAR: externalFatigue = cargaExterna
             sleepQuality: sleepQuality || 3,
             stressLevel: stressLevel || 3
-        };
+        }; 
 
         const ajustesReadiness = calcularAjustesAutoregulacion(
             nivelEnergia,
@@ -194,27 +211,165 @@ export default async function handler(req, res) {
         const rirAjustado = Math.max(1, rirBase + ajustesReadiness.deltaRIR);
 
         // ================================================================
-        // 7. GENERAR BLOQUE DE CALENTAMIENTO (RAMP)
+        // 7. GENERAR BLOQUE DE CALENTAMIENTO (RAMP) - SIN POTENTIATE
         // ================================================================
+        // NOTA: La fase Potentiate se generará DESPUÉS del bloque principal
+        // para poder usar el primer ejercicio en series de aproximación
         // Firma: generarCalentamiento(sesionFocus, lesionesUsuario, inventarioEjercicios, opciones)
-        const calentamiento = generarCalentamiento(
+        let calentamientoPreliminar = generarCalentamiento(
             sesion.sessionFocus,
             usuario.injuriesOrLimitations || [],
             ejerciciosPorBloque.calentamiento,
             {
                 nivel: nivel,
-                ambiente: tipoAmbiente
+                ambiente: tipoAmbiente,
+                skipPotentiate: true // Flag interno para omitir Potentiate temporalmente
             }
         );
 
         // ================================================================
+        // 7.5 LOGICA DE CONSISTENCIA Y VARIACIÓN
+        // ================================================================
+        let forcedMainBlock = null;
+        let blacklistedExerciseIds = [];
+        
+        // ID del mesociclo actual para comparaciones
+        const currentMesoId = mesocicloActivo.id || `meso_${new Date(mesocicloActivo.startDate || mesocicloActivo.generationDate).getTime()}`;
+
+        // A) Consistencia Intra-Mesociclo (Semana 2+)
+        if (microcycleIdx > 0) {
+            
+            // Estrategia híbrida: Metadatos (preferido) o Fechas (fallback)
+            const week1Session = (recentSessions || []).find(s => {
+                
+                // Opción A: Match por metadatos explícitos
+                if (s.mesocycleId && s.microcycleIndex !== undefined && s.sessionIndex !== undefined) {
+                    return s.mesocycleId === currentMesoId && 
+                           s.microcycleIndex === 0 && 
+                           s.sessionIndex === sessionIdx;
+                }
+                
+                // Opción B: Fallback a Fechas si no hay metadatos (legacy)
+                const startMeso = new Date(mesocicloActivo.startDate);
+                const endWeek1 = new Date(startMeso);
+                endWeek1.setDate(endWeek1.getDate() + 7);
+                const d = new Date(s.completedAt);
+                
+                // NOTA: Esta lógica de fechas es frágil en scripts de prueba donde todo ocurre el mismo día
+                // Por eso la opción A es crítica
+                return d >= startMeso && d < endWeek1;
+            });
+
+            if (week1Session && week1Session.mainBlock) {
+                console.log(`[GenerateV2] Encontrada sesión de referencia CONSISTENTE (Week 1, Session ${sessionIdx})`);
+
+                // Normalizar distintos formatos de mainBlock almacenados en historial:
+                // - Forma esperada: Array de bloques [{ ejercicios: [...] }, ...]
+                // - Forma legacy: { tipo: 'estaciones', bloques: [ { ejercicios: [...] }, ... ] }
+                // - Otras variantes: objeto con 'ejercicios' directamente
+                const mb = week1Session.mainBlock;
+                let normalizedBlocks = null;
+
+                if (Array.isArray(mb)) {
+                    normalizedBlocks = mb;
+                } else if (mb && Array.isArray(mb.bloques)) {
+                    // Transformar bloques -> formato esperado
+                    normalizedBlocks = mb.bloques.map(b => ({ ...b, ejercicios: b.ejercicios || [] }));
+                    console.log(`[GenerateV2] Normalizado mainBlock desde 'bloques' (${normalizedBlocks.length} bloques).`);
+                } else if (mb && mb.ejercicios) {
+                    // Caso: un único bloque representado como objeto
+                    normalizedBlocks = Array.isArray(mb.ejercicios) ? [ { ejercicios: mb.ejercicios } ] : [ { ejercicios: [mb.ejercicios] } ];
+                    console.log(`[GenerateV2] Normalizado mainBlock desde único bloque con 'ejercicios'.`);
+                } else {
+                    // No reconocido: usar como viene (fallback)
+                    normalizedBlocks = mb;
+                }
+
+                // Guardar tanto los bloques como la metadata de la sesión fuente (ambiente/equipo)
+                forcedMainBlock = {
+                    blocks: normalizedBlocks,
+                    sourceSessionMeta: {
+                        sessionEnvironment: week1Session.sessionEnvironment || week1Session.sessionEnvironment || null,
+                        equipmentSnapshot: week1Session.equipmentSnapshot || null,
+                        mesocycleId: week1Session.mesocycleId || null
+                    }
+                };
+
+            } else {
+                console.log(`[GenerateV2] No se encontró sesión de referencia en Week 1 para Session ${sessionIdx}. Se generará nueva.`);
+                
+                // Fallback adicional para scripts de prueba síncronos:
+                // Si la sesión 0 se acaba de completar hace milisegundos y aún no tiene metadatos correctos (race condition?),
+                // intentamos buscar por 'orden' en recentSessions si coinciden en número.
+                // (Omitimos esto por seguridad en producción, confiamos en la mejora de complete.js)
+            }
+        }
+        // B) Variación Inter-Mesociclo (Para Semana 1)
+        else if (microcycleIdx === 0) {
+             // Recolectar ejercicios de ciclos ANTERIORES
+             const blacklistSet = new Set();
+             
+             (recentSessions || []).forEach(s => {
+                 const isPreviousCycle = s.mesocycleId && s.mesocycleId !== currentMesoId;
+                 const isOldDate = !s.mesocycleId && new Date(s.completedAt) < new Date(mesocicloActivo.startDate);
+                 
+                 if (isPreviousCycle || isOldDate) {
+                     if (s.mainBlock && Array.isArray(s.mainBlock)) {
+                         s.mainBlock.forEach(b => {
+                             if (b.ejercicios) {
+                                 b.ejercicios.forEach(e => blacklistSet.add(e.id));
+                             }
+                         });
+                     }
+                 }
+             });
+
+            blacklistedExerciseIds = Array.from(blacklistSet);
+            // Limitamos el blacklist por si acaso es enorme, pero para 30 sesiones recientes está bien
+            console.log(`[GenerateV2] Variación Inter-Mesociclo: ${blacklistedExerciseIds.length} ejercicios en blacklist.`);
+        }
+
+        // ================================================================
         // 8. GENERAR BLOQUE PRINCIPAL
         // ================================================================
-        // Firma: construirBloquePrincipal(sesionObj, microciclo, historial, ajustes, inventario, nivelExp, dbEjercicios, perfilEquipo)
+        
+        // --- ELITE: PRE-CALCULATE OPTIMIZATIONS ---
+        // Prioridad: 1) Request body (real-time), 2) Session context (planificado), 3) Default
+        const effectiveExternalFatigue = externalFatigue || sesion.context?.externalFatigue || 'none';
+        const effectiveEnergyLevel = energyLevel || sesion.context?.energyLevel || 3;
+
+        console.log(`[EliteGen] Safety Switch inputs: externalFatigue=${effectiveExternalFatigue}, energy=${effectiveEnergyLevel}`);
+
+        const eliteOptimization = optimizeDailyLoad(
+            { 
+                externalFatigue: effectiveExternalFatigue,
+                energyLevel: effectiveEnergyLevel,
+                sorenessLevel: sorenessLevel || 2
+            },
+            {
+                rpe: rpeAjustado,
+                rir: rirAjustado,
+                baseVolume: 3 // Reference
+            },
+            (microcycleIdx || 0) + 1
+        );
+        
+        const eliteBiomechanics = translateBiomechanics(
+            sesion.structureType || 'Hypertrophy_Standard', 
+            nivel
+        );
+        console.log(`[EliteGen] SafetySwitch: ${eliteOptimization.actionTaken} (RPE:${eliteOptimization.finalRPE}), Bio: ${eliteBiomechanics.tempo}`);
+        // ------------------------------------------
+
+        // Firma: construirBloquePrincipal(sesionObj, microciclo, historial, ajustes, inventario, nivelExp, dbEjercicios, perfilEquipo, forcedMainBlock, blacklist)
+        // Combinar historial oficial con recentSessions para asegurar que la sesión recién completada
+        // esté disponible inmediatamente para el cálculo de carga (sin esperar a procesos batch).
+        const combinedHistorial = [ ...(recentSessions || []), ...(historialSesiones || []) ];
+
         const bloquePrincipal = construirBloquePrincipal(
             sesion,                           // sesionObj
             microciclo,                       // microciclo
-            historialSesiones || [],          // historial
+            combinedHistorial,                // historial (include recentSessions first)
             ajustesReadiness,                 // ajustes
             ejerciciosPorBloque.principal,    // inventario (ejercicios filtrados)
             nivel,                            // nivelExp
@@ -222,9 +377,157 @@ export default async function handler(req, res) {
             {                                 // perfilEquipo con pesos específicos
                 equipamiento: equipamientoNormalizado,
                 ubicacion: location,
-                pesosEspecificos: perfilPesosEspecificos
-            }
+                pesosEspecificos: perfilPesosEspecificos,
+                exerciseWeights: usuario?.exerciseWeights || {} // user-specific overrides (feedback adaptations)
+            },
+            forcedMainBlock,                  // ARG 9: Consistencia
+            blacklistedExerciseIds            // ARG 10: Variación
         );
+
+        // --- ELITE: POST-PROCESS BLOCKS ---
+        // Apply Safety Switch & Biomechanical directives to the generated block
+        if (bloquePrincipal) {
+             const bloquesArr = Array.isArray(bloquePrincipal) ? bloquePrincipal : (bloquePrincipal.bloques || []);
+             bloquesArr.forEach(bloque => {
+                 console.log(`[EliteGen] Processing block: tipo=${bloque.tipo}, ejercicios=${(bloque.ejercicios||[]).length}`);
+                 if (bloque.ejercicios) {
+                     bloque.ejercicios.forEach(ej => {
+                        console.log(`[EliteGen] Processing exercise ${ej.id} role=${ej.rolSesion || 'n/a'} current_descanso=${ej.descanso || 'n/a'}`);                        // 1. Biomechanics Translation (Tempo & Intent)
+                        // Preserve calculated load, but inject execution style
+                        ej.tempo = eliteBiomechanics.tempo;
+                        ej.executionIntent = eliteBiomechanics.intent;
+
+                        // Apply specific rest if defined in elite module (robust parsing + structureType enforcement)
+                        const roleKey = ej.rolSesion === 'primario' ? 'primary' : 
+                                        (ej.rolSesion === 'secundario' ? 'accessory' : 'isolation');
+
+                        const rpConfig = eliteBiomechanics.restProtocols && eliteBiomechanics.restProtocols[roleKey];
+                        let parsedRest = null;
+                        if (rpConfig !== undefined && rpConfig !== null) {
+                            if (typeof rpConfig === 'number') parsedRest = rpConfig;
+                            else {
+                                const digits = parseInt(String(rpConfig).replace(/\D/g,''), 10);
+                                if (!isNaN(digits)) parsedRest = digits;
+                            }
+                        }
+
+                        if (sesion.structureType === 'Neural_Strength') {
+                            // Garantizar mínimo 180s
+                            if (parsedRest && parsedRest >= 180) ej.descanso = `${parsedRest}s`;
+                            else ej.descanso = '180s';
+                        } else if (sesion.structureType === 'Metabolic_Volume') {
+                            // Forzar valores metabólicos por rol (45s compounds, 35s isolations)
+                            ej.descanso = (ej.rolSesion === 'primario') ? '45s' : '35s';
+                        } else if (parsedRest) {
+                            ej.descanso = `${parsedRest}s`;
+                        } else {
+                            ej.descanso = ej.descanso || '90s';
+                        }
+
+                        console.log(`[EliteGen] Applied rest ${ej.descanso} for ${ej.id} role=${ej.rolSesion} (parsedRest=${parsedRest})`);
+
+                        // 2. Load Optimization (Safety Switch)
+                        // Overwrite RPE/RIR if safety switch was triggered (actionTaken !== 'Standard')
+                        if (eliteOptimization.actionTaken !== 'Standard') {
+                            // Sobrescribir RPE/RIR con valores de safety
+                            ej.rpeTarget = eliteOptimization.finalRPE;
+                            ej.rirTarget = eliteOptimization.finalRIR;
+
+                            // Reducción de volumen (aplicar SIEMPRE cuando hay fatiga alta)
+                            const oldSets = ej.sets || ej.prescripcion?.series || 3;
+                            let newSets = oldSets;
+                            
+                            if (eliteOptimization.volumePercentReduction) {
+                                // Aplicar reducción porcentual (más preciso que -1 flat)
+                                newSets = Math.max(1, Math.round(oldSets * (1 - eliteOptimization.volumePercentReduction)));
+                                console.log(`[EliteGen] Volume reduction for ${ej.id}: ${oldSets} → ${newSets} sets (-${(eliteOptimization.volumePercentReduction*100).toFixed(0)}%)`);
+                            } else if (eliteOptimization.volumeAdjustmentSamples === -1) {
+                                // Fallback: quitar 1 serie
+                                newSets = Math.max(1, oldSets - 1);
+                                console.log(`[EliteGen] Volume reduction for ${ej.id}: ${oldSets} → ${newSets} sets (-1 set)`);
+                            }
+                            
+                            ej.sets = newSets;
+                            
+                            if (ej.sets < oldSets) {
+                                ej.adjustmentReason = (ej.adjustmentReason ? ej.adjustmentReason + " | " : "") + 
+                                    `Safety Switch: Volume Reduced ${oldSets}→${newSets} sets due to ${eliteOptimization.actionTaken}.`;
+                            }
+
+                            // Sobrescribir prescripción si existe
+                            if (ej.prescripcion) {
+                                ej.prescripcion.series = newSets;
+                                ej.prescripcion.rpeObjetivo = eliteOptimization.finalRPE;
+                                ej.prescripcion.rirObjetivo = eliteOptimization.finalRIR;
+                            }
+                        }
+                     });
+                 }
+             });
+        }
+        // ----------------------------------
+
+        // ================================================================
+        // 8.5 COMPLETAR CALENTAMIENTO CON FASE POTENTIATE
+        // ================================================================
+        // Ahora que tenemos el bloque principal, podemos generar series de aproximación
+        // con el primer ejercicio del main block
+        
+        let fasePotentiate = [];
+        let primerEjercicioMain = null;
+        
+        // Extraer el primer ejercicio del bloque principal
+        if (bloquePrincipal) {
+            const bloquesArr = Array.isArray(bloquePrincipal) ? bloquePrincipal : (bloquePrincipal.bloques || []);
+            if (bloquesArr.length > 0 && bloquesArr[0].ejercicios && bloquesArr[0].ejercicios.length > 0) {
+                primerEjercicioMain = bloquesArr[0].ejercicios[0];
+            }
+        }
+        
+        // Importar generarFasePotentiate para usarla directamente
+        // (Ya está en el scope desde rampGenerator.js, pero necesitamos llamarla manualmente)
+        if (primerEjercicioMain) {
+            console.log(`[SessionGen V2] Generando series de aproximación con: ${primerEjercicioMain.nombre}`);
+            
+            // Generar series de aproximación manualmente con la misma lógica que en rampGenerator
+            const numSeriesAprox = nivel === 'Principiante' ? 2 : 3;
+            const pesoObjetivo = primerEjercicioMain.pesoObjetivo || primerEjercicioMain.peso || 100;
+            
+            const porcentajes = nivel === 'Principiante' ? [0.4, 0.6] : [0.4, 0.6, 0.75];
+            const repsProgresion = nivel === 'Principiante' ? [8, 6] : [8, 6, 4];
+            
+            for (let i = 0; i < numSeriesAprox; i++) {
+                const pesoSerie = Math.round(pesoObjetivo * porcentajes[i]);
+                const reps = repsProgresion[i];
+                
+                fasePotentiate.push({
+                    id: `${primerEjercicioMain.id}-warmup-set-${i + 1}`,
+                    nombre: primerEjercicioMain.nombre,
+                    fase: 'Potentiate',
+                    tipo: 'aproximacion',
+                    
+                    serieNumero: i + 1,
+                    totalSeries: numSeriesAprox,
+                    reps: reps,
+                    peso: pesoSerie,
+                    porcentajeCarga: Math.round(porcentajes[i] * 100),
+                    descanso: '90s',
+                    
+                    equipo: primerEjercicioMain.equipo,
+                    imageUrl: primerEjercicioMain.imageUrl || primerEjercicioMain.url_img_0,
+                    imageUrl2: primerEjercicioMain.imageUrl2 || primerEjercicioMain.url_img_1,
+                    instrucciones: primerEjercicioMain.descripcion || primerEjercicioMain.instrucciones,
+                    
+                    notas: `Serie de aproximación ${i + 1}/${numSeriesAprox}: ${Math.round(porcentajes[i] * 100)}% del peso objetivo. Enfoque en técnica perfecta.`,
+                    esSerieAproximacion: true
+                });
+            }
+        } else {
+            console.log(`[SessionGen V2] No hay primer ejercicio main para series de aproximación. Fase Potentiate omitida.`);
+        }
+        
+        // Combinar calentamiento preliminar con fase Potentiate
+        const calentamiento = [...calentamientoPreliminar, ...fasePotentiate];
 
         // ================================================================
         // 9. GENERAR BLOQUE DE CORE (SI APLICA)
@@ -299,8 +602,8 @@ export default async function handler(req, res) {
             
             // Parámetros de entrenamiento
             trainingParameters: {
-                rpeTarget: rpeAjustado,
-                rirTarget: rirAjustado,
+                rpeTarget: (eliteOptimization && eliteOptimization.actionTaken && eliteOptimization.actionTaken !== 'Standard') ? eliteOptimization.finalRPE : rpeAjustado,
+                rirTarget: (eliteOptimization && eliteOptimization.actionTaken && eliteOptimization.actionTaken !== 'Standard') ? eliteOptimization.finalRIR : rirAjustado,
                 volumeConfig: VOLUME_CONFIG[nivel],
                 restProtocol: REST_PROTOCOLS[objetivo],
                 ambiente: tipoAmbiente,
@@ -343,11 +646,17 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('[SessionGen V2] Error:', error);
-        return res.status(500).json({
+        // Log completo para depuración local
+        console.error('ERROR generando sesión:', (error && error.stack) ? error.stack : error);
+
+        // Incluir parte de la stack en la respuesta para facilitar debugging en pruebas locales
+        const stackSnippet = (error && error.stack) ? error.stack.split('\n').slice(0,6).join('\n') : null;
+
+        return res.status(500).json({ 
             error: 'Error interno generando la sesión',
             details: error.message,
-            code: 'INTERNAL_ERROR'
+            code: 'INTERNAL_ERROR',
+            stack: stackSnippet
         });
     }
 }
@@ -704,12 +1013,7 @@ async function guardarSesionGenerada(userId, sesion) {
         // Limpiar valores undefined antes de guardar
         const sesionLimpia = removeUndefinedValues(sesion);
         
-        // 1. Guardar en la subcolección generatedSessions (historial)
-        const sessionRef = userRef.collection('generatedSessions').doc(sesion.id);
-        await sessionRef.set({
-            ...sesionLimpia,
-            savedAt: new Date().toISOString()
-        });
+        // YA NO SE GUARDA EN generatedSessions (Historial eliminado por requerimiento)
         
         // 2. Actualizar currentSession en el documento del usuario
         // Esto es lo que el frontend verifica para saber si la sesión está lista
@@ -728,7 +1032,7 @@ async function guardarSesionGenerada(userId, sesion) {
             currentSession: currentSessionData
         });
         
-        console.log(`[SessionGen V2] Sesión guardada: ${sesion.id} y actualizada en currentSession`);
+        console.log(`[SessionGen V2] Sesión actualizada en currentSession (sin historial persistente)`);
     } catch (error) {
         console.error('[SessionGen V2] Error guardando sesión:', error);
         // No fallar la petición si no se puede guardar

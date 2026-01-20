@@ -9,7 +9,7 @@ import aprobarUsuarioHandler from './api/admin/aprobar-usuario.js';
 import motivationHandler from './api/profile/motivation.js';
 import mesocycleGenerateHandler from './api/mesocycle/generate.js'; 
 import mesocycleEvaluateHandler from './api/mesocycle/evaluate.js'; // 👈 NUEVA IMPORTACIÓN
-import sessionGenerateHandler from './api/session/generate.js';
+// import sessionGenerateHandler from './api/session/generate.js'; // Removed: deprecated
 import sessionGenerateV2Handler from './api/session/generateV2.js'; 
 import sessionCompleteHandler from './api/session/complete.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
@@ -49,7 +49,7 @@ app.post('/api/mesocycle/evaluate', mesocycleEvaluateHandler); // 👈 RUTA AÑA
 app.post('/api/mesocycle/generate', mesocycleGenerateHandler);
 
 // Generación de la Sesión del Día
-app.post('/api/session/generate', sessionGenerateHandler);
+// app.post('/api/session/generate', sessionGenerateHandler); // Removed: deprecated
 
 // Generación de la Sesión V2 (Nueva versión mejorada)
 app.post('/api/session/generateV2', sessionGenerateV2Handler);
@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
             'POST /api/profile/motivation',
             'POST /api/mesocycle/evaluate',
             'POST /api/mesocycle/generate',
-            'POST /api/session/generate',
+            // 'POST /api/session/generate',
             'POST /api/session/generateV2',
             'POST /api/session/complete',
             'POST /api/session/swap-exercise' 

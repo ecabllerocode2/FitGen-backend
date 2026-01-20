@@ -36,16 +36,22 @@ async function exportUserData(userId) {
     const userData = docSnap.data();
 
     // === Obtener el documento específico de la subcolección history ===
-    const historyDocId = '0MjZUcZ7nC39Q5Lrfdvm';
-    const historyDocSnap = await userDocRef.collection('history').doc(historyDocId).get();
-    let historyData = null;
-    if (historyDocSnap.exists) {
-      historyData = historyDocSnap.data();
-    }
+    // const historyDocId = '0MjZUcZ7nC39Q5Lrfdvm';
+    // const historyDocSnap = await userDocRef.collection('history').doc(historyDocId).get();
+    // let historyData = null;
+    // if (historyDocSnap.exists) {
+    //   historyData = historyDocSnap.data();
+    // }
 
     // Adjuntar el documento de history al objeto exportado
-    userData._history = {};
-    userData._history[historyDocId] = historyData;
+    // userData._history = {};
+    // userData._history[historyDocId] = historyData;
+
+    // === Obtener generatedSessions ===
+    // const genSessionsSnap = await userDocRef.collection('generatedSessions').get();
+    // const genSessions = {};
+    // genSessionsSnap.forEach(doc => { genSessions[doc.id] = doc.data(); });
+    // userData._generatedSessions = genSessions;
 
     const outputFileName = `user_data_${userId}.json`;
     const outputPath = path.join(__dirname, outputFileName);

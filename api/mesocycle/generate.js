@@ -1,631 +1,383 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { startOfWeek, addDays } from 'date-fns';
 
-// ====================================================================
-// CONSTANTES Y CONFIGURACIÓN
-// ====================================================================
+// Importar módulos del Sistema Experto de Generación (v2)
+import { 
+    Goal, 
+    Experience, 
+    LEVEL_MAPPING, 
+    OBJECTIVE_MAPPING 
+} from '../../lib/mesocycleGeneration/constants.js';
 
-const DAYS_ORDER = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-
-// Objetivos válidos para mapeo de fase
-const OBJECTIVE_MAPPING = {
-    'Ganancia_Muscular': 'Hipertrofia',
-    'Perdida_Grasa': 'Perdida_Grasa',
-    'Fuerza': 'Fuerza_Maxima',
-    'Salud': 'Salud_General',
-    'Rendimiento_Deportivo': 'Rendimiento_Deportivo'
-};
-
-// Niveles válidos
-const LEVEL_MAPPING = {
-    'Principiante': 'Principiante',
-    'Intermedio': 'Intermedio',
-    'Avanzado': 'Avanzado'
-};
+import { calculateSystemicStress, determineVolumeTier } from '../../lib/mesocycleGeneration/workCapacity.js';
+import { selectSplitArchitecture } from '../../lib/mesocycleGeneration/splitSelector.js';
+import { mapSessionsToCalendar } from '../../lib/mesocycleGeneration/sessionScheduler.js';
+import { generateSessionContent } from '../../lib/mesocycleGeneration/contentBuilder.js';
+import { setSessionIntensity, determineSessionStructureType } from '../../lib/mesocycleGeneration/loadBalancer.js';
+import { createMicrocycleProgression } from '../../lib/mesocycleGeneration/progression.js';
+import { determinePhaseObjective } from '../../lib/mesocycleGeneration/objectiveManager.js';
 
 // ====================================================================
-// 1. DETERMINACIÓN DEL OBJETIVO DEL MESOCICLO
+// GENERADOR DE MESOCICLO ORQUESTADOR (Refactorizado)
 // ====================================================================
 
 /**
- * Determina el objetivo de la fase basado en el feedback del mesociclo anterior
- * o establece una fase de adaptación si es el primer ciclo
- */
-const determinarObjetivoFase = (usuario, mesocicloAnterior, nextCycleConfig) => {
-    // Si existe un mesociclo anterior y tiene feedback
-    if (mesocicloAnterior && mesocicloAnterior.feedback) {
-        const feedback = mesocicloAnterior.feedback;
-        
-        // Si el usuario se sintió estancado, cambiar a fuerza para romper plateau
-        if (feedback.sensation === 'Estancado' || feedback.energyLevel < 3) {
-            return {
-                objetivo: 'Fuerza_Maxima',
-                razon: 'Cambio a fuerza para romper estancamiento y estimular adaptación neural'
-            };
-        }
-        
-        // Si hay dolor articular alto, cambiar a descarga y técnica
-        if (feedback.sorenessLevel > 7 || feedback.jointPain > 7) {
-            return {
-                objetivo: 'Descarga_Activa_y_Tecnica',
-                razon: 'Fase de descarga debido a alta fatiga articular/muscular'
-            };
-        }
-        
-        // Si hay configuración del ciclo siguiente (de evaluate.js), usarla
-        if (nextCycleConfig && nextCycleConfig.focusSuggestion) {
-            if (nextCycleConfig.focusSuggestion === 'Rehab/Prehab') {
-                return {
-                    objetivo: 'Descarga_Activa_y_Tecnica',
-                    razon: 'Sugerencia de evaluación: Enfoque en recuperación'
-                };
-            }
-        }
-        
-        // Si todo fue bien, mantener el objetivo general del usuario
-        const objetivoMapeado = OBJECTIVE_MAPPING[usuario.fitnessGoal] || usuario.fitnessGoal;
-        return {
-            objetivo: objetivoMapeado,
-            razon: 'Continuación del objetivo principal con progresión'
-        };
-    }
-    
-    // Primer ciclo: siempre adaptación para preparar tejidos
-    return {
-        objetivo: 'Adaptacion_Anatomica_y_Control',
-        razon: 'Primer mesociclo: fase de adaptación anatómica y aprendizaje motor'
-    };
-};
-
-// ====================================================================
-// 2. SELECCIÓN DE LA DISTRIBUCIÓN SEMANAL (SPLIT)
-// ====================================================================
-
-/**
- * Matriz de decisión de splits según días disponibles y nivel
- */
-const SPLIT_STRATEGIES = {
-    2: {
-        'Principiante': ['Full Body A', 'Full Body B'],
-        'Intermedio': ['Full Body A', 'Full Body B'],
-        'Avanzado': ['Full Body A (Alta Intensidad)', 'Full Body B (Alta Intensidad)']
-    },
-    3: {
-        'Principiante': ['Full Body A', 'Full Body B', 'Full Body C'],
-        'Intermedio': ['Torso - Fuerza', 'Pierna - Fuerza', 'Full Body - Metabólico'],
-        'Avanzado': ['Torso', 'Pierna', 'Full Body (Puntos Débiles)']
-    },
-    4: {
-        'Principiante': ['Torso', 'Pierna', 'Full Body A', 'Full Body B'],
-        'Intermedio': ['Torso - Fuerza', 'Pierna - Fuerza', 'Torso - Hipertrofia', 'Pierna - Hipertrofia'],
-        'Avanzado': ['Empuje (Push)', 'Tracción (Pull)', 'Pierna (Legs)', 'Torso/Brazos (Pump)']
-    },
-    5: {
-        'Principiante': ['Torso', 'Pierna', 'Full Body A', 'Full Body B', 'Full Body C'],
-        'Intermedio': ['Torso', 'Pierna', 'Empuje', 'Tracción', 'Pierna'],
-        'Avanzado': ['Pecho/Espalda', 'Pierna', 'Hombro/Brazo', 'Full Body', 'Core/Cardio']
-    },
-    6: {
-        'Principiante': ['Full Body', 'Cardio', 'Full Body', 'Cardio', 'Full Body', 'Cardio'],
-        'Intermedio': ['Empuje', 'Tracción', 'Pierna', 'Empuje', 'Tracción', 'Pierna'],
-        'Avanzado': ['Empuje', 'Tracción', 'Pierna', 'Empuje', 'Tracción', 'Pierna']
-    },
-    7: {
-        'Principiante': ['Full Body', 'Cardio', 'Full Body', 'Cardio', 'Full Body', 'Cardio', 'Movilidad'],
-        'Intermedio': ['Empuje', 'Tracción', 'Pierna', 'Empuje', 'Tracción', 'Pierna', 'Recuperación Activa'],
-        'Avanzado': ['Empuje', 'Tracción', 'Pierna', 'Empuje', 'Tracción', 'Pierna', 'Accesorios/Puntos Débiles']
-    }
-};
-
-/**
- * Selecciona el split óptimo basado en días disponibles, nivel y objetivo
- */
-const seleccionarSplitOptimo = (numDias, nivel, objetivo) => {
-    // Normalizar días entre 2 y 7
-    const diasNormalizados = Math.min(Math.max(numDias, 2), 7);
-    
-    // Normalizar nivel
-    const nivelNormalizado = LEVEL_MAPPING[nivel] || 'Intermedio';
-    
-    // Obtener el split base
-    let split = SPLIT_STRATEGIES[diasNormalizados][nivelNormalizado];
-    
-    // Ajustes específicos por objetivo
-    if (objetivo === 'Perdida_Grasa' || objetivo === 'Salud_General') {
-        // Para pérdida de grasa, priorizar full body y circuitos
-        if (diasNormalizados === 3 && nivelNormalizado !== 'Avanzado') {
-            split = ['Full Body - Circuito A', 'Full Body - Circuito B', 'Full Body - Circuito C'];
-        } else if (diasNormalizados === 4 && nivelNormalizado !== 'Avanzado') {
-            split = ['Torso - Fuerza', 'Pierna - Fuerza', 'Full Body - Metabólico A', 'Full Body - Metabólico B'];
-        }
-    } else if (objetivo === 'Fuerza_Maxima' && diasNormalizados === 4) {
-        // Para fuerza, usar un split orientado a levantamientos principales
-        split = ['Sentadilla/Empuje Vertical', 'Peso Muerto/Tracción', 'Press Banca/Empuje Horizontal', 'Accesorios/Hipertrofia'];
-    }
-    
-    return {
-        tipo: `Split_${diasNormalizados}_Dias_${nivelNormalizado}`,
-        sesiones: split,
-        descripcion: `Split de ${diasNormalizados} días para nivel ${nivelNormalizado}`
-    };
-};
-
-// ====================================================================
-// 3. DETERMINACIÓN DE LA DENSIDAD Y METODOLOGÍA DE SESIÓN
-// ====================================================================
-
-/**
- * Determina el método de sesión (Estaciones, Superseries, Circuito)
- * basado en tiempo disponible, objetivo y nivel
- */
-const determinarMetodoSesion = (tiempoDisponible, objetivoFase, nivel) => {
-    // Si el tiempo es limitado (<45 min), usar circuitos para máxima densidad
-    if (tiempoDisponible < 45) {
-        return {
-            metodo: 'Circuito_Metabolico',
-            descripcion: 'Circuito de alta densidad para optimizar tiempo',
-            restBetweenSetsSec: 30,
-            restBetweenExercisesSec: 15
-        };
-    }
-    
-    // Para fuerza máxima, siempre estaciones puras con descansos completos
-    if (objetivoFase === 'Fuerza_Maxima') {
-        return {
-            metodo: 'Estaciones_Puras',
-            descripcion: 'Estaciones con descansos completos para recuperación ATP-PC',
-            restBetweenSetsSec: 180,
-            restBetweenExercisesSec: 120
-        };
-    }
-    
-    // Para hipertrofia o pérdida de grasa
-    if (objetivoFase === 'Hipertrofia' || objetivoFase === 'Perdida_Grasa') {
-        // Principiantes: estaciones puras para priorizar técnica
-        if (nivel === 'Principiante') {
-            return {
-                metodo: 'Estaciones_Puras',
-                descripcion: 'Estaciones puras para aprendizaje técnico',
-                restBetweenSetsSec: 90,
-                restBetweenExercisesSec: 60
-            };
-        }
-        
-        // Intermedios y avanzados: superseries para eficiencia y estrés metabólico
-        return {
-            metodo: 'Superseries_Antagonistas',
-            descripcion: 'Superseries antagonistas para eficiencia y estrés metabólico',
-            restBetweenSetsSec: 60,
-            restBetweenExercisesSec: 45
-        };
-    }
-    
-    // Por defecto: estaciones puras
-    return {
-        metodo: 'Estaciones_Puras',
-        descripcion: 'Estaciones convencionales',
-        restBetweenSetsSec: 90,
-        restBetweenExercisesSec: 60
-    };
-};
-
-// ====================================================================
-// 4. PLANIFICACIÓN DE CORE Y CARDIO
-// ====================================================================
-
-/**
- * Determina la frecuencia de entrenamiento de core según nivel
- */
-const determinarFrecuenciaCore = (nivel) => {
-    switch (nivel) {
-        case 'Principiante':
-            return { frecuencia: 4, intensidad: 'Baja', enfoque: 'Estabilidad básica' };
-        case 'Intermedio':
-            return { frecuencia: 3, intensidad: 'Media', enfoque: 'Anti-movimiento' };
-        case 'Avanzado':
-            return { frecuencia: 2, intensidad: 'Alta', enfoque: 'Anti-movimiento pesado' };
-        default:
-            return { frecuencia: 3, intensidad: 'Media', enfoque: 'Estabilidad' };
-    }
-};
-
-/**
- * Determina si un día es previo a una sesión de pierna pesada
- */
-const esDiaPrevioAPiernaPesada = (diaActualIndex, diasDisponibles, split) => {
-    const siguienteDiaIndex = (diaActualIndex + 1) % 7;
-    const siguienteDia = DAYS_ORDER[siguienteDiaIndex];
-    
-    // Buscar si el siguiente día es un día de entrenamiento
-    const siguienteDiaEntrena = diasDisponibles.some(d => d.day === siguienteDia && d.canTrain);
-    
-    if (!siguienteDiaEntrena) return false;
-    
-    // Verificar si el siguiente día es pierna
-    const indexEnSplit = diasDisponibles.findIndex(d => d.day === siguienteDia);
-    if (indexEnSplit === -1) return false;
-    
-    const sesionSiguiente = split[indexEnSplit % split.length];
-    return sesionSiguiente.toLowerCase().includes('pierna') || 
-           sesionSiguiente.toLowerCase().includes('legs') ||
-           sesionSiguiente.toLowerCase().includes('sentadilla');
-};
-
-/**
- * Determina si se debe incluir cardio según objetivo
- */
-const determinarCardio = (objetivo, sessionFocus) => {
-    if (objetivo === 'Perdida_Grasa' || objetivo === 'Salud_General') {
-        const esDiaPierna = sessionFocus.toLowerCase().includes('pierna') || 
-                           sessionFocus.toLowerCase().includes('legs');
-        
-        return {
-            includeCardio: true,
-            cardioType: esDiaPierna ? 'LISS_Bajo_Impacto' : 'HIIT_Opcional',
-            duracionMin: esDiaPierna ? 20 : 15
-        };
-    }
-    
-    return { includeCardio: false };
-};
-
-// ====================================================================
-// 5. PERIODIZACIÓN Y ESTRUCTURA DE MICROCICLOS
-// ====================================================================
-
-/**
- * Obtiene la estructura del microciclo según la semana (periodización ondulante)
- */
-const obtenerEstructuraMicrociclo = (semana) => {
-    switch (semana) {
-        case 1:
-            return {
-                focus: 'Adaptación/Cargas Introductorias',
-                intensityRpe: '6/10 (RPE 6)',
-                targetRIR: 4,
-                notes: 'Fase de Introducción: Prioriza la calidad de movimiento y aprendizaje motor.'
-            };
-        case 2:
-            return {
-                focus: 'Acumulación de Volumen',
-                intensityRpe: '7/10 (RPE 7)',
-                targetRIR: 3,
-                notes: 'Fase de Carga: Intenta aumentar peso o repeticiones manteniendo buena técnica.'
-            };
-        case 3:
-            return {
-                focus: 'Sobrecarga/Intensificación',
-                intensityRpe: '8.5/10 (RPE 8.5)',
-                targetRIR: 1.5,
-                notes: 'Fase de Pico: Cerca del fallo técnico. Máxima intensidad de todo el ciclo.'
-            };
-        case 4:
-            return {
-                focus: 'Descarga (Deload)',
-                intensityRpe: '5/10 (RPE 5)',
-                targetRIR: 5,
-                notes: 'Fase de Recuperación: Reduce peso 30% y volumen 50%. Permite supercompensación.'
-            };
-        default:
-            return {
-                focus: 'Mantenimiento',
-                intensityRpe: '6.5/10 (RPE 6.5)',
-                targetRIR: 3,
-                notes: 'Semana estándar de entrenamiento.'
-            };
-    }
-};
-
-/**
- * Aplica ajuste de intensidad adaptativo basado en feedback previo
- */
-const aplicarAjusteAdaptativo = (estructuraBase, nextCycleConfig) => {
-    if (!nextCycleConfig || !nextCycleConfig.overloadFactor) {
-        return estructuraBase;
-    }
-    
-    const factor = nextCycleConfig.overloadFactor;
-    
-    // Extraer RPE actual
-    const rpeMatch = estructuraBase.intensityRpe.match(/(\d+(\.\d+)?)/);
-    let rpeActual = rpeMatch ? parseFloat(rpeMatch[1]) : 6;
-    
-    // Aplicar factor
-    let nuevoRpe = rpeActual * factor;
-    
-    // Límites de seguridad
-    nuevoRpe = Math.max(4, Math.min(10, nuevoRpe));
-    nuevoRpe = Math.round(nuevoRpe * 10) / 10;
-    
-    let notasAdicionales = estructuraBase.notes;
-    
-    if (factor > 1.05) {
-        notasAdicionales += ' [ÉNFASIS: Intensidad aumentada por excelente rendimiento previo].';
-    } else if (factor < 0.95) {
-        notasAdicionales += ' [RECUPERACIÓN: Intensidad reducida para asegurar adaptación completa].';
-    }
-    
-    if (nextCycleConfig.focusSuggestion === 'Rehab/Prehab') {
-        notasAdicionales += ' ⚠️ ATENCIÓN: Prioriza ausencia de dolor sobre peso. Control de tempo esencial.';
-    }
-    
-    // Ajustar RIR según RPE
-    const nuevoRIR = Math.max(1, 11 - nuevoRpe);
-    
-    return {
-        ...estructuraBase,
-        intensityRpe: `${nuevoRpe}/10 (RPE ${nuevoRpe})`,
-        targetRIR: nuevoRIR,
-        notes: notasAdicionales
-    };
-};
-
-/**
- * Ajusta la intensidad según el nivel del usuario
- */
-const ajustarIntensidadPorNivel = (estructuraBase, nivel) => {
-    if (nivel === 'Principiante') {
-        return {
-            ...estructuraBase,
-            intensityRpe: estructuraBase.intensityRpe.replace(/RPE \d+(\.\d+)?/, 'RPE 5-6'),
-            targetRIR: 4,
-            notes: estructuraBase.notes + ' PRINCIPIANTES: Prioridad absoluta en aprender la técnica correcta.'
-        };
-    }
-    
-    return estructuraBase;
-};
-
-// ====================================================================
-// 6. MAPEO DE SESIONES A CALENDARIO
-// ====================================================================
-
-/**
- * Evalúa el riesgo futuro basado en la carga externa de días siguientes
- */
-const evaluarRiesgoFuturo = (diaActualIndex, weeklySchedule) => {
-    const maananaDiaIndex = (diaActualIndex + 1) % 7;
-    const pasadoMananaIndex = (diaActualIndex + 2) % 7;
-    
-    const cargaManana = weeklySchedule[maananaDiaIndex]?.externalLoad || 'none';
-    const cargaPasadoManana = weeklySchedule[pasadoMananaIndex]?.externalLoad || 'none';
-    
-    if (cargaManana === 'extreme') return 'critical';
-    if (cargaManana === 'high') return 'high';
-    if (cargaPasadoManana === 'extreme') return 'warning';
-    
-    return 'safe';
-};
-
-/**
- * Mapea el split ideal al calendario real del usuario
- */
-const mapearSplitACalendario = (diasDisponibles, splitSesiones, weeklySchedule) => {
-    const sesionesCalendarizadas = [];
-    let contadorCore = 0;
-    const configCore = determinarFrecuenciaCore(diasDisponibles[0]?.nivel || 'Intermedio');
-    
-    diasDisponibles.forEach((diaCtx, index) => {
-        const diaIndexEnSemana = DAYS_ORDER.indexOf(diaCtx.day);
-        const riesgoFuturo = evaluarRiesgoFuturo(diaIndexEnSemana, weeklySchedule);
-        const fatigaActual = diaCtx.externalLoad || 'none';
-        
-        // Verificar carga del día anterior
-        const diaAnteriorIndex = (diaIndexEnSemana - 1 + 7) % 7;
-        const cargaDiaAnterior = weeklySchedule[diaAnteriorIndex]?.externalLoad || 'none';
-        const esPostPartidoEvento = cargaDiaAnterior === 'extreme' || cargaDiaAnterior === 'high';
-        
-        // Obtener sesión del split
-        let nombreSesionFinal = splitSesiones[index % splitSesiones.length];
-        let razonAjuste = null;
-        
-        // Ajuste 1: Post-evento de alta carga
-        if (esPostPartidoEvento && fatigaActual !== 'extreme') {
-            if (nombreSesionFinal.toLowerCase().includes('pierna') || 
-                nombreSesionFinal.toLowerCase().includes('full body')) {
-                nombreSesionFinal = 'Torso - Hipertrofia & Recuperación';
-                razonAjuste = 'Ajuste post-carga extrema: Evitar piernas para permitir recuperación.';
-            }
-        }
-        // Ajuste 2: Tapering (preparación para evento futuro)
-        else if (riesgoFuturo === 'critical' || riesgoFuturo === 'warning') {
-            if (nombreSesionFinal.toLowerCase().includes('pierna') || 
-                nombreSesionFinal.toLowerCase().includes('fuerza')) {
-                nombreSesionFinal = 'Activación Neural (Priming) & Movilidad';
-                razonAjuste = 'Tapering: Preparación para evento importante. Reducción de volumen.';
-            }
-        }
-        // Ajuste 3: Fatiga actual moderada/alta
-        else if (fatigaActual === 'medium' || fatigaActual === 'high') {
-            if (nombreSesionFinal.toLowerCase().includes('fuerza') || 
-                nombreSesionFinal.toLowerCase().includes('hipertrofia')) {
-                nombreSesionFinal = nombreSesionFinal
-                    .replace('Fuerza', 'Metabólico')
-                    .replace('Hipertrofia', 'Técnica');
-                razonAjuste = 'Ajuste por carga externa del día. Reducción de intensidad.';
-            }
-        }
-        
-        // Ajuste 4: Evitar repetir torso consecutivo
-        if (index > 0) {
-            const sesionPrevia = sesionesCalendarizadas[index - 1].sessionFocus;
-            if (sesionPrevia.toLowerCase().includes('torso') && 
-                nombreSesionFinal.toLowerCase().includes('torso')) {
-                if (riesgoFuturo === 'safe') {
-                    nombreSesionFinal = 'Pierna/Core - Estímulo Complementario';
-                    razonAjuste = 'Balance estructural: Evitar sobreuso de torso.';
-                }
-            }
-        }
-        
-        // Determinar si incluir core
-        const incluirCore = contadorCore < configCore.frecuencia && 
-                           !esDiaPrevioAPiernaPesada(diaIndexEnSemana, diasDisponibles, splitSesiones);
-        
-        if (incluirCore) contadorCore++;
-        
-        // Crear sesión
-        const sesion = {
-            dayOfWeek: diaCtx.day,
-            sessionFocus: nombreSesionFinal,
-            structureType: diaCtx.metodoSesion || 'Estaciones_Puras',
-            includeCore: incluirCore,
-            coreFocus: incluirCore ? configCore.enfoque : null,
-            context: {
-                externalFatigue: fatigaActual,
-                adjustmentApplied: razonAjuste,
-                basePlan: splitSesiones[index % splitSesiones.length],
-                futureRisk: riesgoFuturo
-            }
-        };
-        
-        // Agregar cardio si corresponde
-        const cardioConfig = determinarCardio(diaCtx.objetivo || 'Hipertrofia', nombreSesionFinal);
-        if (cardioConfig.includeCardio) {
-            sesion.includeCardio = true;
-            sesion.cardioType = cardioConfig.cardioType;
-            sesion.cardioDurationMin = cardioConfig.duracionMin;
-        }
-        
-        sesionesCalendarizadas.push(sesion);
-    });
-    
-    return sesionesCalendarizadas;
-};
-
-// ====================================================================
-// 7. GENERACIÓN COMPLETA DEL MESOCICLO
-// ====================================================================
-
-/**
- * Genera el mesociclo completo siguiendo el algoritmo del pseudocódigo
+ * Genera el mesociclo completo orquestando los módulos especializados.
  */
 const generarMesocicloCompleto = (usuario, mesocicloAnterior, nextCycleConfig) => {
-    // Paso 1: Determinar objetivo de la fase
-    const { objetivo: objetivoFase, razon: razonObjetivo } = determinarObjetivoFase(
-        usuario, 
-        mesocicloAnterior, 
-        nextCycleConfig
-    );
+    console.log('[Generate Módulo] Iniciando orquestación del algoritmo...');
+
+    // 1. ANÁLISIS DE PERFIL & NORMALIZACIÓN
+    const rawLevel = usuario.experienceLevel;
+    const experienceLevel = LEVEL_MAPPING[typeof rawLevel === 'string' ? rawLevel.toLowerCase() : ''] || Experience.INTERMEDIATE;
+    
+    // Determinar Objetivo de la Fase (Estrategia)
+    const { objetivo: phaseGoal, razon: goalReason } = determinePhaseObjective(usuario, mesocicloAnterior, nextCycleConfig);
     
     // Preparar contexto semanal
-    const weeklySchedule = DAYS_ORDER.map(dayName => {
-        const found = usuario.weeklyScheduleContext?.find(d => d.day === dayName);
+    const weeklySchedule = usuario.weeklyScheduleContext || [];
+    // Asegurar estructura
+    const daysOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    let normalizedSchedule = daysOrder.map(dayName => {
+        const found = weeklySchedule.find(d => d.day === dayName);
         return found || { day: dayName, canTrain: false, externalLoad: 'none' };
     });
-    
-    // Filtrar días de entrenamiento
-    const diasEntrenamiento = weeklySchedule.filter(d => 
-        d.canTrain === true || usuario.preferredTrainingDays?.includes(d.day)
-    );
-    
-    if (diasEntrenamiento.length === 0) {
-        throw new Error('No hay días de entrenamiento definidos en el perfil del usuario.');
-    }
-    
-    // Paso 2: Seleccionar split óptimo
-    const splitConfig = seleccionarSplitOptimo(
-        diasEntrenamiento.length,
-        usuario.experienceLevel,
-        objetivoFase
-    );
-    
-    // Paso 3: Determinar método de sesión
-    const metodoSesion = determinarMetodoSesion(
-        usuario.sessionDurationMin || 60,
-        objetivoFase,
-        usuario.experienceLevel
-    );
-    
-    // Agregar info a los días de entrenamiento
-    diasEntrenamiento.forEach(dia => {
-        dia.metodoSesion = metodoSesion.metodo;
-        dia.objetivo = objetivoFase;
-        dia.nivel = usuario.experienceLevel;
-    });
-    
-    // Paso 4: Planificación de Core
-    const coreConfig = determinarFrecuenciaCore(usuario.experienceLevel);
-    
-    // Paso 5: Construcción de microciclos (4 semanas)
-    const microciclos = [];
-    
-    for (let semana = 1; semana <= 4; semana++) {
-        // Obtener estructura base de la semana
-        let estructuraSemana = obtenerEstructuraMicrociclo(semana);
-        
-        // Ajustar por nivel
-        estructuraSemana = ajustarIntensidadPorNivel(estructuraSemana, usuario.experienceLevel);
-        
-        // Aplicar ajuste adaptativo si existe
-        estructuraSemana = aplicarAjusteAdaptativo(estructuraSemana, nextCycleConfig);
-        
-        // Mapear sesiones al calendario
-        const sesionesSemana = mapearSplitACalendario(
-            JSON.parse(JSON.stringify(diasEntrenamiento)),
-            splitConfig.sesiones,
-            weeklySchedule
-        );
-        
-        // Crear microciclo
-        const microciclo = {
-            week: semana,
-            focus: estructuraSemana.focus,
-            intensityRpe: estructuraSemana.intensityRpe,
-            targetRIR: estructuraSemana.targetRIR,
-            notes: estructuraSemana.notes,
-            sessions: sesionesSemana,
-            restProtocol: {
-                betweenSets: metodoSesion.restBetweenSetsSec,
-                betweenExercises: metodoSesion.restBetweenExercisesSec
+
+    // Regla de auditoría: Si el usuario es Principiante y marcó los 7 días como entrenables,
+    // forzamos que Domingo sea día de descanso total para proteger la recuperación.
+    let forcedSundayRestFor7dBeginner = false;
+    try {
+        if (experienceLevel === Experience.BEGINNER) {
+            const allTrainable = normalizedSchedule.every(d => d.canTrain === true);
+            if (allTrainable) {
+                console.log('[Generate Módulo] Beginner reported 7 training days — forcing Domingo as rest day');
+                normalizedSchedule = normalizedSchedule.map(d => d.day === 'Domingo' ? { ...d, canTrain: false } : d);
+                forcedSundayRestFor7dBeginner = true;
             }
-        };
-        
-        microciclos.push(microciclo);
+        }
+    } catch (e) {
+        console.warn('[Generate Módulo] Error evaluating forced Sunday rest rule:', e && e.message);
+    }
+
+    const daysAvailableCount = normalizedSchedule.filter(d => d.canTrain).length;
+    
+    if (daysAvailableCount === 0) {
+        throw new Error('No hay días disponibles para entrenar. Actualice su perfil.');
+    }
+
+    // -----------------------------
+    // Calculo de IMC (BMI) y flags
+    // -----------------------------
+    function computeBMI(profile) {
+        const m = (profile && profile.heightCm) ? (profile.heightCm / 100) : null;
+        const weight = profile && profile.initialWeight ? profile.initialWeight : null;
+        if (!m || !weight) return null;
+        return +(weight / (m * m)).toFixed(1);
+    }
+
+    const bmi = computeBMI(usuario);
+    const isHighBMI = bmi != null && bmi >= 30;
+    const isOlder = (usuario.age || 0) >= 50;
+    const isBeginner = experienceLevel === Experience.BEGINNER;
+    const applyConservativeProtocol = isBeginner && (isHighBMI || isOlder);
+
+    if (applyConservativeProtocol) {
+        console.log('[Generate Módulo] Conservative protocol active (bmi=%s age=%s) -> applying safety rules for beginners with high BMI or older age', bmi, usuario.age);
+    }
+
+    // 2. EQUIPO / ENTORNO: Determinar si el usuario entrena en casa o en gimnasio
+    const isHomeDeclared = Array.isArray(usuario.homeEquipment) && usuario.homeEquipment.length > 0;
+    const trainingLocation = isHomeDeclared ? 'home' : (usuario.preferredTrainingLocation || (usuario.hasHomeEquipment ? 'home' : 'gym'));
+
+    // Construir lista de equipamiento efectiva
+    const equipmentList = isHomeDeclared
+        ? [ 'Peso Corporal', ...usuario.homeEquipment ]
+        : (Array.isArray(usuario.availableEquipment) && usuario.availableEquipment.length > 0
+            ? usuario.availableEquipment
+            : [ 'Barbell', 'Dumbbells', 'Machines', 'Cable', 'Bench' ]);
+
+    // Perfil de equipamiento sintetizado para reglas (booleanos útiles)
+    const equipmentProfile = {
+        location: trainingLocation,
+        equipmentList,
+        hasBarbell: equipmentList.some(e => /barbell|barra|olímp|olympic/i.test(e)),
+        hasDumbbells: equipmentList.some(e => /dumbbell|mancuernas/i.test(e)),
+        hasMachines: equipmentList.some(e => /machine|máquina|maquina|cable|polea/i.test(e)),
+        bodyweightOnly: equipmentList.length === 1 && String(equipmentList[0]).toLowerCase().includes('peso')
+    };
+
+    // 3. CÁLCULO DE CAPACIDAD DE TRABAJO (Module 1)
+    const systemicStress = calculateSystemicStress(normalizedSchedule);
+    const targetWeeklyVolume = determineVolumeTier(experienceLevel, systemicStress, equipmentProfile);
+
+    // Determine if Gym 3-day non-consecutive specialization applies
+    const trainableIndicesLocal = normalizedSchedule.map((d,i)=> d.canTrain ? i : null).filter(i=> i !== null);
+    const isConsecutiveLocal = trainableIndicesLocal.length > 0 && ((trainableIndicesLocal[trainableIndicesLocal.length-1] - trainableIndicesLocal[0]) === (trainableIndicesLocal.length - 1));
+    const gym3DayNonConsec = equipmentProfile.location === 'gym' && trainableIndicesLocal.length === 3 && !isConsecutiveLocal;
+    equipmentProfile.gym3DayNonConsecSpecialization = gym3DayNonConsec;
+
+    console.log(`[Generate Módulo] Training location detected: ${equipmentProfile.location}. Equipment snapshot: ${equipmentProfile.equipmentList.join(', ')}. gym3DayNonConsecSpecialization=${gym3DayNonConsec}`);
+
+    // Policy override: for beginners with high BMI or older users training in GYM with 5 days available,
+    // prefer a safer Torso/Limbs split instead of complex hybrid PHUL
+    let splitType = selectSplitArchitecture(daysAvailableCount, experienceLevel, phaseGoal, equipmentProfile);
+    if (applyConservativeProtocol && equipmentProfile.location === 'gym' && daysAvailableCount === 5) {
+        console.log('[Generate Módulo] Overriding splitType to TORSO_LIMBS for conservative protocol');
+        splitType = 'TORSO_LIMBS';
+    }
+
+    // Record applied modifications for auditing
+    const appliedModifications = [];
+    if (applyConservativeProtocol) {
+        appliedModifications.push({ reason: (isHighBMI ? 'high_bmi' : 'older_age'), rules: ['avoid_axial', 'avoid_high_impact', 'prefer_machines', 'low_impact_cardio', 'conservative_progression'] });
     }
     
-    // Construir objeto final
+    // 4. GENERACIÓN DE ESTRUCTURA SEMANAL BASE (Module 3)
+    // Esto crea el "esqueleto" de la semana: qué se entrena qué día
+    const baseWeeklySchedule = mapSessionsToCalendar(normalizedSchedule, splitType, equipmentProfile, experienceLevel);
+
+    // Adjuntar contexto de equipamiento a cada día para que Generation use la misma fuente de verdad
+    const baseWeeklyScheduleWithEquipment = baseWeeklySchedule.map(s => ({
+        ...s,
+        context: {
+            ...(s.context || {}),
+            equipmentProfile
+        }
+    }));
+
+    // Create a safetyProfile object and attach it to every session context (frontend can rely on presence)
+    const baseSafetyProfile = {
+        avoidAxial: !!applyConservativeProtocol,            // avoid axial loads when conservative protocol active
+        avoidHighImpact: !!applyConservativeProtocol,       // avoid high-impact/plyo
+        preferMachines: !!applyConservativeProtocol,        // prefer machines over free-weight for safety
+        loadCoef: applyConservativeProtocol ? 0.85 : 1.0,   // multiplier applied by builders/optimisers
+        lowImpactCardio: !!applyConservativeProtocol,       // enforce LISS preference
+        reason: applyConservativeProtocol ? (isHighBMI ? 'high_bmi' : 'older_age') : 'none'
+    };
+
+    // Attach safetyProfile to each day's context (always present, but may be neutral)
+    baseWeeklyScheduleWithEquipment.forEach(s => {
+        s.context = { ...(s.context || {}), safetyProfile: baseSafetyProfile };
+    });
+
+    // Additional conservative rule for GYM: limit 'hard' sessions per week to 2 and convert others to low-load pivots
+    if (applyConservativeProtocol && equipmentProfile.location === 'gym') {
+        const trainable = baseWeeklyScheduleWithEquipment.filter(d => !d.isRestDay);
+        const n = trainable.length;
+        if (n > 2) {
+            // Choose heavy days: first and middle-ish to spread load
+            const heavyPositions = [0];
+            if (n >= 3) heavyPositions.push(Math.floor(n / 2));
+            if (heavyPositions.length < 2 && n >= 2) heavyPositions.push(1);
+
+            // Mark non-heavy sessions as low-load pivot
+            baseWeeklyScheduleWithEquipment.forEach(d => {
+                if (d.isRestDay) return;
+                const pos = trainable.indexOf(d);
+                if (!heavyPositions.includes(pos)) {
+                    d.context = { ...(d.context || {}), lowLoadPivot: true, lowLoadReason: 'conservative_gym_protocol' };
+                } else {
+                    d.context = { ...(d.context || {}), lowLoadPivot: false };
+                }
+            });
+
+            appliedModifications.push({ reason: 'reduce_gym_hard_sessions', details: `kept ${heavyPositions.length} heavy sessions per week` });
+            console.log(`[Generate Módulo] Conservative gym protocol: converted ${n - heavyPositions.length} sessions to low-load pivots`);
+        }
+    }
+
+    // 5. CONSTRUCCIÓN DE MICROCICLOS (Modules 4, 5, Sub-routine)
+    const microcycles = [];
+    const DURATION_WEEKS = 4;
+
+    for (let currentWeek = 1; currentWeek <= DURATION_WEEKS; currentWeek++) {
+        
+        // Obtener progresión semanal (Ondulación)
+        let progression = createMicrocycleProgression(currentWeek);
+
+        // Ajuste conservador para usuarios en casa y principiantes: suavizar semana 3 para evitar sobrecarga del SNC
+        if (equipmentProfile && equipmentProfile.location === 'home' && experienceLevel === Experience.BEGINNER && currentWeek === 3) {
+            console.log('[Generate Módulo] Home Beginner detected: applying conservative adjustments to week 3 progression');
+            progression = {
+                ...progression,
+                intensityModifier: Math.min(progression.intensityModifier, 0.5), // cap intensity increase
+                volumeModifier: Math.max(0.75, (progression.volumeModifier || 1) * 0.95), // slight volume dampening
+                notes: `${progression.notes} | NOTE: Applied conservative home adjustment to reduce CNS stress in week 3.`
+            };
+        }
+
+        // Additional conservative policy: high BMI or older beginners -> dampen week 3 more (both home and gym)
+        if (applyConservativeProtocol && currentWeek === 3) {
+            console.log('[Generate Módulo] Conservative protocol: applying extra moderation to week 3 progression');
+            progression = {
+                ...progression,
+                intensityModifier: Math.min(progression.intensityModifier, 0.7),
+                volumeModifier: Math.max(0.7, (progression.volumeModifier || 1) * 0.9),
+                notes: `${progression.notes} | NOTE: Applied conservative protocol adjustments for high BMI/older beginner.`
+            };
+        }
+
+        // Generar sesiones para esta semana específica
+        const sessions = baseWeeklyScheduleWithEquipment.map(baseSession => {
+            if (baseSession.isRestDay) return baseSession; // Mantener descansos
+
+            // Calcular Intensidad (RPE) - Module 5 & Load Balancer
+            const dayLoad = baseSession.context?.externalFatigue || 'none';
+            
+            // Base RPE del nivel + Modificador de la semana + Ajuste por carga diaria
+            let baseRpe = setSessionIntensity(experienceLevel, dayLoad, baseSession.sessionFocus);
+            // Aplicar modificador de fase (semana)
+            let finalRpe = baseRpe + (progression.intensityModifier || 0);
+            
+            // Clamp RPE
+            finalRpe = Math.max(5, Math.min(10, finalRpe));
+            finalRpe = Number(finalRpe.toFixed(1));
+
+            const targetRIR = Math.max(0, Math.round(10 - finalRpe));
+            
+            // Definir estructura (Neural vs Metabólico)
+            const structureType = determineSessionStructureType(finalRpe);
+
+            // Generar Contenido Rico (Músculos, Core, Cardio) - Module 4
+            // Pasamos el foco declarado por el usuario para permitir reglas de especialización segura
+            const content = generateSessionContent(baseSession.sessionFocus, phaseGoal, experienceLevel, usuario.focusArea);
+
+            // Annotate content with the safetyProfile (always present on the session context)
+            const sProfile = baseSession.context && baseSession.context.safetyProfile ? baseSession.context.safetyProfile : null;
+            if (sProfile) {
+                content.safetyProfile = sProfile;
+                // If flagged, enforce low-impact cardio and ensure minimum duration
+                if (sProfile.lowImpactCardio) {
+                    if (content.cardio && content.cardio.included) {
+                        content.cardio.type = 'LISS_low_impact';
+                        content.cardio.duration = Math.max(content.cardio.duration, 20);
+                    } else {
+                        content.cardio = { included: true, type: 'LISS_low_impact', duration: 15 };
+                    }
+                }
+            }
+
+            return {
+                ...baseSession,
+                structureType: structureType,
+                intensityRpe: finalRpe,
+                targetRIR: targetRIR,
+                contentData: content, // Metadata para el generador de sesiones
+                // Mantener compatibilidad con frontend/generador antiguo si es necesario
+                includeCore: content.core.included,
+                coreFocus: content.core.focus,
+                includeCardio: content.cardio.included,
+                cardioType: content.cardio.type,
+                cardioDurationMin: content.cardio.duration
+            };
+        });
+
+        const weeklyIntensityAvg = sessions
+            .filter(s => !s.isRestDay)
+            .reduce((acc, s) => acc + (s.intensityRpe || 0), 0) / (sessions.filter(s => !s.isRestDay).length || 1);
+
+        // Detectar si se aplicará especialización (Home-only policy)
+        let specializationMeta = null;
+        try {
+            const sampleSafe = (sessions || []).find(s => s && s.contentData && s.contentData.safeSpecialization);
+            if (sampleSafe) {
+                const ss = sampleSafe.contentData.safeSpecialization;
+                if (ss && ss.userDeclaredFocus && ss.capExtraVolumePct && ss.capExtraVolumePct > 0) {
+                    if (equipmentProfile && equipmentProfile.location === 'home') {
+                        specializationMeta = {
+                            target: ss.userDeclaredFocus,
+                            extraPct: ss.capExtraVolumePct,
+                            applied: true,
+                            note: 'Home specialization volume applied at session-exercise level (see main block generation)'
+                        };
+                    } else if (equipmentProfile && equipmentProfile.gym3DayNonConsecSpecialization) {
+                        specializationMeta = {
+                            target: ss.userDeclaredFocus,
+                            extraPct: ss.capExtraVolumePct,
+                            applied: true,
+                            note: 'Gym 3-day non-consecutive specialization applied at session-exercise level (see main block generation)'
+                        };
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('[Generate Mesocycle] Error detecting specialization meta', e && e.message);
+        }
+
+        // Compute base weekly sets and apply specialization extra if applicable
+        let baseWeeklySetsVal = Math.round(targetWeeklyVolume * (progression.volumeModifier || 1));
+        if (specializationMeta && specializationMeta.applied && specializationMeta.extraPct) {
+            baseWeeklySetsVal = Math.max(1, Math.round(baseWeeklySetsVal * (1 + specializationMeta.extraPct)));
+            console.log(`[Generate Módulo] Applied specialization extra to baseWeeklySets: newBaseWeeklySets=${baseWeeklySetsVal}`);
+        }
+
+        microcycles.push({
+            week: currentWeek,
+            focus: progression.focus,
+            intensityRpe: `${weeklyIntensityAvg.toFixed(1)}/10`, // Formato string para compatibilidad UI
+            intensityRpeValue: weeklyIntensityAvg,
+            targetRIR: Math.max(1, Math.round(10 - weeklyIntensityAvg)),
+            notes: progression.notes,
+            sessions: sessions,
+            // Volume config provisional
+            volumeConfig: {
+                baseWeeklySets: baseWeeklySetsVal,
+                specialization: specializationMeta
+            }
+        });
+    }
+
+    // 6. CONSTRUCCIÓN FINAL DEL OBJETO MESOCICLO
     const today = new Date();
-    const fechaInicio = startOfWeek(today, { weekStartsOn: 1 });
-    const fechaFin = addDays(fechaInicio, 4 * 7);
-    
-    const mesociclo = {
-        startDate: fechaInicio.toISOString(),
-        endDate: fechaFin.toISOString(),
+    const startDate = startOfWeek(today, { weekStartsOn: 1 });
+    const endDate = addDays(startDate, DURATION_WEEKS * 7);
+
+    return {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
         progress: 0.0,
         currentWeek: 1,
         mesocyclePlan: {
-            durationWeeks: 4,
-            mesocycleGoal: objetivoFase,
-            goalReason: razonObjetivo,
-            strategy: `${splitConfig.tipo} con ${metodoSesion.metodo}`,
-            splitDescription: splitConfig.descripcion,
-            methodDescription: metodoSesion.descripcion,
-            coreFrequency: coreConfig.frecuencia,
-            coreIntensity: coreConfig.intensidad,
-            coreFocus: coreConfig.enfoque,
-            microcycles: microciclos
+            durationWeeks: DURATION_WEEKS,
+            mesocycleGoal: phaseGoal,
+            goalReason: goalReason,
+            strategy: `${splitType}`, // Nombre del Split
+            splitDescription: `Arquitectura: ${splitType}. Enfoque: ${phaseGoal}`,
+            methodDescription: `Estilo: ${experienceLevel}`,
+            microcycles: microcycles
         },
-        llmModelUsed: 'v8-algoritmo-pseudocodigo-completo',
+        llmModelUsed: 'v9-system-expert-modular',
         generationDate: today.toISOString(),
         status: 'active',
         metadata: {
-            trainingDaysPerWeek: diasEntrenamiento.length,
-            userLevel: usuario.experienceLevel,
-            userGoal: usuario.fitnessGoal,
-            phaseGoal: objetivoFase,
-            adaptiveAdjustmentApplied: !!nextCycleConfig
+            userLevel: experienceLevel,
+            userGoal: phaseGoal,
+            systemicStressScore: systemicStress,
+            splitSelected: splitType,
+            baseVolume: targetWeeklyVolume,
+            trainingLocation: equipmentProfile.location,
+            equipmentList: equipmentProfile.equipmentList,
+            equipmentProfile: equipmentProfile,
+            // Indicador de corrección de auditoría: Domingo forzado como descanso para Principiantes con 7 días
+            forcedSundayRestFor7dBeginner: forcedSundayRestFor7dBeginner,
+            // Modificaciones aplicadas por auditoría (BMI/edad/level)
+            appliedModifications: appliedModifications,
+            // Summary safety profile flags (consistent contract for frontend)
+            safetyProfile: baseSafetyProfile
         }
     };
-    
-    return mesociclo;
 };
 
-// ====================================================================
-// 8. HANDLER PRINCIPAL
-// ====================================================================
+export { generarMesocicloCompleto }; // Exportar para tests, aunque ahora depende de módulos
+
+// ===================================
+// HANDLER PRINCIPAL (Igual que antes)
+// ===================================
 
 export default async function handler(req, res) {
+
+    // NOTE: for testing we also export generarMesocicloCompleto below (ESM named export)
+
     // Configurar CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -699,7 +451,9 @@ export default async function handler(req, res) {
         return res.status(200).json({
             success: true,
             message: 'Mesociclo generado exitosamente',
-            plan: mesocicloGenerado
+            plan: mesocicloGenerado,
+            // Compatibilidad: algunos callers/tests esperan la propiedad 'mesocycle'
+            mesocycle: mesocicloGenerado
         });
         
     } catch (error) {

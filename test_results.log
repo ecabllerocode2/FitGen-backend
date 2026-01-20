@@ -1,0 +1,22 @@
+(node:141746) MetadataLookupWarning: received unexpected error = network timeout at: http://169.254.169.254/computeMetadata/v1/instance code = UNKNOWN
+(Use `node --trace-warnings ...` to show where the warning was created)
+Test: Neural_Strength assertions
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_neural_1768508665155.json
+Test: Hypertrophy_Standard eccentric tempo
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_hypertrophy_1768508667790.json
+Test: Metabolic_Volume
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_metabolic_1768508670336.json
+Test: focusArea chest priority
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_chest_1768508672940.json
+Test: externalFatigue safety switch
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_fatigue_high_1768508675504.json
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_fatigue_none_1768508678001.json
+Test: feedback adaptation (RPE lower -> weight up)
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_before_feedback_1768508680537.json
+[Feedback Test] Checking exercise Cable_Iron_Cross: equipment=["Poleas"], isBodyweight=false
+[Feedback Test] Found weighted exercise: Cable_Iron_Cross
+[Feedback Test] Exercise ID: Cable_Iron_Cross, pesoBefore: 20, storedWeight: undefined, exerciseWeights: undefined
+Saved: /home/eder/FitGen-backend/pruebas/test_suites_output/session_after_feedback_1768508684985.json
+Error running validation suite: TypeError: Cannot read properties of undefined (reading 'mainBlock')
+    at runTests (file:///home/eder/FitGen-backend/pruebas/test_suites/validate_session_quality.js:357:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)

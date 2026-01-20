@@ -12,8 +12,10 @@ const fs = require('fs');
 const path = require('path');
 
 // Inicializar Firebase Admin con proyecto demo para emulador
+// Permite sobrescribir el projectId con la variable TARGET_PROJECT_ID para apuntar al proyecto del backend local
+const TARGET_PROJECT_ID = process.env.TARGET_PROJECT_ID || 'demo-fitgen';
 admin.initializeApp({
-    projectId: 'demo-fitgen'
+    projectId: TARGET_PROJECT_ID
 });
 
 const db = admin.firestore();

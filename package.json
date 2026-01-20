@@ -10,6 +10,8 @@
     "emulators": "firebase emulators:start",
     "deploy": "vercel --prod",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:flow": "TARGET_PROJECT_ID=fitgen-d94f6 node pruebas/test_complete_flow_two_weeks.js",
+    "generate-profiles": "node scripts/generate_profiles_batch.js",
     "upload-exercises": "node uploadExercises.js"
   },
   "keywords": [
@@ -30,6 +32,7 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "axios": "^1.13.2",
     "nodemon": "^3.1.11",
     "vercel": "^32.5.0"
   }

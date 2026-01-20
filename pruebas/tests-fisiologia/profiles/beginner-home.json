@@ -1,0 +1,31 @@
+{
+  "userId": "test-beginner-home",
+  "profileData": {
+    "age": 28,
+    "weight": 75,
+    "height": 175,
+    "gender": "male",
+    "experienceLevel": "Principiante",
+    "fitnessGoal": "Hipertrofia",
+    "preferredTrainingLocation": "home",
+    "homeEquipment": [
+      "Mancuernas",
+      "Barra de Dominadas"
+    ],
+    "homeWeights": {
+      "dumbbells": [5, 10, 15, 20],
+      "barbell": null
+    },
+    "weeklyScheduleContext": [
+      { "day": "Lunes", "canTrain": true },
+      { "day": "Martes", "canTrain": false },
+      { "day": "Miércoles", "canTrain": true },
+      { "day": "Jueves", "canTrain": false },
+      { "day": "Viernes", "canTrain": true },
+      { "day": "Sábado", "canTrain": false },
+      { "day": "Domingo", "canTrain": false }
+    ]
+  },
+  "recentSessions": [],
+  "sessionHistory": []
+}

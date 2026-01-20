@@ -1,0 +1,32 @@
+{
+  "userId": "test-female-intermediate-gym",
+  "profileData": {
+    "age": 29,
+    "weight": 62,
+    "height": 165,
+    "gender": "female",
+    "experienceLevel": "Intermedio",
+    "fitnessGoal": "Hipertrofia",
+    "preferredTrainingLocation": "gym",
+    "availableEquipment": [
+      "Peso Corporal",
+      "Mancuernas",
+      "Barra Olímpica",
+      "Poleas",
+      "Máquinas",
+      "Banco Ajustable",
+      "Rack de Potencia"
+    ],
+    "weeklyScheduleContext": [
+      { "day": "Lunes", "canTrain": true },
+      { "day": "Martes", "canTrain": true },
+      { "day": "Miércoles", "canTrain": true },
+      { "day": "Jueves", "canTrain": true },
+      { "day": "Viernes", "canTrain": false },
+      { "day": "Sábado", "canTrain": false },
+      { "day": "Domingo", "canTrain": false }
+    ]
+  },
+  "recentSessions": [],
+  "sessionHistory": []
+}

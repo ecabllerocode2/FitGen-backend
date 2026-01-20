@@ -1,0 +1,2617 @@
+{
+  "timestamp": "2026-01-19T01:40:42.819Z",
+  "perfil": {
+    "userId": "test-e2e-1768786842819",
+    "email": "test-e2e@fitgen.test",
+    "plan": "free",
+    "status": "approved",
+    "createdAt": "2026-01-19T01:40:42.819Z",
+    "lastProfileUpdate": "2026-01-19T01:40:42.819Z",
+    "profileData": {
+      "name": "Test E2E Usuario",
+      "age": 32,
+      "gender": "Masculino",
+      "experienceLevel": "Intermedio",
+      "fitnessGoal": "Hipertrofia",
+      "trainingDaysPerWeek": 4,
+      "sessionDuration": 60,
+      "weeklyScheduleContext": [
+        {
+          "day": "Lunes",
+          "canTrain": true,
+          "externalLoad": "none"
+        },
+        {
+          "day": "Martes",
+          "canTrain": false,
+          "externalLoad": "none"
+        },
+        {
+          "day": "Miércoles",
+          "canTrain": true,
+          "externalLoad": "low"
+        },
+        {
+          "day": "Jueves",
+          "canTrain": false,
+          "externalLoad": "none"
+        },
+        {
+          "day": "Viernes",
+          "canTrain": true,
+          "externalLoad": "none"
+        },
+        {
+          "day": "Sábado",
+          "canTrain": true,
+          "externalLoad": "low"
+        },
+        {
+          "day": "Domingo",
+          "canTrain": false,
+          "externalLoad": "none"
+        }
+      ],
+      "preferredTrainingLocation": "gym",
+      "availableEquipment": [
+        "Barra",
+        "Mancuernas",
+        "Banco",
+        "Rack Sentadillas",
+        "Maquina Cable",
+        "Discos Peso"
+      ],
+      "injuriesOrLimitations": [
+        "Hombro Derecho - Tendinitis"
+      ],
+      "initialWeight": 78,
+      "height": 175,
+      "focusAreas": [
+        "Pecho",
+        "Espalda"
+      ]
+    }
+  },
+  "mesociclo": {
+    "mesocycleId": "meso_1768786846749",
+    "userId": "test-e2e-1768786842819",
+    "primaryGoal": "Hipertrofia",
+    "experienceLevel": "Intermedio",
+    "structureType": "Upper_Lower",
+    "sessionsPerWeek": 4,
+    "startDate": "2026-01-19T01:40:46.749Z",
+    "endDate": "2026-02-16T01:40:46.749Z",
+    "metadata": {
+      "generatedAt": "2026-01-19T01:40:46.749Z",
+      "version": "2.0-test"
+    },
+    "week1": {
+      "microcycle": {
+        "weekNumber": 1,
+        "focus": "Exploratorio",
+        "intensityRpe": 7,
+        "targetRIR": 2,
+        "volumeMultiplier": 0.8
+      },
+      "sessions": [
+        {
+          "sessionId": "w1d1",
+          "sessionFocus": "Upper",
+          "dayIndex": 0,
+          "weekNumber": 1
+        },
+        {
+          "sessionId": "w1d2",
+          "sessionFocus": "Lower",
+          "dayIndex": 2,
+          "weekNumber": 1
+        },
+        {
+          "sessionId": "w1d3",
+          "sessionFocus": "Upper",
+          "dayIndex": 4,
+          "weekNumber": 1
+        },
+        {
+          "sessionId": "w1d4",
+          "sessionFocus": "Lower",
+          "dayIndex": 5,
+          "weekNumber": 1
+        }
+      ]
+    },
+    "week2": {
+      "microcycle": {
+        "weekNumber": 2,
+        "focus": "Progresión",
+        "intensityRpe": 8,
+        "targetRIR": 1.5,
+        "volumeMultiplier": 1
+      },
+      "sessions": [
+        {
+          "sessionId": "w2d1",
+          "sessionFocus": "Upper",
+          "dayIndex": 0,
+          "weekNumber": 2
+        },
+        {
+          "sessionId": "w2d2",
+          "sessionFocus": "Lower",
+          "dayIndex": 2,
+          "weekNumber": 2
+        },
+        {
+          "sessionId": "w2d3",
+          "sessionFocus": "Upper",
+          "dayIndex": 4,
+          "weekNumber": 2
+        },
+        {
+          "sessionId": "w2d4",
+          "sessionFocus": "Lower",
+          "dayIndex": 5,
+          "weekNumber": 2
+        }
+      ]
+    },
+    "week3": {
+      "microcycle": {
+        "weekNumber": 3,
+        "focus": "Intensificación",
+        "intensityRpe": 8.5,
+        "targetRIR": 1,
+        "volumeMultiplier": 1.1
+      },
+      "sessions": [
+        {
+          "sessionId": "w3d1",
+          "sessionFocus": "Upper",
+          "dayIndex": 0,
+          "weekNumber": 3
+        },
+        {
+          "sessionId": "w3d2",
+          "sessionFocus": "Lower",
+          "dayIndex": 2,
+          "weekNumber": 3
+        },
+        {
+          "sessionId": "w3d3",
+          "sessionFocus": "Upper",
+          "dayIndex": 4,
+          "weekNumber": 3
+        },
+        {
+          "sessionId": "w3d4",
+          "sessionFocus": "Lower",
+          "dayIndex": 5,
+          "weekNumber": 3
+        }
+      ]
+    },
+    "week4": {
+      "microcycle": {
+        "weekNumber": 4,
+        "focus": "Deload",
+        "intensityRpe": 6,
+        "targetRIR": 3,
+        "volumeMultiplier": 0.6
+      },
+      "sessions": [
+        {
+          "sessionId": "w4d1",
+          "sessionFocus": "Upper",
+          "dayIndex": 0,
+          "weekNumber": 4
+        },
+        {
+          "sessionId": "w4d2",
+          "sessionFocus": "Lower",
+          "dayIndex": 2,
+          "weekNumber": 4
+        },
+        {
+          "sessionId": "w4d3",
+          "sessionFocus": "Upper",
+          "dayIndex": 4,
+          "weekNumber": 4
+        },
+        {
+          "sessionId": "w4d4",
+          "sessionFocus": "Lower",
+          "dayIndex": 5,
+          "weekNumber": 4
+        }
+      ]
+    }
+  },
+  "semanas": {
+    "semana1": {
+      "sesiones": [
+        {
+          "sessionId": "meso_1768786846749_w1d0",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 1,
+          "dayIndex": 0,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:46.793Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w1d2",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 1,
+          "dayIndex": 2,
+          "sessionFocus": "Lower",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:46.937Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Sentadilla",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Peso Muerto",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w1d4",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 1,
+          "dayIndex": 4,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.070Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 10,
+                "rpeObjetivo": 7,
+                "rirObjetivo": 2,
+                "pesoSugerido": "Exploratorio",
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        }
+      ],
+      "volumenTotal": null,
+      "validaciones": []
+    },
+    "semana2": {
+      "sesiones": [
+        {
+          "sessionId": "meso_1768786846749_w2d0",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 2,
+          "dayIndex": 0,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.197Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w2d2",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 2,
+          "dayIndex": 2,
+          "sessionFocus": "Lower",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.323Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Sentadilla",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Peso Muerto",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w2d4",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 2,
+          "dayIndex": 4,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.452Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8,
+                "rirObjetivo": 1.5,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        }
+      ],
+      "volumenTotal": null,
+      "validaciones": []
+    },
+    "semana3": {
+      "sesiones": [
+        {
+          "sessionId": "meso_1768786846749_w3d0",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 3,
+          "dayIndex": 0,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.580Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w3d2",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 3,
+          "dayIndex": 2,
+          "sessionFocus": "Lower",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.705Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Sentadilla",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Peso Muerto",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w3d4",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 3,
+          "dayIndex": 4,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.829Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 8.5,
+                "rirObjetivo": 1,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        }
+      ],
+      "volumenTotal": null,
+      "validaciones": []
+    },
+    "semana4": {
+      "sesiones": [
+        {
+          "sessionId": "meso_1768786846749_w4d0",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 4,
+          "dayIndex": 0,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:47.955Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w4d2",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 4,
+          "dayIndex": 2,
+          "sessionFocus": "Lower",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:48.080Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Sentadilla",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Peso Muerto",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        },
+        {
+          "sessionId": "meso_1768786846749_w4d4",
+          "userId": "test-e2e-1768786842819",
+          "mesocycleId": "meso_1768786846749",
+          "weekNumber": 4,
+          "dayIndex": 4,
+          "sessionFocus": "Upper",
+          "sessionGoal": "Hipertrofia",
+          "generatedAt": "2026-01-19T01:40:48.206Z",
+          "mainBlock": [
+            {
+              "id": "ejercicio_0",
+              "nombre": "Press Banca",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_1",
+              "nombre": "Remo Barra",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 1,
+              "prescripcion": {
+                "sets": 4,
+                "repsObjetivo": 8,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 60,
+                "descansoEnSegundos": 120,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_2",
+              "nombre": "Ejercicio Aislamiento 2",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_3",
+              "nombre": "Ejercicio Aislamiento 3",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            },
+            {
+              "id": "ejercicio_4",
+              "nombre": "Ejercicio Aislamiento 4",
+              "descripcion": "Ejercicio de prueba",
+              "equipo": [
+                "Barra"
+              ],
+              "prioridad": 2,
+              "prescripcion": {
+                "sets": 3,
+                "repsObjetivo": 12,
+                "rpeObjetivo": 6,
+                "rirObjetivo": 3,
+                "pesoSugerido": 20,
+                "descansoEnSegundos": 90,
+                "tempo": "3-1-2-1"
+              }
+            }
+          ],
+          "warmup": [],
+          "cooldown": []
+        }
+      ],
+      "volumenTotal": null,
+      "validaciones": []
+    }
+  },
+  "validaciones": {
+    "seguridad": [
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 7 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8 excede límite seguro de 7 para 2"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": false,
+        "mensaje": "⚠️ RPE 8.5 excede límite seguro de 7 para 3"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Sentadilla",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Peso Muerto",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Press Banca",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 8 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Remo Barra",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 120s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 2",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 3",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "RPE",
+        "valido": true,
+        "mensaje": "✅ RPE 6 dentro de límite seguro (≤7)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Reps",
+        "valido": true,
+        "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+      },
+      {
+        "ejercicio": "Ejercicio Aislamiento 4",
+        "tipo": "Descanso",
+        "valido": true,
+        "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+      }
+    ],
+    "progresion": [],
+    "especificidad": [],
+    "consistencia": []
+  },
+  "resumen": {
+    "sesionesGeneradas": 12,
+    "sesionesCompletadas": 12,
+    "errores": [
+      {
+        "semana": 1,
+        "dia": 4,
+        "error": "Cannot read properties of undefined (reading 'sessionFocus')"
+      },
+      {
+        "semana": 2,
+        "dia": 4,
+        "error": "Cannot read properties of undefined (reading 'sessionFocus')"
+      },
+      {
+        "semana": 3,
+        "dia": 4,
+        "error": "Cannot read properties of undefined (reading 'sessionFocus')"
+      },
+      {
+        "semana": 4,
+        "dia": 4,
+        "error": "Cannot read properties of undefined (reading 'sessionFocus')"
+      }
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "test": "Test 3: Especificidad del Objetivo",
+  "timestamp": "2026-01-19T01:23:13.613Z",
+  "resumen": {
+    "total": 5,
+    "pasados": 4,
+    "fallados": 1,
+    "porcentajeExito": "80.0%"
+  },
+  "advertencias": 0,
+  "resultados": [
+    {
+      "caso": "Hipertrofia - Especificidad",
+      "passed": false,
+      "detalles": {
+        "objetivo": "Hipertrofia",
+        "rangoRepsEsperado": {
+          "min": 6,
+          "max": 12
+        },
+        "descansoEsperado": "60-120s",
+        "validaciones": [
+          {
+            "ejercicio": "Press Mancuerna",
+            "reps": 10,
+            "descanso": "90s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 10,
+              "rangoMinimo": 6,
+              "rangoMaximo": 12,
+              "mensaje": "✅ 10 reps apropiadas para Hipertrofia (rango: 6-12)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 90,
+              "rangoMinimo": 90,
+              "rangoMaximo": 120,
+              "mensaje": "✅ Descanso 90s apropiado para Hipertrofia"
+            },
+            "valido": true
+          },
+          {
+            "ejercicio": "Remo Mancuerna",
+            "reps": 12,
+            "descanso": "75s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 12,
+              "rangoMinimo": 6,
+              "rangoMaximo": 12,
+              "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+            },
+            "validacionDescanso": {
+              "valido": false,
+              "descansoSegundos": 75,
+              "rangoMinimo": 90,
+              "rangoMaximo": 120,
+              "mensaje": "⚠️ Descanso 75s fuera del rango óptimo (90-120s)"
+            },
+            "valido": false
+          },
+          {
+            "ejercicio": "Curl Mancuerna",
+            "reps": 12,
+            "descanso": "60s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 12,
+              "rangoMinimo": 6,
+              "rangoMaximo": 12,
+              "mensaje": "✅ 12 reps apropiadas para Hipertrofia (rango: 6-12)"
+            },
+            "validacionDescanso": {
+              "valido": false,
+              "descansoSegundos": 60,
+              "rangoMinimo": 90,
+              "rangoMaximo": 120,
+              "mensaje": "⚠️ Descanso 60s fuera del rango óptimo (90-120s)"
+            },
+            "valido": false
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Fuerza - Especificidad",
+      "passed": true,
+      "detalles": {
+        "objetivo": "Fuerza_Maxima",
+        "rangoRepsEsperado": {
+          "min": 1,
+          "max": 6
+        },
+        "descansoEsperado": "180-300s",
+        "validaciones": [
+          {
+            "ejercicio": "Sentadilla Barra",
+            "reps": 5,
+            "descanso": "240s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 5,
+              "rangoMinimo": 1,
+              "rangoMaximo": 6,
+              "mensaje": "✅ 5 reps apropiadas para Fuerza_Maxima (rango: 1-6)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 240,
+              "rangoMinimo": 180,
+              "rangoMaximo": 300,
+              "mensaje": "✅ Descanso 240s apropiado para Fuerza_Maxima"
+            },
+            "valido": true
+          },
+          {
+            "ejercicio": "Press Banca",
+            "reps": 5,
+            "descanso": "240s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 5,
+              "rangoMinimo": 1,
+              "rangoMaximo": 6,
+              "mensaje": "✅ 5 reps apropiadas para Fuerza_Maxima (rango: 1-6)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 240,
+              "rangoMinimo": 180,
+              "rangoMaximo": 300,
+              "mensaje": "✅ Descanso 240s apropiado para Fuerza_Maxima"
+            },
+            "valido": true
+          },
+          {
+            "ejercicio": "Peso Muerto",
+            "reps": 3,
+            "descanso": "300s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 3,
+              "rangoMinimo": 1,
+              "rangoMaximo": 6,
+              "mensaje": "✅ 3 reps apropiadas para Fuerza_Maxima (rango: 1-6)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 300,
+              "rangoMinimo": 180,
+              "rangoMaximo": 300,
+              "mensaje": "✅ Descanso 300s apropiado para Fuerza_Maxima"
+            },
+            "valido": true
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Pérdida de Grasa - Especificidad",
+      "passed": true,
+      "detalles": {
+        "objetivo": "Perdida_Grasa",
+        "rangoRepsEsperado": {
+          "min": 12,
+          "max": 20
+        },
+        "descansoEsperado": "30-60s",
+        "validaciones": [
+          {
+            "ejercicio": "Sentadilla",
+            "reps": 15,
+            "descanso": "45s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 15,
+              "rangoMinimo": 12,
+              "rangoMaximo": 20,
+              "mensaje": "✅ 15 reps apropiadas para Perdida_Grasa (rango: 12-20)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 45,
+              "rangoMinimo": 30,
+              "rangoMaximo": 60,
+              "mensaje": "✅ Descanso 45s apropiado para Perdida_Grasa"
+            },
+            "descansosCortos": true,
+            "valido": true
+          },
+          {
+            "ejercicio": "Flexiones",
+            "reps": 12,
+            "descanso": "45s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 12,
+              "rangoMinimo": 12,
+              "rangoMaximo": 20,
+              "mensaje": "✅ 12 reps apropiadas para Perdida_Grasa (rango: 12-20)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 45,
+              "rangoMinimo": 30,
+              "rangoMaximo": 60,
+              "mensaje": "✅ Descanso 45s apropiado para Perdida_Grasa"
+            },
+            "descansosCortos": true,
+            "valido": true
+          },
+          {
+            "ejercicio": "Mountain Climbers",
+            "reps": 20,
+            "descanso": "30s",
+            "validacionReps": {
+              "valido": true,
+              "reps": 20,
+              "rangoMinimo": 12,
+              "rangoMaximo": 20,
+              "mensaje": "✅ 20 reps apropiadas para Perdida_Grasa (rango: 12-20)"
+            },
+            "validacionDescanso": {
+              "valido": true,
+              "descansoSegundos": 30,
+              "rangoMinimo": 30,
+              "rangoMaximo": 60,
+              "mensaje": "✅ Descanso 30s apropiado para Perdida_Grasa"
+            },
+            "descansosCortos": true,
+            "valido": true
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Volumen Semanal por Nivel",
+      "passed": true,
+      "detalles": {
+        "validaciones": [
+          {
+            "nivel": "Principiante",
+            "volumenOptimo": 12,
+            "volumenGenerado": 14,
+            "enRango": true,
+            "diferencia": 2
+          },
+          {
+            "nivel": "Intermedio",
+            "volumenOptimo": 16,
+            "volumenGenerado": 18,
+            "enRango": true,
+            "diferencia": 2
+          },
+          {
+            "nivel": "Avanzado",
+            "volumenOptimo": 20,
+            "volumenGenerado": 22,
+            "enRango": true,
+            "diferencia": 2
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Orden - Compuestos antes que Aislamiento",
+      "passed": true,
+      "detalles": {
+        "ejercicios": [
+          {
+            "nombre": "Sentadilla",
+            "prioridad": 1,
+            "orden": 1
+          },
+          {
+            "nombre": "Prensa",
+            "prioridad": 2,
+            "orden": 2
+          },
+          {
+            "nombre": "Extensión",
+            "prioridad": 3,
+            "orden": 3
+          },
+          {
+            "nombre": "Curl Femoral",
+            "prioridad": 3,
+            "orden": 4
+          }
+        ],
+        "ordenCorrecto": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+nohup: ignoring input
+Firebase Admin SDK: Inicializado con variable de entorno (ROBUSTO).
+
+============================================
+Servidor Express iniciado en: http://localhost:3000
+Ejecute 'npm run dev' para el reinicio automático.
+============================================
+
+[test_user_lower_1768416173887]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768416173887...
+Mesociclo generado exitosamente para usuario test_user_lower_1768416173887
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416173887
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedbyfkoer2ru7no y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 193ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416173887
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedbysavizbjg9ym y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 123ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416173887
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedbz3c737zm82sq y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 100ms
+[test_user_lower_1768416331901]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768416331901...
+Mesociclo generado exitosamente para usuario test_user_lower_1768416331901
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416331901
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedfb6gpa4kwba7d y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 131ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416331901
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedfbifkagtyk1vr y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 100ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768416331901
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkedfbt0s8431ybm2 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 84ms
+[test_user_lower_1768420535485]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768420535485...
+Mesociclo generado exitosamente para usuario test_user_lower_1768420535485
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768420535485
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkefxeqi8j1o2mrs6 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 139ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768420535485
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkefxf80rbjiiipid y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 60ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768420535485
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkefxfoj3s9i4i3i4 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 67ms
+[test_user_lower_1768421124742]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768421124742...
+Mesociclo generado exitosamente para usuario test_user_lower_1768421124742
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421124742
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkega3t5usc373ni9 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 83ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421124742
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkega4abk8p6sdpiz y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 65ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421124742
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkega4r1dve3gco4f y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 57ms
+[test_user_lower_1768421335662]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768421335662...
+Mesociclo generado exitosamente para usuario test_user_lower_1768421335662
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421335662
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegemhc74n6bqy4x y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 101ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421335662
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegen01mri5yb581 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 52ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421335662
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegeocyvog0forrd y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 55ms
+[test_user_lower_1768421970418]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768421970418...
+Mesociclo generado exitosamente para usuario test_user_lower_1768421970418
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421970418
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegs8cxua8wdq8wa y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 56ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421970418
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegs8t6nu31xsj2z y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 55ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768421970418
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkegsa7i84eulcjin y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 58ms
+[test_user_lower_1768422381159]: Onboarding inicial completado.
+Generando mesociclo para usuario test_user_lower_1768422381159...
+Mesociclo generado exitosamente para usuario test_user_lower_1768422381159
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768422381159
+[SessionGen V2] Sesión: Full Body A, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkeh119gwgl9uerlm y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 82ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768422381159
+[SessionGen V2] Sesión: Full Body B, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkeh11q8pesgjuqg6 y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 52ms
+[SessionGen V2] Iniciando generación para usuario: test_user_lower_1768422381159
+[SessionGen V2] Sesión: Full Body C, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[SessionGen V2] Sesión guardada: mkeh126xuvtwb3bch y actualizada en currentSession
+[SessionGen V2] Sesión generada exitosamente en 63ms

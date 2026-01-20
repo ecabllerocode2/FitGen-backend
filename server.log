@@ -1,0 +1,99 @@
+nohup: ignoring input
+Firebase Admin SDK: Inicializado con variable de entorno (ROBUSTO).
+
+============================================
+Servidor Express iniciado en: http://localhost:3000
+Ejecute 'npm run dev' para el reinicio automático.
+============================================
+
+[test_first_numeric_1768443230682]: Onboarding inicial completado.
+Generando mesociclo para usuario test_first_numeric_1768443230682...
+Mesociclo generado exitosamente para usuario test_first_numeric_1768443230682
+[SessionGen V2] Iniciando generación para usuario: test_first_numeric_1768443230682
+[SessionGen V2] Sesión: Torso - Fuerza, Microciclo 1, Fase: Adaptación/Cargas Introductorias
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1
+[GenerateV2] Variación Inter-Mesociclo: 0 ejercicios en blacklist.
+[loadCalculator] calcularCargaPrecisa called for Single-Arm_Push-Up (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Single-Arm_Push-Up: 0
+[loadCalculator] calcularCargaPrecisa called for Standing_Alternating_Dumbbell_Press (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Standing_Alternating_Dumbbell_Press: 0
+[loadCalculator] calcularCargaPrecisa called for Dumbbell_One-Arm_Upright_Row (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Dumbbell_One-Arm_Upright_Row: 0
+[loadCalculator] calcularCargaPrecisa called for Alternate_Hammer_Curl (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Alternate_Hammer_Curl: 0
+[loadCalculator] calcularCargaPrecisa called for Dumbbell_One-Arm_Triceps_Extension (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Dumbbell_One-Arm_Triceps_Extension: 0
+[loadCalculator] calcularCargaPrecisa called for Front_Dumbbell_Raise (perfilEquipo.ubicacion=home)
+[loadCalculator] registrosPasados length for Front_Dumbbell_Raise: 0
+[SessionGen V2] Sesión actualizada en currentSession (sin historial persistente)
+[SessionGen V2] Sesión generada exitosamente en 103ms
+[SessionComplete] mainBlock type: array
+[SessionComplete] mainBlock length: 6
+[SessionComplete] mainBlock sample: [{"ejercicios":[{"id":"Single-Arm_Push-Up","nombre":"Flexiones a una mano","performedSets":[{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir":2}],"equipmentUsed":["Mancuernas"]}]},{"ejercicios":[{"id":"Standing_Alter
+[SessionComplete] inferred peso for exercise Single-Arm_Push-Up: 10kg
+[SessionComplete] inferred peso for exercise Standing_Alternating_Dumbbell_Press: 10kg
+[SessionComplete] inferred peso for exercise Dumbbell_One-Arm_Upright_Row: 6kg
+[SessionComplete] inferred peso for exercise Alternate_Hammer_Curl: 6kg
+[SessionComplete] inferred peso for exercise Dumbbell_One-Arm_Triceps_Extension: 6kg
+[SessionComplete] inferred peso for exercise Front_Dumbbell_Raise: 6kg
+[SessionComplete] newSessionEntry preview: {"completedAt":"2026-01-15T02:13:51.679Z","feedback":{"rpe":7},"mainBlock":[{"ejercicios":[{"id":"Single-Arm_Push-Up","nombre":"Flexiones a una mano","performedSets":[{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir":null},{"weight":10,"reps":12,"rir"
+[SessionComplete] Estado previo recentSessions length: 0
+[SessionGen V2] Iniciando generación para usuario: test_first_numeric_1768443230682
+[SessionGen V2] Sesión: Torso - Fuerza, Microciclo 2, Fase: Acumulación de Volumen
+[SessionGen V2] Ambiente: home_minimal, Ubicación: home, Ejercicios disponibles: 219
+[SessionGen V2] Equipamiento normalizado: Peso Corporal, Mancuernas
+[SessionGen V2] Readiness: normal, Factor volumen: 1.1
+[GenerateV2] Encontrada sesión de referencia CONSISTENTE (Week 1, Session 0)
+[MainBlockBuilder] Generando bloque en MODO CONSISTENCIA (Week match)
+[loadCalculator] calcularCargaPrecisa called for Single-Arm_Push-Up (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Single-Arm_Push-Up: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Single-Arm_Push-Up. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Single-Arm_Push-Up
+[MainBlockBuilder] prescripcion for Single-Arm_Push-Up: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[loadCalculator] calcularCargaPrecisa called for Standing_Alternating_Dumbbell_Press (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Standing_Alternating_Dumbbell_Press: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Standing_Alternating_Dumbbell_Press. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Standing_Alternating_Dumbbell_Press
+[MainBlockBuilder] prescripcion for Standing_Alternating_Dumbbell_Press: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[loadCalculator] calcularCargaPrecisa called for Dumbbell_One-Arm_Upright_Row (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Dumbbell_One-Arm_Upright_Row: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Dumbbell_One-Arm_Upright_Row. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Dumbbell_One-Arm_Upright_Row
+[MainBlockBuilder] prescripcion for Dumbbell_One-Arm_Upright_Row: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[loadCalculator] calcularCargaPrecisa called for Alternate_Hammer_Curl (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Alternate_Hammer_Curl: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Alternate_Hammer_Curl. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Alternate_Hammer_Curl
+[MainBlockBuilder] prescripcion for Alternate_Hammer_Curl: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[loadCalculator] calcularCargaPrecisa called for Dumbbell_One-Arm_Triceps_Extension (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Dumbbell_One-Arm_Triceps_Extension: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Dumbbell_One-Arm_Triceps_Extension. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Dumbbell_One-Arm_Triceps_Extension
+[MainBlockBuilder] prescripcion for Dumbbell_One-Arm_Triceps_Extension: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[loadCalculator] calcularCargaPrecisa called for Front_Dumbbell_Raise (perfilEquipo.ubicacion=undefined)
+[loadCalculator] registrosPasados length for Front_Dumbbell_Raise: 1
+[loadCalculator] Calling ajustarPorDisponibilidad for Front_Dumbbell_Raise. ultimoRegistro present: true
+[loadCalculator] ultimoRegistro.sessionEnvironment=home equipmentSnapshot=true
+[loadCalculator] ajustarPorDisponibilidad: prevEnv=home, currEnv=home_minimal, ejercicio=Front_Dumbbell_Raise
+[MainBlockBuilder] prescripcion for Front_Dumbbell_Raise: {"pesoSugerido":"Ajustar a RPE","repsObjetivo":8,"rpeObjetivo":7,"rirObjetivo":3,"tempo":"2-0-1-0","tipoProgresion":"maintain","tecnica":"standard","measureType":"reps","explicacion":"","availabilityA
+[SessionGen V2] Sesión actualizada en currentSession (sin historial persistente)
+[SessionGen V2] Sesión generada exitosamente en 94ms
+[rITAx3xOKHwtayLeF0gPwUVHeQuT]: Onboarding inicial completado.
+Generando mesociclo para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT...
+Mesociclo generado exitosamente para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT
+[rITAx3xOKHwtayLeF0gPwUVHeQuT]: Onboarding inicial completado.
+Generando mesociclo para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT...
+Mesociclo generado exitosamente para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT
+[rITAx3xOKHwtayLeF0gPwUVHeQuT]: Onboarding inicial completado.
+Generando mesociclo para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT...
+Mesociclo generado exitosamente para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT
+[rITAx3xOKHwtayLeF0gPwUVHeQuT]: Onboarding inicial completado.
+Generando mesociclo para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT...
+Mesociclo generado exitosamente para usuario rITAx3xOKHwtayLeF0gPwUVHeQuT

@@ -83,15 +83,15 @@ export default async function handler(req, res) {
         // Usamos la fecha de inicio del ciclo como ID de archivo, ya que es única para este mesociclo
         const mesocycleIdForArchive = currentMeso.startDate; 
 
-        // 4. Leer HISTORIAL REAL de sesiones
+        // 4. Leer HISTORIAL REAL de sesiones (Desde userData.recentSessions)
         const startDate = new Date(currentMeso.startDate);
-        const historySnapshot = await userRef.collection('history')
-            .where('completedAt', '>=', startDate.toISOString())
-            .orderBy('completedAt', 'desc')
-            .limit(30)
-            .get();
-
-        const sessionHistory = historySnapshot.docs.map(doc => doc.data());
+        
+        // CORRECCIÓN: Leer desde el array del documento principal, no de subcolección history
+        const recentSessions = userData.recentSessions || [];
+        const sessionHistory = recentSessions.filter(s => 
+            s.completedAt >= startDate.toISOString()
+        );
+        // recentSessions ya está en orden FIFO (más reciente primero), así que tomamos directo
 
         // 5. ANÁLISIS HEURÍSTICO
         const rpeAnalysis = calculateOverloadAdjustment(sessionHistory);

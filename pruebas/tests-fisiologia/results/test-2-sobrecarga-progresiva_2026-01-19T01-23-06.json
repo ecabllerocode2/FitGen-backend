@@ -1,0 +1,117 @@
+{
+  "test": "Test 2: Sobrecarga Progresiva",
+  "timestamp": "2026-01-19T01:23:06.366Z",
+  "resumen": {
+    "total": 6,
+    "pasados": 5,
+    "fallados": 1,
+    "porcentajeExito": "83.3%"
+  },
+  "advertencias": 0,
+  "resultados": [
+    {
+      "caso": "Semana 1 - Pesos Exploratorios",
+      "passed": true,
+      "detalles": {
+        "weekNumber": 1,
+        "ejercicios": [
+          {
+            "nombre": "Sentadilla Barra",
+            "pesoSugerido": "Exploratorio",
+            "esExploratorio": true
+          },
+          {
+            "nombre": "Press Mancuerna",
+            "pesoSugerido": "Exploratorio",
+            "esExploratorio": true
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Semana 2 - Usa Historial",
+      "passed": true,
+      "detalles": {
+        "weekNumber": 2,
+        "ejercicio": "Sentadilla Barra",
+        "pesoAnterior": "60kg",
+        "pesoNuevo": 61.5,
+        "e1RMEstimado": "72.5kg",
+        "tipoProgresion": "increase_load"
+      }
+    },
+    {
+      "caso": "Incremento Lineal Semanas 2-4",
+      "passed": false,
+      "detalles": {
+        "progresionEsperada": [
+          {
+            "semana": 2,
+            "peso": 61.5
+          },
+          {
+            "semana": 3,
+            "peso": 63
+          },
+          {
+            "semana": 4,
+            "peso": 64.6
+          }
+        ],
+        "validaciones": [
+          {
+            "transicion": "Semana 2 → 3",
+            "valido": true,
+            "incrementoPorcentaje": 0.024390243902439025,
+            "maxIncremento": 0.025,
+            "pesoAnterior": 61.5,
+            "pesoNuevo": 63,
+            "mensaje": "✅ Incremento 2.4% dentro de límite seguro"
+          },
+          {
+            "transicion": "Semana 3 → 4",
+            "valido": false,
+            "incrementoPorcentaje": 0.025396825396825307,
+            "maxIncremento": 0.025,
+            "pesoAnterior": 63,
+            "pesoNuevo": 64.6,
+            "mensaje": "⚠️ Incremento 2.5% excede límite seguro de 2.5%"
+          }
+        ]
+      }
+    },
+    {
+      "caso": "Ajuste por RIR Bajo",
+      "passed": true,
+      "detalles": {
+        "rirAnterior": "0.7",
+        "pesoAnterior": 60,
+        "pesoNuevo": 60,
+        "tipoProgresion": "maintain"
+      }
+    },
+    {
+      "caso": "Ajuste por RIR Alto",
+      "passed": true,
+      "detalles": {
+        "rirAnterior": "3.7",
+        "pesoAnterior": 20,
+        "pesoNuevo": 22.5,
+        "incrementoPorcentaje": "12.5%",
+        "tipoProgresion": "increase_load"
+      }
+    },
+    {
+      "caso": "Progresión por Reps (Peso Máximo)",
+      "passed": true,
+      "detalles": {
+        "pesoMaxDisponible": 20,
+        "pesoAnterior": "20kg",
+        "pesoNuevo": 20,
+        "repsAnterior": 8,
+        "repsNuevo": 10,
+        "tipoProgresion": "reps_progression_limited_weight"
+      }
+    }
+  ]
+}
