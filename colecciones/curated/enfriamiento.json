@@ -1,0 +1,1790 @@
+{
+  "id": "enfriamiento",
+  "updatedAt": "2026-07-07T18:22:18.741Z",
+  "count": 81,
+  "items": [
+    {
+      "id": "90_90_Hamstring",
+      "nombre": "Estiramiento Isquiotibial 90/90",
+      "descripcion": "Acostado boca arriba con una pierna extendida y la otra flexionada a 90 grados en cadera y rodilla. Extender la pierna elevada hacia el techo, pausar en la parte superior y regresar a la posición inicial.",
+      "correcciones": [
+        "No despegar la zona lumbar del suelo",
+        "Realizar el movimiento de forma fluida y sin rebotes"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/90_90_Hamstring_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/90_90_Hamstring_1.webp"
+    },
+    {
+      "id": "Adductor",
+      "nombre": "Liberación de Aductores con Foam Roller",
+      "descripcion": "Boca abajo con una pierna sobre el rodillo de espuma. Rotar la pierna para que el contacto sea en el muslo interno. Deslizar el cuerpo lateralmente para rodar entre la cadera y la rodilla, manteniendo presión en los puntos de tensión.",
+      "correcciones": [
+        "No rodar directamente sobre la articulación de la rodilla",
+        "Mantener el peso controlado sobre el rodillo para evitar dolor excesivo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Adductor_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Adductor_1.webp"
+    },
+    {
+      "id": "All_Fours_Quad_Stretch",
+      "nombre": "Estiramiento de Cuádriceps en Cuadrupedia",
+      "descripcion": "Desde posición de seis apoyos (manos y rodillas), sujetar un pie con la mano del mismo lado o contralateral. Llevar el talón al glúteo mientras se empuja la cadera hacia el suelo para estirar cuádriceps y flexores de cadera.",
+      "correcciones": [
+        "No arquear excesivamente la zona lumbar",
+        "Mantener la rodilla de apoyo estable"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/All_Fours_Quad_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/All_Fours_Quad_Stretch_1.webp"
+    },
+    {
+      "id": "Ankle_On_The_Knee",
+      "nombre": "Tobillo sobre la Rodilla",
+      "descripcion": "Tumbado boca arriba con rodillas flexionadas, coloca un tobillo sobre la rodilla opuesta. Sujeta el muslo de la pierna de apoyo y tira de ambas hacia el pecho.",
+      "correcciones": [
+        "Mantener el cuello y los hombros relajados contra el suelo.",
+        "No forzar la tracción si se siente dolor agudo en la articulación de la cadera."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Ankle_On_The_Knee_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Ankle_On_The_Knee_1.webp"
+    },
+    {
+      "id": "Brachialis-SMR",
+      "nombre": "Liberación Miofascial del Braquial",
+      "descripcion": "Uso del foam roller para masajear la zona lateral del brazo, entre el bíceps y el tríceps, para mejorar la movilidad del codo.",
+      "correcciones": [
+        "Evitar presionar directamente sobre la articulación del codo.",
+        "Controlar la presión con el peso de las piernas y el tronco."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Bíceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Brachialis-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Brachialis-SMR_1.webp"
+    },
+    {
+      "id": "Calf_Stretch_Elbows_Against_Wall",
+      "nombre": "Estiramiento de Pantorrilla con Codos en Pared",
+      "descripcion": "Frente a una pared, apoye los antebrazos y desplace los pies hacia atrás. Intente mantener los talones pegados al suelo durante 10-20 segundos para estirar los gemelos.",
+      "correcciones": [
+        "No despegar los talones del suelo, ya que se pierde la eficacia del estiramiento.",
+        "Ajustar la distancia a la pared para variar la intensidad según la movilidad."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Stretch_Elbows_Against_Wall_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Stretch_Elbows_Against_Wall_1.webp"
+    },
+    {
+      "id": "Calf_Stretch_Hands_Against_Wall",
+      "nombre": "Estiramiento de Pantorrilla con Manos en Pared",
+      "descripcion": "Frente a una pared con postura escalonada (un pie adelante). Apoye las manos en la pared e inclínese hacia adelante manteniendo talón, cadera y cabeza alineados. Sostenga 10-20 segundos por lado.",
+      "correcciones": [
+        "Asegurar que el talón trasero permanezca en contacto total con el suelo.",
+        "Mantener la espalda neutra sin arquear la zona lumbar."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Stretch_Hands_Against_Wall_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Stretch_Hands_Against_Wall_1.webp"
+    },
+    {
+      "id": "Cat_Stretch",
+      "nombre": "Estiramiento del Gato",
+      "descripcion": "Colócate en cuadrupedia sobre el suelo. Inhala y, al exhalar, mete el abdomen hacia adentro redondeando toda la columna, desde la zona lumbar hasta el cuello, dejando caer la cabeza relajada.",
+      "correcciones": [
+        "No bloquear los codos; mantener una ligera microflexión.",
+        "Sincronizar el movimiento con la respiración para maximizar la apertura vertebral."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cat_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cat_Stretch_1.webp"
+    },
+    {
+      "id": "Chair_Leg_Extended_Stretch",
+      "nombre": "Estiramiento de Isquiotibiales en Silla",
+      "descripcion": "Sentado erguido, extiende una rodilla elevando la pierna y flexionando el tobillo (punta hacia arriba). Mueve la pierna extendida hacia afuera de forma controlada y regresa al centro.",
+      "correcciones": [
+        "Mantener la espalda pegada al respaldo o erguida para evitar compensación lumbar.",
+        "No flexionar la rodilla durante el desplazamiento lateral de la pierna."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Leg_Extended_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Leg_Extended_Stretch_1.webp"
+    },
+    {
+      "id": "Chair_Lower_Back_Stretch",
+      "nombre": "Estiramiento Lateral en Silla",
+      "descripcion": "Sentado de forma erguida, realiza una inclinación lateral del tronco pasando un brazo sobre la cabeza, mientras el otro brazo se apoya en la silla para dar estabilidad.",
+      "correcciones": [
+        "Evitar que el glúteo del lado estirado se levante del asiento.",
+        "No proyectar el pecho hacia adelante; mantener el movimiento en el plano frontal."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Lower_Back_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Lower_Back_Stretch_1.webp"
+    },
+    {
+      "id": "Chair_Upper_Body_Stretch",
+      "nombre": "Estiramiento de Tren Superior en Silla",
+      "descripcion": "Sentado en el borde de una silla, sujete el respaldo con los brazos rectos y desplace el torso hacia adelante para estirar hombros y pecho.",
+      "correcciones": [
+        "No encoger los hombros hacia las orejas durante el estiramiento.",
+        "Mantener la espalda recta para evitar compensaciones torácicas."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Upper_Body_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chair_Upper_Body_Stretch_1.webp"
+    },
+    {
+      "id": "Childs_Pose",
+      "nombre": "Posición del Niño",
+      "descripcion": "Desde posición de rodillas, lleve el glúteo hacia los talones extendiendo los brazos hacia adelante y apoyando la frente en el suelo.",
+      "correcciones": [
+        "Relajar el cuello por completo apoyando la frente.",
+        "Evitar si existe dolor agudo en las rodillas."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Childs_Pose_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Childs_Pose_1.webp"
+    },
+    {
+      "id": "Chin_To_Chest_Stretch",
+      "nombre": "Estiramiento de Mentón al Pecho",
+      "descripcion": "Sentado, entrelace las manos detrás de la cabeza y suavemente lleve el mentón hacia el pecho manteniendo los codos hacia adelante.",
+      "correcciones": [
+        "No aplicar fuerza excesiva con las manos; el movimiento debe ser suave.",
+        "Mantener la columna vertebral erguida, moviendo solo la zona cervical."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chin_To_Chest_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chin_To_Chest_Stretch_1.webp"
+    },
+    {
+      "id": "Crossover_Reverse_Lunge",
+      "nombre": "Zancada Inversa con Rotación",
+      "descripcion": "Realiza una zancada hacia atrás mientras rotas el torso hacia el lado de la pierna delantera para estirar y activar la cadena posterior y el core.",
+      "correcciones": [
+        "Mantener el equilibrio y la columna erguida durante la rotación",
+        "Asegurar que la rodilla delantera no colapse hacia adentro"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 2,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Crossover_Reverse_Lunge_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Crossover_Reverse_Lunge_1.webp"
+    },
+    {
+      "id": "Dancers_Stretch",
+      "nombre": "Estiramiento de Bailarín",
+      "descripcion": "Sentado en el suelo, cruza una pierna sobre la otra que permanece estirada. Gira el torso hacia el lado de la pierna doblada usando el brazo opuesto como palanca.",
+      "correcciones": [
+        "No encorvar la espalda durante la rotación",
+        "Mantener ambos glúteos apoyados en el suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dancers_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dancers_Stretch_1.webp"
+    },
+    {
+      "id": "Elbows_Back",
+      "nombre": "Codos Atrás",
+      "descripcion": "De pie, coloque las manos en la parte baja de la espalda con los dedos hacia abajo. Tire suavemente de los codos hacia atrás intentando que se toquen.",
+      "correcciones": [
+        "No arquear la espalda baja para ganar rango",
+        "Mantener los hombros alejados de las orejas"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Pecho",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elbows_Back_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elbows_Back_1.webp"
+    },
+    {
+      "id": "Foot-SMR",
+      "nombre": "Liberación Miofascial de Pie",
+      "descripcion": "Sentado y sin calzado, coloque el arco del pie sobre un rodillo (foam roller). Presione firmemente y ruede el arco del pie sobre el objeto durante 10-30 segundos por lado.",
+      "correcciones": [
+        "Mantener una presión constante y firme sin causar dolor agudo.",
+        "Asegurarse de cubrir toda la superficie del arco plantar."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 2,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Foot-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Foot-SMR_1.webp"
+    },
+    {
+      "id": "Frog_Hops",
+      "nombre": "Saltos de Rana",
+      "descripcion": "En posición de sentadilla con las manos tras la cabeza, salte hacia adelante cubriendo varios pies de distancia. Mantenga el torso erguido y absorba el impacto con las piernas al aterrizar para encadenar el siguiente salto.",
+      "correcciones": [
+        "No mirar hacia abajo para no perder el equilibrio.",
+        "Evitar saltos excesivamente altos; priorizar el desplazamiento frontal."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 2,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Frog_Hops_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Frog_Hops_1.webp"
+    },
+    {
+      "id": "Front_Leg_Raises",
+      "nombre": "Elevaciones de Pierna Frontales",
+      "descripcion": "De pie junto a un soporte, balancee una pierna hacia adelante manteniéndola recta y luego hacia atrás según su flexibilidad. Repita de 5 a 10 veces por pierna.",
+      "correcciones": [
+        "Evitar arquear excesivamente la zona lumbar al llevar la pierna hacia atrás.",
+        "Mantener la pierna de apoyo estable y el torso erguido."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Leg_Raises_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Leg_Raises_1.webp"
+    },
+    {
+      "id": "Groin_and_Back_Stretch",
+      "nombre": "Estiramiento de Ingle y Espalda",
+      "descripcion": "Sentado con pies juntos y rodillas abiertas, entrelaza manos tras la cabeza y encórvate llevando los codos hacia la parte interna de los muslos.",
+      "correcciones": [
+        "Realizar el movimiento de forma lenta y controlada",
+        "No forzar la flexión cervical"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Groin_and_Back_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Groin_and_Back_Stretch_1.webp"
+    },
+    {
+      "id": "Groiners",
+      "nombre": "Groiners",
+      "descripcion": "Desde posición de flexión, salta hacia adelante llevando los pies por fuera de las manos y regresa de inmediato a la posición inicial.",
+      "correcciones": [
+        "Mantener la cabeza levantada durante el salto",
+        "Asegurar que los pies aterricen planos cerca de las manos"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Groiners_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Groiners_1.webp"
+    },
+    {
+      "id": "hamstring_stretch",
+      "nombre": "Estiramiento de Isquiotibiales con Banda",
+      "descripcion": "Tumbado boca arriba, eleva una pierna a 90 grados y coloca una banda o cinturón en la planta del pie. Tira suavemente para generar tensión en la parte posterior de la pierna.",
+      "correcciones": [
+        "Mantener la pierna contraria pegada al suelo en todo momento",
+        "No forzar el estiramiento si la rodilla comienza a flexionarse excesivamente"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring_stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring_stretch_1.webp"
+    },
+    {
+      "id": "Hip_Circles_prone",
+      "nombre": "Círculos de Cadera en Cuadrupedia",
+      "descripcion": "En posición de cuatro puntos, levanta una rodilla y realiza círculos amplios con el fémur manteniendo la rodilla flexionada.",
+      "correcciones": [
+        "Mantener la espalda neutra sin arquear la zona lumbar",
+        "Evitar la rotación excesiva del tronco"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hip_Circles_prone_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hip_Circles_prone_1.webp"
+    },
+    {
+      "id": "Hug_A_Ball",
+      "nombre": "Abrazo a Fitball",
+      "descripcion": "Sentado en el suelo, abraza una pelota de ejercicio bajando las caderas hacia el suelo para estirar la espalda baja.",
+      "correcciones": [
+        "Mantener los pies planos para evitar rodar",
+        "Relajar la musculatura para permitir el estiramiento"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hug_A_Ball_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hug_A_Ball_1.webp"
+    },
+    {
+      "id": "Hug_Knees_To_Chest",
+      "nombre": "Rodillas al Pecho",
+      "descripcion": "Acostado boca arriba, lleva ambas rodillas al pecho sujetándolas por debajo de la articulación para estirar la zona lumbar.",
+      "correcciones": [
+        "No sujetar por encima de la rótula para proteger la rodilla",
+        "Mantener la cabeza apoyada en el suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hug_Knees_To_Chest_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Hug_Knees_To_Chest_1.webp"
+    },
+    {
+      "id": "Iliotibial_Tract-SMR",
+      "nombre": "Liberación Miofascial de la Banda Iliotibial",
+      "descripcion": "Recuéstese de lado sobre un rodillo de espuma entre la cadera y la rodilla. Ruede lentamente buscando puntos de tensión.",
+      "correcciones": [
+        "Relajar la musculatura de la pierna que se está tratando.",
+        "Pausar de 10 a 30 segundos en los puntos de mayor dolor."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Iliotibial_Tract-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Iliotibial_Tract-SMR_1.webp"
+    },
+    {
+      "id": "Iron_Crosses_stretch",
+      "nombre": "Estiramiento Iron Cross",
+      "descripcion": "Boca abajo con brazos extendidos, flexiona una rodilla y cruza la pierna por detrás del cuerpo intentando tocar el suelo cerca de la mano opuesta. Alternar lados.",
+      "correcciones": [
+        "Realizar el movimiento de forma fluida pero controlada.",
+        "Mantener los hombros lo más cerca posible del suelo."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Iron_Crosses_stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Iron_Crosses_stretch_1.webp"
+    },
+    {
+      "id": "Knee_Across_The_Body",
+      "nombre": "Rodilla Cruzada al Cuerpo",
+      "descripcion": "Tumbado boca arriba, cruza una pierna flexionada sobre la otra estirada, buscando tocar el suelo con la rodilla mientras mantienes los hombros apoyados.",
+      "correcciones": [
+        "No forzar la rodilla hacia el suelo si se levanta el hombro contrario.",
+        "Mantener una respiración profunda para relajar la zona lumbar."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Knee_Across_The_Body_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Knee_Across_The_Body_1.webp"
+    },
+    {
+      "id": "Kneeling_Forearm_Stretch",
+      "nombre": "Estiramiento de antebrazos arrodillado",
+      "descripcion": "Arrodillado con las palmas en el suelo y dedos mirando hacia las rodillas, inclina el cuerpo hacia atrás suavemente para estirar la cara interna del antebrazo.",
+      "correcciones": [
+        "No levantar las palmas del suelo al inclinar el cuerpo",
+        "Realizar el movimiento de forma lenta para evitar lesiones en la muñeca"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Forearm_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Forearm_Stretch_1.webp"
+    },
+    {
+      "id": "Kneeling_Hip_Flexor",
+      "nombre": "Estiramiento de flexor de cadera arrodillado",
+      "descripcion": "En posición de zancada con una rodilla en el suelo, desplaza el peso hacia adelante manteniendo el torso erguido hasta sentir el estiramiento en la cadera de la pierna trasera.",
+      "correcciones": [
+        "Mantener el torso erguido sin arquear la espalda",
+        "Asegurar que la rodilla delantera no sobrepase excesivamente la punta del pie"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Hip_Flexor_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Hip_Flexor_1.webp"
+    },
+    {
+      "id": "Latissimus_Dorsi-SMR",
+      "nombre": "Liberación Miofascial de Dorsal",
+      "descripcion": "Automasaje con rodillo de espuma en la zona lateral de la espalda (dorsal ancho) para mejorar la movilidad.",
+      "correcciones": [
+        "No rodar directamente sobre la articulación del hombro",
+        "Mantener una presión constante y tolerable sobre el tejido blando"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Latissimus_Dorsi-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Latissimus_Dorsi-SMR_1.webp"
+    },
+    {
+      "id": "Leg-Up_Hamstring_Stretch",
+      "nombre": "Estiramiento de Isquiotibiales con Pierna Elevada",
+      "descripcion": "Tumbado de espaldas, extiende una pierna hacia el techo y tira de ella suavemente hacia el rostro manteniendo la otra rodilla flexionada para estabilidad.",
+      "correcciones": [
+        "No fuerces la extensión de la rodilla si sientes dolor agudo",
+        "Mantén la zona lumbar pegada al suelo durante todo el estiramiento"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Leg-Up_Hamstring_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Leg-Up_Hamstring_Stretch_1.webp"
+    },
+    {
+      "id": "Looking_At_Ceiling",
+      "nombre": "Estiramiento de Camello (Mirada al Techo)",
+      "descripcion": "Arrodillado en el suelo, sujete sus talones con las manos. Empuje la pelvis hacia adelante y hacia arriba mientras arquea la espalda suavemente, llevando la cabeza hacia atrás para mirar el techo.",
+      "correcciones": [
+        "No forzar la extensión cervical si existe molestia previa.",
+        "Proyectar la cadera hacia adelante para maximizar el estiramiento de la cadena anterior."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Looking_At_Ceiling_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Looking_At_Ceiling_1.webp"
+    },
+    {
+      "id": "Lying_Crossover",
+      "nombre": "Estiramiento Cruzado en Suelo",
+      "descripcion": "Tumbado boca arriba, cruza una pierna sobre el cuerpo con la rodilla doblada intentando tocar el suelo. Un compañero debe sujetar el hombro opuesto y presionar la rodilla hacia abajo tras una fase de contracción isométrica.",
+      "correcciones": [
+        "Evitar que el hombro del lado estirado se levante del suelo",
+        "No forzar la rotación lumbar de forma brusca"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Crossover_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Crossover_1.webp"
+    },
+    {
+      "id": "Lying_Glute",
+      "nombre": "Estiramiento de Glúteo PNF",
+      "descripcion": "Tumbado boca arriba, flexiona la cadera y rota la pierna para que el pie quede sobre la cadera opuesta. Empuja contra la resistencia del compañero y luego relaja para profundizar el estiramiento.",
+      "correcciones": [
+        "Comunicar claramente el nivel de tensión al compañero",
+        "Mantener la espalda baja pegada al suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Glute_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Glute_1.webp"
+    },
+    {
+      "id": "Lying_Hamstring",
+      "nombre": "Estiramiento de Isquiotibiales PNF",
+      "descripcion": "Tumbado supino, eleva una pierna estirada. Tras una contracción isométrica contra el hombro del compañero, relaja para permitir un mayor rango de estiramiento.",
+      "correcciones": [
+        "Mantener la pierna de apoyo extendida en el suelo",
+        "No bloquear la rodilla de forma agresiva"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Hamstring_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Hamstring_1.webp"
+    },
+    {
+      "id": "Lying_Prone_Quadriceps",
+      "nombre": "Estiramiento de Cuádriceps Prone en Pareja",
+      "descripcion": "Tumbado boca abajo, se flexiona una rodilla intentando tocar el glúteo con el pie mientras un compañero asiste aplicando una ligera presión para estirar el cuádriceps y flexores de cadera.",
+      "correcciones": [
+        "Evitar la rotación de la cadera o levantar la pelvis del suelo",
+        "Mantener una comunicación constante con el compañero para evitar sobreestiramiento"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Prone_Quadriceps_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Prone_Quadriceps_1.webp"
+    },
+    {
+      "id": "Middle_Back_Stretch",
+      "nombre": "Estiramiento de Espalda Media",
+      "descripcion": "De pie con pies al ancho de hombros, girar la cintura lateralmente manteniendo las manos en la cadera hasta sentir tensión.",
+      "correcciones": [
+        "No realizar movimientos bruscos o de rebote",
+        "Mantener los pies firmes en el suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Middle_Back_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Middle_Back_Stretch_1.webp"
+    },
+    {
+      "id": "Neck-SMR",
+      "nombre": "Liberación Miofascial de Cuello",
+      "descripcion": "Utilizando un rodillo de espuma (foam roller), colóquelo en la base del cráneo evitando la columna. Gire levemente hacia los lados para presionar los músculos laterales y deslice lentamente deteniéndose en puntos de tensión.",
+      "correcciones": [
+        "No ejercer presión directa sobre las vértebras cervicales.",
+        "Realizar movimientos lentos y controlados."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Neck-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Neck-SMR_1.webp"
+    },
+    {
+      "id": "on_your_side_quad_stretch",
+      "nombre": "Estiramiento de Cuádriceps de Lado",
+      "descripcion": "Túmbate sobre el costado derecho con la rodilla derecha flexionada a 90 grados frente a ti para estabilizarte. Sujeta el pie izquierdo con la mano izquierda detrás de ti. Empuja la cadera izquierda hacia adelante mientras tiras del pie hacia atrás.",
+      "correcciones": [
+        "Evitar arquear la zona lumbar excesivamente",
+        "No tirar del pie de forma lateral para proteger la rodilla"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/on_your_side_quad_stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/on_your_side_quad_stretch_1.webp"
+    },
+    {
+      "id": "one_arm_against_wall",
+      "nombre": "Estiramiento de Dorsal contra Pared",
+      "descripcion": "Desde una posición de pie, coloca el brazo flexionado contra una pared o marco de puerta. Inclina lentamente el cuerpo hacia el brazo hasta sentir el estiramiento en el dorsal ancho.",
+      "correcciones": [
+        "No rotar el torso excesivamente lejos de la pared",
+        "Mantener el hombro abajo y relajado"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_against_wall_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_against_wall_1.webp"
+    },
+    {
+      "id": "one_half_locust",
+      "nombre": "Postura de Media Langosta",
+      "descripcion": "Tumbado boca abajo, coloca la mano izquierda bajo el hueso de la cadera. Flexiona la rodilla derecha y sujeta el pie con la mano derecha. Eleva el pie y los hombros simultáneamente para estirar la cadena anterior.",
+      "correcciones": [
+        "No forzar la elevación si hay dolor lumbar",
+        "Mantener la mirada hacia el suelo para no tensar el cuello"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_half_locust_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_half_locust_1.webp"
+    },
+    {
+      "id": "One_Knee_To_Chest",
+      "nombre": "Rodilla al Pecho",
+      "descripcion": "Tumbado boca arriba, lleva una rodilla hacia el pecho sujetándola por debajo de la articulación para estirar glúteos y zona lumbar.",
+      "correcciones": [
+        "No tirar directamente de la rótula para evitar presión articular",
+        "Mantener la pierna contraria extendida en el suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/One_Knee_To_Chest_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/One_Knee_To_Chest_1.webp"
+    },
+    {
+      "id": "Overhead_Stretch",
+      "nombre": "Estiramiento sobre la cabeza",
+      "descripcion": "De pie, entrelaza los dedos y extiende los brazos hacia el techo con las palmas hacia arriba. Mantén los hombros abajo y estabiliza el torso para estirar toda la zona media.",
+      "correcciones": [
+        "No elevar los hombros hacia las orejas",
+        "Evitar arquear la espalda lumbar excesivamente"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Overhead_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Overhead_Stretch_1.webp"
+    },
+    {
+      "id": "Pelvic_Tilt_Into_Bridge",
+      "nombre": "Inclinación pélvica a puente de glúteo",
+      "descripcion": "Tumbado boca arriba, eleva primero el coxis para estirar la zona lumbar y luego eleva toda la columna (excepto el cuello) hacia una posición de puente.",
+      "correcciones": [
+        "No elevar la columna cervical para evitar tensión en el cuello.",
+        "Mantener el abdomen contraído para proteger la zona lumbar."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pelvic_Tilt_Into_Bridge_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pelvic_Tilt_Into_Bridge_1.webp"
+    },
+    {
+      "id": "Peroneals-SMR",
+      "nombre": "Liberación miofascial de peroneos",
+      "descripcion": "Tumbado de lado, coloca el foam roller bajo la parte lateral de la pierna. Rueda desde debajo de la rodilla hasta encima del tobillo buscando puntos de tensión.",
+      "correcciones": [
+        "Mantener el control del peso corporal con el antebrazo para no colapsar.",
+        "No rodar directamente sobre la articulación de la rodilla."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Peroneals-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Peroneals-SMR_1.webp"
+    },
+    {
+      "id": "Piriformis-SMR",
+      "nombre": "Liberación miofascial de piriforme",
+      "descripcion": "Siéntate sobre el foam roller, cruza un tobillo sobre la rodilla contraria e inclina el peso hacia el lado de la pierna cruzada, rodando sobre el glúteo.",
+      "correcciones": [
+        "No aplicar demasiada presión si existe dolor agudo en el nervio ciático.",
+        "Mantener la columna lo más neutra posible durante el rodamiento."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Piriformis-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Piriformis-SMR_1.webp"
+    },
+    {
+      "id": "Posterior_Tibialis_Stretch",
+      "nombre": "Estiramiento del Tibial Posterior",
+      "descripcion": "En posición sentada, rodea un pie con una banda de resistencia. Con la pierna extendida, tira de la banda para evertir el pie, llevando el borde exterior hacia ti.",
+      "correcciones": [
+        "Mantener la rodilla extendida para aislar el estiramiento",
+        "Sostener la tensión de forma constante sin realizar rebotes"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Posterior_Tibialis_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Posterior_Tibialis_Stretch_1.webp"
+    },
+    {
+      "id": "Quadriceps-SMR",
+      "nombre": "Liberación Miofascial de Cuádriceps",
+      "descripcion": "Túmbate boca abajo con el foam roller bajo un cuádriceps, apoyando el peso en antebrazos. Rueda lentamente desde la parte superior de la rodilla hasta justo debajo de la cadera, manteniendo los puntos de tensión.",
+      "correcciones": [
+        "Evitar arquear la espalda baja durante el rodamiento",
+        "Mantener la pierna tratada lo más relajada posible"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Quadriceps-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Quadriceps-SMR_1.webp"
+    },
+    {
+      "id": "Rhomboids-SMR",
+      "nombre": "Liberación Miofascial de Romboides",
+      "descripcion": "Coloque un foam roller bajo la parte superior de la espalda y cruce los brazos para separar las escápulas. Eleve la cadera y ruede lentamente sobre la zona media y superior de la espalda, deteniéndose en los puntos de tensión.",
+      "correcciones": [
+        "No rodar directamente sobre la zona lumbar.",
+        "Mantener la respiración profunda y constante durante la presión."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Rhomboids-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Rhomboids-SMR_1.webp"
+    },
+    {
+      "id": "Runners_Stretch",
+      "nombre": "Estiramiento del Corredor",
+      "descripcion": "Estiramiento estático que se inicia de pie, llevando una pierna atrás y bajando el torso hacia el suelo. Se busca empujar la cadera hacia el techo y luego bajarla para estirar flexores, isquiotibiales y glúteos.",
+      "correcciones": [
+        "Mantener el talón delantero pegado al suelo durante todo el estiramiento.",
+        "Si el talón se levanta, alejar más la pierna trasera para ajustar la tensión."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Runners_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Runners_Stretch_1.webp"
+    },
+    {
+      "id": "Seated_Calf_Stretch",
+      "nombre": "Estiramiento de Gemelos Sentado",
+      "descripcion": "Sentado con una pierna estirada, use una banda o su mano para tirar de los dedos del pie hacia usted, sintiendo el estiramiento en la pantorrilla.",
+      "correcciones": [
+        "No flexionar la rodilla de la pierna estirada.",
+        "Realizar el tirón de forma gradual sin rebotes."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal",
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Calf_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Calf_Stretch_1.webp"
+    },
+    {
+      "id": "Seated_Floor_Hamstring_Stretch",
+      "nombre": "Estiramiento de isquiotibiales en suelo sentado",
+      "descripcion": "Sentado con una pierna extendida y la otra flexionada contra el muslo interno. Inclina la cadera hacia adelante buscando el tobillo de la pierna estirada.",
+      "correcciones": [
+        "Mantener la espalda lo más neutra posible al inclinarse.",
+        "No realizar rebotes (movimientos balísticos) durante el estiramiento."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Floor_Hamstring_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Floor_Hamstring_Stretch_1.webp"
+    },
+    {
+      "id": "Seated_Front_Deltoid",
+      "nombre": "Estiramiento PNF de deltoides anterior",
+      "descripcion": "Sentado con brazos hacia atrás, un compañero sostiene las muñecas. Intenta llevar los brazos hacia adelante contra la resistencia del compañero, luego relaja y aumenta el estiramiento.",
+      "correcciones": [
+        "Comunicación constante con el compañero para evitar sobreestiramiento.",
+        "Mantener los codos bloqueados para focalizar en el hombro."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Alta",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Front_Deltoid_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Front_Deltoid_1.webp"
+    },
+    {
+      "id": "Seated_Glute",
+      "nombre": "Estiramiento PNF de glúteo sentado",
+      "descripcion": "Sentado, cruza un tobillo sobre la rodilla opuesta. Empuja el torso hacia atrás contra la resistencia de un compañero, luego relaja mientras el compañero empuja el torso hacia adelante.",
+      "correcciones": [
+        "Evitar el redondeo excesivo de la columna lumbar.",
+        "La fuerza aplicada contra el compañero debe ser gradual, no explosiva."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Alta",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Glute_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Glute_1.webp"
+    },
+    {
+      "id": "Seated_Hamstring_and_Calf_Stretch",
+      "nombre": "Estiramiento de Isquiotibiales y Pantorrilla Sentado",
+      "descripcion": "Sentado con las piernas extendidas, rodea un pie con una banda. Inclina el torso hacia adelante suavemente y tira de la banda para llevar los dedos del pie hacia ti.",
+      "correcciones": [
+        "No encorvar excesivamente la espalda lumbar durante la inclinación",
+        "Evitar tirones bruscos; mantener una tensión constante y controlada"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Hamstring_and_Calf_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Hamstring_and_Calf_Stretch_1.webp"
+    },
+    {
+      "id": "Seated_Overhead_Stretch",
+      "nombre": "Estiramiento Lateral por encima de la Cabeza",
+      "descripcion": "Sentado con plantas de los pies juntas, inclina el torso lateralmente llevando el codo hacia el techo mientras apoyas la otra mano en el suelo.",
+      "correcciones": [
+        "No dejar que el glúteo contrario se levante del suelo",
+        "Mantener el pecho abierto y evitar que el torso se colapse hacia adelante"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Overhead_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Overhead_Stretch_1.webp"
+    },
+    {
+      "id": "Shoulder_Stretch",
+      "nombre": "Estiramiento de Hombro",
+      "descripcion": "Cruza un brazo por delante del cuerpo a la altura del pecho y presiónalo suavemente con el brazo contrario.",
+      "correcciones": [
+        "Mantener el hombro estirado lejos de la oreja (deprimido).",
+        "No rotar el tronco mientras se cruza el brazo."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Stretch_1.webp"
+    },
+    {
+      "id": "Side_Lying_Groin_Stretch",
+      "nombre": "Estiramiento de Ingle Tumbado",
+      "descripcion": "Tumbado de lado, tracciona la pierna superior hacia el tronco para elongar los aductores de forma estática.",
+      "correcciones": [
+        "Mantener la espalda en posición neutra",
+        "No forzar la articulación de la rodilla"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Lying_Groin_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Lying_Groin_Stretch_1.webp"
+    },
+    {
+      "id": "Side_Neck_Stretch",
+      "nombre": "Estiramiento Lateral de Cuello",
+      "descripcion": "Inclina suavemente la cabeza hacia el hombro para estirar la musculatura lateral del cuello.",
+      "correcciones": [
+        "No elevar el hombro hacia la oreja",
+        "Realizar la presión de forma muy progresiva"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Neck_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Neck_Stretch_1.webp"
+    },
+    {
+      "id": "Side-Lying_Floor_Stretch",
+      "nombre": "Estiramiento lateral en suelo",
+      "descripcion": "Acuéstese sobre su lado izquierdo con la rodilla izquierda flexionada para estabilizarse. Estire la pierna derecha y apoye el pie detrás del izquierdo. Extienda el brazo derecho sobre la cabeza y tire suavemente de la muñeca para estirar todo el costado derecho.",
+      "correcciones": [
+        "No permita que el torso rote hacia adelante; mantenga el cuerpo alineado lateralmente.",
+        "Evite tirones bruscos en la articulación de la muñeca."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side-Lying_Floor_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side-Lying_Floor_Stretch_1.webp"
+    },
+    {
+      "id": "Side_Wrist_Pull",
+      "nombre": "Estiramiento lateral de muñeca y hombro",
+      "descripcion": "Cruce un brazo frente al cuerpo y sujete la muñeca con la otra mano a la altura de la cadera. Estire y eleve el brazo lentamente hasta la altura del hombro sintiendo la elongación desde la zona dorsal.",
+      "correcciones": [
+        "No aplique fuerza excesiva sobre la articulación del hombro.",
+        "Mantenga el torso erguido sin rotar la columna."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Wrist_Pull_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Wrist_Pull_1.webp"
+    },
+    {
+      "id": "Sit_Squats",
+      "nombre": "Sentadilla Parcial (Sit Squat)",
+      "descripcion": "Con los pies al ancho de los hombros, inicia el movimiento flexionando rodillas y caderas como si fueras a sentarte. Desciende solo una parte del recorrido (por encima de la paralela) y regresa rápidamente a la posición inicial.",
+      "correcciones": [
+        "Mantener la espalda neutra durante el descenso corto",
+        "Evitar que los talones se despeguen del suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 2,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Sit_Squats_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Sit_Squats_1.webp"
+    },
+    {
+      "id": "Spinal_Stretch",
+      "nombre": "Estiramiento Espinal",
+      "descripcion": "Sentado con pies apoyados, entrelaza manos tras la cabeza. Gira el torso y luego inclínate para intentar tocar el codo con la parte interna de la rodilla opuesta.",
+      "correcciones": [
+        "Realizar el movimiento de forma suave y controlada",
+        "No forzar el cuello con las manos"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 2,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spinal_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spinal_Stretch_1.webp"
+    },
+    {
+      "id": "Split_Squats",
+      "nombre": "Estocadas con Salto (Dinámicas)",
+      "descripcion": "Desde posición de pie, salta a una posición de piernas abiertas (tijera) flexionando rodillas y bajando cadera. Invierte la posición de las piernas en cada salto de forma fluida.",
+      "correcciones": [
+        "Mantener el control del equilibrio durante el cambio de piernas.",
+        "Evitar impactos bruscos manteniendo una ligera flexión de rodilla al caer."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Split_Squats_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Split_Squats_1.webp"
+    },
+    {
+      "id": "Standing_Biceps_Stretch",
+      "nombre": "Estiramiento de Bíceps de Pie",
+      "descripcion": "Entrelaza las manos detrás de la espalda, gira las palmas hacia abajo y eleva los brazos lentamente hasta sentir tensión en los bíceps.",
+      "correcciones": [
+        "No realizar movimientos bruscos o rebotes",
+        "Mantener el pecho abierto y hombros relajados"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Bíceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Biceps_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Biceps_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Elevated_Quad_Stretch",
+      "nombre": "Estiramiento de Cuádriceps Elevado",
+      "descripcion": "De espaldas a un banco, apoya un pie sobre él. Mantén la rodilla de apoyo ligeramente flexionada y el torso erguido para estirar la parte anterior del muslo elevado.",
+      "correcciones": [
+        "No permitir que la rodilla de apoyo sobrepase la punta del pie.",
+        "Mantener la pelvis neutra para maximizar el estiramiento del recto femoral."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Elevated_Quad_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Elevated_Quad_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Gastrocnemius_Calf_Stretch",
+      "nombre": "Estiramiento de Gemelos de Pie",
+      "descripcion": "Coloca el talón sobre un escalón con la rodilla extendida y tira de los dedos del pie hacia la rodilla mientras inclinas el torso hacia adelante.",
+      "correcciones": [
+        "Mantener la espalda recta durante la inclinación",
+        "No bloquear la rodilla de apoyo de forma agresiva"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Gastrocnemius_Calf_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Gastrocnemius_Calf_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Hamstring_and_Calf_Stretch",
+      "nombre": "Estiramiento de Isquiotibiales y Pantorrilla con Banda",
+      "descripcion": "Utilizando una banda o cinturón alrededor del pie, tira de la punta del pie hacia el cuerpo mientras mantienes la pierna delantera extendida y la trasera flexionada.",
+      "correcciones": [
+        "No encorvar la espalda al inclinarse",
+        "Mantener la tensión de la banda constante"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hamstring_and_Calf_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hamstring_and_Calf_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Hip_Flexors",
+      "nombre": "Estiramiento de Flexores de Cadera de Pie",
+      "descripcion": "En posición de zancada corta, presiona la cadera trasera hacia adelante mientras mantienes el torso vertical para estirar el psoas e ilíaco.",
+      "correcciones": [
+        "No arquear la zona lumbar",
+        "Asegurar una retroversión pélvica para localizar el estiramiento"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hip_Flexors_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hip_Flexors_1.webp"
+    },
+    {
+      "id": "Standing_Lateral_Stretch",
+      "nombre": "Estiramiento Lateral de Pie",
+      "descripcion": "De pie con rodillas relajadas, inclina el torso lateralmente llevando una mano detrás de la cabeza para estirar la pared abdominal y oblicuos.",
+      "correcciones": [
+        "No inclinar la pelvis hacia el lado opuesto",
+        "Mantener el pecho abierto sin rotar el torso hacia el suelo"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Lateral_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Lateral_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Soleus_And_Achilles_Stretch",
+      "nombre": "Estiramiento de Sóleo y Tendón de Aquiles",
+      "descripcion": "De pie con un pie frente al otro, flexionar ambas rodillas manteniendo el talón trasero pegado al suelo.",
+      "correcciones": [
+        "No levantar el talón del suelo para asegurar el estiramiento",
+        "Mantener el torso erguido"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Soleus_And_Achilles_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Soleus_And_Achilles_Stretch_1.webp"
+    },
+    {
+      "id": "Standing_Toe_Touches",
+      "nombre": "Toque de Puntas de Pie",
+      "descripcion": "Flexionar la cintura manteniendo las piernas rectas, dejando que el torso y los brazos cuelguen naturalmente hacia el suelo.",
+      "correcciones": [
+        "No rebotar en la posición baja",
+        "Evitar bloquear excesivamente las rodillas si hay dolor"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Toe_Touches_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Toe_Touches_1.webp"
+    },
+    {
+      "id": "superman",
+      "nombre": "Superman",
+      "descripcion": "Túmbate boca abajo con los brazos extendidos frente a ti. Levanta simultáneamente brazos, piernas y pecho del suelo y mantén la contracción por 2 segundos. Siente el trabajo en la zona lumbar mientras exhalas.",
+      "correcciones": [
+        "No hiperextender el cuello; mantener la mirada hacia el suelo.",
+        "Realizar el movimiento de forma controlada sin usar impulso."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/superman_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/superman_1.webp"
+    },
+    {
+      "id": "Toe_Touchers",
+      "nombre": "Toque de Puntas",
+      "descripcion": "Boca arriba con piernas elevadas casi perpendiculares al suelo. Eleva el torso para intentar tocar los pies con las manos, exhalando en la subida.",
+      "correcciones": [
+        "Mantener la zona lumbar presionada contra el suelo.",
+        "No tirar del cuello; usar la fuerza abdominal."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Toe_Touchers_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Toe_Touchers_1.webp"
+    },
+    {
+      "id": "Tricep_Side_Stretch",
+      "nombre": "Estiramiento Lateral de Tríceps",
+      "descripcion": "Cruza un brazo por delante del cuerpo a la altura del hombro opuesto y presiona el codo suavemente con la mano contraria para sentir el estiramiento.",
+      "correcciones": [
+        "No elevar el hombro hacia la oreja durante el estiramiento.",
+        "Mantener el torso recto sin rotar la columna."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Tríceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Tricep_Side_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Tricep_Side_Stretch_1.webp"
+    },
+    {
+      "id": "Triceps_Stretch",
+      "nombre": "Estiramiento de Tríceps Tras Nuca",
+      "descripcion": "Lleva una mano por detrás de la cabeza hacia la escápula y presiona el codo hacia abajo con la otra mano.",
+      "correcciones": [
+        "No empujar la cabeza hacia adelante con el brazo.",
+        "Mantener la columna neutra sin arquear la zona lumbar."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Tríceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Triceps_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Triceps_Stretch_1.webp"
+    },
+    {
+      "id": "Upper_Back-Leg_Grab",
+      "nombre": "Abrazo de piernas para espalda superior",
+      "descripcion": "Sentado, inclínate hacia adelante para abrazar tus muslos por debajo. Mantén las rodillas juntas y trata de separar la espalda de tus rodillas mientras las sujetas para estirar la zona media.",
+      "correcciones": [
+        "Realizar el movimiento de forma suave sin tirones.",
+        "Mantener la respiración fluida durante el estiramiento."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upper_Back-Leg_Grab_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upper_Back-Leg_Grab_1.webp"
+    },
+    {
+      "id": "Upper_Back_Stretch",
+      "nombre": "Estiramiento de espalda superior",
+      "descripcion": "Entrelaza los dedos con los pulgares apuntando hacia abajo, redondea los hombros y empuja las manos hacia adelante para estirar la zona interescapular.",
+      "correcciones": [
+        "Sentir la apertura de las escápulas sin elevar los hombros hacia las orejas.",
+        "Mantener la pelvis neutra."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 3,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upper_Back_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upper_Back_Stretch_1.webp"
+    },
+    {
+      "id": "Upward_Stretch",
+      "nombre": "Estiramiento Hacia Arriba",
+      "descripcion": "Extiende ambas manos directamente sobre la cabeza con las palmas tocándose. Empuja lentamente las manos hacia arriba y hacia atrás manteniendo la espalda recta.",
+      "correcciones": [
+        "Evitar arquear excesivamente la zona lumbar durante el empuje",
+        "No encoger los hombros hacia las orejas"
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upward_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Upward_Stretch_1.webp"
+    },
+    {
+      "id": "Windmills",
+      "nombre": "Molinillos Suelo",
+      "descripcion": "Tumbado boca arriba con brazos en cruz, cruce una pierna estirada intentando tocar la mano opuesta, alternando lados.",
+      "correcciones": [
+        "Mantener ambos hombros pegados al suelo en todo momento.",
+        "Realizar el movimiento de forma fluida y controlada."
+      ],
+      "categoriaBloque": "enfriamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Windmills_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Windmills_1.webp"
+    }
+  ]
+}

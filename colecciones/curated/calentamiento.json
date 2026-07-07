@@ -1,0 +1,1639 @@
+{
+  "id": "calentamiento",
+  "updatedAt": "2026-07-07T18:22:18.739Z",
+  "count": 74,
+  "items": [
+    {
+      "id": "Alternate_Leg_Diagonal_Bound",
+      "nombre": "Saltos Diagonales Alternos",
+      "descripcion": "Ejercicio pliométrico que consiste en impulsarse hacia adelante y hacia los lados de forma alterna, buscando máxima distancia y altura en cada salto, aterrizando de forma controlada.",
+      "correcciones": [
+        "Asegurar un aterrizaje suave con la parte media del pie para proteger las articulaciones.",
+        "Coordinar el movimiento de los brazos para generar mayor potencia en el salto."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Leg_Diagonal_Bound_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Leg_Diagonal_Bound_1.webp"
+    },
+    {
+      "id": "Ankle_Circles",
+      "nombre": "Círculos de Tobillo",
+      "descripcion": "Sujétate a un objeto estable. Eleva un pie ligeramente y realiza círculos amplios con el dedo gordo del pie, manteniendo una respiración fluida. Cambia de pie al terminar.",
+      "correcciones": [
+        "Evitar mover toda la pierna; el movimiento debe nacer exclusivamente del tobillo.",
+        "Realizar el círculo a un ritmo controlado para maximizar la movilidad."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Ankle_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Ankle_Circles_1.webp"
+    },
+    {
+      "id": "Arm_Circles",
+      "nombre": "Círculos de Brazos",
+      "descripcion": "De pie, extiende los brazos laterales paralelos al suelo. Realiza círculos pequeños (30 cm de diámetro) de forma controlada. Cambia el sentido del giro tras 10 segundos.",
+      "correcciones": [
+        "Evitar el encogimiento de hombros (mantener trapecios relajados).",
+        "Mantener los codos totalmente extendidos durante todo el rango."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Arm_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Arm_Circles_1.webp"
+    },
+    {
+      "id": "Band_Hip_Adductions",
+      "nombre": "Aducción de cadera con banda",
+      "descripcion": "Ancla una banda a un poste y sujétala a tu tobillo más cercano al anclaje. Cruza la pierna hacia el centro del cuerpo venciendo la resistencia de la banda.",
+      "correcciones": [
+        "Mantener la rodilla extendida en todo momento.",
+        "Evitar inclinar el torso hacia el lado opuesto para compensar."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Hip_Adductions_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Hip_Adductions_1.webp"
+    },
+    {
+      "id": "Band_Pull_Apart",
+      "nombre": "Separación con banda",
+      "descripcion": "Sujeta una banda frente a ti con los brazos rectos. Abre la banda llevando las manos hacia afuera hasta que toque tu pecho, concentrando el esfuerzo en la parte posterior de los hombros y escápulas.",
+      "correcciones": [
+        "No permitir que los codos se flexionen durante la ejecución.",
+        "Mantener una retracción escapular activa al final de la fase concéntrica."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Traccion_H",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Pull_Apart_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Pull_Apart_1.webp"
+    },
+    {
+      "id": "Bench_Sprint",
+      "nombre": "Sprint en Banco",
+      "descripcion": "Alterna rápidamente los pies sobre un banco o caja, empujando con la pierna de apoyo para elevar la cadera. Mantén un ritmo fluido para completar el set.",
+      "correcciones": [
+        "Mantener el talón cerca del borde del banco para mayor estabilidad.",
+        "Extender completamente la cadera y rodilla al empujar."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Cajón Pliométrico"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bench_Sprint_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bench_Sprint_1.webp"
+    },
+    {
+      "id": "Bicycling_Stationary",
+      "nombre": "Bicicleta Estática",
+      "descripcion": "Ajuste el asiento a su altura. Pedalee manteniendo una intensidad constante o siguiendo un programa preestablecido para mejora cardiovascular.",
+      "correcciones": [
+        "Ajustar el sillín de modo que la rodilla tenga una ligera flexión en la parte baja",
+        "Mantener una postura erguida sin tensar los hombros"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bicicleta Estática"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bicycling_Stationary_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bicycling_Stationary_1.webp"
+    },
+    {
+      "id": "Butt_Lift_Bridge",
+      "nombre": "Puente de Glúteo",
+      "descripcion": "Tumbado boca arriba con rodillas flexionadas, elevar la cadera contrayendo los glúteos hasta alinear rodilla, cadera y hombro.",
+      "correcciones": [
+        "Empujar con los talones, no con las puntas.",
+        "No hiperextender la zona lumbar en la parte alta."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Butt_Lift_Bridge_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Butt_Lift_Bridge_1.webp"
+    },
+    {
+      "id": "Cable_Internal_Rotation",
+      "nombre": "Rotación Interna de Hombro en Polea",
+      "descripcion": "Sentado lateralmente a una polea baja, tira del agarre hacia el abdomen rotando el hombro hacia adentro.",
+      "correcciones": [
+        "Mantener el codo pegado al costado en un ángulo de 90 grados.",
+        "Evitar compensar con el movimiento del torso."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Poleas"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Internal_Rotation_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Internal_Rotation_1.webp"
+    },
+    {
+      "id": "Calf_Raises_-_With_Bands",
+      "nombre": "Elevación de Talones con Bandas",
+      "descripcion": "Pise una banda elástica con los dedos de los pies y sujete los mangos a los lados de la cabeza (como en un press militar) para generar tensión. Elévese sobre las puntas de los pies exhalando y contrayendo fuerte. Regrese lentamente tras un segundo de contracción.",
+      "correcciones": [
+        "Asegurar que la longitud de la banda sea igual en ambos lados para una resistencia simétrica.",
+        "Mantener las manos fijas a la altura de los hombros durante todo el rango."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Raises_-_With_Bands_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calf_Raises_-_With_Bands_1.webp"
+    },
+    {
+      "id": "Calves-SMR",
+      "nombre": "Liberación Miofascial de Pantorrillas",
+      "descripcion": "Siéntate en el suelo con un rodillo de espuma debajo de la parte inferior de la pierna. Cruza la otra pierna por encima para aumentar la presión. Eleva la cadera y rueda desde debajo de la rodilla hasta justo encima del tobillo, deteniéndote en los puntos de mayor tensión.",
+      "correcciones": [
+        "Evitar rodar directamente sobre el hueco poplíteo (detrás de la rodilla).",
+        "Mantener la presión constante y respirar profundamente durante la pausa en puntos de gatillo."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calves-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Calves-SMR_1.webp"
+    },
+    {
+      "id": "Cocoons",
+      "nombre": "Cocoons (Abdominales)",
+      "descripcion": "Acostado boca arriba, lleva las rodillas hacia el pecho mientras realizas un crunch con los brazos, elevando ligeramente los glúteos del suelo al rotar la pelvis.",
+      "correcciones": [
+        "Mantener el movimiento controlado sin usar la inercia de las piernas.",
+        "Asegurar que la espalda baja presione el suelo al estirarse."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cocoons_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cocoons_1.webp"
+    },
+    {
+      "id": "Dead_Bug",
+      "nombre": "Dead Bug",
+      "descripcion": "Tumbado boca arriba con brazos y piernas a 90 grados, extiende una pierna y el brazo opuesto simultáneamente sin arquear la zona lumbar.",
+      "correcciones": [
+        "Evitar que la zona lumbar se separe del suelo",
+        "Controlar la respiración, exhalando en la extensión"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dead_Bug_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dead_Bug_1.webp"
+    },
+    {
+      "id": "Double_Leg_Butt_Kick",
+      "nombre": "Salto con Toque de Talones a Glúteos",
+      "descripcion": "Desde una posición de pie, realiza un salto vertical máximo. En el aire, flexiona ambas rodillas rápidamente intentando tocar los glúteos con los talones. Aterriza amortiguando con las rodillas semiflexionadas.",
+      "correcciones": [
+        "Aterrizar de forma silenciosa absorbiendo el impacto con la punta de los pies y rodillas.",
+        "Evitar la inclinación excesiva del tronco hacia adelante al saltar."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Double_Leg_Butt_Kick_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Double_Leg_Butt_Kick_1.webp"
+    },
+    {
+      "id": "Dumbbell_Scaption",
+      "nombre": "Scaption con Mancuernas",
+      "descripcion": "Sujeta una mancuerna ligera en cada mano a los costados con los pulgares hacia arriba. Eleva los brazos frente a ti en un ángulo de 30 grados respecto al centro (plano escapular) hasta que estén paralelos al suelo, manteniendo los brazos extendidos.",
+      "correcciones": [
+        "Evitar encoger los hombros durante la elevación.",
+        "No sobrepasar la altura de los hombros para proteger el espacio subacromial."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Mancuernas"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Scaption_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Scaption_1.webp"
+    },
+    {
+      "id": "Dynamic_Back_Stretch",
+      "nombre": "Estiramiento Dinámico de Espalda",
+      "descripcion": "De pie con los pies al ancho de los hombros. Balancee los brazos rectos hacia adelante y hacia arriba de 5 a 10 veces, aumentando el rango de movimiento hasta que los brazos estén sobre la cabeza.",
+      "correcciones": [
+        "Evitar arquear la zona lumbar excesivamente al subir los brazos",
+        "Mantener los codos extendidos durante todo el movimiento"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Traccion_V",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dynamic_Back_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dynamic_Back_Stretch_1.webp"
+    },
+    {
+      "id": "Dynamic_Chest_Stretch",
+      "nombre": "Estiramiento Dinámico de Pecho",
+      "descripcion": "De pie con las manos juntas y brazos extendidos al frente. Mueva los brazos hacia atrás lo más posible y regrese rápidamente, similar a un aplauso exagerado.",
+      "correcciones": [
+        "No compensar adelantando el cuello durante la apertura",
+        "Controlar la velocidad para evitar tirones bruscos en los hombros"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Pecho",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dynamic_Chest_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dynamic_Chest_Stretch_1.webp"
+    },
+    {
+      "id": "Elbow_Circles",
+      "nombre": "Círculos con Codos",
+      "descripcion": "Sentado o de pie, coloque las manos sobre los hombros con los codos a nivel del hombro. Realice círculos lentos exhalando al inicio e inhalando al completar el círculo.",
+      "correcciones": [
+        "Mantener el torso erguido sin balanceos",
+        "Asegurar que los codos alcancen su máxima amplitud lateral"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elbow_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elbow_Circles_1.webp"
+    },
+    {
+      "id": "Elliptical_Trainer",
+      "nombre": "Entrenamiento en Elíptica",
+      "descripcion": "Suba a la elíptica y seleccione un programa o modo manual. Ajuste la elevación para cambiar la intensidad y use los mangos para monitorear el ritmo cardíaco.",
+      "correcciones": [
+        "Mantener toda la planta del pie en contacto con el pedal",
+        "Evitar sujetar los mangos con demasiada fuerza para no elevar la presión arterial"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Máquina Elíptica"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elliptical_Trainer_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Elliptical_Trainer_1.webp"
+    },
+    {
+      "id": "External_Rotation",
+      "nombre": "Rotación externa con mancuerna",
+      "descripcion": "Acostado de lado con el codo en 90 grados, rote el antebrazo hacia el techo manteniendo el brazo pegado al torso en un movimiento semicircular.",
+      "correcciones": [
+        "Mantener el codo pegado al costado en todo momento.",
+        "Realizar un movimiento controlado sin impulsos del tronco."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Mancuernas",
+        "Banco Ajustable"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_1.webp"
+    },
+    {
+      "id": "External_Rotation_with_Band",
+      "nombre": "Rotación externa con banda",
+      "descripcion": "Con la banda a la altura del codo, rote el brazo hacia afuera en un movimiento de revés manteniendo el codo firme contra el costado.",
+      "correcciones": [
+        "No permitir que la banda tire del brazo bruscamente en el regreso.",
+        "Usar un rodillo de espuma entre el codo y el torso para asegurar la posición."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_with_Band_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_with_Band_1.webp"
+    },
+    {
+      "id": "External_Rotation_with_Cable",
+      "nombre": "Rotación externa con polea",
+      "descripcion": "Sujete el mango con el codo flexionado a 90 grados y rote el brazo hacia afuera alejándolo del torso.",
+      "correcciones": [
+        "Mantener el hombro relajado y abajo durante la rotación.",
+        "El antebrazo debe permanecer paralelo al suelo durante el trayecto."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Poleas"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_with_Cable_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/External_Rotation_with_Cable_1.webp"
+    },
+    {
+      "id": "Fast_Skipping",
+      "nombre": "Skipping rápido",
+      "descripcion": "Realice un patrón de paso-salto rápido alternando piernas, minimizando el tiempo de contacto con el suelo.",
+      "correcciones": [
+        "Aterrizar suavemente sobre la parte delantera del pie.",
+        "Mantener una postura erguida y coordinada con el braceo."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Fast_Skipping_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Fast_Skipping_1.webp"
+    },
+    {
+      "id": "Frankenstein_Squat",
+      "nombre": "Sentadilla Frankenstein",
+      "descripcion": "Coloque la barra sobre la parte frontal de los hombros, extendiendo los brazos hacia adelante para crear un estante con los deltoides. Mantenga el torso erguido y descienda flexionando caderas y rodillas hasta que los isquiotibiales toquen las pantorrillas. Regrese a la posición inicial empujando desde el talón.",
+      "correcciones": [
+        "No redondear la columna torácica al proyectar los hombros.",
+        "Mantener los brazos elevados para evitar que la barra ruede."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Alta",
+      "equipo": [
+        "Barra Olímpica"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Frankenstein_Squat_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Frankenstein_Squat_1.webp"
+    },
+    {
+      "id": "Front_Box_Jump",
+      "nombre": "Salto al Cajón Frontal",
+      "descripcion": "Frente a un cajón, realice una sentadilla corta y salte extendiendo caderas, rodillas y tobillos. Aterrice sobre el cajón con las rodillas flexionadas para absorber el impacto y póngase de pie.",
+      "correcciones": [
+        "Aterrizar con toda la planta del pie en el cajón, no solo con las puntas.",
+        "Bajar del cajón dando un paso a la vez en lugar de saltar hacia atrás para proteger las rodillas."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Cajón Pliométrico"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Box_Jump_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Box_Jump_1.webp"
+    },
+    {
+      "id": "hamstring-smr",
+      "nombre": "Liberación Miofascial de Isquiotibiales",
+      "descripcion": "Siéntate con las piernas extendidas sobre un rodillo de espuma. Levanta la cadera con las manos y desplaza el peso hacia una pierna, rodando desde la cadera hasta justo encima de la rodilla, pausando en puntos de tensión.",
+      "correcciones": [
+        "No relajar excesivamente el core, manteniendo la estabilidad con los brazos",
+        "Evitar rodar directamente sobre el hueco poplíteo (detrás de la rodilla)"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring-smr_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/hamstring-smr_1.webp"
+    },
+    {
+      "id": "Inchworm",
+      "nombre": "Gusano o Inchworm",
+      "descripcion": "Desde posición de pie, camina con las manos hacia adelante hasta quedar en posición de plancha y luego acerca los pies a las manos con pasos cortos.",
+      "correcciones": [
+        "Mantener las piernas lo más rectas posible.",
+        "Evitar que la cadera colapse al llegar a la posición de plancha."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Inchworm_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Inchworm_1.webp"
+    },
+    {
+      "id": "Incline_Push-Up",
+      "nombre": "Flexiones Inclinadas",
+      "descripcion": "Coloca las manos en un banco o plataforma elevada, ligeramente más abiertas que el ancho de hombros. Baja el pecho hacia el borde de la plataforma manteniendo el cuerpo recto y empuja hacia arriba.",
+      "correcciones": [
+        "Evitar que la cadera caiga o se eleve demasiado; mantener línea recta",
+        "Los codos deben bajar en un ángulo de 45 grados respecto al cuerpo"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Pecho",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal",
+        "Banco Ajustable"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_1.webp"
+    },
+    {
+      "id": "Incline_Push-Up_Medium",
+      "nombre": "Flexiones Inclinadas Agarre Medio",
+      "descripcion": "Frente a una barra de Smith Machine o plataforma, coloca las manos al ancho de hombros. Baja el pecho de forma controlada y empuja extendiendo los codos.",
+      "correcciones": [
+        "No permitir que los hombros se encojan hacia las orejas",
+        "Controlar la respiración: exhala al empujar"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Pecho",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal",
+        "Smith Machine"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Medium_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Medium_1.webp"
+    },
+    {
+      "id": "Internal_Rotation_with_Band",
+      "nombre": "Rotación interna con banda",
+      "descripcion": "Sujeta una banda a la altura del codo. Con el codo pegado al costado y flexionado a 90 grados, rota el brazo hacia el torso (movimiento de forehand) y regresa controladamente.",
+      "correcciones": [
+        "Mantener el codo pegado al cuerpo en todo momento; usar una almohadilla si es necesario.",
+        "Evitar compensar con el movimiento del tronco."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Internal_Rotation_with_Band_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Internal_Rotation_with_Band_1.webp"
+    },
+    {
+      "id": "Isometric_Chest_Squeezes",
+      "nombre": "Squeeze de pecho isométrico",
+      "descripcion": "Con las palmas juntas frente al pecho y codos a 90 grados, presiona una mano contra la otra contrayendo el pectoral. Aumenta la tensión gradualmente y sostén.",
+      "correcciones": [
+        "No aguantar la respiración (evitar maniobra de Valsalva).",
+        "Asegurar que la fuerza provenga del pecho y no solo de las manos."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Pecho",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Isometric_Chest_Squeezes_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Isometric_Chest_Squeezes_1.webp"
+    },
+    {
+      "id": "Isometric_Neck_Exercise_-_Front_And_Back",
+      "nombre": "Isométrico de cuello frontal y posterior",
+      "descripcion": "Coloca las manos en la frente y empuja suavemente mientras resistes con los músculos del cuello sin permitir movimiento. Repite con las manos en la parte posterior de la cabeza.",
+      "correcciones": [
+        "Aplicar la tensión de forma gradual para evitar tirones.",
+        "Mantener la columna cervical en posición neutra."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Isometric_Neck_Exercise_-_Front_And_Back_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Isometric_Neck_Exercise_-_Front_And_Back_1.webp"
+    },
+    {
+      "id": "Jerk_Dip_Squat",
+      "nombre": "Sentadilla de Impulso de Jerk",
+      "descripcion": "Consiste en realizar la fase de dip del jerk, flexionando ligeramente las rodillas con el torso vertical y recuperando la posición inicial con potencia.",
+      "correcciones": [
+        "No permitir que el torso se incline hacia adelante.",
+        "La profundidad no debe ser excesiva; es un movimiento de potencia corto."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Barra Olímpica"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Jerk_Dip_Squat_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Jerk_Dip_Squat_1.webp"
+    },
+    {
+      "id": "Jogging_Treadmill",
+      "nombre": "Trote en Caminadora",
+      "descripcion": "Ejercicio cardiovascular realizado en cinta. Permite ajustar inclinación y velocidad para variar la intensidad.",
+      "correcciones": [
+        "Mantener una postura erguida y no apoyarse en los agarres laterales.",
+        "Asegurar un apoyo plantar neutro para minimizar el impacto."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Caminadora"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Jogging_Treadmill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Jogging_Treadmill_1.webp"
+    },
+    {
+      "id": "kettlebell_figure_8",
+      "nombre": "Figura en 8 con Kettlebell",
+      "descripcion": "En una postura ancha, pasa la kettlebell entre las piernas de una mano a la otra dibujando un ocho infinito. La mano receptora debe alcanzar la pesa desde atrás.",
+      "correcciones": [
+        "Mantener la espalda neutra sin encorvarse al agacharse",
+        "Evitar que las rodillas colapsen hacia adentro (valgo)"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Kettlebell"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_figure_8_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_figure_8_1.webp"
+    },
+    {
+      "id": "kettlebell_pass_between_the_legs",
+      "nombre": "Pase de Kettlebell entre Piernas",
+      "descripcion": "Inclinado con la espalda plana, pasa la kettlebell de una mano a la otra entre las piernas de forma fluida. Ideal para estabilidad dinámica.",
+      "correcciones": [
+        "No permitir que los hombros caigan por debajo de la cadera",
+        "Mantener el core contraído para proteger la columna"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Kettlebell"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pass_between_the_legs_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pass_between_the_legs_1.webp"
+    },
+    {
+      "id": "kettlebell_pirate_ships",
+      "nombre": "Barco Pirata con Kettlebell",
+      "descripcion": "Sujeta la kettlebell con ambas manos. Gira el torso balanceando la pesa hacia un lado hasta la altura de la cabeza, luego déjala caer y llévala hacia el lado opuesto.",
+      "correcciones": [
+        "Controlar la inercia en el punto más alto para evitar tirones",
+        "Coordinar el giro de los pies con el balanceo del torso"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": null,
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Kettlebell"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pirate_ships_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/kettlebell_pirate_ships_1.webp"
+    },
+    {
+      "id": "Knee_Circles",
+      "nombre": "Círculos de Rodilla",
+      "descripcion": "De pie con piernas juntas, realiza movimientos circulares suaves con las rodillas para lubricar la articulación.",
+      "correcciones": [
+        "Realizar círculos de amplitud controlada sin dolor.",
+        "Mantener los pies bien apoyados en el suelo."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Pantorrillas",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Knee_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Knee_Circles_1.webp"
+    },
+    {
+      "id": "Kneeling_Arm_Drill",
+      "nombre": "Técnica de carrera de rodillas",
+      "descripcion": "En posición de caballero (una rodilla apoyada), realiza braceos rítmicos aumentando la intensidad desde trote hasta sprint, manteniendo el torso estable y los codos flexionados.",
+      "correcciones": [
+        "Evitar la rotación excesiva del tronco",
+        "Mantener el ángulo del codo constante durante el balanceo"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Arm_Drill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Arm_Drill_1.webp"
+    },
+    {
+      "id": "Lateral_Bound",
+      "nombre": "Salto Lateral Pliométrico",
+      "descripcion": "Salto de potencia lateral partiendo de media sentadilla. Se empuja con una pierna para cubrir la mayor distancia lateral posible.",
+      "correcciones": [
+        "Evitar el colapso de la rodilla (valgo) al aterrizar",
+        "No realizar aterrizajes ruidosos; absorber el impacto"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Bound_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Bound_1.webp"
+    },
+    {
+      "id": "Lateral_Box_Jump",
+      "nombre": "Salto al Cajón Lateral",
+      "descripcion": "Salto lateral sobre o hacia un cajón. Se utiliza un dip rápido para activar el reflejo de estiramiento y saltar sobre el obstáculo.",
+      "correcciones": [
+        "Asegurar que los pies tengan suficiente altura para no tropezar con el cajón",
+        "Aterrizar con toda la planta del pie en el centro del cajón"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Alta",
+      "equipo": [
+        "Cajón Pliométrico"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Box_Jump_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Box_Jump_1.webp"
+    },
+    {
+      "id": "Lateral_Cone_Hops",
+      "nombre": "Saltos de Cono Laterales",
+      "descripcion": "Saltos continuos y rápidos de forma lateral sobre una serie de conos para mejorar la agilidad y potencia.",
+      "correcciones": [
+        "Minimizar el tiempo de contacto con el suelo entre saltos",
+        "Mantener el tronco estable durante el desplazamiento"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Cone_Hops_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lateral_Cone_Hops_1.webp"
+    },
+    {
+      "id": "Linear_3-Part_Start_Technique",
+      "nombre": "Técnica de Salida Lineal en 3 Partes",
+      "descripcion": "Drill de aceleración desde parada estática. Coloque un pie sobre la línea de salida, el otro 10-15 cm detrás. Coloque la mano contraria en la línea y baje el centro de gravedad cargando el peso en la pierna delantera. El brazo libre se posiciona paralelo al suelo apuntando hacia atrás. Explote hacia adelante con máxima potencia.",
+      "correcciones": [
+        "Mantener la cabeza baja al inicio para favorecer el ángulo de aceleración.",
+        "Evitar dar un paso en falso hacia atrás antes de salir."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Linear_3-Part_Start_Technique_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Linear_3-Part_Start_Technique_1.webp"
+    },
+    {
+      "id": "Linear_Acceleration_Wall_Drill",
+      "nombre": "Drill de Pared para Aceleración Lineal",
+      "descripcion": "Apóyese contra una pared en un ángulo de 45 grados. Eleve una rodilla rápidamente y golpee el suelo con fuerza justo debajo de su centro de masa. Alterne piernas y finalice con una secuencia rápida de alta frecuencia (pistoneo) manteniendo el core estable y los glúteos contraídos.",
+      "correcciones": [
+        "Mantener una línea recta de la cabeza a los talones sin quebrar la cadera.",
+        "Asegurar que el contacto con el suelo sea activo y potente."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Linear_Acceleration_Wall_Drill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Linear_Acceleration_Wall_Drill_1.webp"
+    },
+    {
+      "id": "Lower_Back_Curl",
+      "nombre": "Curl Lumbar",
+      "descripcion": "Tumbado boca abajo con los brazos a los lados, utiliza los músculos de la zona lumbar para extender la columna y elevar el pecho del suelo. Mantén la cabeza alta sin usar los brazos para impulsarte.",
+      "correcciones": [
+        "Evitar tirones bruscos con el cuello",
+        "No usar las manos para empujar el torso"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lower_Back_Curl_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lower_Back_Curl_1.webp"
+    },
+    {
+      "id": "Lower_Back-SMR",
+      "nombre": "Liberación Miofascial Lumbar",
+      "descripcion": "Coloca un foam roller bajo la zona lumbar estando sentado. Cruza los brazos y protrae hombros. Eleva la cadera y rueda sobre los músculos laterales de la columna, manteniendo la presión en puntos de tensión por 10-30 segundos.",
+      "correcciones": [
+        "No rodar directamente sobre las vértebras",
+        "Mantener el peso en los músculos erectores de la columna"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Foam Roller"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lower_Back-SMR_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lower_Back-SMR_1.webp"
+    },
+    {
+      "id": "Monster_Walk",
+      "nombre": "Caminata de Monstruo",
+      "descripcion": "Caminar lateralmente o hacia adelante/atrás manteniendo tensión en bandas situadas en tobillos y rodillas.",
+      "correcciones": [
+        "No permitir que las rodillas colapsen hacia adentro",
+        "Mantener la tensión constante en la banda"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia",
+        "Mini Loop Bands"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Monster_Walk_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Monster_Walk_1.webp"
+    },
+    {
+      "id": "Mountain_Climbers",
+      "nombre": "Escaladores",
+      "descripcion": "Desde posición de plancha, alternar rítmicamente llevando las rodillas hacia el pecho de forma explosiva.",
+      "correcciones": [
+        "Mantener la cadera baja y alineada",
+        "No rebotar excesivamente con los pies"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Mountain_Climbers_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Mountain_Climbers_1.webp"
+    },
+    {
+      "id": "Moving_Claw_Series",
+      "nombre": "Serie de Garra en Movimiento",
+      "descripcion": "Carrera técnica enfocada en la extensión de cadera y flexión de rodilla, golpeando el suelo activamente bajo el centro de gravedad.",
+      "correcciones": [
+        "Evitar el contacto excesivo con el talón",
+        "Sincronizar el braceo con el movimiento de piernas"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Moving_Claw_Series_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Moving_Claw_Series_1.webp"
+    },
+    {
+      "id": "One-Arm_Kettlebell_Swings",
+      "nombre": "Swing con Kettlebell a una mano",
+      "descripcion": "Balanceo pendular de la kettlebell mediante una bisagra de cadera explosiva. El brazo solo actúa como un cable de conexión.",
+      "correcciones": [
+        "Flexionar excesivamente las rodillas (convertirlo en sentadilla)",
+        "Usar el hombro para elevar la pesa en lugar de la cadera"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Kettlebell"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/One-Arm_Kettlebell_Swings_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/One-Arm_Kettlebell_Swings_1.webp"
+    },
+    {
+      "id": "Push_Up_to_Side_Plank",
+      "nombre": "Flexión con Rotación a Plancha Lateral",
+      "descripcion": "Realice una flexión estándar y, al subir, rote el cuerpo hacia un lado extendiendo el brazo libre hacia el techo. Alterne los lados en cada repetición.",
+      "correcciones": [
+        "Mantenga la alineación desde los talones hasta la cabeza durante la rotación",
+        "Controle el movimiento de regreso para no perder el equilibrio"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_H",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push_Up_to_Side_Plank_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push_Up_to_Side_Plank_1.webp"
+    },
+    {
+      "id": "Rear_Leg_Raises",
+      "nombre": "Elevación de Pierna Trasera",
+      "descripcion": "En posición de cuadrupedia, extiende una pierna hacia atrás y arriba manteniendo la rodilla y cadera alineadas. Realiza el movimiento de forma controlada.",
+      "correcciones": [
+        "Evitar la rotación excesiva de la pelvis",
+        "Mantener el core activado para no arquear la columna"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Rear_Leg_Raises_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Rear_Leg_Raises_1.webp"
+    },
+    {
+      "id": "Recumbent_Bike",
+      "nombre": "Bicicleta Estática Reclinada",
+      "descripcion": "Ejercicio cardiovascular sentado con soporte lumbar. Ajustar el asiento para permitir una ligera flexión de rodilla en la extensión máxima y pedalear a ritmo constante.",
+      "correcciones": [
+        "Ajustar la distancia del asiento para evitar el bloqueo total de la rodilla",
+        "Mantener una cadencia fluida sin rebotar en el asiento"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bicicleta Estática"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Recumbent_Bike_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Recumbent_Bike_1.webp"
+    },
+    {
+      "id": "Running_Treadmill",
+      "nombre": "Carrera en Caminadora",
+      "descripcion": "Ejercicio cardiovascular realizado en cinta. Permite ajustar elevación e intensidad. Se debe mantener una postura adecuada y usar los pasamanos solo para seguridad.",
+      "correcciones": [
+        "Evitar sujetarse de los mangos mientras se corre para no alterar la biomecánica.",
+        "Mantener una postura erguida para optimizar la eficiencia del movimiento."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Caminadora"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Running_Treadmill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Running_Treadmill_1.webp"
+    },
+    {
+      "id": "Scapular_Pull-Up",
+      "nombre": "Dominada Escapular",
+      "descripcion": "Desde una posición colgada con agarre prono, se eleva el cuerpo unos centímetros mediante un movimiento de encogimiento inverso de los hombros, sin usar los brazos.",
+      "correcciones": [
+        "Evitar flexionar los codos; el movimiento debe ser puramente escapular.",
+        "Controlar la fase de descenso para regresar lentamente a la posición inicial."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Traccion_V",
+      "parteCuerpo": "Espalda",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Barra de Dominadas"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Scapular_Pull-Up_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Scapular_Pull-Up_1.webp"
+    },
+    {
+      "id": "Shoulder_Circles",
+      "nombre": "Círculos de Hombros",
+      "descripcion": "Realizar movimientos circulares suaves con los hombros hacia adelante, arriba, atrás y abajo de forma fluida.",
+      "correcciones": [
+        "Mantener el cuello relajado durante el movimiento.",
+        "Realizar el círculo con el máximo rango de movimiento posible sin dolor."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Circles_1.webp"
+    },
+    {
+      "id": "Shoulder_Raise",
+      "nombre": "Elevación de Hombros (Encogimientos)",
+      "descripcion": "Eleva los hombros hacia las orejas de forma controlada y vuelve a bajarlos manteniendo los brazos relajados.",
+      "correcciones": [
+        "No flexionar los codos durante la elevación.",
+        "Evitar proyectar la cabeza hacia adelante."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Raise_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Shoulder_Raise_1.webp"
+    },
+    {
+      "id": "Side_Leg_Raises",
+      "nombre": "Elevaciones de Pierna Lateral",
+      "descripcion": "En bipedestación, eleva la pierna lateralmente manteniendo la rodilla extendida para movilizar la cadera.",
+      "correcciones": [
+        "No inclinar el torso hacia el lado opuesto",
+        "Mantener la punta del pie mirando hacia el frente"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Leg_Raises_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Side_Leg_Raises_1.webp"
+    },
+    {
+      "id": "Single_Leg_Butt_Kick",
+      "nombre": "Salto con toque de glúteo a una pierna",
+      "descripcion": "De pie sobre una pierna, realice un salto explosivo hacia arriba. Mientras está en el aire, flexione la rodilla de la pierna de apoyo e intente tocar el glúteo con el talón antes de aterrizar suavemente.",
+      "correcciones": [
+        "Asegúrese de aterrizar con la punta del pie y amortiguar con la rodilla.",
+        "Evite que la rodilla colapse hacia adentro (valgo) al aterrizar."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Butt_Kick_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Butt_Kick_1.webp"
+    },
+    {
+      "id": "Single_Leg_Glute_Bridge",
+      "nombre": "Puente de glúteo a una pierna",
+      "descripcion": "Tumbado boca arriba con una rodilla doblada y el pie apoyado, eleve la otra pierna. Empuje a través del talón apoyado para elevar la cadera del suelo hasta lograr una línea recta entre hombros y rodilla.",
+      "correcciones": [
+        "No arquee la espalda baja; la fuerza debe venir del glúteo.",
+        "Mantenga las caderas niveladas durante toda la elevación."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Glute_Bridge_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Glute_Bridge_1.webp"
+    },
+    {
+      "id": "Single_Leg_Push-off",
+      "nombre": "Empuje explosivo sobre cajón",
+      "descripcion": "Coloque un pie sobre un cajón. Empuje explosivamente para ganar altura extendiendo cadera y rodilla. Aterrice con el mismo pie sobre el cajón de forma controlada.",
+      "correcciones": [
+        "Mantenga el peso distribuido en todo el pie, especialmente en el talón al empujar.",
+        "Evite usar la pierna del suelo para impulsarse; el esfuerzo debe ser de la pierna elevada."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Cajón Pliométrico"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Push-off_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single_Leg_Push-off_1.webp"
+    },
+    {
+      "id": "Spider_Crawl",
+      "nombre": "Caminata de Araña",
+      "descripcion": "Desde posición de plancha alta con brazos a 90 grados, eleva un pie y lleva la rodilla hacia el codo del mismo lado mediante rotación externa de cadera.",
+      "correcciones": [
+        "Mantener la cadera baja y alineada con la espalda",
+        "Evitar que la espalda se arquee excesivamente"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spider_Crawl_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spider_Crawl_1.webp"
+    },
+    {
+      "id": "Split_Jump",
+      "nombre": "Salto en Tijera",
+      "descripcion": "Desde una posición de zancada con la rodilla trasera casi tocando el suelo, salta explosivamente extendiendo ambas piernas y balanceando los brazos. Cambia o mantén la posición en el aire y aterriza amortiguando el impacto volviendo a la posición inicial.",
+      "correcciones": [
+        "Evitar que la rodilla delantera colapse hacia adentro (valgo).",
+        "Aterrizar de forma silenciosa para asegurar una correcta absorción de carga."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Split_Jump_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Split_Jump_1.webp"
+    },
+    {
+      "id": "Squats_-_With_Bands",
+      "nombre": "Sentadilla con Bandas de Resistencia",
+      "descripcion": "Pisa el centro de la banda con los pies a la anchura de los hombros, sujeta las asas a la altura de la cara y desciende hasta que los muslos estén paralelos al suelo.",
+      "correcciones": [
+        "Mantener los codos arriba y la espalda recta.",
+        "Evitar que la banda tire de los hombros hacia adelante."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": false,
+      "isDynamic": false,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_1.webp"
+    },
+    {
+      "id": "Stairmaster",
+      "nombre": "Entrenamiento en Escaladora",
+      "descripcion": "Ejercicio cardiovascular que consiste en subir peldaños de forma continua en una máquina, manteniendo un ritmo constante y postura erguida.",
+      "correcciones": [
+        "Evitar apoyarse excesivamente en los pasamanos.",
+        "Mantener toda la planta del pie en el pedal para proteger el tendón de Aquiles."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Escaladora"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Stairmaster_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Stairmaster_1.webp"
+    },
+    {
+      "id": "Standing_Hip_Circles",
+      "nombre": "Círculos de Cadera de Pie",
+      "descripcion": "Apoyado en un soporte vertical, levanta una rodilla a 90 grados y realiza movimientos circulares amplios para movilizar la articulación coxofemoral.",
+      "correcciones": [
+        "Evitar la rotación excesiva de la pelvis",
+        "Mantener el torso estable durante el movimiento"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Cadera",
+      "parteCuerpo": "Glúteos",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hip_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Hip_Circles_1.webp"
+    },
+    {
+      "id": "Standing_Long_Jump",
+      "nombre": "Salto de Longitud desde parado",
+      "descripcion": "Desde una posición de media sentadilla, realiza un salto explosivo hacia adelante buscando la máxima distancia y aterrizando con ambos pies de forma controlada.",
+      "correcciones": [
+        "Amortiguar el aterrizaje flexionando rodillas y cadera",
+        "Coordinar el balanceo de brazos con el empuje de piernas"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Long_Jump_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Long_Jump_1.webp"
+    },
+    {
+      "id": "Standing_Pelvic_Tilt",
+      "nombre": "Basculación Pélvica de Pie",
+      "descripcion": "De pie con pies al ancho de caderas y rodillas ligeramente flexionadas, mover la pelvis hacia adelante y hacia atrás de forma controlada.",
+      "correcciones": [
+        "Evitar movimientos bruscos de la columna lumbar",
+        "Mantener las rodillas suaves, no bloqueadas"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "Core",
+      "parteCuerpo": "Core",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Pelvic_Tilt_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Pelvic_Tilt_1.webp"
+    },
+    {
+      "id": "Star_Jump",
+      "nombre": "Salto de Estrella",
+      "descripcion": "Desde una sentadilla media, saltar explosivamente extendiendo brazos y piernas hacia afuera en el aire.",
+      "correcciones": [
+        "Aterrizar con las rodillas suaves para absorber el impacto",
+        "Coordinar la apertura de extremidades en el punto máximo del salto"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Star_Jump_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Star_Jump_1.webp"
+    },
+    {
+      "id": "Step_Mill",
+      "nombre": "Escaladora de Peldaños",
+      "descripcion": "Subir peldaños de forma continua en la máquina manteniendo una postura erguida y sujetando los pasamanos para seguridad.",
+      "correcciones": [
+        "Evitar apoyarse excesivamente en los pasamanos",
+        "Mantener un ritmo constante sin saltar escalones de forma brusca"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Escaladora"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Step_Mill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Step_Mill_1.webp"
+    },
+    {
+      "id": "Stride_Jump_Crossover",
+      "nombre": "Salto de Zancada Cruzado sobre Cajón",
+      "descripcion": "De pie lateralmente a un cajón, coloca un pie sobre él. Impúlsate hacia arriba saltando lo más alto posible y cambia la posición de las piernas en el aire para aterrizar al otro lado del cajón.",
+      "correcciones": [
+        "Asegurar un aterrizaje suave amortiguando con la punta de los pies.",
+        "Mantener el equilibrio del torso durante la fase de vuelo."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Alta",
+      "equipo": [
+        "Cajón Pliométrico"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Stride_Jump_Crossover_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Stride_Jump_Crossover_1.webp"
+    },
+    {
+      "id": "Walking_Treadmill",
+      "nombre": "Caminata en Cinta",
+      "descripcion": "Caminar en caminadora a un ritmo moderado a rápido. Mantener una postura erguida y evitar sujetarse de los pasamanos a menos que sea necesario por equilibrio.",
+      "correcciones": [
+        "Evitar inclinarse hacia adelante o mirar constantemente los pies",
+        "No apoyarse excesivamente en los agarres laterales"
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Cuádriceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Caminadora"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Walking_Treadmill_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Walking_Treadmill_1.webp"
+    },
+    {
+      "id": "Worlds_Greatest_Stretch",
+      "nombre": "El Mejor Estiramiento del Mundo",
+      "descripcion": "Secuencia de zancada profunda con rotación torácica y extensión de isquiotibiales en tres fases.",
+      "correcciones": [
+        "Mantener la rodilla trasera estirada en la fase de lunge.",
+        "Alinear el codo con el pie delantero para maximizar la apertura de cadera."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Mobilize",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Isquiotibiales",
+      "dificultadTecnica": "Media",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": true,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Worlds_Greatest_Stretch_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Worlds_Greatest_Stretch_1.webp"
+    },
+    {
+      "id": "Wrist_Circles",
+      "nombre": "Círculos de Muñeca",
+      "descripcion": "Con los brazos extendidos lateralmente formando una T, realice rotaciones circulares con las muñecas manteniendo el resto del cuerpo inmóvil.",
+      "correcciones": [
+        "No bajar los brazos de la línea de los hombros.",
+        "Realizar círculos amplios y lentos para mejorar la movilidad."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Raise",
+      "prioridad": 1,
+      "patronMovimiento": "General",
+      "parteCuerpo": "Hombros",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Peso Corporal"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wrist_Circles_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wrist_Circles_1.webp"
+    }
+  ]
+}
