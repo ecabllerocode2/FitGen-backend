@@ -78,16 +78,27 @@ Siempre **array** de strings. Equipo de gimnasio comercial estándar.
 ## Scripts
 
 ```bash
-# Curar catálogo localmente
-node scripts/curateCatalog.cjs
+# Curar catálogo localmente (deduplica, normaliza, valida enums)
+npm run curate-catalog
+
+# Verificar archivos locales
+npm run verify-catalog
 
 # Subir a Firestore de producción (pide confirmación)
-node scripts/uploadCatalog.cjs
-node scripts/uploadCatalog.cjs --yes   # sin confirmación interactiva
+npm run upload-catalog
+npm run upload-catalog -- --yes
+
+# Subir al emulador local
+npm run upload-catalog -- --emulator --yes
+
+# Verificar en Firestore producción
+npm run verify-catalog:remote
 ```
+
+Scripts legado `uploadExercises*.cjs` eliminados — usar solo `upload-catalog`.
 
 ## Archivos locales
 
 - `colecciones/ejercicios-actualizados.json` — fuente original (736 ejercicios)
-- `colecciones/ejercicios-gym.json` — catálogo curado unificado
-- `colecciones/curated/{calentamiento,enfriamiento,entrenamiento}.json` — listos para Firestore
+- `colecciones/ejercicios-gym.json` — catálogo curado unificado (729 tras deduplicación)
+- `colecciones/curated/{calentamiento,enfriamiento,entrenamiento}.json` — listos para Firestore (74 + 81 + 574)

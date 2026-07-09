@@ -1,14 +1,38 @@
 const RAMP_PHASES = ['Raise', 'Activate', 'Mobilize', 'Potentiate'];
 
+function hashSeed(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    h = (h * 31 + str.charCodeAt(i)) % 100000;
+  }
+  return h;
+}
+
+function pickRotated(items, count, seed) {
+  if (!items.length) return [];
+  const start = seed % items.length;
+  const picked = [];
+  for (let i = 0; i < Math.min(count, items.length); i += 1) {
+    picked.push(items[(start + i) % items.length]);
+  }
+  return picked;
+}
+
 /**
  * DDS 8.4 step 6 — RAMP warmup from calentamiento catalog.
  * @param {string[]} patterns — movement patterns for today's session
  * @param {object[]} warmupCatalog — items from catalogs/calentamiento
+ * @param {object} [options]
+ * @param {number} [options.weekNumber=1]
+ * @param {string} [options.sessionFocus='']
+ * @param {string[]} [options.prehab=[]] — injury prehab movement patterns
  * @returns {object[]}
  */
-export function generateWarmup(patterns, warmupCatalog) {
+export function generateWarmup(patterns, warmupCatalog, options = {}) {
+  const { weekNumber = 1, sessionFocus = '', prehab = [] } = options;
   const items = warmupCatalog ?? [];
   const warmup = [];
+  const seed = hashSeed(`${weekNumber}-${sessionFocus}`);
 
   for (const phase of RAMP_PHASES) {
     const phaseItems = items.filter((ex) => {
@@ -19,7 +43,7 @@ export function generateWarmup(patterns, warmupCatalog) {
       return pattern === 'General' || patterns.includes(pattern);
     });
 
-    const pick = phaseItems.slice(0, 2).map((ex) => ({
+    const pick = pickRotated(phaseItems, 2, seed + phase.length).map((ex) => ({
       exerciseId: ex.id,
       name: ex.nombre,
       phase,
@@ -32,8 +56,25 @@ export function generateWarmup(patterns, warmupCatalog) {
     warmup.push(...pick);
   }
 
+  if (prehab.length) {
+    const prehabItems = items.filter((ex) =>
+      prehab.includes(ex.patronMovimiento ?? 'General'),
+    );
+    const prehabPick = pickRotated(prehabItems, 2, seed + 99).map((ex) => ({
+      exerciseId: ex.id,
+      name: ex.nombre,
+      phase: 'Prehab',
+      movementPattern: ex.patronMovimiento ?? 'General',
+      durationSeconds: 45,
+      sets: 1,
+      reps: ex.reps ?? '12-15',
+      isPrehab: true,
+    }));
+    warmup.push(...prehabPick);
+  }
+
   if (!warmup.length && items.length) {
-    return items.slice(0, 4).map((ex) => ({
+    return pickRotated(items, 4, seed).map((ex) => ({
       exerciseId: ex.id,
       name: ex.nombre,
       phase: ex.faseRAMP ?? 'General',

@@ -2,7 +2,7 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { generateSession } from '../../domain/session/sessionGenerator.js';
-import { getTodaySessionPlan } from '../../lib/mesocycleUtils.js';
+import { getTodaySessionPlan, isMesocycleComplete } from '../../lib/mesocycleUtils.js';
 import { validateReadiness } from '../../schemas/profileSchema.js';
 
 const LOAD_TO_SCHEMA = {
@@ -48,6 +48,19 @@ export default async function handler(req, res) {
       ? new Date(req.body.referenceDate)
       : new Date();
 
+    if (isMesocycleComplete(user.currentMesocycle, referenceDate)) {
+      if (user.currentMesocycle.status !== 'evaluacion_pendiente') {
+        await users.saveUser(userId, {
+          currentMesocycle: { ...user.currentMesocycle, status: 'evaluacion_pendiente' },
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        requiresEvaluation: true,
+        message: 'Tu mesociclo terminó. Completa la evaluación para continuar.',
+      });
+    }
+
     const readiness = validateReadiness({
       energyLevel: req.body.energyLevel ?? 3,
       sorenessLevel: req.body.sorenessLevel ?? 2,
@@ -75,6 +88,9 @@ export default async function handler(req, res) {
     const catalog = await loadCatalog(db);
     const history = await users.getRecentSessions(userId, 30);
 
+    const feedbackModifiers =
+      weekNumber > 1 ? (user.weeklyFeedbackModifiers ?? {}) : {};
+
     const session = generateSession({
       profile: user.profileData,
       mesocycle: user.currentMesocycle,
@@ -83,6 +99,7 @@ export default async function handler(req, res) {
       sessionMuscles: sessionPlan.muscles ?? [],
       patterns: sessionPlan.patterns ?? [],
       readiness,
+      feedbackModifiers,
       catalog,
       history,
       referenceDate,
@@ -93,6 +110,10 @@ export default async function handler(req, res) {
     session.completed = false;
 
     await users.saveSession(userId, session);
+
+    if (weekNumber > 1 && Object.keys(feedbackModifiers).length) {
+      await users.saveUser(userId, { weeklyFeedbackModifiers: {} });
+    }
 
     return res.status(200).json({
       success: true,

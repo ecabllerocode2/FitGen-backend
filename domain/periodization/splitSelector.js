@@ -14,7 +14,7 @@ export function selectSplit(trainingDays, goal, experienceLevel) {
   if (trainingDays === 3) {
     return experienceLevel === 'Novato'
       ? SPLIT_TYPES.FULL_BODY
-      : SPLIT_TYPES.TORSO_PIERNA;
+      : SPLIT_TYPES.TORSO_PIERNA_ONDULADO;
   }
   if (trainingDays === 4) {
     return SPLIT_TYPES.TORSO_PIERNA;

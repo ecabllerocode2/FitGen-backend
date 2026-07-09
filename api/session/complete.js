@@ -2,6 +2,8 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { applyWeeklyFeedback } from '../../domain/autoregulation/weeklyFeedback.js';
 import { estimateE1RMWithRIR } from '../../domain/prescription/loadCalculator.js';
+import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
+import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
 
 const users = createUserRepository(db);
 
@@ -11,6 +13,14 @@ async function authenticate(req) {
   if (!match) throw Object.assign(new Error('Token requerido'), { status: 401 });
   const decoded = await auth.verifyIdToken(match[1]);
   return decoded.uid;
+}
+
+function musclesWorkedInSession(session) {
+  const muscles = new Set();
+  for (const ex of session.mainBlock ?? []) {
+    if (ex.muscleGroup) muscles.add(ex.muscleGroup);
+  }
+  return [...muscles];
 }
 
 /**
@@ -30,11 +40,30 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'No hay sesión activa para completar' });
     }
 
+    const referenceDate = req.body?.referenceDate
+      ? new Date(req.body.referenceDate)
+      : new Date();
+
+    if (isMesocycleComplete(user.currentMesocycle, referenceDate)) {
+      const mesocycle = {
+        ...user.currentMesocycle,
+        status: 'evaluacion_pendiente',
+      };
+      await users.saveUser(userId, { currentMesocycle: mesocycle });
+      return res.status(200).json({
+        success: true,
+        requiresEvaluation: true,
+        message: 'Mesociclo completado. Evalúa tu bloque para generar el siguiente.',
+      });
+    }
+
     const {
-      sessionFeedback = {},
+      sessionFeedback: rawFeedback = {},
       performanceData = {},
       exercises = performanceData.exercises,
     } = req.body;
+
+    const sessionFeedback = weeklyFeedbackSchema.parse(rawFeedback);
 
     const completedSession = {
       ...session,
@@ -44,7 +73,6 @@ export default async function handler(req, res) {
       performance: exercises ?? req.body.mainBlock ?? session.mainBlock,
     };
 
-    // Enrich with e1RM estimates for progression
     if (Array.isArray(completedSession.performance)) {
       completedSession.performance = completedSession.performance.map((ex) => {
         const sets = ex.sets ?? ex.actualSets ?? [];
@@ -63,19 +91,53 @@ export default async function handler(req, res) {
       });
     }
 
-    await users.archiveSession(userId, completedSession);
-    await users.saveSession(userId, null);
-    await users.saveUser(userId, {
+    const muscles = musclesWorkedInSession(session);
+    const pendingWeeklyFeedback = { ...(user.pendingWeeklyFeedback ?? {}) };
+    for (const muscle of muscles) {
+      pendingWeeklyFeedback[muscle] = sessionFeedback;
+    }
+
+    const weekNumber = session.weekNumber ?? 1;
+    const dayOfWeek = session.dayOfWeek;
+    const weekClosed = isLastSessionOfWeek(
+      user.currentMesocycle,
+      weekNumber,
+      dayOfWeek,
+    );
+
+    const weeklyFeedbackModifiers = { ...(user.weeklyFeedbackModifiers ?? {}) };
+    const weeklyAdjustment = {};
+
+    if (weekClosed) {
+      for (const [muscle, feedback] of Object.entries(pendingWeeklyFeedback)) {
+        const { modifier, message } = applyWeeklyFeedback(feedback, muscle);
+        if (modifier !== 1.0) {
+          weeklyFeedbackModifiers[muscle] = modifier;
+          weeklyAdjustment[muscle] = { modifier, message };
+        }
+      }
+    }
+
+    const userUpdates = {
       lastWorkoutDate: completedSession.completedAt,
       lastSessionFeedback: sessionFeedback,
-    });
+      pendingWeeklyFeedback: weekClosed ? {} : pendingWeeklyFeedback,
+      weeklyFeedbackModifiers: weekClosed ? weeklyFeedbackModifiers : user.weeklyFeedbackModifiers ?? {},
+    };
+
+    await users.archiveSession(userId, completedSession);
+    await users.saveSession(userId, null);
+    await users.saveUser(userId, userUpdates);
 
     return res.status(200).json({
       success: true,
       message: 'Sesión completada y archivada.',
+      weeklyAdjustment,
+      weekClosed,
+      requiresEvaluation: false,
     });
   } catch (err) {
-    const status = err.status ?? 500;
+    const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);
     console.error('session/complete error:', err);
     return res.status(status).json({ error: err.message ?? 'Error interno' });
   }

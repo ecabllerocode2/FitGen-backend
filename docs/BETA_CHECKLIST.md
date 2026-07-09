@@ -17,16 +17,18 @@
 
 ## Catálogo de ejercicios
 
-- [x] Catálogo curado en `colecciones/curated/` (736 ejercicios gym-viable)
-- [x] Script `npm run curate-catalog`
-- [ ] Subir a Firestore: `npm run upload-catalog -- --yes`
-- [ ] Verificar 3 documentos en `catalogs/{calentamiento,enfriamiento,entrenamiento}`
+- [x] Catálogo curado en `colecciones/curated/` (729 ejercicios gym-viable tras deduplicación)
+- [x] Script `npm run curate-catalog` (deduplica nombres, resuelve colisiones de `id`, valida enums)
+- [x] Script `npm run verify-catalog` (validación local)
+- [x] Subir a Firestore: `npm run upload-catalog -- --yes`
+- [x] Verificar en producción: `npm run verify-catalog:remote`
 
 ## Motor de entrenamiento
 
 - [x] Domain layer según DDS v1.0 (`domain/`)
-- [x] 18 tests pasando (unit + simulación de 6 personas × 2 mesociclos)
-- [ ] Correr simulación extendida antes de cada release: `npm test`
+- [x] Integración motor: deload 50%, feedback semanal RP, meseta, evaluate, sets por músculo
+- [x] 29 tests pasando (unit + simulación de 6 personas × 2 mesociclos)
+- [x] Correr simulación extendida antes de cada release: `npm test`
 
 ## QA manual (máquina del tiempo)
 

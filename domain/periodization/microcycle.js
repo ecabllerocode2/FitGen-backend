@@ -20,7 +20,9 @@ export function getWeekPlan(mesocycle, weekNumber, feedbackModifiers = {}) {
   for (const [muscle, baseVolume] of Object.entries(micro.volumeTargets ?? {})) {
     let sets = baseVolume;
 
-    if (!isDeload && weekNumber > 1 && previousWeek?.volumeTargets?.[muscle] != null) {
+    if (isDeload) {
+      sets = applyDeloadVolume(baseVolume);
+    } else if (weekNumber > 1 && previousWeek?.volumeTargets?.[muscle] != null) {
       const landmarks = mesocycle.volumeLandmarks[muscle];
       if (landmarks) {
         const increment = calculateWeeklySetIncrement(landmarks.MEV, landmarks.MRV, accumulationWeeks);
@@ -30,7 +32,7 @@ export function getWeekPlan(mesocycle, weekNumber, feedbackModifiers = {}) {
     }
 
     const feedbackMod = feedbackModifiers[muscle] ?? 1.0;
-    sets = Math.round(sets * feedbackMod * (micro.volumeMultiplier ?? 1.0));
+    sets = Math.round(sets * feedbackMod);
 
     volumeByMuscle[muscle] = Math.max(0, sets);
   }
@@ -39,6 +41,7 @@ export function getWeekPlan(mesocycle, weekNumber, feedbackModifiers = {}) {
     week: weekNumber,
     phase: micro.phase,
     rirObjetivo: micro.rirObjetivo,
+    rirObjetivoAccessory: micro.rirObjetivoAccessory ?? micro.rirObjetivo,
     volumeMultiplier: micro.volumeMultiplier ?? 1.0,
     volumeByMuscle,
     sessions: micro.sessions ?? [],
@@ -65,18 +68,4 @@ export function calculateWeeklySetIncrement(mev, mrv, accumulationWeeks) {
  */
 export function applyDeloadVolume(volume) {
   return Math.round(volume * DELOAD_VOLUME_MULTIPLIER);
-}
-
-/**
- * Interpolate RIR from week 1 to final accumulation week.
- * @param {number} startRIR
- * @param {number} endRIR
- * @param {number} week
- * @param {number} totalAccumulationWeeks
- * @returns {number}
- */
-export function interpolateWeekRIR(startRIR, endRIR, week, totalAccumulationWeeks) {
-  if (totalAccumulationWeeks <= 1) return startRIR;
-  const t = (week - 1) / (totalAccumulationWeeks - 1);
-  return Math.round((startRIR + t * (endRIR - startRIR)) * 10) / 10;
 }

@@ -64,6 +64,10 @@ export function generateMesocycle(profile, referenceDate) {
     const phase = isDeload ? 'deload' : week <= Math.ceil(accumulationWeeks / 2) ? 'acumulacion' : 'intensificacion';
 
     const rirObjetivo = calculateWeekRIR(goal, week, accumulationWeeks, isDeload);
+    const rirObjetivoAccessory =
+      goal === 'Fuerza'
+        ? calculateWeekRIR(goal, week, accumulationWeeks, isDeload, 'accessory')
+        : rirObjetivo;
     const volumeMultiplier = isDeload ? DELOAD_VOLUME_MULTIPLIER : 1.0;
 
     const volumeTargets = {};
@@ -84,6 +88,7 @@ export function generateMesocycle(profile, referenceDate) {
       week,
       phase,
       rirObjetivo,
+      rirObjetivoAccessory,
       volumeMultiplier,
       volumeTargets,
       sessions: weeklySchedule.map((s) => ({ ...s })),
@@ -114,8 +119,8 @@ export function generateMesocycle(profile, referenceDate) {
  */
 function interpolateVolume(mev, mrv, week, accumulationWeeks, isDeload) {
   if (isDeload) {
-    const lastWeekVolume = mrv;
-    return Math.round(lastWeekVolume * DELOAD_VOLUME_MULTIPLIER);
+    // Volumen de referencia = última semana de acumulación; el 50% se aplica una sola vez en getWeekPlan
+    return mrv;
   }
   if (accumulationWeeks <= 1) return mev;
   const t = (week - 1) / (accumulationWeeks - 1);
@@ -125,9 +130,11 @@ function interpolateVolume(mev, mrv, week, accumulationWeeks, isDeload) {
 /**
  * RIR progression per DDS 8.2 table.
  */
-function calculateWeekRIR(goal, week, accumulationWeeks, isDeload) {
+function calculateWeekRIR(goal, week, accumulationWeeks, isDeload, liftType = 'main') {
   const prog =
-    goal === 'Fuerza' ? RIR_PROGRESSION.Fuerza.main : RIR_PROGRESSION.Hipertrofia;
+    goal === 'Fuerza'
+      ? RIR_PROGRESSION.Fuerza[liftType] ?? RIR_PROGRESSION.Fuerza.main
+      : RIR_PROGRESSION.Hipertrofia;
 
   if (isDeload) {
     const lastAccumRIR = interpolateRIR(prog.week1, prog.accumulationEnd, accumulationWeeks, accumulationWeeks);
@@ -144,6 +151,7 @@ function interpolateRIR(start, end, week, totalWeeks) {
 
 /**
  * Map split sessions onto user's available training days.
+ * Reorders templates to avoid same dominant pattern on consecutive days when possible.
  */
 function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) {
   const trainableDays = DAY_ORDER.filter((day) => {
@@ -152,6 +160,7 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
   });
 
   const selectedDays = trainableDays.slice(0, trainingDays);
+  const orderedTemplates = orderTemplatesAvoidingConsecutivePatterns(splitSessions, trainingDays);
   const sessions = [];
 
   for (let i = 0; i < 7; i += 1) {
@@ -160,7 +169,7 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
     const canTrain = dayIndex !== -1 && dayIndex < trainingDays;
 
     if (canTrain) {
-      const template = splitSessions[dayIndex % splitSessions.length];
+      const template = orderedTemplates[dayIndex % orderedTemplates.length];
       sessions.push({
         dayOfWeek: day,
         sessionFocus: template.sessionFocus,
@@ -178,4 +187,33 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
   }
 
   return sessions;
+}
+
+function dominantPattern(patterns = []) {
+  return patterns[0] ?? 'General';
+}
+
+function orderTemplatesAvoidingConsecutivePatterns(templates, count) {
+  const needed = Math.min(count, templates.length);
+  const pool = [...templates];
+  const ordered = [];
+
+  for (let i = 0; i < needed; i += 1) {
+    if (!pool.length) break;
+    const prevPattern = ordered.length
+      ? dominantPattern(ordered[ordered.length - 1].patterns)
+      : null;
+
+    let pickIdx = pool.findIndex((t) => dominantPattern(t.patterns) !== prevPattern);
+    if (pickIdx === -1) pickIdx = 0;
+
+    ordered.push(pool[pickIdx]);
+    pool.splice(pickIdx, 1);
+  }
+
+  while (ordered.length < needed && templates.length) {
+    ordered.push(templates[ordered.length % templates.length]);
+  }
+
+  return ordered.length ? ordered : templates;
 }

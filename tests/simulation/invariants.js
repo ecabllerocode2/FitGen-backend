@@ -1,5 +1,7 @@
 /** DDS invariant checker for simulated training history */
 
+import { getWeekPlan } from '../../domain/periodization/microcycle.js';
+
 export function validateInvariants({ history, mesocycles, persona }) {
   const violations = [];
 
@@ -24,6 +26,25 @@ export function validateInvariants({ history, mesocycles, persona }) {
         const mrv = mesocycle.volumeLandmarks?.[muscle]?.MRV;
         if (mrv && vol > mrv + 1) {
           violations.push(`Volumen ${vol} excede MRV ${mrv} para ${muscle} semana ${micro.week}`);
+        }
+      }
+    }
+
+    // Deload week volume plan should be ~50% of last accumulation week (getWeekPlan)
+    const accumWeeks = mesocycle.microcycles?.filter((m) => m.phase !== 'deload') ?? [];
+    const deloadWeek = mesocycle.microcycles?.find((m) => m.phase === 'deload');
+    const lastAccum = accumWeeks[accumWeeks.length - 1];
+    if (deloadWeek && lastAccum) {
+      const lastPlan = getWeekPlan(mesocycle, lastAccum.week);
+      const deloadPlan = getWeekPlan(mesocycle, deloadWeek.week);
+      for (const muscle of Object.keys(lastPlan?.volumeByMuscle ?? {})) {
+        const lastVol = lastPlan.volumeByMuscle[muscle];
+        const deloadVol = deloadPlan.volumeByMuscle[muscle];
+        const expected = Math.round(lastVol * 0.5);
+        if (Math.abs(deloadVol - expected) > 1) {
+          violations.push(
+            `Deload volumen ${deloadVol} != ~50% de ${lastVol} para ${muscle} (esperado ${expected})`,
+          );
         }
       }
     }

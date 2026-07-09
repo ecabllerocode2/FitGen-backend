@@ -61,17 +61,22 @@ export function prescribeLoad({
   repRange,
   history = [],
   plateIncrementKg = DEFAULT_PLATE_INCREMENT_KG,
+  bodyWeightKg,
+  movementPattern,
 }) {
   const targetReps = parseRepRangeMidpoint(repRange);
 
   if (!history.length) {
+    const suggestedLoadKg = suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType);
     return {
       mode: 'exploratory',
       prescribedLoadKg: null,
+      suggestedLoadKg,
       repRange,
       rirTarget,
-      explanation:
-        'Semana exploratoria: elige una carga conservadora y reporta RIR real al terminar.',
+      explanation: suggestedLoadKg
+        ? `Semana exploratoria: prueba ~${suggestedLoadKg} kg como punto de partida conservador y reporta RIR real.`
+        : 'Semana exploratoria: elige una carga conservadora y reporta RIR real al terminar.',
     };
   }
 
@@ -97,6 +102,7 @@ export function prescribeLoad({
   const previousWeight = last.weightKg ?? last.weight ?? 0;
 
   targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'weekly');
+  targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'session');
 
   const rounded = roundDownToIncrement(targetWeight, plateIncrementKg);
   const result = {
@@ -158,7 +164,7 @@ function roundDownToIncrement(weight, increment) {
   if (!increment || increment <= 0) return { weight: Math.round(weight * 10) / 10, addRep: false };
   const rounded = Math.floor(weight / increment) * increment;
   const diff = weight - rounded;
-  const addRep = diff > 0 && diff < increment * 0.5;
+  const addRep = diff > 0 && diff < increment;
   return { weight: Math.round(rounded * 100) / 100, addRep };
 }
 
@@ -168,4 +174,22 @@ function bumpRepRange(repRange) {
     return `${parts[0] + 1}-${parts[1] + 1}`;
   }
   return `${(parts[0] || 8) + 1}`;
+}
+
+/** Conservative starting load as % bodyweight by movement pattern (display only). */
+function suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType) {
+  if (!bodyWeightKg || bodyWeightKg <= 0) return null;
+  const patternFactors = {
+    Empuje_H: 0.35,
+    Empuje_V: 0.25,
+    Traccion_H: 0.4,
+    Traccion_V: 0.3,
+    Rodilla: 0.5,
+    Cadera: 0.45,
+    Core: 0.1,
+    General: 0.2,
+  };
+  const factor = patternFactors[movementPattern] ?? (exerciseType === EXERCISE_TYPES.COMPOUND ? 0.35 : 0.15);
+  const raw = bodyWeightKg * factor;
+  return Math.round(raw / 2.5) * 2.5;
 }

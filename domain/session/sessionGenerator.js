@@ -1,4 +1,4 @@
-import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES } from '../constants.js';
+import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, countMuscleSessionsPerWeek } from '../constants.js';
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
 import { selectExercises } from '../exerciseSelection/selector.js';
@@ -18,6 +18,7 @@ import { getDayOfWeek } from '../../lib/dateUtils.js';
  * @param {string[]} context.sessionMuscles
  * @param {string[]} context.patterns
  * @param {object} [context.readiness]
+ * @param {Record<string, number>} [context.feedbackModifiers]
  * @param {object} context.catalog — { entrenamiento, calentamiento, enfriamiento }
  * @param {object[]} [context.history]
  * @param {Date|string} context.referenceDate
@@ -33,6 +34,7 @@ export function generateSession(context) {
     sessionMuscles = [],
     patterns = [],
     readiness = {},
+    feedbackModifiers = {},
     catalog = {},
     history = [],
     referenceDate,
@@ -42,8 +44,9 @@ export function generateSession(context) {
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
   const safetyProfile = mesocycle.safetyProfile ?? profile.safetyProfile ?? {};
 
-  const weekPlan = getWeekPlan(mesocycle, weekNumber);
+  const weekPlan = getWeekPlan(mesocycle, weekNumber, feedbackModifiers);
   const rirBase = weekPlan?.rirObjetivo ?? 3;
+  const rirAccessory = weekPlan?.rirObjetivoAccessory ?? rirBase;
 
   const readinessAdj = applyReadiness(readiness, sessionMuscles);
 
@@ -53,6 +56,7 @@ export function generateSession(context) {
     safetyProfile,
     history,
     goal,
+    { weekNumber, sessionMuscles },
   );
 
   const ordered = orderByGoal(rawExercises, goal, priorityLiftId);
@@ -62,14 +66,21 @@ export function generateSession(context) {
     exercises: ordered,
     goal,
     rirBase,
+    rirAccessory,
     readinessAdj,
     volumeByMuscle,
     sessionMuscles,
     history,
     priorityLiftId,
+    splitType: mesocycle.splitType,
+    bodyWeightKg: profile.currentWeightKg,
   });
 
-  const warmup = generateWarmup(patterns, catalog.calentamiento ?? []);
+  const warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
+    weekNumber,
+    sessionFocus,
+    prehab: safetyProfile.prehab ?? [],
+  });
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
 
   const dayOfWeek = getDayOfWeek(referenceDate, profile.timezone ?? 'UTC');
@@ -99,35 +110,69 @@ function buildMainBlock({
   exercises,
   goal,
   rirBase,
+  rirAccessory,
   readinessAdj,
   volumeByMuscle,
   sessionMuscles,
   history,
   priorityLiftId,
+  splitType,
+  bodyWeightKg,
 }) {
   const repRanges = REP_RANGES[goal] ?? REP_RANGES.Hipertrofia;
   const rest = REST_SECONDS[goal] ?? REST_SECONDS.Hipertrofia;
+  const muscleFrequency = countMuscleSessionsPerWeek(splitType ?? 'Full_Body');
 
-  const totalSessionSets = sessionMuscles.reduce(
-    (sum, m) => sum + (volumeByMuscle[m] ?? 0),
-    0,
-  );
-  const setsPerExercise = exercises.length
-    ? Math.max(2, Math.round(totalSessionSets / exercises.length))
-    : 3;
+  const exercisesByMuscle = {};
+  for (const ex of exercises) {
+    const muscle = ex.parteCuerpo ?? ex.muscleGroup;
+    if (!muscle) continue;
+    exercisesByMuscle[muscle] = exercisesByMuscle[muscle] ?? [];
+    exercisesByMuscle[muscle].push(ex);
+  }
+
+  const setsByExerciseId = {};
+  for (const muscle of sessionMuscles) {
+    const muscleExercises = exercisesByMuscle[muscle] ?? [];
+    const weeklySets = volumeByMuscle[muscle] ?? 0;
+    const sessionsPerWeek = muscleFrequency[muscle] || 1;
+    const perExercise = muscleExercises.length
+      ? Math.max(2, Math.round(weeklySets / sessionsPerWeek / muscleExercises.length))
+      : 0;
+    for (const ex of muscleExercises) {
+      setsByExerciseId[ex.id] = perExercise || 3;
+    }
+  }
+
+  for (const ex of exercises) {
+    if (!setsByExerciseId[ex.id]) {
+      const muscle = ex.parteCuerpo ?? ex.muscleGroup;
+      const weeklySets = volumeByMuscle[muscle] ?? 0;
+      const sessionsPerWeek = muscleFrequency[muscle] || 1;
+      setsByExerciseId[ex.id] = weeklySets
+        ? Math.max(2, Math.round(weeklySets / sessionsPerWeek))
+        : ex.accessorySlot
+          ? 2
+          : 3;
+    }
+  }
 
   return exercises.map((ex) => {
     const exerciseType =
       (ex.prioridad ?? 3) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
     const repRange =
-      exerciseType === EXERCISE_TYPES.COMPOUND
+      ex.repRangeOverride ??
+      (exerciseType === EXERCISE_TYPES.COMPOUND
         ? repRanges.compound
-        : repRanges.isolation;
+        : repRanges.isolation);
 
-    const rirTarget = Math.round((rirBase + readinessAdj.rirDelta) * 10) / 10;
+    const isAccessory = (ex.prioridad ?? 3) !== 1;
+    const rirForExercise =
+      goal === 'Fuerza' && isAccessory ? rirAccessory : rirBase;
+    const rirTarget = Math.round((rirForExercise + readinessAdj.rirDelta) * 10) / 10;
 
     const exerciseHistory = (history ?? [])
-      .flatMap((s) => s.mainBlock ?? s.exercises ?? [])
+      .flatMap((s) => s.mainBlock ?? s.exercises ?? s.performance ?? [])
       .filter((e) => (e.exerciseId ?? e.id) === ex.id)
       .map((e) => ({
         weightKg: e.actualWeightKg ?? e.prescribedLoadKg ?? e.weight,
@@ -140,11 +185,13 @@ function buildMainBlock({
       rirTarget,
       repRange,
       history: exerciseHistory,
+      bodyWeightKg,
+      movementPattern: ex.patronMovimiento,
     });
 
     const adjustedSets = Math.max(
       1,
-      Math.round(setsPerExercise * readinessAdj.volumeMultiplier),
+      Math.round((setsByExerciseId[ex.id] ?? 3) * readinessAdj.volumeMultiplier),
     );
 
     return {
@@ -154,8 +201,11 @@ function buildMainBlock({
       movementPattern: ex.patronMovimiento,
       sets: adjustedSets,
       repRange: load.repRange ?? repRange,
+      repRangeOverride: ex.repRangeOverride ?? null,
+      plateauIntervention: ex.plateauIntervention ?? null,
       rirTarget,
       prescribedLoadKg: load.prescribedLoadKg,
+      suggestedLoadKg: load.suggestedLoadKg ?? null,
       loadMode: load.mode,
       loadExplanation: load.explanation,
       restSeconds:

@@ -192,7 +192,9 @@ Escalas 1–5. `externalFatigue`: `none|low|moderate|high|extreme`.
 {
   "success": true,
   "message": "Sesión completada",
-  "weeklyAdjustment": { }
+  "weeklyAdjustment": {
+    "Pecho": { "modifier": 1.15, "message": "..." }
+  }
 }
 ```
 
@@ -221,7 +223,8 @@ Escalas 1–5. `externalFatigue`: `none|low|moderate|high|extreme`.
 ```json
 {
   "success": true,
-  "nextMesocycle": { },
+  "evaluation": { },
+  "mesocycle": { },
   "landmarkAdjustments": { }
 }
 ```

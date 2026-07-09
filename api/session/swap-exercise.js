@@ -77,6 +77,12 @@ export default async function handler(req, res) {
         id: replacement.id,
         nombre: replacement.nombre,
       },
+      newExercise: {
+        id: replacement.id,
+        nombre: replacement.nombre,
+        parteCuerpo: replacement.parteCuerpo,
+        patronMovimiento: replacement.patronMovimiento,
+      },
     });
   } catch (err) {
     const status = err.status ?? 500;

@@ -6,7 +6,10 @@
  *   DEV_TOOLS=true node scripts/dev/advance-time.mjs --user <uid> --days 7
  */
 import 'dotenv/config';
-import admin from 'firebase-admin';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { initFirebaseAdmin } = require('../lib/firebaseInit.cjs');
 
 if (process.env.DEV_TOOLS !== 'true') {
   console.error('❌ Requiere DEV_TOOLS=true');
@@ -24,12 +27,7 @@ if (!userId || Number.isNaN(days)) {
   process.exit(1);
 }
 
-if (!admin.apps.length) {
-  const sa = process.env.FIREBASE_SERVICE_ACCOUNT
-    ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-    : undefined;
-  admin.initializeApp(sa ? { credential: admin.credential.cert(sa) } : undefined);
-}
+const admin = initFirebaseAdmin();
 
 const db = admin.firestore();
 

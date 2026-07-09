@@ -1,6 +1,6 @@
 {
   "id": "enfriamiento",
-  "updatedAt": "2026-07-07T18:22:18.741Z",
+  "updatedAt": "2026-07-09T15:53:19.021Z",
   "count": 81,
   "items": [
     {
@@ -169,7 +169,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Core",
-      "parteCuerpo": "Espalda",
+      "parteCuerpo": "Core",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -235,7 +235,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -279,7 +279,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -609,7 +609,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Core",
-      "parteCuerpo": "Glúteos",
+      "parteCuerpo": "Core",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -1182,7 +1182,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Peso Corporal"
@@ -1270,7 +1270,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -1314,7 +1314,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -1358,7 +1358,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -1424,7 +1424,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Rodilla",
-      "parteCuerpo": "Isquiotibiales",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Media",
       "equipo": [
         "Peso Corporal"
@@ -1754,7 +1754,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"

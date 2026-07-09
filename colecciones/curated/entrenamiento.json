@@ -1,7 +1,7 @@
 {
   "id": "entrenamiento",
-  "updatedAt": "2026-07-07T18:22:18.741Z",
-  "count": 581,
+  "updatedAt": "2026-07-09T15:53:19.022Z",
+  "count": 574,
   "items": [
     {
       "id": "3_4_Sit-Up",
@@ -148,7 +148,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -170,7 +170,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -236,7 +236,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -303,7 +303,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
@@ -326,7 +326,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -372,7 +372,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"
@@ -732,7 +732,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Barra Olímpica",
@@ -778,7 +778,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica"
@@ -846,7 +846,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
@@ -1159,7 +1159,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -1182,7 +1182,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -1248,7 +1248,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
+      "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Media",
       "equipo": [
@@ -1651,7 +1651,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
@@ -2007,7 +2007,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -2073,7 +2073,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Poleas"
@@ -2140,7 +2140,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Poleas",
@@ -2163,7 +2163,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Poleas"
@@ -2296,7 +2296,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Barra Olímpica"
@@ -2450,7 +2450,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -2472,7 +2472,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -2874,7 +2874,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Mancuernas"
@@ -3115,27 +3115,27 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Decline_Reverse_Crunch_1.webp"
     },
     {
-      "id": "Decline_Smith_Press",
+      "id": "Smith_Machine_Decline_Press",
       "nombre": "Press Declinado en Máquina Smith",
-      "descripcion": "Realiza un press de banca en un banco declinado utilizando la guía de la máquina Smith para mayor estabilidad.",
+      "descripcion": "En un banco declinado, baja la barra de forma controlada hacia la parte inferior del pecho y empuja extendiendo los brazos totalmente sin bloquear codos.",
       "correcciones": [
-        "Alinear la barra con la parte baja del pecho",
-        "No rebotar la barra contra el torso"
+        "Controlar la trayectoria fija de la Smith para no forzar los hombros",
+        "Mantener las escápulas retraídas contra el banco"
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Pecho",
-      "dificultadTecnica": "Media",
+      "dificultadTecnica": "Baja",
       "equipo": [
         "Smith Machine",
         "Banco Ajustable"
       ],
       "isUnilateral": false,
       "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Decline_Smith_Press_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Decline_Smith_Press_1.webp"
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Smith_Machine_Decline_Press_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Smith_Machine_Decline_Press_1.webp"
     },
     {
       "id": "Deficit_Deadlift",
@@ -3238,7 +3238,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -3260,7 +3260,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -3282,7 +3282,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Cadera",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -3528,7 +3528,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -3572,8 +3572,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -3618,8 +3618,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -3665,7 +3665,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -3709,7 +3709,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -3753,8 +3753,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -3845,7 +3845,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -4102,12 +4102,12 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/EZ-Bar_Curl_1.webp"
     },
     {
-      "id": "EZ-Bar_Skullcrusher",
-      "nombre": "Press francés con barra EZ",
-      "descripcion": "Acostado, baje la barra hacia la frente flexionando solo los codos. Extienda los codos para volver a la posición inicial perpendicular al suelo.",
+      "id": "Lying_Triceps_Press",
+      "nombre": "Press Francés con Barra EZ",
+      "descripcion": "Tumbado en banco plano, se baja la barra EZ hacia la frente manteniendo los codos cerrados y los brazos perpendiculares al torso antes de extender de nuevo.",
       "correcciones": [
-        "Mantener los codos cerrados y apuntando hacia adelante.",
-        "Asegurar que solo se muevan los antebrazos, dejando el brazo fijo."
+        "Evitar que los codos se abran hacia los lados (flaring)",
+        "Mantener la parte superior de los brazos inmóvil durante el ejercicio"
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
@@ -4116,13 +4116,12 @@
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Media",
       "equipo": [
-        "Barra EZ",
-        "Banco Ajustable"
+        "Barra EZ"
       ],
       "isUnilateral": false,
       "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/EZ-Bar_Skullcrusher_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/EZ-Bar_Skullcrusher_1.webp"
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_1.webp"
     },
     {
       "id": "Face_Pull",
@@ -4136,7 +4135,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Polea Alta"
@@ -4432,7 +4431,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -4454,7 +4453,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -4476,7 +4475,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -4499,7 +4498,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Disco"
@@ -4520,7 +4519,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_H",
+      "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Media",
       "equipo": [
@@ -4575,28 +4574,6 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Squats_With_Two_Kettlebells_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Squats_With_Two_Kettlebells_1.webp"
-    },
-    {
-      "id": "Front_Two-Dumbbell_Raise",
-      "nombre": "Elevación Frontal con Mancuernas",
-      "descripcion": "De pie, eleve las mancuernas hacia adelante con una ligera flexión de codo hasta superar el paralelo del suelo. Mantenga las palmas hacia abajo y el torso inmóvil.",
-      "correcciones": [
-        "Evitar el balanceo del torso; el movimiento debe nacer puramente del hombro.",
-        "Controlar el descenso (fase excéntrica) inhalando lentamente."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Two-Dumbbell_Raise_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Front_Two-Dumbbell_Raise_1.webp"
     },
     {
       "id": "Full_Range-Of-Motion_Lat_Pulldown",
@@ -4766,7 +4743,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Core",
+      "parteCuerpo": "Espalda",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra de Dominadas"
@@ -4833,7 +4810,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Peso Corporal"
@@ -5248,29 +5225,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Dumbbell_Bench_With_Palms_Facing_In_1.webp"
     },
     {
-      "id": "Incline_Dumbbell_Curl",
-      "nombre": "Curl de Bíceps en Banco Inclinado",
-      "descripcion": "Sentado en banco inclinado, flexiona los brazos llevando las mancuernas hacia los hombros sin mover la parte superior del brazo.",
-      "correcciones": [
-        "Mantener los codos pegados al torso en todo momento.",
-        "No balancear el cuerpo para subir el peso."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Bíceps",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Dumbbell_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Dumbbell_Curl_1.webp"
-    },
-    {
       "id": "Incline_Dumbbell_Flyes",
       "nombre": "Aperturas con Mancuernas en Banco Inclinado",
       "descripcion": "Acostado en un banco inclinado a 30 grados, extiende los brazos sobre el pecho con una ligera flexión de codos. Baja los brazos lateralmente de forma controlada hasta sentir el estiramiento en el pectoral y regresa a la posición inicial rotando las muñecas para que los dedos meñiques se mueran al final del movimiento.",
@@ -5489,7 +5443,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -5599,7 +5553,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -5644,7 +5598,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -5754,7 +5708,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -5776,7 +5730,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -5820,7 +5774,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -5842,7 +5796,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -5864,7 +5818,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -5931,14 +5885,14 @@
       "prioridad": 3,
       "patronMovimiento": "Core",
       "parteCuerpo": "Core",
-      "dificultarTecnica": "Media",
       "equipo": [
         "Poleas"
       ],
       "isUnilateral": false,
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists_1.webp"
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists_1.webp",
+      "dificultadTecnica": "Media"
     },
     {
       "id": "Kneeling_Cable_Triceps_Extension",
@@ -6087,7 +6041,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -6109,7 +6063,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"
@@ -6373,7 +6327,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Prensa de Piernas"
@@ -6462,7 +6416,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Poleas"
@@ -6484,7 +6438,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Rodilla",
-      "parteCuerpo": "Isquiotibiales",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -6755,8 +6709,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -6779,7 +6733,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -6812,28 +6766,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Supine_Dumbbell_Curl_1.webp"
     },
     {
-      "id": "Lying_Triceps_Press",
-      "nombre": "Press Francés con Barra EZ",
-      "descripcion": "Tumbado en banco plano, se baja la barra EZ hacia la frente manteniendo los codos cerrados y los brazos perpendiculares al torso antes de extender de nuevo.",
-      "correcciones": [
-        "Evitar que los codos se abran hacia los lados (flaring)",
-        "Mantener la parte superior de los brazos inmóvil durante el ejercicio"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Empuje_H",
-      "parteCuerpo": "Tríceps",
-      "dificultadTecnica": "Media",
-      "equipo": [
-        "Barra EZ"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_1.webp"
-    },
-    {
       "id": "Machine_Shoulder_Military_Press",
       "nombre": "Press Militar en Máquina de Hombros",
       "descripcion": "Sentado en la máquina, se empujan los agarres hacia arriba extendiendo los brazos totalmente mientras se exhala, manteniendo los codos alineados con el torso.",
@@ -6845,7 +6777,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Máquina de Hombros"
@@ -7273,7 +7205,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -7318,7 +7250,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -7385,7 +7317,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -7407,7 +7339,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -7429,7 +7361,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -7451,7 +7383,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -7495,7 +7427,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Cadera",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -7517,7 +7449,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -7539,7 +7471,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Cadera",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -7649,7 +7581,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -8161,7 +8093,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Cuádriceps",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -8183,7 +8115,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -8405,7 +8337,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -8427,7 +8359,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -8559,7 +8491,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -8759,7 +8691,7 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Reverse_Barbell_Preacher_Curls_1.webp"
     },
     {
-      "id": "Box_Squat",
+      "id": "Box_Squat_Bands",
       "nombre": "Sentadilla a Cajón con Bandas Inversas",
       "descripcion": "Sentadilla sobre un cajón con asistencia de bandas. El cajón garantiza la profundidad y rompe el ciclo de estiramiento-acortamiento.",
       "correcciones": [
@@ -8839,7 +8771,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -8862,7 +8794,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas",
@@ -8929,7 +8861,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Máquina de Aperturas Inversas"
@@ -9240,7 +9172,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
@@ -9307,7 +9239,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -9373,7 +9305,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -9464,7 +9396,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Tríceps",
+      "parteCuerpo": "Espalda",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -9487,7 +9419,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Tríceps",
+      "parteCuerpo": "Espalda",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -9510,7 +9442,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -9520,29 +9452,6 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Press_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Press_1.webp"
-    },
-    {
-      "id": "Seated_Flat_Bench_Leg_Pull-In",
-      "nombre": "Encogimientos de piernas en banco plano",
-      "descripcion": "Sentado transversalmente en un banco, inclina el torso 45 grados y sujeta los bordes. Extiende las piernas y luego llévalas hacia el pecho mientras mueves el torso hacia las rodillas.",
-      "correcciones": [
-        "Evitar movimientos bruscos de cuello.",
-        "Mantener la tensión constante en el abdomen sin relajar al extender."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 2,
-      "patronMovimiento": "Core",
-      "parteCuerpo": "Core",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Peso Corporal",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Flat_Bench_Leg_Pull-In_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Flat_Bench_Leg_Pull-In_1.webp"
     },
     {
       "id": "Seated_Good_Mornings",
@@ -9580,7 +9489,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Rodilla",
-      "parteCuerpo": "Isquiotibiales",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Máquina de Curl de Piernas"
@@ -9713,7 +9622,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -9759,7 +9668,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -9803,7 +9712,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"
@@ -9891,7 +9800,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_H",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -9913,7 +9822,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -10045,7 +9954,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -10156,7 +10065,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Smith Machine",
@@ -10280,29 +10189,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Smith_Machine_Close-Grip_Bench_Press_1.webp"
     },
     {
-      "id": "Smith_Machine_Decline_Press",
-      "nombre": "Press Declinado en Máquina Smith",
-      "descripcion": "En un banco declinado, baja la barra de forma controlada hacia la parte inferior del pecho y empuja extendiendo los brazos totalmente sin bloquear codos.",
-      "correcciones": [
-        "Controlar la trayectoria fija de la Smith para no forzar los hombros",
-        "Mantener las escápulas retraídas contra el banco"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 2,
-      "patronMovimiento": "Empuje_H",
-      "parteCuerpo": "Pecho",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Smith Machine",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Smith_Machine_Decline_Press_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Smith_Machine_Decline_Press_1.webp"
-    },
-    {
       "id": "Smith_Machine_Hang_Power_Clean",
       "nombre": "Cargada de Potencia Colgado en Máquina Smith",
       "descripcion": "Desde una posición sobre las rodillas, extiende explosivamente cadera y rodillas para elevar la barra, rotando los codos rápidamente para recibirla sobre los hombros.",
@@ -10403,8 +10289,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Smith Machine"
@@ -10426,7 +10312,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Smith Machine",
@@ -10536,8 +10422,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Smith Machine"
@@ -10850,7 +10736,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Cuádriceps",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -10916,7 +10802,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Cuádriceps",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica"
@@ -11006,7 +10892,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -11051,7 +10937,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica",
@@ -11140,7 +11026,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Barra Olímpica",
@@ -11284,28 +11170,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Dumbbell_Calf_Raise_1.webp"
     },
     {
-      "id": "Standing_Dumbbell_Press",
-      "nombre": "Press de Hombros con Mancuernas",
-      "descripcion": "De pie, eleva las mancuernas a la altura de la cabeza con codos a 90 grados. Extiende los brazos verticalmente sobre la cabeza sin arquear la espalda y regresa de forma controlada.",
-      "correcciones": [
-        "No usar impulso de las piernas (leg drive).",
-        "Evitar la hiperextensión lumbar al subir el peso."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 2,
-      "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
-      "dificultadTecnica": "Media",
-      "equipo": [
-        "Mancuernas"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Dumbbell_Press_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Standing_Dumbbell_Press_1.webp"
-    },
-    {
       "id": "Standing_Dumbbell_Reverse_Curl",
       "nombre": "Curl Inverso con Mancuernas",
       "descripcion": "Sujeta las mancuernas con agarre prono (palmas abajo). Flexiona los codos llevando el peso hacia los hombros sin mover los brazos superiores, aprieta y baja lentamente.",
@@ -11339,7 +11203,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -11382,8 +11246,8 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Espalda",
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas"
@@ -11405,7 +11269,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica"
@@ -11449,7 +11313,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Rodilla",
-      "parteCuerpo": "Isquiotibiales",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Máquina de Curl de Piernas"
@@ -11471,7 +11335,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Poleas"
@@ -11515,7 +11379,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
@@ -11650,7 +11514,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Mancuernas",
@@ -11673,7 +11537,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Mancuernas"
@@ -11827,7 +11691,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
+      "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Media",
       "equipo": [
@@ -12195,28 +12059,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Tricep_Dumbbell_Kickback_1.webp"
     },
     {
-      "id": "Triceps_Overhead_Extension_with_Rope",
-      "nombre": "Extensión de Tríceps Sobre la Cabeza con Cuerda",
-      "descripcion": "De espaldas a la polea baja, sujeta la cuerda tras la cabeza y extiende los brazos verticalmente manteniendo los codos cerrados.",
-      "correcciones": [
-        "Evitar que los codos se abran hacia los lados.",
-        "Mantener el core estable para evitar arquear la espalda excesivamente."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Tríceps",
-      "dificultadTecnica": "Media",
-      "equipo": [
-        "Poleas"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Triceps_Overhead_Extension_with_Rope_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Triceps_Overhead_Extension_with_Rope_1.webp"
-    },
-    {
       "id": "Triceps_Pushdown",
       "nombre": "Extensión de Tríceps en Polea Alta",
       "descripcion": "Sujeta la barra con agarre prono y empuja hacia abajo hasta extender completamente los brazos, manteniendo los codos pegados a los costados.",
@@ -12342,7 +12184,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Cadera",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -12364,7 +12206,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
       "equipo": [
         "Kettlebell"
@@ -12386,7 +12228,7 @@
       "faseRAMP": null,
       "prioridad": 1,
       "patronMovimiento": "Empuje_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Kettlebell"
@@ -12452,7 +12294,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica"
@@ -12474,7 +12316,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
       "equipo": [
         "Poleas"
@@ -12496,7 +12338,7 @@
       "faseRAMP": null,
       "prioridad": 2,
       "patronMovimiento": "Traccion_V",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"
@@ -12720,7 +12562,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
+      "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Media",
       "equipo": [
@@ -12899,7 +12741,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Peso Corporal"
@@ -12921,7 +12763,7 @@
       "faseRAMP": null,
       "prioridad": 3,
       "patronMovimiento": "General",
-      "parteCuerpo": "Hombros",
+      "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Barra Olímpica"

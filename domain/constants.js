@@ -47,6 +47,7 @@ export const MUSCLE_GROUPS = Object.keys(VOLUME_LANDMARKS);
 export const SPLIT_TYPES = {
   FULL_BODY: 'Full_Body',
   TORSO_PIERNA: 'Torso_Pierna',
+  TORSO_PIERNA_ONDULADO: 'Torso_Pierna_ondulado',
   PUSH_PULL_LEGS: 'Push_Pull_Legs',
   HIBRIDO_PHUL: 'Hibrido_PHUL',
 };
@@ -76,6 +77,11 @@ export const SPLIT_SESSIONS = {
     { sessionFocus: 'Torso (Tracción)', muscles: ['Espalda', 'Bíceps', 'Hombro'], patterns: ['Traccion_H', 'Traccion_V'] },
     { sessionFocus: 'Pierna (Dominante Cadera)', muscles: ['Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Cadera'] },
   ],
+  Torso_Pierna_ondulado: [
+    { sessionFocus: 'Torso (Empuje — volumen alto)', muscles: ['Pecho', 'Hombro', 'Tríceps'], patterns: ['Empuje_H', 'Empuje_V'] },
+    { sessionFocus: 'Pierna (Dominante Rodilla)', muscles: ['Cuádriceps', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla'] },
+    { sessionFocus: 'Torso (Tracción — volumen alto)', muscles: ['Espalda', 'Bíceps', 'Hombro'], patterns: ['Traccion_H', 'Traccion_V'] },
+  ],
   Push_Pull_Legs: [
     { sessionFocus: 'Push', muscles: ['Pecho', 'Hombro', 'Tríceps'], patterns: ['Empuje_H', 'Empuje_V'] },
     { sessionFocus: 'Pull', muscles: ['Espalda', 'Bíceps', 'Hombro'], patterns: ['Traccion_H', 'Traccion_V'] },
@@ -96,6 +102,22 @@ export const SESSION_FOCUS_PATTERN_MAP = Object.fromEntries(
     .flat()
     .map((s) => [s.sessionFocus, s.patterns]),
 );
+
+/**
+ * Count how many sessions per week train each muscle for a split type.
+ * @param {string} splitType
+ * @returns {Record<string, number>}
+ */
+export function countMuscleSessionsPerWeek(splitType) {
+  const sessions = SPLIT_SESSIONS[splitType] ?? [];
+  const freq = {};
+  for (const session of sessions) {
+    for (const muscle of session.muscles ?? []) {
+      freq[muscle] = (freq[muscle] ?? 0) + 1;
+    }
+  }
+  return freq;
+}
 
 /** DDS 8.2 — RIR targets by goal */
 export const RIR_PROGRESSION = {

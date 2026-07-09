@@ -1,7 +1,6 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { evaluateCycle } from '../../domain/progression/cycleEvaluation.js';
-import { generateMesocycle } from '../../domain/periodization/mesocycleGenerator.js';
 import { mesocycleEvaluationSchema } from '../../schemas/profileSchema.js';
 
 const users = createUserRepository(db);
@@ -42,21 +41,15 @@ export default async function handler(req, res) {
       referenceDate,
     );
 
-    let profileData = { ...user.profileData };
-    if (evaluation.changeGoal && evaluation.newGoal) {
-      profileData.fitnessGoal = evaluation.newGoal;
-    }
-    profileData.customVolumeLandmarks = cycleResult.nextLandmarks;
-
-    const newMesocycle = generateMesocycle(profileData, referenceDate);
+    const profileData = cycleResult.updatedProfile;
     const wrapped = {
-      ...newMesocycle,
+      ...cycleResult.nextMesocycle,
       status: 'activo',
       mesocyclePlan: {
-        durationWeeks: newMesocycle.durationWeeks,
-        mesocycleGoal: newMesocycle.goal,
-        splitType: newMesocycle.splitType,
-        microcycles: newMesocycle.microcycles,
+        durationWeeks: cycleResult.nextMesocycle.durationWeeks,
+        mesocycleGoal: cycleResult.nextMesocycle.goal,
+        splitType: cycleResult.nextMesocycle.splitType,
+        microcycles: cycleResult.nextMesocycle.microcycles,
       },
     };
 
@@ -66,12 +59,14 @@ export default async function handler(req, res) {
       currentSession: null,
       lastMesocycleEvaluation: referenceDate.toISOString(),
       planStatus: 'active',
+      weeklyFeedbackModifiers: {},
     });
 
     return res.status(200).json({
       success: true,
       evaluation: cycleResult,
       mesocycle: wrapped,
+      landmarkAdjustments: cycleResult.updatedLandmarks,
     });
   } catch (err) {
     const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);

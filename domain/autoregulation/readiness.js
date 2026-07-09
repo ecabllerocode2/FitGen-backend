@@ -22,6 +22,7 @@ export function applyReadiness(readiness, sessionMuscles) {
     sorenessLevel = 1,
     sorenessZone = '',
     sleepQuality = 3,
+    stressLevel = 3,
     externalLoad = 'ninguna',
   } = readiness;
 
@@ -54,6 +55,14 @@ export function applyReadiness(readiness, sessionMuscles) {
     rirDelta += 1;
     messages.push(
       'Sueño insuficiente: pedimos menos proximidad al fallo hoy',
+    );
+  }
+
+  if (stressLevel >= 4) {
+    volumeMultiplier *= 0.9;
+    rirDelta += 1;
+    messages.push(
+      'Estrés elevado: reducimos ligeramente la exigencia de hoy',
     );
   }
 
