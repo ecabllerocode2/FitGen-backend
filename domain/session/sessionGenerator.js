@@ -7,6 +7,7 @@ import { prescribeLoad } from '../prescription/loadCalculator.js';
 import { generateWarmup } from './rampGenerator.js';
 import { generateCooldown } from './cooldownGenerator.js';
 import { getDayOfWeek } from '../../lib/dateUtils.js';
+import { resolveExclusionFilters } from '../athlete/exercisePreferences.js';
 
 /**
  * DDS 8.4 — session orchestrator.
@@ -39,10 +40,12 @@ export function generateSession(context) {
     history = [],
     referenceDate,
     priorityLiftId = null,
+    exercisePreferences = {},
   } = context;
 
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
   const safetyProfile = mesocycle.safetyProfile ?? profile.safetyProfile ?? {};
+  const { excludeIds, warmupExcludeIds, unavailableEquipment } = resolveExclusionFilters(exercisePreferences);
 
   const weekPlan = getWeekPlan(mesocycle, weekNumber, feedbackModifiers);
   const rirBase = weekPlan?.rirObjetivo ?? 3;
@@ -56,7 +59,7 @@ export function generateSession(context) {
     safetyProfile,
     history,
     goal,
-    { weekNumber, sessionMuscles },
+    { weekNumber, sessionMuscles, excludeIds },
   );
 
   const ordered = orderByGoal(rawExercises, goal, priorityLiftId);
@@ -84,6 +87,8 @@ export function generateSession(context) {
     readiness,
     goal,
     conservative: safetyProfile.conservative ?? false,
+    excludeIds: warmupExcludeIds,
+    unavailableEquipment,
   });
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
 
@@ -96,6 +101,8 @@ export function generateSession(context) {
     dayOfWeek,
     sessionFocus,
     generatedAt: new Date(referenceDate).toISOString(),
+    patterns,
+    sessionMuscles,
     readinessAdjustment: {
       energyLevel: readiness.energyLevel ?? null,
       sorenessLevel: readiness.sorenessLevel ?? null,

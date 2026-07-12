@@ -13,6 +13,8 @@ import mesocycleEvaluateHandler from './api/mesocycle/evaluate.js'; // 👈 NUEV
 import sessionGenerateV2Handler from './api/session/generateV2.js'; 
 import sessionCompleteHandler from './api/session/complete.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
+import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
+import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
 
 const app = express();
 const PORT = 3000;
@@ -59,6 +61,8 @@ app.post('/api/session/complete', sessionCompleteHandler);
 
 // 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
 app.post('/api/session/swap-exercise', sessionSwapHandler);
+app.post('/api/session/swap-warmup-exercise', sessionSwapWarmupHandler);
+app.post('/api/profile/exercise-preferences', exercisePreferencesHandler);
 
 
 // Ruta de estado (Health Check)
@@ -76,7 +80,9 @@ app.get('/', (req, res) => {
             // 'POST /api/session/generate',
             'POST /api/session/generateV2',
             'POST /api/session/complete',
-            'POST /api/session/swap-exercise' 
+            'POST /api/session/swap-exercise',
+            'POST /api/session/swap-warmup-exercise',
+            'POST /api/profile/exercise-preferences',
         ]
     });
 });

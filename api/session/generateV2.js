@@ -103,6 +103,7 @@ export default async function handler(req, res) {
       catalog,
       history,
       referenceDate,
+      exercisePreferences: user.exercisePreferences ?? {},
     });
 
     session.version = '3.0.0';

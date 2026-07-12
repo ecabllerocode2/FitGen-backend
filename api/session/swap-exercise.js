@@ -2,6 +2,12 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { selectExercises } from '../../domain/exerciseSelection/selector.js';
+import {
+  addExerciseExclusion,
+  exerciseEquipmentList,
+  getUserExercisePreferences,
+  resolveExclusionFilters,
+} from '../../domain/athlete/exercisePreferences.js';
 
 const users = createUserRepository(db);
 
@@ -15,6 +21,7 @@ async function authenticate(req) {
 
 /**
  * POST /api/session/swap-exercise
+ * Body: { exerciseIdToReplace, reason?: 'unavailable'|'preference', excludeEquipment?: boolean }
  */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -30,7 +37,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'No hay sesión activa' });
     }
 
-    const { exerciseIdToReplace, sessionFocus } = req.body;
+    const {
+      exerciseIdToReplace,
+      sessionFocus,
+      reason = 'preference',
+      excludeEquipment = false,
+    } = req.body ?? {};
     if (!exerciseIdToReplace) {
       return res.status(400).json({ error: 'exerciseIdToReplace requerido' });
     }
@@ -40,6 +52,27 @@ export default async function handler(req, res) {
     const safetyProfile = user.currentMesocycle?.safetyProfile ?? user.profileData?.safetyProfile ?? {};
     const goal = user.currentMesocycle?.goal ?? user.profileData?.fitnessGoal ?? 'Hipertrofia';
 
+    let exercisePreferences = getUserExercisePreferences(user);
+
+    if (reason === 'unavailable') {
+      const source =
+        (catalog.entrenamiento ?? []).find((ex) => ex.id === exerciseIdToReplace) ??
+        (session.mainBlock ?? []).find((ex) => ex.exerciseId === exerciseIdToReplace);
+      exercisePreferences = addExerciseExclusion(
+        exercisePreferences,
+        {
+          exerciseId: exerciseIdToReplace,
+          nombre: source?.nombre ?? source?.exerciseName ?? exerciseIdToReplace,
+          reason: 'unavailable',
+          scope: 'all',
+          equipmentTags: exerciseEquipmentList(source ?? {}),
+        },
+        excludeEquipment,
+      );
+      await users.saveUser(userId, { exercisePreferences });
+    }
+
+    const { excludeIds } = resolveExclusionFilters(exercisePreferences);
     const currentIds = (session.mainBlock ?? []).map((e) => e.exerciseId);
     const alternatives = selectExercises(
       focus,
@@ -47,7 +80,7 @@ export default async function handler(req, res) {
       safetyProfile,
       [],
       goal,
-      { excludeIds: currentIds },
+      { excludeIds: [...new Set([...currentIds, ...excludeIds])], weekNumber: session.weekNumber },
     );
 
     const replacement = alternatives.find((e) => e.id !== exerciseIdToReplace) ?? alternatives[0];
@@ -83,6 +116,7 @@ export default async function handler(req, res) {
         parteCuerpo: replacement.parteCuerpo,
         patronMovimiento: replacement.patronMovimiento,
       },
+      exercisePreferences: reason === 'unavailable' ? exercisePreferences : undefined,
     });
   } catch (err) {
     const status = err.status ?? 500;

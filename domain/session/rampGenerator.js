@@ -1,3 +1,5 @@
+import { isExerciseBlocked } from '../athlete/exercisePreferences.js';
+
 const RAMP_PHASES = ['Raise', 'Activate', 'Mobilize', 'Potentiate'];
 
 const UPPER_PATTERNS = new Set(['Empuje_H', 'Empuje_V', 'Traccion_H', 'Traccion_V']);
@@ -10,6 +12,17 @@ const WALKING_CARDIO = /caminata|walking/i;
 const HIGH_IMPACT = /saltos|pliom|bound|box jump|cajón|cone hop|salto|jump|star jump|long jump|stride jump/i;
 const JOGGING = /trote|jogging|carrera en caminadora|running_treadmill/i;
 const REP_BASED = /banda|band|flexion|flexión|sentadilla|squat|press|remo|row|dominada|pull-up|push-up|deadlift|bridge|glúteo|glute|cocoons|dead bug/i;
+
+const NEVER_POTENTIATE_IDS = new Set([
+  'Push_Up_to_Side_Plank',
+  'One-Arm_Kettlebell_Swings',
+  'Spider_Crawl',
+]);
+
+const INTERNAL_ROTATION_IDS = new Set([
+  'Cable_Internal_Rotation',
+  'Internal_Rotation_with_Band',
+]);
 
 const PREHAB_MATCH = {
   movilidad_hombro: { muscles: ['Hombro'], patterns: ['Empuje_H', 'Empuje_V', 'Traccion_H', 'Traccion_V'] },
@@ -171,7 +184,31 @@ function scoreExercise(ex, phase, ctx) {
     score += 28;
   }
   if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && ex.id === 'Face_Pull_Warmup') {
-    score += 20;
+    score += 35;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && /rotación interna|internal rotation/i.test(text)) {
+    score -= 55;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && ex.id === 'Internal_Rotation_with_Band') {
+    score -= 30;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && /rotación externa|external rotation/i.test(text) && /polea|cable|máquina|machine/i.test(equipo)) {
+    score -= 40;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && (ex.id === 'Shoulder_Shrug' || /encogimiento|shrug/i.test(text))) {
+    score -= 40;
+  }
+  if (phase === 'Activate' && patterns.every((p) => p.startsWith('Empuje')) && ex.id === 'External_Rotation_with_Band') {
+    score += 35;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && ex.id === 'Band_Pull_Apart') {
+    score += 15;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && /rotación interna|internal rotation/i.test(text)) {
+    score -= 55;
+  }
+  if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && /rotación externa|external rotation|separación con banda|squeeze de pecho/i.test(text)) {
+    score += 18;
   }
   if (phase === 'Activate' && region === 'upper' && muscle === 'Core' && !patterns.includes('Core')) {
     score -= 45;
@@ -189,9 +226,15 @@ function scoreExercise(ex, phase, ctx) {
   if (phase === 'Potentiate' && ex.id === 'Band_Pull_Apart') {
     score -= 50;
   }
+  if (phase === 'Potentiate' && patterns.includes('Rodilla') && /elevación de talón|calf|pantorrilla/i.test(text)) {
+    score -= 40;
+  }
+  if (phase === 'Potentiate' && (ex.id === 'Squats_-_With_Bands' || ex.id === 'Jerk_Dip_Squat')) {
+    score += 22;
+  }
 
   if (phase === 'Mobilize' && isFoamMobilize(ex) && !patterns.includes('Core')) {
-    score -= 35;
+    score -= 55;
   }
 
   if (phase === 'Potentiate' && isIsometric(ex)) {
@@ -347,6 +390,115 @@ function pickTop(items, count, seed) {
   return picked;
 }
 
+function isPotentiateEligible(ex, patterns, goal) {
+  const name = labelText(ex);
+  if (NEVER_POTENTIATE_IDS.has(ex.id)) return false;
+  if (/plancha lateral|rotación a plancha/i.test(name)) return false;
+  if (/elevación de talón|elevación de talones|calf raise|pantorrilla/i.test(name)) return false;
+  if (goal === 'Hipertrofia' && /swing con kettlebell|kettlebell swing/i.test(name)) return false;
+  const exPhase = ex.faseRAMP ?? ex.faseRamp;
+  if (exPhase === 'Potentiate') return true;
+  return (
+    isLowImpactPotentiate(ex)
+    || /dominada escapular|sentadilla|puente de glúteo|extensión de tríceps|face pull/i.test(name)
+  );
+}
+
+function rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters) {
+  const { patterns, goal, region } = ctx;
+  const phaseTags = phase === 'Potentiate' ? ['Potentiate', 'Activate'] : [phase];
+
+  const phaseItems = items.filter((ex) => {
+    const exPhase = ex.faseRAMP ?? ex.faseRamp;
+    if (exPhase && !phaseTags.includes(exPhase)) return false;
+    if (isExerciseBlocked(ex, exclusionFilters)) return false;
+    if (phase === 'Mobilize' && isFoamMobilize(ex)) return false;
+    if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && ex.id === 'Shoulder_Shrug') return false;
+    if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && NEVER_POTENTIATE_IDS.has(ex.id)) return false;
+    if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && /plancha lateral|side plank/i.test(labelText(ex))) return false;
+    if (
+      phase === 'Activate'
+      && (patterns.some((p) => p.startsWith('Empuje')) || patterns.some((p) => p.startsWith('Traccion')))
+      && (INTERNAL_ROTATION_IDS.has(ex.id) || /rotación interna|internal rotation/i.test(labelText(ex)))
+    ) return false;
+    if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && /flexion|flexión|push-up|incline push/i.test(labelText(ex))) return false;
+    if (phase === 'Potentiate' && /elevación de talón|elevación de talones|calf|pantorrilla/i.test(labelText(ex))) return false;
+    if (phase === 'Potentiate' && goal === 'Hipertrofia' && HIGH_IMPACT.test(labelText(ex))) return false;
+    if (phase === 'Potentiate' && isIsometric(ex)) return false;
+    if (phase === 'Potentiate' && NEVER_POTENTIATE_IDS.has(ex.id)) return false;
+    if (phase === 'Raise' && goal === 'Hipertrofia' && isJoggingCardio(ex)) return false;
+    if (!patterns?.length) return true;
+    return scoreExercise(ex, phase, ctx) > -20;
+  });
+
+  return phaseItems
+    .filter((ex) => !usedIds.has(ex.id))
+    .map((ex) => ({ ex, score: scoreExercise(ex, phase, ctx) }))
+    .filter((row) => {
+      if (row.score <= 0) return false;
+      if (phase !== 'Potentiate') return true;
+      const pattern = row.ex.patronMovimiento ?? 'General';
+      if (!patternMatchesSession(pattern, patterns)) return false;
+      if (!isPotentiateEligible(row.ex, patterns, goal)) return false;
+      const exPhase = row.ex.faseRAMP ?? row.ex.faseRamp;
+      if (exPhase === 'Potentiate') return true;
+      return row.score >= 25;
+    });
+}
+
+function pickForPhase(phase, items, ctx, usedIds, exclusionFilters) {
+  const ranked = rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters);
+  const pickCount = phase === 'Mobilize' && ctx.region === 'full' ? 2 : 1;
+  return pickTop(ranked, pickCount, ctx.seed + phase.length);
+}
+
+/**
+ * Replace a single warmup item while preserving RAMP phase.
+ */
+export function replaceWarmupExercise(currentWarmup, exerciseIdToReplace, catalog, options = {}) {
+  const idx = currentWarmup.findIndex(
+    (w) => w.exerciseId === exerciseIdToReplace || w.id === exerciseIdToReplace,
+  );
+  if (idx === -1) return null;
+
+  const target = currentWarmup[idx];
+  const phase = target.phase ?? target.faseRAMP;
+  const {
+    patterns = [],
+    sessionMuscles = [],
+    weekNumber = 1,
+    sessionFocus = '',
+    prehab = [],
+    readiness = {},
+    goal = 'Hipertrofia',
+    conservative = false,
+    excludeIds = [],
+    unavailableEquipment = [],
+  } = options;
+
+  const exclusionFilters = {
+    excludeIds: [...new Set([...excludeIds, exerciseIdToReplace])],
+    unavailableEquipment,
+  };
+
+  const seed = hashSeed(`${weekNumber}-${sessionFocus}-${patterns.join(',')}-swap`);
+  const region = sessionRegion(patterns);
+  const ctx = { patterns, sessionMuscles, region, readiness, goal, conservative, seed };
+  const usedIds = new Set(
+    currentWarmup
+      .map((w) => w.exerciseId ?? w.id)
+      .filter((id) => id && id !== exerciseIdToReplace),
+  );
+
+  const picked = pickForPhase(phase, catalog ?? [], ctx, usedIds, exclusionFilters);
+  if (!picked.length) return null;
+
+  const replacement = toWarmupItem(picked[0], phase, readiness, goal);
+  const next = [...currentWarmup];
+  next[idx] = { ...replacement, swappedFrom: exerciseIdToReplace };
+  return { warmup: next, replacement };
+}
+
 /**
  * DDS 8.4 paso 6 — RAMP contextual (McGowan 2015; Fradkin 2010; Jeffreys 2017).
  * @param {string[]} patterns
@@ -362,8 +514,11 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
     readiness = {},
     goal = 'Hipertrofia',
     conservative = false,
+    excludeIds = [],
+    unavailableEquipment = [],
   } = options;
 
+  const exclusionFilters = { excludeIds, unavailableEquipment };
   const items = warmupCatalog ?? [];
   const seed = hashSeed(`${weekNumber}-${sessionFocus}-${patterns.join(',')}`);
   const region = sessionRegion(patterns);
@@ -381,47 +536,7 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
   const usedIds = new Set();
 
   for (const phase of RAMP_PHASES) {
-    const phaseTags = phase === 'Potentiate' ? ['Potentiate', 'Activate'] : [phase];
-
-    const phaseItems = items.filter((ex) => {
-      const exPhase = ex.faseRAMP ?? ex.faseRamp;
-      if (exPhase && !phaseTags.includes(exPhase)) return false;
-      if (phase === 'Potentiate' && goal === 'Hipertrofia' && HIGH_IMPACT.test(labelText(ex))) {
-        return false;
-      }
-      if (phase === 'Potentiate' && isIsometric(ex)) {
-        return false;
-      }
-      if (phase === 'Raise' && goal === 'Hipertrofia' && isJoggingCardio(ex)) {
-        return false;
-      }
-      if (!patterns?.length) return true;
-      const score = scoreExercise(ex, phase, ctx);
-      return score > -20;
-    });
-
-    const ranked = phaseItems
-      .filter((ex) => !usedIds.has(ex.id))
-      .map((ex) => ({ ex, score: scoreExercise(ex, phase, ctx) }))
-      .filter((row) => {
-        if (row.score <= 0) return false;
-        if (phase === 'Potentiate') {
-          const pattern = row.ex.patronMovimiento ?? 'General';
-          if (!patternMatchesSession(pattern, patterns)) return false;
-          const exPhase = row.ex.faseRAMP ?? row.ex.faseRamp;
-          if (exPhase === 'Potentiate') return true;
-          const name = labelText(row.ex);
-          const eligible =
-            isLowImpactPotentiate(row.ex)
-            || /flexion|flexión|dominada escapular|sentadilla|puente de glúteo|extensión de tríceps|face pull/i.test(name);
-          return row.score >= 25 && eligible;
-        }
-        return true;
-      });
-
-    const pickCount = phase === 'Mobilize' && region === 'full' ? 2 : 1;
-    const picked = pickTop(ranked, pickCount, seed + phase.length);
-
+    const picked = pickForPhase(phase, items, ctx, usedIds, exclusionFilters);
     for (const ex of picked) {
       usedIds.add(ex.id);
       warmup.push(toWarmupItem(ex, phase, readiness, goal));
@@ -430,7 +545,7 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
 
   if (prehab.length) {
     const prehabPool = items
-      .filter((ex) => matchesPrehab(ex, prehab) && !usedIds.has(ex.id))
+      .filter((ex) => matchesPrehab(ex, prehab) && !usedIds.has(ex.id) && !isExerciseBlocked(ex, exclusionFilters))
       .map((ex) => ({ ex, score: scoreExercise(ex, 'Activate', ctx) + 15 }));
 
     const prehabPick = pickTop(prehabPool, 2, seed + 99);
@@ -446,7 +561,7 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
 
   if (!warmup.length && items.length) {
     const fallback = pickTop(
-      items.map((ex) => ({ ex, score: 1 })),
+      items.filter((ex) => !isExerciseBlocked(ex, exclusionFilters)).map((ex) => ({ ex, score: 1 })),
       4,
       seed,
     );
