@@ -9,7 +9,7 @@ import {
 } from '../constants.js';
 import { calculateExperienceLevel } from '../athlete/experienceLevel.js';
 import { buildSafetyProfile } from '../athlete/safetyProfile.js';
-import { selectSplit } from './splitSelector.js';
+import { selectSplit, normalizeTrainingDays } from './splitSelector.js';
 import { addDays, toISODateString } from '../../lib/dateUtils.js';
 
 /**
@@ -23,7 +23,7 @@ export function generateMesocycle(profile, referenceDate) {
     profile.experienceLevel ??
     calculateExperienceLevel(profile.trainingAgeMonths ?? 0);
   const goal = profile.fitnessGoal ?? 'Hipertrofia';
-  const trainingDays = profile.trainingDaysPerWeek ?? 3;
+  const trainingDays = normalizeTrainingDays(profile.trainingDaysPerWeek ?? 3);
   const safetyProfile = buildSafetyProfile(profile);
 
   const splitType = selectSplit(trainingDays, goal, experienceLevel);
@@ -51,12 +51,6 @@ export function generateMesocycle(profile, referenceDate) {
       MRV: mrv,
     };
   }
-
-  const weeklySchedule = assignSessionsToSchedule(
-    profile.weeklyScheduleContext ?? [],
-    splitSessions,
-    trainingDays,
-  );
 
   const microcycles = [];
   for (let week = 1; week <= durationWeeks; week += 1) {
@@ -91,7 +85,12 @@ export function generateMesocycle(profile, referenceDate) {
       rirObjetivoAccessory,
       volumeMultiplier,
       volumeTargets,
-      sessions: weeklySchedule.map((s) => ({ ...s })),
+      sessions: assignSessionsToSchedule(
+        profile.weeklyScheduleContext ?? [],
+        splitSessions,
+        trainingDays,
+        { weekNumber: week },
+      ),
     });
   }
 
@@ -151,9 +150,15 @@ function interpolateRIR(start, end, week, totalWeeks) {
 
 /**
  * Map split sessions onto user's available training days.
- * Reorders templates to avoid same dominant pattern on consecutive days when possible.
+ * Reorders templates to avoid same dominant pattern or consecutive leg days when possible.
+ * @param {object[]} scheduleContext
+ * @param {object[]} splitSessions
+ * @param {number} trainingDays
+ * @param {object} [options]
+ * @param {number} [options.weekNumber=1]
  */
-function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) {
+function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays, options = {}) {
+  const { weekNumber = 1 } = options;
   const trainableDays = DAY_ORDER.filter((day) => {
     const ctx = scheduleContext.find((s) => s.day === day);
     return ctx ? ctx.canTrain !== false : true;
@@ -161,6 +166,10 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
 
   const selectedDays = trainableDays.slice(0, trainingDays);
   const orderedTemplates = orderTemplatesAvoidingConsecutivePatterns(splitSessions, trainingDays);
+  const templatesForWeek =
+    trainingDays === 1
+      ? [splitSessions[(weekNumber - 1) % splitSessions.length]]
+      : orderedTemplates;
   const sessions = [];
 
   for (let i = 0; i < 7; i += 1) {
@@ -169,7 +178,7 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
     const canTrain = dayIndex !== -1 && dayIndex < trainingDays;
 
     if (canTrain) {
-      const template = orderedTemplates[dayIndex % orderedTemplates.length];
+      const template = templatesForWeek[dayIndex % templatesForWeek.length];
       sessions.push({
         dayOfWeek: day,
         sessionFocus: template.sessionFocus,
@@ -189,6 +198,10 @@ function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays) 
   return sessions;
 }
 
+function isLegTemplate(template) {
+  return (template.patterns ?? []).some((p) => p === 'Rodilla' || p === 'Cadera');
+}
+
 function dominantPattern(patterns = []) {
   return patterns[0] ?? 'General';
 }
@@ -200,11 +213,17 @@ function orderTemplatesAvoidingConsecutivePatterns(templates, count) {
 
   for (let i = 0; i < needed; i += 1) {
     if (!pool.length) break;
-    const prevPattern = ordered.length
-      ? dominantPattern(ordered[ordered.length - 1].patterns)
-      : null;
+    const prev = ordered[ordered.length - 1];
+    const prevPattern = prev ? dominantPattern(prev.patterns) : null;
+    const prevLeg = prev ? isLegTemplate(prev) : false;
 
-    let pickIdx = pool.findIndex((t) => dominantPattern(t.patterns) !== prevPattern);
+    let pickIdx = pool.findIndex(
+      (t) =>
+        dominantPattern(t.patterns) !== prevPattern && !(prevLeg && isLegTemplate(t)),
+    );
+    if (pickIdx === -1) {
+      pickIdx = pool.findIndex((t) => dominantPattern(t.patterns) !== prevPattern);
+    }
     if (pickIdx === -1) pickIdx = 0;
 
     ordered.push(pool[pickIdx]);

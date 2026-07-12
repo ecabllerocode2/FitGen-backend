@@ -87,7 +87,7 @@ const ALLOWED_MUSCLES_BY_PATTERN = {
   Empuje_V: new Set(['Hombro', 'Tríceps', 'Pecho']),
   Traccion_H: new Set(['Espalda', 'Bíceps', 'Hombro', 'Pecho']),
   Traccion_V: new Set(['Espalda', 'Bíceps', 'Hombro', 'Pecho']),
-  Rodilla: new Set(['Cuádriceps', 'Glúteos', 'Core']),
+  Rodilla: new Set(['Cuádriceps', 'Glúteos', 'Core', 'Pantorrillas']),
   Cadera: new Set(['Isquiotibiales', 'Glúteos', 'Espalda', 'Cuádriceps', 'Core', 'Hombro']),
   Core: new Set(['Core']),
   General: null,
@@ -121,6 +121,14 @@ function normalizeMovementPattern(exercise) {
     return 'Traccion_H';
   }
 
+  if (/curl de muñeca|wrist curl|muñeca prono|muñeca supino/i.test(name)) {
+    return 'General';
+  }
+
+  if (/gemelo|pantorrilla|calf raise|elevaci[oó]n.*tal[oó]n|prensa de pantorrilla/i.test(name)) {
+    return 'Rodilla';
+  }
+
   return exercise.patronMovimiento;
 }
 
@@ -131,10 +139,23 @@ function normalizeSemantics(exercise) {
     exercise.faseRAMP = 'Raise';
   }
 
+  const name = String(exercise.nombre ?? '').toLowerCase();
+
+  if (/curl de muñeca|wrist curl|muñeca prono|muñeca supino/i.test(name)) {
+    return null;
+  }
+
   const allowed = ALLOWED_MUSCLES_BY_PATTERN[exercise.patronMovimiento];
   if (allowed && !allowed.has(exercise.parteCuerpo)) {
     exercise.parteCuerpo =
       PRIMARY_MUSCLE_BY_PATTERN[exercise.patronMovimiento] ?? exercise.parteCuerpo;
+  }
+
+  if (
+    exercise.parteCuerpo === 'Pantorrillas' &&
+    !/gemelo|pantorrilla|calf|tal[oó]n|soleus|elevaci[oó]n.*tal[oó]n/i.test(name)
+  ) {
+    exercise.parteCuerpo = PRIMARY_MUSCLE_BY_PATTERN[exercise.patronMovimiento] ?? exercise.parteCuerpo;
   }
 
   return exercise;
@@ -145,6 +166,7 @@ function curateExercise(raw) {
   exercise = fixFieldTypos(exercise);
   exercise.parteCuerpo = normalizeParteCuerpo(exercise.parteCuerpo);
   exercise = normalizeSemantics(exercise);
+  if (!exercise) return null;
 
   for (const field of REQUIRED_FIELDS) {
     if (exercise[field] === undefined || exercise[field] === null || exercise[field] === '') {

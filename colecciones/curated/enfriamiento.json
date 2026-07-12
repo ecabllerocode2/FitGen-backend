@@ -1,6 +1,6 @@
 {
   "id": "enfriamiento",
-  "updatedAt": "2026-07-09T15:53:19.021Z",
+  "updatedAt": "2026-07-12T19:41:53.459Z",
   "count": 81,
   "items": [
     {
@@ -124,7 +124,7 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -146,7 +146,7 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -1136,7 +1136,7 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 1,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -1225,8 +1225,8 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Cadera",
-      "parteCuerpo": "Isquiotibiales",
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"
@@ -1489,7 +1489,7 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -1511,8 +1511,8 @@
       "categoriaBloque": "enfriamiento",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "Cadera",
-      "parteCuerpo": "Isquiotibiales",
+      "patronMovimiento": "Rodilla",
+      "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
       "equipo": [
         "Bandas de Resistencia"

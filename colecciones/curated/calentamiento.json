@@ -1,6 +1,6 @@
 {
   "id": "calentamiento",
-  "updatedAt": "2026-07-09T15:53:19.020Z",
+  "updatedAt": "2026-07-12T19:41:53.457Z",
   "count": 74,
   "items": [
     {
@@ -212,7 +212,7 @@
       "categoriaBloque": "calentamiento",
       "faseRAMP": "Activate",
       "prioridad": 1,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -234,7 +234,7 @@
       "categoriaBloque": "calentamiento",
       "faseRAMP": "Mobilize",
       "prioridad": 1,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [

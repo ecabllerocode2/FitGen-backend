@@ -3,6 +3,22 @@ import { detectPlateau, getIntervention } from '../progression/plateau.js';
 
 const AXIAL_PATTERNS = new Set(['Empuje_H', 'Cadera']);
 
+const ACCESSORY_MUSCLE_FILTERS = {
+  Pantorrillas: (ex) =>
+    /gemelo|pantorrilla|calf|tal[oó]n|soleus|elevaci[oó]n.*tal[oó]n|prensa de pantorrilla/i.test(
+      ex.nombre ?? '',
+    ),
+  Glúteos: (ex) =>
+    ex.patronMovimiento === 'Cadera' ||
+    /gl[uú]teo|hip thrust|patada|puente|abducci[oó]n/i.test(ex.nombre ?? ''),
+  Tríceps: (ex) =>
+    ['Empuje_H', 'Empuje_V'].includes(ex.patronMovimiento) ||
+    /tr[ií]ceps|extensi[oó]n.*codo|fondos|pushdown/i.test(ex.nombre ?? ''),
+  Bíceps: (ex) =>
+    ['Traccion_H', 'Traccion_V'].includes(ex.patronMovimiento) ||
+    /b[ií]ceps|curl(?! de muñeca)/i.test(ex.nombre ?? ''),
+};
+
 /**
  * DDS 8.4 — select exercises for a session.
  * @param {string} sessionFocus
@@ -109,15 +125,19 @@ function fillAccessoryMuscles(
     const covered = selected.some((e) => (e.parteCuerpo ?? e.muscleGroup) === muscle);
     if (covered) continue;
 
+    const muscleFilter = ACCESSORY_MUSCLE_FILTERS[muscle];
+
     const candidates = catalog
       .filter((ex) => ex.parteCuerpo === muscle)
       .filter((ex) => !excludeSet.has(ex.id))
       .filter((ex) => !usedIds.has(ex.id))
       .filter((ex) => !avoidPatterns.has(ex.patronMovimiento))
       .filter((ex) => isGymExercise(ex))
+      .filter((ex) => !/muñeca|wrist|antebrazo/i.test(ex.nombre ?? ''))
+      .filter((ex) => (muscleFilter ? muscleFilter(ex) : ex.patronMovimiento !== 'General'))
       .filter((ex) => passesConservativeFilter(ex, safetyProfile, weekNumber))
       .sort((a, b) => {
-        const priorityDiff = (b.prioridad ?? 3) - (a.prioridad ?? 3);
+        const priorityDiff = (a.prioridad ?? 3) - (b.prioridad ?? 3);
         if (priorityDiff !== 0) return priorityDiff;
         return (a.nombre ?? '').localeCompare(b.nombre ?? '');
       });

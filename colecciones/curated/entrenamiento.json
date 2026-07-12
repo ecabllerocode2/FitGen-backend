@@ -1,7 +1,7 @@
 {
   "id": "entrenamiento",
-  "updatedAt": "2026-07-09T15:53:19.022Z",
-  "count": 574,
+  "updatedAt": "2026-07-12T19:41:53.459Z",
+  "count": 563,
   "items": [
     {
       "id": "3_4_Sit-Up",
@@ -822,7 +822,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -2196,29 +2196,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Shrugs_1.webp"
     },
     {
-      "id": "Cable_Wrist_Curl",
-      "nombre": "Curl de Muñeca en Polea",
-      "descripcion": "Sentado frente a una polea baja con un banco ajustable, sujete la barra con agarre supino. Apoye los antebrazos sobre los muslos y realice una flexión de muñeca hacia arriba. Mantenga la contracción un segundo y baje lentamente.",
-      "correcciones": [
-        "Mantener los antebrazos estáticos; solo debe moverse la muñeca.",
-        "No permitir que la barra ruede demasiado hacia las puntas de los dedos para evitar pérdida de control."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Bíceps",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Poleas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Wrist_Curl_1.webp"
-    },
-    {
       "id": "Calf_Press",
       "nombre": "Prensa de Pantorrilla",
       "descripcion": "Ajuste el asiento de la prensa de piernas de modo que las rodillas estén ligeramente flexionadas al inicio. Coloque los metatarsos en la plataforma y presione hacia abajo extendiendo los tobillos al máximo. Pause brevemente y regrese a la posición inicial.",
@@ -2229,7 +2206,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -2251,7 +2228,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -2273,7 +2250,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Alta",
       "equipo": [
@@ -3821,7 +3798,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -7724,98 +7701,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pallof_Press_With_Rotation_1.webp"
     },
     {
-      "id": "Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench",
-      "nombre": "Curl de muñeca con mancuernas palmas hacia abajo",
-      "descripcion": "Arrodillado frente a un banco, apoya los antebrazos sobre este con las manos colgando. Con un agarre prono, flexiona las muñecas hacia arriba y baja lentamente.",
-      "correcciones": [
-        "Mantener los antebrazos pegados al banco en todo momento",
-        "Evitar usar impulso de los hombros"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Bíceps",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench_1.webp"
-    },
-    {
-      "id": "Palms-Down_Wrist_Curl_Over_A_Bench",
-      "nombre": "Curl de muñeca con barra palmas hacia abajo",
-      "descripcion": "Apoya los antebrazos en un banco plano sujetando una barra con agarre prono. Realiza una extensión de muñeca elevando la barra y descendiendo de forma controlada.",
-      "correcciones": [
-        "No despegar los codos del banco",
-        "Realizar el movimiento de forma lenta para maximizar la activación del antebrazo"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Bíceps",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Barra Olímpica",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Down_Wrist_Curl_Over_A_Bench_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Down_Wrist_Curl_Over_A_Bench_1.webp"
-    },
-    {
-      "id": "Palms-Up_Barbell_Wrist_Curl_Over_A_Bench",
-      "nombre": "Curl de muñeca con barra palmas hacia arriba",
-      "descripcion": "Apoya los antebrazos en un banco con las palmas mirando hacia arriba. Sujeta la barra y realiza una flexión de muñeca hacia el cuerpo.",
-      "correcciones": [
-        "Asegurarse de que solo se muevan las muñecas",
-        "No cerrar excesivamente el agarre para evitar estrés en el túnel carpiano"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Bíceps",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Barra Olímpica",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Up_Barbell_Wrist_Curl_Over_A_Bench_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Up_Barbell_Wrist_Curl_Over_A_Bench_1.webp"
-    },
-    {
-      "id": "Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench",
-      "nombre": "Curl de muñeca con mancuerna con palmas hacia arriba sobre banco",
-      "descripcion": "Arrodillado frente a un banco, apoya los antebrazos sobre este con las palmas hacia arriba y las muñecas colgando. Flexiona las muñecas hacia arriba de forma controlada y desciende lentamente.",
-      "correcciones": [
-        "Evitar levantar los antebrazos del banco durante el movimiento.",
-        "Realizar el rango de movimiento completo sin usar impulsos del cuerpo."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Core",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench_1.webp"
-    },
-    {
       "id": "Parallel_Bar_Dip",
       "nombre": "Fondos en barras paralelas",
       "descripcion": "Sujétate en las barras con brazos bloqueados. Baja el cuerpo flexionando los codos hasta que rompan el ángulo de 90 grados y empuja de vuelta a la posición inicial.",
@@ -8927,7 +8812,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -9385,52 +9270,6 @@
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Inner_Biceps_Curl_1.webp"
     },
     {
-      "id": "Seated_Dumbbell_Palms-Down_Wrist_Curl",
-      "nombre": "Curl de muñeca con palmas hacia abajo sentado",
-      "descripcion": "Sentado en un banco, apoya los antebrazos en los muslos con las palmas hacia abajo y las muñecas colgando. Extiende las muñecas hacia arriba y baja lentamente.",
-      "correcciones": [
-        "Asegurarse de que solo se muevan las muñecas, manteniendo el antebrazo pegado al muslo.",
-        "No usar un peso excesivo que comprometa la articulación de la muñeca."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Espalda",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Palms-Down_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Palms-Down_Wrist_Curl_1.webp"
-    },
-    {
-      "id": "Seated_Dumbbell_Palms-Up_Wrist_Curl",
-      "nombre": "Curl de muñeca con palmas hacia arriba sentado",
-      "descripcion": "Sentado en un banco, apoya los antebrazos en los muslos con las palmas hacia arriba. Flexiona las muñecas hacia el torso contrayendo los flexores del antebrazo.",
-      "correcciones": [
-        "Mantener un agarre firme pero permitir el rango completo de movimiento.",
-        "Evitar levantar los talones del suelo durante la ejecución."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "Traccion_H",
-      "parteCuerpo": "Espalda",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas",
-        "Banco Ajustable"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Palms-Up_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Dumbbell_Palms-Up_Wrist_Curl_1.webp"
-    },
-    {
       "id": "Seated_Dumbbell_Press",
       "nombre": "Press militar sentado con mancuernas",
       "descripcion": "Sentado en un banco con respaldo, empuja las mancuernas desde la altura de los hombros hacia arriba hasta que casi se toquen. Baja de forma controlada.",
@@ -9543,72 +9382,6 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-arm_Cable_Pulley_Rows_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-arm_Cable_Pulley_Rows_1.webp"
-    },
-    {
-      "id": "Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl",
-      "nombre": "Curl de Muñeca Prono con Mancuerna a una Mano",
-      "descripcion": "Apoya el antebrazo sobre el muslo con la palma hacia abajo. Flexiona la muñeca hacia arriba de forma aislada y desciende lentamente.",
-      "correcciones": [
-        "Asegurarse de que solo se mueva la muñeca y no el antebrazo completo",
-        "Mantener un agarre firme durante todo el rango de movimiento"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Pantorrillas",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas"
-      ],
-      "isUnilateral": true,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl_1.webp"
-    },
-    {
-      "id": "Seated_One-Arm_Dumbbell_Palms-Up_Wrist_Curl",
-      "nombre": "Curl de Muñeca Supino con Mancuerna a una Mano",
-      "descripcion": "Apoya el antebrazo sobre el muslo con la palma hacia arriba. Flexiona la muñeca hacia arriba contrayendo los flexores del antebrazo.",
-      "correcciones": [
-        "Evitar que el codo se levante del muslo durante la contracción",
-        "Realizar el movimiento de forma lenta para evitar estrés articular"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Pantorrillas",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Mancuernas"
-      ],
-      "isUnilateral": true,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-Arm_Dumbbell_Palms-Up_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_One-Arm_Dumbbell_Palms-Up_Wrist_Curl_1.webp"
-    },
-    {
-      "id": "Seated_Palms-Down_Barbell_Wrist_Curl",
-      "nombre": "Curl de Muñeca Prono con Barra",
-      "descripcion": "Sujeta una barra con ambas palmas hacia abajo. Apoya los antebrazos en los muslos y flexiona las muñecas hacia arriba.",
-      "correcciones": [
-        "Mantener la espalda recta al inclinarse hacia adelante",
-        "Asegurar que el rango de movimiento sea completo pero controlado"
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Pantorrillas",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Barra Olímpica"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Palms-Down_Barbell_Wrist_Curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Palms-Down_Barbell_Wrist_Curl_1.webp"
     },
     {
       "id": "Seated_Side_Lateral_Raise",
@@ -10154,7 +9927,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -10356,7 +10129,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -10913,7 +10686,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 2,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -11114,7 +10887,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -11158,7 +10931,7 @@
       "categoriaBloque": "main_block",
       "faseRAMP": null,
       "prioridad": 3,
-      "patronMovimiento": "General",
+      "patronMovimiento": "Rodilla",
       "parteCuerpo": "Pantorrillas",
       "dificultadTecnica": "Baja",
       "equipo": [
@@ -11546,28 +11319,6 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_palms-in_dumbbell_press_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_palms-in_dumbbell_press_1.webp"
-    },
-    {
-      "id": "standing_palms-up_barbell_behind_the_back_wrist_curl",
-      "nombre": "Curl de muñeca con barra tras espalda",
-      "descripcion": "De pie, sostenga una barra por detrás de los glúteos con agarre prono. Flexione únicamente las muñecas para elevar la barra hacia el techo y baje lentamente.",
-      "correcciones": [
-        "Mantener los brazos extendidos y fijos; solo se mueven las muñecas.",
-        "No utilizar un impulso de cadera para elevar la barra."
-      ],
-      "categoriaBloque": "main_block",
-      "faseRAMP": null,
-      "prioridad": 3,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Core",
-      "dificultadTecnica": "Baja",
-      "equipo": [
-        "Barra Olímpica"
-      ],
-      "isUnilateral": false,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_palms-up_barbell_behind_the_back_wrist_curl_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_palms-up_barbell_behind_the_back_wrist_curl_1.webp"
     },
     {
       "id": "Standing_Rope_Crunch",

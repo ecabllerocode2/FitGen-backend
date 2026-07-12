@@ -1,5 +1,8 @@
 const RAMP_PHASES = ['Raise', 'Activate', 'Mobilize', 'Potentiate'];
 
+const CARDIO_EQUIPMENT =
+  /caminadora|bicicleta|el[ií]ptica|escaladora|elliptical|treadmill/i;
+
 function hashSeed(str) {
   let h = 0;
   for (let i = 0; i < str.length; i += 1) {
@@ -18,6 +21,22 @@ function pickRotated(items, count, seed) {
   return picked;
 }
 
+function warmupMatchesSession(ex, phase, patterns, sessionMuscles) {
+  const pattern = ex.patronMovimiento ?? 'General';
+  const muscle = ex.parteCuerpo;
+  const equipo = Array.isArray(ex.equipo) ? ex.equipo.join(' ') : String(ex.equipo ?? '');
+
+  if (patterns?.includes(pattern)) return true;
+
+  if (pattern !== 'General') return false;
+
+  if (phase === 'Raise' && CARDIO_EQUIPMENT.test(equipo)) return true;
+
+  if (!sessionMuscles?.length) return phase === 'Raise';
+
+  return Boolean(muscle && sessionMuscles.includes(muscle));
+}
+
 /**
  * DDS 8.4 step 6 — RAMP warmup from calentamiento catalog.
  * @param {string[]} patterns — movement patterns for today's session
@@ -25,11 +44,12 @@ function pickRotated(items, count, seed) {
  * @param {object} [options]
  * @param {number} [options.weekNumber=1]
  * @param {string} [options.sessionFocus='']
+ * @param {string[]} [options.sessionMuscles=[]]
  * @param {string[]} [options.prehab=[]] — injury prehab movement patterns
  * @returns {object[]}
  */
 export function generateWarmup(patterns, warmupCatalog, options = {}) {
-  const { weekNumber = 1, sessionFocus = '', prehab = [] } = options;
+  const { weekNumber = 1, sessionFocus = '', sessionMuscles = [], prehab = [] } = options;
   const items = warmupCatalog ?? [];
   const warmup = [];
   const seed = hashSeed(`${weekNumber}-${sessionFocus}`);
@@ -39,11 +59,10 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
       const exPhase = ex.faseRAMP ?? ex.faseRamp;
       if (exPhase && exPhase !== phase) return false;
       if (!patterns?.length) return true;
-      const pattern = ex.patronMovimiento ?? 'General';
-      return pattern === 'General' || patterns.includes(pattern);
+      return warmupMatchesSession(ex, phase, patterns, sessionMuscles);
     });
 
-    const pick = pickRotated(phaseItems, 2, seed + phase.length).map((ex) => ({
+    const pick = pickRotated(phaseItems, 1, seed + phase.length).map((ex) => ({
       exerciseId: ex.id,
       name: ex.nombre,
       phase,

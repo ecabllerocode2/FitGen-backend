@@ -79,7 +79,7 @@ export const SPLIT_SESSIONS = {
   ],
   Torso_Pierna_ondulado: [
     { sessionFocus: 'Torso (Empuje — volumen alto)', muscles: ['Pecho', 'Hombro', 'Tríceps'], patterns: ['Empuje_H', 'Empuje_V'] },
-    { sessionFocus: 'Pierna (Dominante Rodilla)', muscles: ['Cuádriceps', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla'] },
+    { sessionFocus: 'Pierna (Completa)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
     { sessionFocus: 'Torso (Tracción — volumen alto)', muscles: ['Espalda', 'Bíceps', 'Hombro'], patterns: ['Traccion_H', 'Traccion_V'] },
   ],
   Push_Pull_Legs: [
@@ -92,7 +92,7 @@ export const SPLIT_SESSIONS = {
     { sessionFocus: 'Lower (Fuerza)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'], patterns: ['Rodilla', 'Cadera'] },
     { sessionFocus: 'Upper (Hipertrofia)', muscles: ['Pecho', 'Espalda', 'Bíceps', 'Tríceps', 'Hombro'], patterns: ['Empuje_H', 'Traccion_V', 'Empuje_V'] },
     { sessionFocus: 'Lower (Hipertrofia)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
-    { sessionFocus: 'Full Body Accesorios', muscles: ['Core', 'Hombro', 'Bíceps'], patterns: ['Core', 'Empuje_V'] },
+    { sessionFocus: 'Full Body Accesorios', muscles: ['Core', 'Bíceps', 'Tríceps'], patterns: ['Core', 'Empuje_V'] },
   ],
 };
 

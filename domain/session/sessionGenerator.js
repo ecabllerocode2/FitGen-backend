@@ -79,6 +79,7 @@ export function generateSession(context) {
   const warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
     weekNumber,
     sessionFocus,
+    sessionMuscles,
     prehab: safetyProfile.prehab ?? [],
   });
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);

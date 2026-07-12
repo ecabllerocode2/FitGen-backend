@@ -12,7 +12,10 @@ import { evaluateCycle } from '../domain/progression/cycleEvaluation.js';
 import { orderByGoal } from '../domain/exerciseSelection/orderExercises.js';
 import { selectExercises } from '../domain/exerciseSelection/selector.js';
 import { generateSession } from '../domain/session/sessionGenerator.js';
-import { countMuscleSessionsPerWeek } from '../domain/constants.js';
+import { generateWarmup } from '../domain/session/rampGenerator.js';
+import { evaluateSplitQuality } from '../domain/periodization/splitQuality.js';
+import { normalizeTrainingDays } from '../domain/periodization/splitSelector.js';
+import { countMuscleSessionsPerWeek, DAY_ORDER } from '../domain/constants.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -91,13 +94,25 @@ describe('weeklyFeedback', () => {
 });
 
 describe('splitSelector', () => {
-  it('selects Torso_Pierna for 4 days', () => {
+  it('selects Torso_Pierna for 4 days Hipertrofia', () => {
     expect(selectSplit(4, 'Hipertrofia', 'Intermedio')).toBe('Torso_Pierna');
   });
 
-  it('selects Torso_Pierna_ondulado for 3 days Intermedio/Avanzado', () => {
+  it('selects Torso_Pierna_ondulado for 3 days Intermedio Hipertrofia', () => {
     expect(selectSplit(3, 'Hipertrofia', 'Intermedio')).toBe('Torso_Pierna_ondulado');
-    expect(selectSplit(3, 'Fuerza', 'Avanzado')).toBe('Torso_Pierna_ondulado');
+  });
+
+  it('selects Full_Body for 3 days Fuerza (frecuencia en compuestos)', () => {
+    expect(selectSplit(3, 'Fuerza', 'Avanzado')).toBe('Full_Body');
+  });
+
+  it('selects PHUL for 4-5 days Fuerza', () => {
+    expect(selectSplit(4, 'Fuerza', 'Intermedio')).toBe('Hibrido_PHUL');
+    expect(selectSplit(5, 'Fuerza', 'Avanzado')).toBe('Hibrido_PHUL');
+  });
+
+  it('caps training days at 6', () => {
+    expect(selectSplit(7, 'Hipertrofia', 'Intermedio')).toBe('Push_Pull_Legs');
   });
 });
 
@@ -375,5 +390,230 @@ describe('safetyProfile', () => {
   it('activates conservative protocol for age >= 50', () => {
     const profile = buildSafetyProfile({ age: 55, injuriesOrLimitations: [] });
     expect(profile.conservative).toBe(true);
+  });
+});
+
+describe('warmup RAMP', () => {
+  const warmupCatalog = [
+    {
+      id: 'treadmill',
+      nombre: 'Caminata en Cinta',
+      faseRAMP: 'Raise',
+      patronMovimiento: 'General',
+      parteCuerpo: 'Cuádriceps',
+      equipo: ['Caminadora'],
+    },
+    {
+      id: 'wrist',
+      nombre: 'Círculos de Muñeca',
+      faseRAMP: 'Raise',
+      patronMovimiento: 'General',
+      parteCuerpo: 'Hombro',
+      equipo: ['Peso Corporal'],
+    },
+    {
+      id: 'shoulder_rot',
+      nombre: 'Rotación externa con banda',
+      faseRAMP: 'Activate',
+      patronMovimiento: 'General',
+      parteCuerpo: 'Hombro',
+      equipo: ['Bandas de Resistencia'],
+    },
+    {
+      id: 'knee_circles',
+      nombre: 'Círculos de Rodilla',
+      faseRAMP: 'Mobilize',
+      patronMovimiento: 'Rodilla',
+      parteCuerpo: 'Cuádriceps',
+      equipo: ['Peso Corporal'],
+    },
+    {
+      id: 'hip_open',
+      nombre: 'Apertura de cadera',
+      faseRAMP: 'Mobilize',
+      patronMovimiento: 'Cadera',
+      parteCuerpo: 'Glúteos',
+      equipo: ['Peso Corporal'],
+    },
+    {
+      id: 'leg_swing',
+      nombre: 'Balanceo de pierna',
+      faseRAMP: 'Potentiate',
+      patronMovimiento: 'Rodilla',
+      parteCuerpo: 'Cuádriceps',
+      equipo: ['Peso Corporal'],
+    },
+  ];
+
+  it('excludes upper-body General drills on lower-body sessions', () => {
+    const warmup = generateWarmup(['Rodilla', 'Cadera'], warmupCatalog, {
+      sessionFocus: 'Lower (Hipertrofia)',
+      sessionMuscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'],
+    });
+    const names = warmup.map((w) => w.name);
+    expect(names).not.toContain('Círculos de Muñeca');
+    expect(names).not.toContain('Rotación externa con banda');
+    expect(warmup.length).toBeLessThanOrEqual(4);
+  });
+});
+
+describe('accessory muscle fill', () => {
+  it('picks calf exercises for Pantorrillas, not wrist curls', () => {
+    const catalog = [
+      {
+        id: 'wrist_curl',
+        nombre: 'Curl de Muñeca Prono con Mancuerna',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Pantorrillas',
+        prioridad: 3,
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'calf_press',
+        nombre: 'Prensa de Pantorrilla',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Pantorrillas',
+        prioridad: 2,
+        equipo: ['Prensa de Piernas'],
+      },
+      {
+        id: 'squat',
+        nombre: 'Sentadilla',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Rodilla',
+        parteCuerpo: 'Cuádriceps',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'rdl',
+        nombre: 'Peso muerto rumano',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Cadera',
+        parteCuerpo: 'Isquiotibiales',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+    ];
+    const selected = selectExercises(
+      'Lower (Hipertrofia)',
+      catalog,
+      {},
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'],
+      },
+    );
+    const calf = selected.find((e) => e.parteCuerpo === 'Pantorrillas');
+    expect(calf?.id).toBe('calf_press');
+  });
+});
+
+describe('full body exercise mix', () => {
+  it('selects upper and lower patterns for Full Body C', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const selected = selectExercises(
+      'Full Body C',
+      catalog,
+      {},
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Cuádriceps', 'Pecho', 'Espalda', 'Hombro', 'Pantorrillas'],
+      },
+    );
+    const patterns = new Set(selected.map((e) => e.patronMovimiento));
+    expect(patterns.has('Rodilla')).toBe(true);
+    expect(
+      patterns.has('Empuje_H') || patterns.has('Empuje_V') || patterns.has('Traccion_H'),
+    ).toBe(true);
+  });
+});
+
+describe('split quality across calendars', () => {
+  function combinations(arr, k) {
+    if (k === 0) return [[]];
+    if (!arr.length) return [];
+    const [head, ...tail] = arr;
+    return [
+      ...combinations(tail, k - 1).map((c) => [head, ...c]),
+      ...combinations(tail, k),
+    ];
+  }
+
+  it('rates 3-6 day calendars as muy_bien or excelente for Intermedio Hipertrofia', () => {
+    const days = [...DAY_ORDER];
+    let poor = 0;
+    for (const k of [3, 4, 5, 6]) {
+      for (const cal of combinations(days, k)) {
+        const profile = {
+          fitnessGoal: 'Hipertrofia',
+          trainingDaysPerWeek: k,
+          trainingAgeMonths: 12,
+          experienceLevel: 'Intermedio',
+          weeklyScheduleContext: days.map((day) => ({
+            day,
+            canTrain: cal.includes(day),
+          })),
+          injuriesOrLimitations: [],
+        };
+        const mc = generateMesocycle(profile, '2026-07-07');
+        const week = mc.microcycles[0].sessions.filter((s) => !s.isRestDay);
+        const quality = evaluateSplitQuality({
+          splitType: mc.splitType,
+          goal: 'Hipertrofia',
+          experienceLevel: 'Intermedio',
+          trainingDaysPerWeek: k,
+          effectiveTrainingDays: week.length,
+          sessions: week,
+        });
+        if (!['excelente', 'muy_bien'].includes(quality.grade)) poor += 1;
+      }
+    }
+    expect(poor).toBe(0);
+  });
+
+  it('caps 7 requested days to 6 effective sessions', () => {
+    expect(normalizeTrainingDays(7)).toBe(6);
+    const profile = {
+      fitnessGoal: 'Hipertrofia',
+      trainingDaysPerWeek: 7,
+      trainingAgeMonths: 12,
+      weeklyScheduleContext: DAY_ORDER.map((day) => ({ day, canTrain: true })),
+      injuriesOrLimitations: [],
+    };
+    const mc = generateMesocycle(profile, '2026-07-07');
+    const week = mc.microcycles[0].sessions.filter((s) => !s.isRestDay);
+    expect(week.length).toBe(6);
+    const quality = evaluateSplitQuality({
+      splitType: mc.splitType,
+      goal: 'Hipertrofia',
+      experienceLevel: 'Intermedio',
+      trainingDaysPerWeek: 7,
+      effectiveTrainingDays: week.length,
+      sessions: week,
+    });
+    expect(quality.grade).not.toBe('insuficiente');
+  });
+
+  it('rotates single-day Full Body templates across weeks', () => {
+    const profile = {
+      fitnessGoal: 'Hipertrofia',
+      trainingDaysPerWeek: 1,
+      trainingAgeMonths: 12,
+      weeklyScheduleContext: DAY_ORDER.map((day, i) => ({ day, canTrain: i === 0 })),
+      injuriesOrLimitations: [],
+    };
+    const mc = generateMesocycle(profile, '2026-07-07');
+    const focuses = mc.microcycles
+      .slice(0, 3)
+      .map((w) => w.sessions.find((s) => !s.isRestDay)?.sessionFocus);
+    expect(new Set(focuses).size).toBeGreaterThan(1);
   });
 });
