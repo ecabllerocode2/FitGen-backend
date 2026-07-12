@@ -24,10 +24,13 @@ Criterios verificables antes de cada release beta.
 
 ## Calentamiento RAMP
 
-- [ ] ≤ 8 ítems por sesión (4 fases × 2)
-- [ ] Incluye movilidad del patrón del día
+- [ ] ≤ 8 ítems por sesión (4 fases RAMP + prehab opcional)
+- [ ] Raise específico de la región (no trote en cinta en tren superior)
+- [ ] Activate/Mobilize alineados a patrones y músculos del día
+- [ ] Potentiate: variante ligera del patrón; sin pliométricos de alto impacto en hipertrofia/conservador
+- [ ] Duración Raise cardio (caminata): 3 min; dinámico: 60–90 s; potenciación: 5 reps
 - [ ] Prehab integrado si hay lesión reportada
-- [ ] Rotación entre semanas (no siempre los mismos 2 primeros)
+- [ ] Rotación entre semanas (scoring con seed, no siempre los mismos 2 primeros)
 
 ## Feedback y UX
 

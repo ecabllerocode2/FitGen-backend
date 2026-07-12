@@ -81,6 +81,9 @@ export function generateSession(context) {
     sessionFocus,
     sessionMuscles,
     prehab: safetyProfile.prehab ?? [],
+    readiness,
+    goal,
+    conservative: safetyProfile.conservative ?? false,
   });
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
 

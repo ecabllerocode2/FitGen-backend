@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "curate-catalog": "node scripts/curateCatalog.cjs",
+    "patch-catalog": "node scripts/patchCatalog.cjs",
     "upload-catalog": "node scripts/uploadCatalog.cjs",
     "verify-catalog": "node scripts/verifyCatalog.cjs",
     "verify-catalog:remote": "node scripts/verifyCatalog.cjs --remote",

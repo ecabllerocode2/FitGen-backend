@@ -458,7 +458,65 @@ describe('warmup RAMP', () => {
     const names = warmup.map((w) => w.name);
     expect(names).not.toContain('Círculos de Muñeca');
     expect(names).not.toContain('Rotación externa con banda');
-    expect(warmup.length).toBeLessThanOrEqual(4);
+    expect(warmup.length).toBeLessThanOrEqual(8);
+  });
+
+  it('avoids treadmill jogging on upper-body sessions', () => {
+    const upperCatalog = [
+      ...warmupCatalog,
+      {
+        id: 'jog_treadmill',
+        nombre: 'Trote en Caminadora',
+        faseRAMP: 'Raise',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Caminadora'],
+        isDynamic: false,
+      },
+      {
+        id: 'arm_circles',
+        nombre: 'Círculos de brazos',
+        faseRAMP: 'Raise',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Hombro',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'band_pull',
+        nombre: 'Face pull con banda',
+        faseRAMP: 'Activate',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Espalda',
+        equipo: ['Bandas de Resistencia'],
+      },
+      {
+        id: 'thoracic',
+        nombre: 'Rotación torácica',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Espalda',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'pushup',
+        nombre: 'Flexiones ligeras',
+        faseRAMP: 'Potentiate',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        equipo: ['Peso Corporal'],
+      },
+    ];
+
+    const warmup = generateWarmup(['Empuje_H', 'Traccion_H'], upperCatalog, {
+      sessionFocus: 'Upper (Hipertrofia)',
+      sessionMuscles: ['Pecho', 'Espalda', 'Hombro', 'Bíceps', 'Tríceps'],
+      goal: 'Hipertrofia',
+    });
+    const names = warmup.map((w) => w.name);
+    expect(names).not.toContain('Trote en Caminadora');
+    expect(names).not.toContain('Caminata en Cinta');
   });
 });
 

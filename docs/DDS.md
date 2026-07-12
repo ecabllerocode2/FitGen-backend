@@ -485,8 +485,50 @@ PASO 6 — Construir calentamiento (RAMP) desde `catalogs/calentamiento`
           relevante a los patrones de movimiento de la sesión, y
           enfriamiento desde `catalogs/enfriamiento`.
 
-SALIDA: objeto Sesión completo (ver 6.3).
+#### 8.4.1 Protocolo RAMP contextual (literatura)
+
+Referencias: McGowan et al. (2015) — calentamiento debe elevar temperatura y preparar patrones específicos; Fradkin et al. (2010) — movilidad dinámica reduce riesgo de lesión; Jeffreys (2017) — modelo RAMP como marco operativo.
+
 ```
+ENTRADA: patrones del día, músculos de la sesión, readiness, goal,
+         prehab (lesiones), catálogo calentamiento
+
+region = upper | lower | full | general   // derivado de patrones
+
+PARA CADA fase EN [Raise, Activate, Mobilize, Potentiate]:
+    candidatos = ejercicios con faseRAMP == fase
+    puntuar cada candidato:
+        + patrón coincide con sesión
+        + músculo coincide con sesión
+        Raise:
+            - cardio en cinta/bici/elíptica PENALIZADO en upper (no eleva tejido del día)
+            - trote/jogging PENALIZADO salvo sesión lower/full con energía adecuada
+            + movilidad dinámica regional (hombro en push/pull, cadera/rodilla en pierna)
+        Activate:
+            + bandas y estabilizadores del patrón del día
+        Mobilize:
+            + articulaciones y patrones del día (no "General" ajeno a la sesión)
+        Potentiate:
+            + variante ligera del patrón principal (press, remo, sentadilla)
+            - pliométricos de alto impacto si goal == Hipertrofia o modo conservador
+            - alto impacto si soreness >= 4
+    elegir 1 (2 en Mobilize si full body)
+    prescribir duración Raise:
+        - cardio en máquina (caminata): 3 min (McGowan: mínimo útil para temperatura)
+        - cardio ligero (bici/elíptica/escaladora): 2–2.5 min
+        - movimiento dinámico regional: 60–90 s
+        - trote/carrera en cinta: evitar en hipertrofia; si fuerza y pierna, máx. 2 min
+    otras fases: activación 12–15 reps; movilidad 10 reps/lado; potenciación 5 reps (Jeffreys)
+
+SI prehab no vacío:
+    añadir hasta 2 ejercicios de activación/movilidad alineados a la lesión
+
+SALIDA: ≤ 8 ítems, orden RAMP (+ Prehab al final)
+```
+
+Regla de producto: en hipertrofia, **caminata en cinta 3 min** es válida en pierna/full body; **trote/carrera** no se usa (duración demasiado corta y poco específica). En tren superior, Raise = movilidad dinámica regional, no cardio en máquina.
+
+SALIDA: objeto Sesión completo (ver 6.3).
 
 ### 8.5 Autorregulación pre-sesión (readiness del día)
 

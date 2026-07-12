@@ -1,7 +1,7 @@
 {
   "id": "calentamiento",
   "updatedAt": "2026-07-12T19:41:53.457Z",
-  "count": 74,
+  "count": 76,
   "items": [
     {
       "id": "Alternate_Leg_Diagonal_Bound",
@@ -630,7 +630,7 @@
         "Controlar la respiración: exhala al empujar"
       ],
       "categoriaBloque": "calentamiento",
-      "faseRAMP": "Raise",
+      "faseRAMP": "Potentiate",
       "prioridad": 1,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Pecho",
@@ -742,7 +742,7 @@
       ],
       "categoriaBloque": "calentamiento",
       "faseRAMP": "Raise",
-      "prioridad": 1,
+      "prioridad": 3,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
@@ -800,7 +800,7 @@
     },
     {
       "id": "kettlebell_pirate_ships",
-      "nombre": "Barco Pirata con Kettlebell",
+      "nombre": "Balanceo lateral con kettlebell",
       "descripcion": "Sujeta la kettlebell con ambas manos. Gira el torso balanceando la pesa hacia un lado hasta la altura de la cabeza, luego déjala caer y llévala hacia el lado opuesto.",
       "correcciones": [
         "Controlar la inercia en el punto más alto para evitar tirones",
@@ -844,15 +844,15 @@
     },
     {
       "id": "Kneeling_Arm_Drill",
-      "nombre": "Técnica de carrera de rodillas",
-      "descripcion": "En posición de caballero (una rodilla apoyada), realiza braceos rítmicos aumentando la intensidad desde trote hasta sprint, manteniendo el torso estable y los codos flexionados.",
+      "nombre": "Braceos en posición de caballero",
+      "descripcion": "En posición de caballero (una rodilla apoyada), realiza braceos rítmicos con los brazos aumentando progresivamente la intensidad, manteniendo el torso estable y los codos flexionados.",
       "correcciones": [
         "Evitar la rotación excesiva del tronco",
         "Mantener el ángulo del codo constante durante el balanceo"
       ],
       "categoriaBloque": "calentamiento",
-      "faseRAMP": "Raise",
-      "prioridad": 1,
+      "faseRAMP": "Activate",
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Baja",
@@ -983,8 +983,8 @@
         "No usar las manos para empujar el torso"
       ],
       "categoriaBloque": "calentamiento",
-      "faseRAMP": "Activate",
-      "prioridad": 1,
+      "faseRAMP": "Mobilize",
+      "prioridad": 2,
       "patronMovimiento": "Core",
       "parteCuerpo": "Core",
       "dificultadTecnica": "Baja",
@@ -1183,7 +1183,7 @@
       ],
       "categoriaBloque": "calentamiento",
       "faseRAMP": "Raise",
-      "prioridad": 1,
+      "prioridad": 3,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Baja",
@@ -1204,7 +1204,7 @@
         "Controlar la fase de descenso para regresar lentamente a la posición inicial."
       ],
       "categoriaBloque": "calentamiento",
-      "faseRAMP": "Activate",
+      "faseRAMP": "Potentiate",
       "prioridad": 1,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
@@ -1402,7 +1402,7 @@
         "Evitar que la banda tire de los hombros hacia adelante."
       ],
       "categoriaBloque": "calentamiento",
-      "faseRAMP": "Activate",
+      "faseRAMP": "Potentiate",
       "prioridad": 1,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
@@ -1411,7 +1411,7 @@
         "Bandas de Resistencia"
       ],
       "isUnilateral": false,
-      "isDynamic": false,
+      "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Squats_-_With_Bands_1.webp"
     },
@@ -1634,6 +1634,50 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wrist_Circles_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wrist_Circles_1.webp"
+    },
+    {
+      "id": "Face_Pull_Warmup",
+      "nombre": "Face pull ligero con polea",
+      "descripcion": "Con polea alta y cuerda, tira hacia la cara separando las manos a la altura de los ojos. Carga ligera, foco en retracción escapular y rotación externa de hombro.",
+      "correcciones": [
+        "No elevar los hombros hacia las orejas.",
+        "Controlar la fase excéntrica sin perder tensión."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Activate",
+      "prioridad": 1,
+      "patronMovimiento": "Traccion_H",
+      "parteCuerpo": "Hombro",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Polea Alta"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Face_Pull_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Face_Pull_1.webp"
+    },
+    {
+      "id": "Band_Triceps_Pushdown_Warmup",
+      "nombre": "Extensión de tríceps con banda",
+      "descripcion": "Ancla la banda por encima del pecho. Con codos pegados al torso, extiende los antebrazos de forma controlada y vuelve sin perder tensión.",
+      "correcciones": [
+        "Evitar que los codos se abran hacia afuera.",
+        "No arquear la zona lumbar al extender."
+      ],
+      "categoriaBloque": "calentamiento",
+      "faseRAMP": "Potentiate",
+      "prioridad": 1,
+      "patronMovimiento": "Empuje_V",
+      "parteCuerpo": "Tríceps",
+      "dificultadTecnica": "Baja",
+      "equipo": [
+        "Bandas de Resistencia"
+      ],
+      "isUnilateral": false,
+      "isDynamic": true,
+      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Internal_Rotation_with_Band_0.webp",
+      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Internal_Rotation_with_Band_1.webp"
     }
   ]
 }
