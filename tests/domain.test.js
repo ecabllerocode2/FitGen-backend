@@ -16,6 +16,11 @@ import { generateWarmup } from '../domain/session/rampGenerator.js';
 import { evaluateSplitQuality } from '../domain/periodization/splitQuality.js';
 import { normalizeTrainingDays } from '../domain/periodization/splitSelector.js';
 import { countMuscleSessionsPerWeek, DAY_ORDER } from '../domain/constants.js';
+import { classifyProfileChanges } from '../domain/athlete/profileChangeImpact.js';
+import {
+  remapMesocycleSchedule,
+  regenerateRemainingMicrocycles,
+} from '../domain/periodization/adaptMesocycleToProfile.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -615,5 +620,68 @@ describe('split quality across calendars', () => {
       .slice(0, 3)
       .map((w) => w.sessions.find((s) => !s.isRestDay)?.sessionFocus);
     expect(new Set(focuses).size).toBeGreaterThan(1);
+  });
+});
+
+describe('profile change impact', () => {
+  const profileBase = {
+    name: 'Test',
+    age: 28,
+    gender: 'M',
+    heightCm: 175,
+    currentWeightKg: 75,
+    fitnessGoal: 'Hipertrofia',
+    trainingAgeMonths: 18,
+    experienceLevel: 'Intermedio',
+    trainingDaysPerWeek: 5,
+    weeklyScheduleContext: DAY_ORDER.map((day) => ({
+      day,
+      canTrain: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'].includes(day),
+    })),
+    injuriesOrLimitations: [],
+    focusArea: 'General',
+  };
+
+  it('metadata-only changes do not touch the plan', () => {
+    const meso = generateMesocycle(profileBase, '2026-07-07');
+    const impact = classifyProfileChanges(profileBase, { ...profileBase, name: 'Nuevo' }, meso);
+    expect(impact.tier).toBe('metadata_only');
+    expect(impact.requiresSessionClear).toBe(false);
+  });
+
+  it('schedule remap when training days count unchanged', () => {
+    const meso = generateMesocycle(profileBase, '2026-07-07');
+    const newProfile = {
+      ...profileBase,
+      trainingDaysPerWeek: 5,
+      weeklyScheduleContext: DAY_ORDER.map((day) => ({
+        day,
+        canTrain: ['Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'].includes(day),
+      })),
+    };
+    const impact = classifyProfileChanges(profileBase, newProfile, meso);
+    expect(impact.tier).toBe('schedule_remap');
+    const adapted = remapMesocycleSchedule(meso, newProfile);
+    const week1 = adapted.microcycles[0].sessions.filter((s) => !s.isRestDay);
+    expect(week1.length).toBe(5);
+  });
+
+  it('structural change triggers partial regeneration preserving past weeks', () => {
+    const meso = generateMesocycle(profileBase, '2026-07-07');
+    meso.currentWeek = 2;
+    const newProfile = {
+      ...profileBase,
+      trainingDaysPerWeek: 3,
+      weeklyScheduleContext: DAY_ORDER.map((day) => ({
+        day,
+        canTrain: ['Lunes', 'Miércoles', 'Viernes'].includes(day),
+      })),
+    };
+    const impact = classifyProfileChanges(profileBase, newProfile, meso);
+    expect(impact.tier).toBe('partial_regeneration');
+    const adapted = regenerateRemainingMicrocycles(meso, newProfile, new Date('2026-07-14'));
+    expect(adapted.microcycles[0]).toEqual(meso.microcycles[0]);
+    expect(adapted.splitType).not.toBe(meso.splitType);
+    expect(adapted.microcycles.length).toBe(meso.microcycles.length);
   });
 });

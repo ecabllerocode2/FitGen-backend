@@ -1,8 +1,10 @@
+import { FieldValue } from 'firebase-admin/firestore';
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { verifyFirebaseToken } from '../../infrastructure/firebase/authMiddleware.js';
 import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
-import { calculateExperienceLevel } from '../../domain/athlete/experienceLevel.js';
+import { classifyProfileChanges } from '../../domain/athlete/profileChangeImpact.js';
+import { adaptMesocycleToProfile } from '../../domain/periodization/adaptMesocycleToProfile.js';
 
 const users = createUserRepository(db);
 const requireAuth = verifyFirebaseToken(auth);
@@ -10,6 +12,7 @@ const requireAuth = verifyFirebaseToken(auth);
 /**
  * POST /api/profile/save
  * Saves profile, auto-approves user for beta (no payment gate).
+ * Profile edits adapt the active mesocycle in-place when possible (DDS §8).
  */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -36,32 +39,94 @@ export default async function handler(req, res) {
     }
 
     const profileData = normalizeProfileInput(rawProfile);
+    const isProfileEdit = action === 'profile_update_and_invalidate_plan';
 
-    // Auto-aprobación beta: custom claim + status approved
+    const existingUser = await users.getUser(userId);
+    const existingMesocycle = existingUser?.currentMesocycle ?? null;
+
     await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
 
-    const userDoc = {
+    let profileChange = {
+      tier: 'metadata_only',
+      requiresSessionClear: false,
+      message: 'Perfil guardado.',
+      details: {},
+    };
+
+    let planStatus = existingUser?.planStatus ?? 'active';
+    let pendingProfileAdaptation = existingUser?.pendingProfileAdaptation ?? null;
+    const userPatch = {
       userId,
-      email: userEmail ?? null,
+      email: userEmail ?? existingUser?.email ?? null,
       status: 'approved',
       plan: 'free',
       profileData,
       lastProfileUpdate: new Date().toISOString(),
-      planStatus: action === 'profile_update_and_invalidate_plan' ? 'needs_regeneration' : 'active',
     };
 
-    if (action === 'profile_update_and_invalidate_plan') {
-      userDoc.currentMesocycle = null;
-      userDoc.currentSession = null;
+    if (isProfileEdit && existingMesocycle) {
+      profileChange = classifyProfileChanges(
+        existingUser?.profileData ?? null,
+        profileData,
+        existingMesocycle,
+      );
+
+      if (profileChange.tier === 'periodization_deferred') {
+        const currentWeek =
+          existingMesocycle.currentWeek ??
+          1;
+        pendingProfileAdaptation = {
+          type: 'periodization',
+          effectiveFromWeek: currentWeek + 1,
+          appliedAt: null,
+          goal: profileData.fitnessGoal,
+          experienceLevel: profileData.experienceLevel,
+          trainingAgeMonths: profileData.trainingAgeMonths,
+        };
+        planStatus = 'active';
+      } else if (
+        profileChange.tier === 'schedule_remap' ||
+        profileChange.tier === 'safety_update' ||
+        profileChange.tier === 'partial_regeneration'
+      ) {
+        const adapted = adaptMesocycleToProfile(
+          existingMesocycle,
+          profileData,
+          profileChange,
+          new Date(),
+        );
+        await users.saveMesocycle(userId, adapted);
+        planStatus = 'active';
+        pendingProfileAdaptation = null;
+
+        if (profileChange.requiresSessionClear) {
+          userPatch.currentSession = FieldValue.delete();
+        }
+      } else {
+        planStatus = 'active';
+      }
+    } else if (isProfileEdit && !existingMesocycle) {
+      planStatus = 'needs_regeneration';
+    } else {
+      planStatus = 'active';
     }
 
-    await users.saveUser(userId, userDoc);
+    userPatch.planStatus = planStatus;
+    if (pendingProfileAdaptation) {
+      userPatch.pendingProfileAdaptation = pendingProfileAdaptation;
+    } else if (isProfileEdit) {
+      userPatch.pendingProfileAdaptation = FieldValue.delete();
+    }
+
+    await users.saveUser(userId, userPatch);
 
     return res.status(200).json({
       success: true,
       status: 'approved',
       experienceLevel: profileData.experienceLevel,
-      message: 'Perfil guardado. Acceso beta activado.',
+      planStatus,
+      profileChange,
+      message: profileChange.message,
     });
   } catch (err) {
     console.error('profile/save error:', err);

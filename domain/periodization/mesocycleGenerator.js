@@ -157,7 +157,7 @@ function interpolateRIR(start, end, week, totalWeeks) {
  * @param {object} [options]
  * @param {number} [options.weekNumber=1]
  */
-function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays, options = {}) {
+export function assignSessionsToSchedule(scheduleContext, splitSessions, trainingDays, options = {}) {
   const { weekNumber = 1 } = options;
   const trainableDays = DAY_ORDER.filter((day) => {
     const ctx = scheduleContext.find((s) => s.day === day);
