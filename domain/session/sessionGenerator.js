@@ -483,7 +483,8 @@ function buildMainBlock({
     .filter((ex) => (setsByExerciseId[ex.id] ?? 0) > 0)
     .map((ex) => {
     const isFuerzaMain =
-      sessionGoal === 'Fuerza' && ((ex.prioridad ?? 3) === 1 || ex.fuerzaMainSlot);
+      sessionGoal === 'Fuerza' &&
+      ((ex.prioridad ?? 3) === 1 || ex.fuerzaMainSlot === true);
     const exerciseType = isFuerzaMain
       ? EXERCISE_TYPES.COMPOUND
       : (ex.prioridad ?? 3) === 1
