@@ -2,9 +2,20 @@ import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE } from 
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
 import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
-import { orderByGoal } from '../exerciseSelection/orderExercises.js';
 import { prescribeLoad } from '../prescription/loadCalculator.js';
-import { generateWarmup } from './rampGenerator.js';
+import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
+import {
+  resolveSessionGoal,
+  resolvePriorityLiftId,
+  orderExercisesForSession,
+  resolveSessionRir,
+  getSessionRepRanges,
+  getSessionRestSeconds,
+  enforceSessionVolumeFloors,
+  isPullBiasedSession,
+  isGoodMorningExercise,
+} from './sessionPrescription.js';
+import { appendFuerzaRampSets, generateWarmup } from './rampGenerator.js';
 import { generateCooldown } from './cooldownGenerator.js';
 import { getDayOfWeek } from '../../lib/dateUtils.js';
 import { resolveExclusionFilters } from '../athlete/exercisePreferences.js';
@@ -49,6 +60,7 @@ export function generateSession(context) {
   } = context;
 
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
+  const sessionGoal = resolveSessionGoal(sessionFocus, goal);
   const safetyProfile = mesocycle.safetyProfile ?? profile.safetyProfile ?? {};
   const { excludeIds, warmupExcludeIds, unavailableEquipment } = resolveExclusionFilters(exercisePreferences);
   const rotationExcludeIds = getMesocycleRotationExclusions(
@@ -60,8 +72,9 @@ export function generateSession(context) {
   const mergedExcludeIds = [...new Set([...excludeIds, ...rotationExcludeIds])];
 
   const weekPlan = getWeekPlan(mesocycle, weekNumber, feedbackModifiers);
-  const rirBase = weekPlan?.rirObjetivo ?? 3;
-  const rirAccessory = weekPlan?.rirObjetivoAccessory ?? rirBase;
+  const accumulationWeeks = mesocycle.durationWeeks - 1;
+  const rirBase = resolveSessionRir(weekPlan, sessionGoal, accumulationWeeks, false);
+  const rirAccessory = resolveSessionRir(weekPlan, sessionGoal, accumulationWeeks, true);
 
   const readinessAdj = applyReadiness(readiness, sessionMuscles);
 
@@ -89,48 +102,83 @@ export function generateSession(context) {
     dayOfWeek,
   );
 
-  const rawExercises =
-    sessionVolumeSlot?.exercises && !sessionVolumeSlot.fromHistory
-      ? sessionVolumeSlot.exercises
-      : selectExercises(
+  const usePrecomputedExercises =
+    sessionVolumeSlot?.exercises &&
+    !sessionVolumeSlot.fromHistory &&
+    weekNumber === 1;
+
+  const rawExercises = usePrecomputedExercises
+    ? sessionVolumeSlot.exercises
+    : selectExercises(
           sessionFocus,
           catalog.entrenamiento ?? [],
           safetyProfile,
           history,
           goal,
-          { weekNumber, sessionMuscles, excludeIds: mergedExcludeIds, mesocycleId: mesocycle.mesocycleId },
+          {
+            weekNumber,
+            sessionMuscles,
+            excludeIds: mergedExcludeIds,
+            mesocycleId: mesocycle.mesocycleId,
+            trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
+          },
         );
 
-  const ordered = orderByGoal(rawExercises, goal, priorityLiftId);
+  const resolvedPriorityLiftId =
+    priorityLiftId ??
+    resolvePriorityLiftId(rawExercises, sessionFocus, patterns, sessionGoal);
+
+  const ordered = orderExercisesForSession(
+    rawExercises,
+    sessionGoal,
+    sessionFocus,
+    patterns,
+    resolvedPriorityLiftId,
+  );
 
   const volumeByMuscle = weekPlan?.volumeByMuscle ?? {};
   const mainBlock = buildMainBlock({
     exercises: ordered,
-    goal,
+    sessionGoal,
+    sessionFocus,
+    mesocycleGoal: goal,
     rirBase,
     rirAccessory,
     readinessAdj,
     volumeByMuscle,
     sessionMuscles,
     history,
-    priorityLiftId,
+    priorityLiftId: resolvedPriorityLiftId,
     splitType: mesocycle.splitType,
     bodyWeightKg: profile.currentWeightKg,
     weeklyMuscleSlotCounts: weeklyVolumePlan.weeklyMuscleSlotCounts,
     muscleSlotStart: sessionVolumeSlot?.muscleSlotStart ?? {},
+    safetyProfile,
+    trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
   });
 
-  const warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
+  let warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
     weekNumber,
     sessionFocus,
     sessionMuscles,
     prehab: safetyProfile.prehab ?? [],
     readiness,
-    goal,
+    goal: sessionGoal,
     conservative: safetyProfile.conservative ?? false,
     excludeIds: warmupExcludeIds,
     unavailableEquipment,
+    avoidPatterns: safetyProfile.avoidPatterns ?? [],
+    modifyPatterns: safetyProfile.modifyPatterns ?? [],
+    injuries: safetyProfile.injuries ?? [],
+    experienceLevel: mesocycle.experienceLevel ?? safetyProfile.experienceLevel ?? 'Intermedio',
   });
+  warmup = appendFuerzaRampSets(
+    warmup,
+    mainBlock,
+    sessionGoal,
+    sessionFocus,
+    resolvedPriorityLiftId,
+  );
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
   const summary = estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles });
 
@@ -203,9 +251,162 @@ function formatDurationMinutes(minutes) {
   return remainder > 0 ? `${hours}h ${remainder} min` : `${hours}h`;
 }
 
+function applyConservativeSessionCap(setsByExerciseId, exercises, safetyProfile) {
+  if (!safetyProfile?.conservative) return;
+  const MAX_TOTAL_SETS = 18;
+  let total = Object.values(setsByExerciseId).reduce((sum, sets) => sum + (sets ?? 0), 0);
+  if (total <= MAX_TOTAL_SETS) return;
+
+  const ranked = [...exercises].sort(
+    (a, b) =>
+      (b.prioridad ?? 3) - (a.prioridad ?? 3) ||
+      (setsByExerciseId[b.id] ?? 0) - (setsByExerciseId[a.id] ?? 0),
+  );
+
+  for (const ex of ranked) {
+    if (total <= MAX_TOTAL_SETS) break;
+    if ((ex.prioridad ?? 3) === 1) continue;
+    while ((setsByExerciseId[ex.id] ?? 0) > 2 && total > MAX_TOTAL_SETS) {
+      setsByExerciseId[ex.id] -= 1;
+      total -= 1;
+    }
+  }
+
+  for (const ex of ranked) {
+    if (total <= MAX_TOTAL_SETS) break;
+    while ((setsByExerciseId[ex.id] ?? 0) > 3 && total > MAX_TOTAL_SETS) {
+      setsByExerciseId[ex.id] -= 1;
+      total -= 1;
+    }
+  }
+}
+
+function applyAccesoriosSessionSetCap(setsByExerciseId, exercises, sessionGoal, sessionFocus) {
+  if (sessionGoal !== 'Hipertrofia' || !/accesorios/i.test(sessionFocus ?? '')) return;
+  const MAX_TOTAL = 20;
+  let total = exercises.reduce((sum, ex) => sum + (setsByExerciseId[ex.id] ?? 0), 0);
+  if (total <= MAX_TOTAL) return;
+
+  const ranked = [...exercises].sort(
+    (a, b) =>
+      (b.prioridad ?? 3) - (a.prioridad ?? 3) ||
+      (setsByExerciseId[b.id] ?? 0) - (setsByExerciseId[a.id] ?? 0),
+  );
+
+  for (const ex of ranked) {
+    if (total <= MAX_TOTAL) break;
+    if ((ex.prioridad ?? 3) === 1) continue;
+    while ((setsByExerciseId[ex.id] ?? 0) > 2 && total > MAX_TOTAL) {
+      setsByExerciseId[ex.id] -= 1;
+      total -= 1;
+    }
+  }
+}
+
+function applyNovatoLowFreqSetCap(
+  setsByExerciseId,
+  exercises,
+  safetyProfile,
+  sessionGoal,
+  sessionFocus,
+  trainingDaysPerWeek = 3,
+) {
+  if (safetyProfile?.experienceLevel !== 'Novato') return;
+  if (sessionGoal !== 'Hipertrofia' || !/full body/i.test(sessionFocus ?? '')) return;
+
+  const MAX_TOTAL_SETS = trainingDaysPerWeek <= 2 ? 18 : 20;
+  let total = exercises.reduce((sum, ex) => sum + (setsByExerciseId[ex.id] ?? 0), 0);
+  if (total <= MAX_TOTAL_SETS) return;
+
+  const ranked = [...exercises].sort(
+    (a, b) =>
+      (b.prioridad ?? 3) - (a.prioridad ?? 3) ||
+      (setsByExerciseId[b.id] ?? 0) - (setsByExerciseId[a.id] ?? 0),
+  );
+
+  for (const ex of ranked) {
+    if (total <= MAX_TOTAL_SETS) break;
+    if ((ex.prioridad ?? 3) === 1) continue;
+    while ((setsByExerciseId[ex.id] ?? 0) > 2 && total > MAX_TOTAL_SETS) {
+      setsByExerciseId[ex.id] -= 1;
+      total -= 1;
+    }
+  }
+}
+
+function applyFuerzaFullBodyAccessoryCaps(setsByExerciseId, exercises, sessionGoal, sessionFocus) {
+  if (sessionGoal !== 'Fuerza' || !/full body/i.test(sessionFocus ?? '')) return;
+  for (const ex of exercises) {
+    const muscle = ex.parteCuerpo ?? ex.muscleGroup;
+    if (muscle === 'Bíceps' && (ex.prioridad ?? 3) >= 2) {
+      setsByExerciseId[ex.id] = Math.min(setsByExerciseId[ex.id] ?? 0, 2);
+    }
+  }
+}
+
+function applyFuerzaFullBodyBalance(setsByExerciseId, exercises, sessionGoal, sessionFocus) {
+  if (sessionGoal !== 'Fuerza' || !/full body/i.test(sessionFocus ?? '')) return;
+
+  const isPullCompound = (ex) => {
+    if ((ex.prioridad ?? 3) !== 1) return false;
+    if (['Traccion_H', 'Traccion_V'].includes(ex.patronMovimiento)) return true;
+    const name = (ex.nombre ?? ex.exerciseName ?? '').toLowerCase();
+    return (
+      ex.patronMovimiento === 'Cadera' &&
+      /peso muerto|deadlift|rdl|rumano|stiff/i.test(name) &&
+      !isGoodMorningExercise(ex)
+    );
+  };
+  const isPushCompound = (ex) => {
+    if ((ex.prioridad ?? 3) !== 1) return false;
+    if (['Empuje_H', 'Empuje_V'].includes(ex.patronMovimiento)) return true;
+    return ex.patronMovimiento === 'Rodilla';
+  };
+
+  const pushCompounds = exercises.filter(isPushCompound);
+  const pullCompounds = exercises.filter(isPullCompound);
+
+  let pushSets = pushCompounds.reduce((sum, ex) => sum + (setsByExerciseId[ex.id] ?? 0), 0);
+  let pullSets = pullCompounds.reduce((sum, ex) => sum + (setsByExerciseId[ex.id] ?? 0), 0);
+
+  while (pushSets > pullSets + 1 && pushCompounds.length && pullCompounds.length) {
+    const press = [...pushCompounds].sort(
+      (a, b) => (setsByExerciseId[b.id] ?? 0) - (setsByExerciseId[a.id] ?? 0),
+    )[0];
+    if (!press || (setsByExerciseId[press.id] ?? 0) <= 2) break;
+    setsByExerciseId[press.id] -= 1;
+    pushSets -= 1;
+    const pull = [...pullCompounds].sort(
+      (a, b) => (setsByExerciseId[a.id] ?? 0) - (setsByExerciseId[b.id] ?? 0),
+    )[0];
+    if (pull && (setsByExerciseId[pull.id] ?? 0) < 5) {
+      setsByExerciseId[pull.id] = (setsByExerciseId[pull.id] ?? 0) + 1;
+      pullSets += 1;
+    }
+  }
+
+  let total = exercises.reduce((sum, ex) => sum + (setsByExerciseId[ex.id] ?? 0), 0);
+  const maxSets = 20;
+  if (total <= maxSets) return;
+
+  const ranked = [...exercises].sort(
+    (a, b) => (b.prioridad ?? 3) - (a.prioridad ?? 3),
+  );
+  for (const ex of ranked) {
+    if (total <= maxSets) break;
+    if ((ex.prioridad ?? 3) === 1) continue;
+    while ((setsByExerciseId[ex.id] ?? 0) > 2 && total > maxSets) {
+      setsByExerciseId[ex.id] -= 1;
+      total -= 1;
+    }
+  }
+}
+
 function buildMainBlock({
   exercises,
-  goal,
+  sessionGoal,
+  sessionFocus = '',
+  mesocycleGoal,
   rirBase,
   rirAccessory,
   readinessAdj,
@@ -217,9 +418,11 @@ function buildMainBlock({
   bodyWeightKg,
   weeklyMuscleSlotCounts = {},
   muscleSlotStart = {},
+  safetyProfile = {},
+  trainingDaysPerWeek = 3,
 }) {
-  const repRanges = REP_RANGES[goal] ?? REP_RANGES.Hipertrofia;
-  const rest = REST_SECONDS[goal] ?? REST_SECONDS.Hipertrofia;
+  const repRanges = getSessionRepRanges(sessionGoal);
+  const rest = getSessionRestSeconds(sessionGoal);
 
   const muscleIndexInSession = {};
   const setsByExerciseId = {};
@@ -240,23 +443,73 @@ function buildMainBlock({
           : 3;
   }
 
+  if (
+    sessionGoal === 'Fuerza' &&
+    isPullBiasedSession(sessionMuscles, sessionFocus)
+  ) {
+    for (const ex of exercises) {
+      const muscle = ex.parteCuerpo ?? ex.muscleGroup;
+      if (muscle === 'Bíceps' && (ex.prioridad ?? 3) >= 2) {
+        setsByExerciseId[ex.id] = Math.min(setsByExerciseId[ex.id] ?? 0, 2);
+      }
+    }
+  }
+
+  enforceSessionVolumeFloors({
+    setsByExerciseId,
+    exercises,
+    sessionMuscles,
+    sessionGoal,
+    sessionFocus,
+    volumeByMuscle,
+    weeklyMuscleSlotCounts,
+  });
+
+  applyConservativeSessionCap(setsByExerciseId, exercises, safetyProfile);
+
+  applyFuerzaFullBodyAccessoryCaps(setsByExerciseId, exercises, sessionGoal, sessionFocus);
+  applyAccesoriosSessionSetCap(setsByExerciseId, exercises, sessionGoal, sessionFocus);
+  applyNovatoLowFreqSetCap(
+    setsByExerciseId,
+    exercises,
+    safetyProfile,
+    sessionGoal,
+    sessionFocus,
+    trainingDaysPerWeek,
+  );
+  applyFuerzaFullBodyBalance(setsByExerciseId, exercises, sessionGoal, sessionFocus);
+
   return exercises
     .filter((ex) => (setsByExerciseId[ex.id] ?? 0) > 0)
     .map((ex) => {
-    const exerciseType =
-      (ex.prioridad ?? 3) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
+    const isFuerzaMain =
+      sessionGoal === 'Fuerza' && ((ex.prioridad ?? 3) === 1 || ex.fuerzaMainSlot);
+    const exerciseType = isFuerzaMain
+      ? EXERCISE_TYPES.COMPOUND
+      : (ex.prioridad ?? 3) === 1
+        ? EXERCISE_TYPES.COMPOUND
+        : EXERCISE_TYPES.ISOLATION;
     const isCore = ex.patronMovimiento === 'Core' || ex.parteCuerpo === 'Core';
-    const repRange =
+    const muscle = ex.parteCuerpo ?? ex.muscleGroup;
+    const isFuerzaPullBiceps =
+      sessionGoal === 'Fuerza' &&
+      isPullBiasedSession(sessionMuscles, sessionFocus) &&
+      muscle === 'Bíceps' &&
+      (ex.prioridad ?? 3) >= 2;
+
+    let repRange =
       ex.repRangeOverride ??
       (isCore
         ? repRanges.core ?? repRanges.isolation
-        : exerciseType === EXERCISE_TYPES.COMPOUND
-          ? repRanges.compound
-          : repRanges.isolation);
+        : isFuerzaPullBiceps
+          ? repRanges.isolation
+          : exerciseType === EXERCISE_TYPES.COMPOUND
+            ? repRanges.compound
+            : repRanges.isolation);
 
-    const isAccessory = (ex.prioridad ?? 3) !== 1;
-    const rirForExercise =
-      goal === 'Fuerza' && isAccessory ? rirAccessory : rirBase;
+    const isAccessory = sessionGoal === 'Fuerza' ? !isFuerzaMain : (ex.prioridad ?? 3) !== 1;
+    let rirForExercise =
+      sessionGoal === 'Fuerza' && isAccessory ? rirAccessory : rirBase;
     const rirTarget = Math.round((rirForExercise + readinessAdj.rirDelta) * 10) / 10;
 
     const exerciseHistory = (history ?? [])
@@ -268,6 +521,7 @@ function buildMainBlock({
         rir: e.actualRIR ?? e.rirReported,
       }));
 
+    const bodyweight = isBodyweightExercise(ex);
     const load = prescribeLoad({
       exerciseType,
       rirTarget,
@@ -275,6 +529,8 @@ function buildMainBlock({
       history: exerciseHistory,
       bodyWeightKg,
       movementPattern: ex.patronMovimiento,
+      isBodyweight: bodyweight,
+      exerciseId: ex.id,
     });
 
     const adjustedSets = Math.max(
@@ -285,7 +541,10 @@ function buildMainBlock({
       exerciseType === EXERCISE_TYPES.COMPOUND
         ? MAX_SETS_PER_EXERCISE.compound
         : MAX_SETS_PER_EXERCISE.isolation;
-    const cappedSets = Math.min(adjustedSets, setCap);
+    const cappedSets = Math.min(
+      adjustedSets,
+      isFuerzaPullBiceps ? 2 : setCap,
+    );
 
     return {
       exerciseId: ex.id,
@@ -307,6 +566,8 @@ function buildMainBlock({
         exerciseType === EXERCISE_TYPES.COMPOUND ? rest.compound : rest.isolation,
       tempo: exerciseType === EXERCISE_TYPES.COMPOUND ? '2-0-1-0' : '3-1-2-1',
       isPriorityLift: ex.id === priorityLiftId || ex.prioridad === 1,
+      exerciseType,
+      fuerzaMainLift: isFuerzaMain,
       priority: ex.prioridad ?? 2,
     };
   });

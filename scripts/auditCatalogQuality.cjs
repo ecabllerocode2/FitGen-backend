@@ -25,7 +25,11 @@ const MUSCLE_PATTERN_MISMATCH = {
   Tríceps: ['Rodilla', 'Cadera', 'Traccion_H', 'Traccion_V'],
 };
 
-const AUTO_SELECT_EXCLUDE = new Set(['Clean_Shrug', 'Clock_Push-Up']);
+const AUTO_SELECT_EXCLUDE = new Set([
+  'Clean_Shrug',
+  'Clock_Push-Up',
+  'Single-Arm_Push-Up',
+]);
 
 const REQUIRED_PATTERNS = ['Empuje_H', 'Traccion_H', 'Rodilla', 'Cadera'];
 

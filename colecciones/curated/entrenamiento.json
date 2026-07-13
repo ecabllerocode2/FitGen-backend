@@ -1,6 +1,6 @@
 {
   "id": "entrenamiento",
-  "updatedAt": "2026-07-13T02:59:53.797Z",
+  "updatedAt": "2026-07-13T17:54:01.044Z",
   "count": 563,
   "items": [
     {
@@ -140,7 +140,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Incline_Dumbbell_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Incline_Dumbbell_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "incline_curl"
     },
     {
       "id": "Alternating_Cable_Shoulder_Press",
@@ -221,7 +221,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -290,7 +290,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_H",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -467,7 +467,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Skull_Crusher_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Band_Skull_Crusher_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "Barbell_Ab_Rollout",
@@ -584,7 +584,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Curls_Lying_Against_An_Incline_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Barbell_Curls_Lying_Against_An_Incline_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Barbell_Deadlift",
@@ -599,7 +599,7 @@
       "prioridad": 1,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Espalda",
-      "dificultadTecnica": "Alta",
+      "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica"
       ],
@@ -619,7 +619,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -1001,7 +1001,7 @@
       "prioridad": 1,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
-      "dificultadTecnica": "Alta",
+      "dificultadTecnica": "Media",
       "equipo": [
         "Barra Olímpica",
         "Rack de Potencia"
@@ -1139,7 +1139,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Alta",
@@ -1314,7 +1314,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bent-Arm_Dumbbell_Pullover_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Bent-Arm_Dumbbell_Pullover_1.webp",
-      "subtipoEstimulo": "fly_stretch"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Bent-Knee_Hip_Raise",
@@ -1418,7 +1418,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Core",
       "dificultadTecnica": "Alta",
@@ -1673,7 +1673,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -1698,7 +1698,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -2082,7 +2082,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Preacher_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Cable_Preacher_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Cable_Rear_Delt_Fly",
@@ -2441,7 +2441,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -2464,7 +2464,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -2487,7 +2487,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -2533,7 +2533,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -2556,7 +2556,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -2579,7 +2579,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -2613,7 +2613,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Clock_Push-Up_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Clock_Push-Up_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Close-Grip_Barbell_Bench_Press",
@@ -3203,7 +3203,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Decline_Push-Up_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Decline_Push-Up_1.webp",
-      "subtipoEstimulo": "decline_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Decline_Reverse_Crunch",
@@ -3263,7 +3263,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -3333,7 +3333,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -3356,7 +3356,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -3402,7 +3402,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -3565,7 +3565,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -3883,7 +3883,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Prone_Incline_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Prone_Incline_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Dumbbell_Raise",
@@ -3941,7 +3941,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -4177,7 +4177,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -4281,7 +4281,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Triceps_Press_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "Face_Pull",
@@ -4400,7 +4400,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Flexor_Incline_Dumbbell_Curls_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Flexor_Incline_Dumbbell_Curls_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "incline_curl"
     },
     {
       "id": "Floor_Glute-Ham_Raise",
@@ -4447,7 +4447,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Floor_Press_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Floor_Press_1.webp",
-      "subtipoEstimulo": "other_triceps"
+      "subtipoEstimulo": "compound_triceps"
     },
     {
       "id": "Floor_Press_with_Chains",
@@ -4459,7 +4459,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Alta",
@@ -4471,7 +4471,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Floor_Press_with_Chains_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Floor_Press_with_Chains_1.webp",
-      "subtipoEstimulo": "other_triceps"
+      "subtipoEstimulo": "compound_triceps"
     },
     {
       "id": "Flutter_Kicks",
@@ -4553,7 +4553,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -4577,7 +4577,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -4718,7 +4718,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -4788,7 +4788,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -4811,7 +4811,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -4880,7 +4880,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -4904,7 +4904,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -4998,7 +4998,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -5021,7 +5021,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Media",
@@ -5044,7 +5044,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -5067,7 +5067,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -5090,7 +5090,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -5183,7 +5183,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -5527,7 +5527,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Inner_Biceps_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Inner_Biceps_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "incline_curl"
     },
     {
       "id": "Incline_Push-Up_Close-Grip",
@@ -5575,7 +5575,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Depth_Jump_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Depth_Jump_1.webp",
-      "subtipoEstimulo": "incline_press"
+      "subtipoEstimulo": "incline_pushup"
     },
     {
       "id": "Incline_Push-Up_Reverse_Grip",
@@ -5599,7 +5599,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Reverse_Grip_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Reverse_Grip_1.webp",
-      "subtipoEstimulo": "incline_press"
+      "subtipoEstimulo": "incline_pushup"
     },
     {
       "id": "Incline_Push-Up_Wide",
@@ -5623,7 +5623,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Wide_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Incline_Push-Up_Wide_1.webp",
-      "subtipoEstimulo": "incline_press"
+      "subtipoEstimulo": "incline_pushup"
     },
     {
       "id": "Inverted_Row",
@@ -5751,7 +5751,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -5774,7 +5774,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -5844,7 +5844,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -5867,7 +5867,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -5913,7 +5913,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -6005,7 +6005,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -6028,7 +6028,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -6051,7 +6051,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -6190,7 +6190,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Glúteos",
       "dificultadTecnica": "Alta",
@@ -6284,7 +6284,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -6606,7 +6606,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -6722,7 +6722,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -6804,7 +6804,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Close-Grip_Barbell_Triceps_Extension_Behind_The_Head_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Close-Grip_Barbell_Triceps_Extension_Behind_The_Head_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin",
@@ -6852,7 +6852,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Dumbbell_Tricep_Extension_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Lying_Dumbbell_Tricep_Extension_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "Lying_Face_Down_Plate_Neck_Resistance",
@@ -7100,7 +7100,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -7123,7 +7123,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -7192,7 +7192,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -7286,7 +7286,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -7309,7 +7309,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Media",
@@ -7345,7 +7345,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_dumbbell_preacher_curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_dumbbell_preacher_curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "one_arm_lat_pulldown",
@@ -7393,7 +7393,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_pronated_dumbbell_triceps_extension_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_pronated_dumbbell_triceps_extension_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "one_arm_supinated_dumbbell_triceps_extension",
@@ -7417,7 +7417,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_supinated_dumbbell_triceps_extension_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/one_arm_supinated_dumbbell_triceps_extension_1.webp",
-      "subtipoEstimulo": "elbow_extension"
+      "subtipoEstimulo": "overhead_extension"
     },
     {
       "id": "One-Arm_Dumbbell_Row",
@@ -7429,7 +7429,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_H",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Media",
@@ -7524,7 +7524,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -7547,7 +7547,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -7593,7 +7593,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -7617,7 +7617,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -7686,7 +7686,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Media",
@@ -7732,7 +7732,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -7755,7 +7755,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -7778,7 +7778,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -7801,7 +7801,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_H",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Baja",
@@ -7824,7 +7824,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -7847,7 +7847,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -7870,7 +7870,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -7939,7 +7939,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -7985,7 +7985,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -8100,7 +8100,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Alta",
@@ -8251,7 +8251,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Plyo_Kettlebell_Pushups_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Plyo_Kettlebell_Pushups_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Plyo_Push-up",
@@ -8274,7 +8274,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Plyo_Push-up_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Plyo_Push-up_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Power_Clean",
@@ -8286,7 +8286,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -8309,7 +8309,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -8332,7 +8332,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -8378,7 +8378,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -8401,7 +8401,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -8436,7 +8436,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Preacher_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Preacher_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Preacher_Hammer_Dumbbell_Curl",
@@ -8575,7 +8575,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Up_Wide_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Up_Wide_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Push_Press",
@@ -8587,7 +8587,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -8610,7 +8610,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -8644,7 +8644,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Ups_With_Feet_Elevated_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Ups_With_Feet_Elevated_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Push-Ups_With_Feet_On_An_Exercise_Ball",
@@ -8667,7 +8667,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Ups_With_Feet_On_An_Exercise_Ball_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Push-Ups_With_Feet_On_An_Exercise_Ball_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Pushups",
@@ -8690,7 +8690,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pushups_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pushups_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Pushups_Close_and_Wide_Hand_Positions",
@@ -8713,7 +8713,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pushups_Close_and_Wide_Hand_Positions_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Pushups_Close_and_Wide_Hand_Positions_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Quick_Leap",
@@ -8820,7 +8820,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Alta",
@@ -8846,7 +8846,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -8871,7 +8871,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -8896,7 +8896,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -8956,7 +8956,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Reverse_Barbell_Preacher_Curls_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Reverse_Barbell_Preacher_Curls_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Box_Squat_Bands",
@@ -8968,7 +8968,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -9088,7 +9088,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_H",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -9168,7 +9168,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Reverse_Plate_Curls_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Reverse_Plate_Curls_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Reverse_Triceps_Bench_Press",
@@ -9180,7 +9180,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Tríceps",
       "dificultadTecnica": "Alta",
@@ -9251,7 +9251,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -9297,7 +9297,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -9412,7 +9412,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -9633,7 +9633,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Close-Grip_Concentration_Barbell_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Seated_Close-Grip_Concentration_Barbell_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Seated_Dumbbell_Curl",
@@ -9717,7 +9717,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -9952,7 +9952,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10090,7 +10090,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -10136,7 +10136,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_H",
       "parteCuerpo": "Pecho",
       "dificultadTecnica": "Alta",
@@ -10147,7 +10147,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single-Arm_Push-Up_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Single-Arm_Push-Up_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "Single_Dumbbell_Raise",
@@ -10229,7 +10229,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10416,7 +10416,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -10696,7 +10696,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10719,7 +10719,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": "Potentiate",
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10742,7 +10742,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -10765,7 +10765,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10788,7 +10788,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
@@ -10857,7 +10857,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10882,7 +10882,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10941,7 +10941,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spider_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Spider_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Split_Clean",
@@ -10953,7 +10953,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -10976,7 +10976,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -10999,7 +10999,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -11045,7 +11045,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -11068,7 +11068,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -11092,7 +11092,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -11186,7 +11186,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -11730,7 +11730,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_one-arm_dumbbell_curl_over_incline_bench_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/standing_one-arm_dumbbell_curl_over_incline_bench_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "standing_one-arm_dumbbell_triceps_extension",
@@ -11882,7 +11882,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -12023,7 +12023,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -12046,7 +12046,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -12070,7 +12070,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Alta",
@@ -12127,7 +12127,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Suspended_Push-Up_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Suspended_Push-Up_1.webp",
-      "subtipoEstimulo": "horizontal_press"
+      "subtipoEstimulo": "pushup"
     },
     {
       "id": "suspended_reverse_crunch",
@@ -12289,7 +12289,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Thigh_Abductor_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Thigh_Abductor_1.webp",
-      "subtipoEstimulo": "glute_accessory"
+      "subtipoEstimulo": "hip_abduction"
     },
     {
       "id": "Thigh_Adductor",
@@ -12454,7 +12454,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Two-Arm_Dumbbell_Preacher_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Two-Arm_Dumbbell_Preacher_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     },
     {
       "id": "Two-Arm_Kettlebell_Clean",
@@ -12466,7 +12466,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Cadera",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -12489,7 +12489,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
@@ -12673,7 +12673,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -12743,7 +12743,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -12979,7 +12979,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Alta",
@@ -13036,7 +13036,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wind_Sprints_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Wind_Sprints_1.webp",
-      "subtipoEstimulo": "flexion"
+      "subtipoEstimulo": "rotation"
     },
     {
       "id": "Wrist_Roller",
@@ -13094,7 +13094,7 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 2,
       "patronMovimiento": "Rodilla",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Alta",
@@ -13153,7 +13153,7 @@
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Zottman_Preacher_Curl_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Zottman_Preacher_Curl_1.webp",
-      "subtipoEstimulo": "supinated_curl"
+      "subtipoEstimulo": "preacher_curl"
     }
   ]
 }

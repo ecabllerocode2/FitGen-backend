@@ -6,12 +6,14 @@ import { generateMesocycle } from '../domain/periodization/mesocycleGenerator.js
 import { getWeekPlan, applyDeloadVolume } from '../domain/periodization/microcycle.js';
 import { applyReadiness } from '../domain/autoregulation/readiness.js';
 import { applyWeeklyFeedback } from '../domain/autoregulation/weeklyFeedback.js';
-import { estimateE1RM, applyLoadLimits } from '../domain/prescription/loadCalculator.js';
+import { estimateE1RM, applyLoadLimits, prescribeLoad } from '../domain/prescription/loadCalculator.js';
+import { isBodyweightExercise } from '../domain/exerciseSelection/bodyweight.js';
 import { detectPlateau, getIntervention } from '../domain/progression/plateau.js';
 import { evaluateCycle } from '../domain/progression/cycleEvaluation.js';
 import { orderByGoal } from '../domain/exerciseSelection/orderExercises.js';
 import { selectExercises, getMesocycleRotationExclusions, isOlympicLift } from '../domain/exerciseSelection/selector.js';
 import { generateSession } from '../domain/session/sessionGenerator.js';
+import { resolveSessionGoal } from '../domain/session/sessionPrescription.js';
 import { generateWarmup } from '../domain/session/rampGenerator.js';
 import { evaluateSplitQuality } from '../domain/periodization/splitQuality.js';
 import { normalizeTrainingDays } from '../domain/periodization/splitSelector.js';
@@ -390,6 +392,52 @@ describe('accessory muscle selection', () => {
       'Hipertrofia',
       { weekNumber: 1, sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'] },
     );
+    expect(selected.some((e) => e.parteCuerpo === 'Tríceps')).toBe(true);
+  });
+
+  it('fills Tríceps on push when Empuje_H pattern slots are already full', () => {
+    const catalog = [
+      {
+        id: 'bench',
+        nombre: 'Press banca',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'incline',
+        nombre: 'Press inclinado',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 2,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'ohp',
+        nombre: 'Press militar',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_V',
+        parteCuerpo: 'Hombro',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'tricep_pushdown',
+        nombre: 'Extensión tríceps polea',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Tríceps',
+        prioridad: 3,
+        equipo: ['Poleas'],
+      },
+    ];
+    const selected = selectExercises('Push', catalog, {}, [], 'Hipertrofia', {
+      weekNumber: 1,
+      sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+    });
     expect(selected.some((e) => e.parteCuerpo === 'Tríceps')).toBe(true);
   });
 
@@ -823,7 +871,7 @@ describe('novice olympic lift exclusion', () => {
     }
   });
 
-  it('allows Olympic lifts for Intermedio', () => {
+  it('does not auto-select Alta-difficulty Olympic lifts (staples-first policy)', () => {
     const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
     const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
     const olympicInCatalog = catalog.filter((ex) => isOlympicLift(ex));
@@ -839,12 +887,12 @@ describe('novice olympic lift exclusion', () => {
         }),
       );
     }
-    expect(allSelected.some((ex) => isOlympicLift(ex))).toBe(true);
+    expect(allSelected.some((ex) => isOlympicLift(ex))).toBe(false);
   });
 });
 
 describe('injury-aware exercise selection', () => {
-  it('substitutes Cadera when Rodilla is avoided on knee-dominant day', () => {
+  it('selects knee-safe leg work when Rodilla is limited', () => {
     const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
     const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
     const safety = buildSafetyProfile({ injuriesOrLimitations: ['Rodilla'] });
@@ -859,9 +907,15 @@ describe('injury-aware exercise selection', () => {
         sessionMuscles: ['Cuádriceps', 'Glúteos', 'Pantorrillas'],
       },
     );
-    expect(selected.some((e) => e.patronMovimiento === 'Rodilla')).toBe(false);
-    expect(selected.some((e) => e.patronMovimiento === 'Cadera')).toBe(true);
     expect(selected.some((e) => e.parteCuerpo === 'Cuádriceps')).toBe(true);
+    expect(
+      selected.some((e) => /prensa|leg press|m[aá]quina|hack|smith/i.test(e.nombre ?? '')),
+    ).toBe(true);
+    expect(
+      selected.every(
+        (e) => !/swing|kettlebell|peso muerto|deadlift|good morning|buenos d[ií]as/i.test(e.nombre ?? ''),
+      ),
+    ).toBe(true);
   });
 
   it('avoids Empuje_V and olympic lifts for shoulder limitation on push day', () => {
@@ -1004,6 +1058,135 @@ describe('warmup RAMP', () => {
     const names = warmup.map((w) => w.name);
     expect(names).not.toContain('Trote en Caminadora');
     expect(names).not.toContain('Caminata en Cinta');
+  });
+
+  it('blocks explosive drills in fuerza Activate and Potentiate phases', () => {
+    const catalog = [
+      {
+        id: 'walk',
+        nombre: 'Caminata en Cinta',
+        faseRAMP: 'Raise',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Caminadora'],
+      },
+      {
+        id: 'wall_drill',
+        nombre: 'Drill de Pared para Aceleración Lineal',
+        faseRAMP: 'Activate',
+        patronMovimiento: 'Rodilla',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Peso Corporal'],
+      },
+      {
+        id: 'hip_mob',
+        nombre: 'Basculación Pélvica de Pie',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Cadera',
+        parteCuerpo: 'Glúteos',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'lateral_leg',
+        nombre: 'Elevaciones de Pierna Lateral',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Cadera',
+        parteCuerpo: 'Glúteos',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'jerk_squat',
+        nombre: 'Sentadilla de Impulso de Jerk',
+        faseRAMP: 'Potentiate',
+        patronMovimiento: 'Rodilla',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'glute_bridge',
+        nombre: 'Puente de glúteo a una pierna',
+        faseRAMP: 'Potentiate',
+        patronMovimiento: 'Cadera',
+        parteCuerpo: 'Glúteos',
+        equipo: ['Peso Corporal'],
+      },
+    ];
+
+    const warmup = generateWarmup(['Rodilla', 'Cadera'], catalog, {
+      sessionFocus: 'Lower (Fuerza)',
+      sessionMuscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'],
+      goal: 'Fuerza',
+    });
+    const names = warmup.map((w) => w.name);
+    expect(names).not.toContain('Drill de Pared para Aceleración Lineal');
+    expect(names).not.toContain('Sentadilla de Impulso de Jerk');
+  });
+
+  it('avoids shoulder shrugs in activate when Empuje_V is restricted', () => {
+    const catalog = [
+      {
+        id: 'raise',
+        nombre: 'Balanceo lateral',
+        faseRAMP: 'Raise',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Espalda',
+        equipo: ['Kettlebell'],
+        isDynamic: true,
+      },
+      {
+        id: 'shrug',
+        nombre: 'Elevación de Hombros (Encogimientos)',
+        faseRAMP: 'Activate',
+        patronMovimiento: 'Traccion_V',
+        parteCuerpo: 'Hombro',
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'scaption',
+        nombre: 'Scaption con Mancuernas',
+        faseRAMP: 'Activate',
+        patronMovimiento: 'Empuje_V',
+        parteCuerpo: 'Hombro',
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'mob1',
+        nombre: 'Círculos de Hombros',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Empuje_V',
+        parteCuerpo: 'Hombro',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'mob2',
+        nombre: 'Círculos con Codos',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Empuje_V',
+        parteCuerpo: 'Hombro',
+        equipo: ['Peso Corporal'],
+        isDynamic: true,
+      },
+      {
+        id: 'pot',
+        nombre: 'Dominada Escapular',
+        faseRAMP: 'Potentiate',
+        patronMovimiento: 'Traccion_V',
+        parteCuerpo: 'Espalda',
+        equipo: ['Barra de Dominadas'],
+      },
+    ];
+
+    const warmup = generateWarmup(['Traccion_H', 'Traccion_V'], catalog, {
+      sessionFocus: 'Torso (Tracción)',
+      sessionMuscles: ['Espalda', 'Bíceps', 'Hombro'],
+      goal: 'Hipertrofia',
+      avoidPatterns: ['Empuje_V'],
+    });
+    const names = warmup.map((w) => w.name);
+    expect(names).not.toContain('Elevación de Hombros (Encogimientos)');
   });
 });
 
@@ -1228,5 +1411,227 @@ describe('profile change impact', () => {
     expect(adapted.microcycles[0]).toEqual(meso.microcycles[0]);
     expect(adapted.splitType).not.toBe(meso.splitType);
     expect(adapted.microcycles.length).toBe(meso.microcycles.length);
+  });
+});
+
+describe('bodyweight and fuerza session rules', () => {
+  it('does not prescribe load for bodyweight exercises', () => {
+    const ex = {
+      id: 'Pushups',
+      equipo: ['Peso Corporal'],
+      patronMovimiento: 'Empuje_H',
+    };
+    expect(isBodyweightExercise(ex)).toBe(true);
+    const load = prescribeLoad({
+      exerciseType: 'compound',
+      rirTarget: 3,
+      repRange: '8-12',
+      history: [],
+      bodyWeightKg: 80,
+      movementPattern: 'Empuje_H',
+      isBodyweight: true,
+    });
+    expect(load.mode).toBe('bodyweight');
+    expect(load.prescribedLoadKg).toBeNull();
+    expect(load.suggestedLoadKg).toBeNull();
+  });
+
+  it('selects at most one exercise per pattern on Fuerza upper sessions', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    const selected = selectExercises(
+      'Upper (Fuerza)',
+      catalog,
+      { experienceLevel: 'Intermedio' },
+      [],
+      'Fuerza',
+      { weekNumber: 1, sessionMuscles: ['Pecho', 'Espalda', 'Hombro'] },
+    );
+
+    const empuje = selected.filter((e) => e.patronMovimiento === 'Empuje_H');
+    const traccion = selected.filter((e) => e.patronMovimiento === 'Traccion_H');
+    expect(empuje.length).toBeLessThanOrEqual(1);
+    expect(traccion.length).toBeLessThanOrEqual(1);
+    expect(selected.some((e) => e.id === 'Single-Arm_Push-Up')).toBe(false);
+    const chest = selected.find((e) => e.parteCuerpo === 'Pecho');
+    if (chest) {
+      expect(isBodyweightExercise(chest)).toBe(false);
+    }
+  });
+
+  it('pull sessions prioritize back over upright rows in pattern slots', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    const selected = selectExercises(
+      'Torso (Tracción)',
+      catalog,
+      {},
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Espalda', 'Bíceps', 'Hombro'],
+      },
+    );
+
+    const back = selected.filter((e) => e.parteCuerpo === 'Espalda');
+    expect(back.length).toBeGreaterThanOrEqual(2);
+    expect(selected.some((e) => e.id === 'Upright_Row_-_With_Bands')).toBe(false);
+  });
+
+  it('excludes band exercises and upright rows from auto-select', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    for (const focus of ['Torso (Tracción)', 'Torso (Empuje)', 'Pierna (Dominante Cadera)']) {
+      const selected = selectExercises(focus, catalog, {}, [], 'Hipertrofia', { weekNumber: 1 });
+      for (const ex of selected) {
+        expect((ex.equipo ?? []).join(' ')).not.toMatch(/banda|band/i);
+        expect(ex.nombre ?? '').not.toMatch(/con banda|con bandas/i);
+        expect(ex.id).not.toMatch(/upright|Dumbbell_Raise/i);
+      }
+    }
+  });
+
+  it('blocks upright rows for shoulder injury profile', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+    const safety = {
+      experienceLevel: 'Intermedio',
+      avoidPatterns: ['Empuje_V'],
+      modifyPatterns: ['Empuje_H'],
+      conservative: false,
+    };
+
+    const selected = selectExercises(
+      'Torso (Tracción)',
+      catalog,
+      safety,
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Espalda', 'Bíceps', 'Hombro'],
+      },
+    );
+
+    expect(selected.every((ex) => !/remo vertical|upright row/i.test(ex.nombre ?? ''))).toBe(true);
+    expect(selected.filter((ex) => ex.parteCuerpo === 'Bíceps').length).toBeLessThanOrEqual(1);
+  });
+
+  it('uses hypertrophy rep intent on PHUL upper hypertrophy day', () => {
+    expect(resolveSessionGoal('Upper (Hipertrofia)', 'Fuerza')).toBe('Hipertrofia');
+    expect(resolveSessionGoal('Upper (Fuerza)', 'Fuerza')).toBe('Fuerza');
+    expect(resolveSessionGoal('Legs', 'Fuerza')).toBe('Fuerza');
+    expect(resolveSessionGoal('Full Body A', 'Fuerza')).toBe('Fuerza');
+    expect(resolveSessionGoal('Push', 'Fuerza')).toBe('Fuerza');
+  });
+
+  it('blocks lateral raises and step-ups for injury profiles', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    const shoulderSafety = {
+      experienceLevel: 'Intermedio',
+      injuries: ['Hombro'],
+      avoidPatterns: ['Empuje_V'],
+      modifyPatterns: ['Empuje_H'],
+      conservative: false,
+    };
+    const pullWithShoulder = selectExercises(
+      'Torso (Tracción)',
+      catalog,
+      shoulderSafety,
+      [],
+      'Hipertrofia',
+      { weekNumber: 1, sessionMuscles: ['Espalda', 'Bíceps', 'Hombro'] },
+    );
+    expect(
+      pullWithShoulder.every((ex) => !/elevaci[oó]n lateral|lateral raise/i.test(ex.nombre ?? '')),
+    ).toBe(true);
+    expect(
+      pullWithShoulder.every((ex) => !/jal[oó]n.*agarre ancho/i.test(ex.nombre ?? '')),
+    ).toBe(true);
+
+    const kneeSafety = {
+      experienceLevel: 'Intermedio',
+      injuries: ['Rodilla'],
+      modifyPatterns: ['Rodilla', 'Cadera'],
+      conservative: false,
+    };
+    const kneeDay = selectExercises(
+      'Pierna (Dominante Rodilla)',
+      catalog,
+      kneeSafety,
+      [],
+      'Hipertrofia',
+      { weekNumber: 1, sessionMuscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'] },
+    );
+    expect(
+      kneeDay.every(
+        (ex) => !/step-up|step up|subida.*rodilla|elevaci[oó]n de rodilla/i.test(ex.nombre ?? ''),
+      ),
+    ).toBe(true);
+    expect(
+      kneeDay.every((ex) => !/extensi[oó]n.*cu[aá]driceps|leg extension/i.test(ex.nombre ?? '')),
+    ).toBe(true);
+    expect(kneeDay.some((ex) => (ex.parteCuerpo ?? ex.muscleGroup) === 'Isquiotibiales')).toBe(true);
+  });
+
+  it('lower fuerza avoids good mornings and includes stable hinge', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    const selected = selectExercises(
+      'Lower (Fuerza)',
+      catalog,
+      { experienceLevel: 'Avanzado', conservative: false },
+      [],
+      'Fuerza',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'],
+      },
+    );
+
+    expect(selected.length).toBeGreaterThanOrEqual(3);
+    expect(selected.every((ex) => !/buenos d[ií]as|good morning/i.test(ex.nombre ?? ''))).toBe(true);
+    expect(selected.some((ex) => ex.patronMovimiento === 'Rodilla')).toBe(true);
+    expect(
+      selected.some(
+        (ex) =>
+          ex.patronMovimiento === 'Cadera' &&
+          /rumano|rdl|hip thrust|prensa/i.test(ex.nombre ?? ''),
+      ),
+    ).toBe(true);
+  });
+
+  it('full body B includes knee pattern for novata profile', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items.filter((ex) => ex.categoriaBloque === 'main_block');
+
+    const selected = selectExercises(
+      'Full Body B',
+      catalog,
+      { experienceLevel: 'Novato', conservative: false },
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Espalda', 'Pecho', 'Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Bíceps', 'Tríceps', 'Core'],
+      },
+    );
+
+    expect(selected.some((ex) => ex.patronMovimiento === 'Rodilla')).toBe(true);
+    expect(selected.every((ex) => !/swing|kettlebell swing/i.test(ex.nombre ?? ''))).toBe(true);
   });
 });

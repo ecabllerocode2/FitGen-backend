@@ -7,7 +7,7 @@ export const MUSCLE_STIMULUS_CONFIG = {
   Pecho: {
     avoidDuplicate: true,
     preferFirst: ['horizontal_press', 'incline_press'],
-    preferSecond: ['fly_stretch', 'incline_press', 'horizontal_press'],
+    preferSecond: ['fly_stretch', 'incline_press', 'incline_pushup', 'pushup'],
   },
   Espalda: {
     avoidDuplicate: true,
@@ -32,17 +32,17 @@ export const MUSCLE_STIMULUS_CONFIG = {
   Bíceps: {
     avoidDuplicate: true,
     preferFirst: ['supinated_curl'],
-    preferSecond: ['neutral_curl', 'supinated_curl'],
+    preferSecond: ['neutral_curl', 'incline_curl', 'preacher_curl'],
   },
   Tríceps: {
     avoidDuplicate: true,
     preferFirst: ['elbow_extension'],
-    preferSecond: ['compound_triceps', 'elbow_extension'],
+    preferSecond: ['overhead_extension', 'compound_triceps', 'elbow_extension'],
   },
   Glúteos: {
     avoidDuplicate: true,
     preferFirst: ['hip_thrust'],
-    preferSecond: ['glute_accessory', 'hip_thrust'],
+    preferSecond: ['glute_accessory', 'hip_abduction', 'hip_thrust'],
   },
   Pantorrillas: {
     avoidDuplicate: true,
@@ -51,6 +51,14 @@ export const MUSCLE_STIMULUS_CONFIG = {
   },
 };
 
+function exerciseFields(exercise) {
+  return {
+    nombre: exercise.nombre ?? exercise.exerciseName ?? '',
+    patronMovimiento: exercise.patronMovimiento ?? exercise.movementPattern,
+    parteCuerpo: exercise.parteCuerpo ?? exercise.muscleGroup,
+  };
+}
+
 /**
  * @param {object} exercise
  * @returns {string}
@@ -58,11 +66,14 @@ export const MUSCLE_STIMULUS_CONFIG = {
 export function resolveStimulusSubtype(exercise) {
   if (exercise.subtipoEstimulo) return exercise.subtipoEstimulo;
 
-  const name = (exercise.nombre ?? '').toLowerCase();
-  const muscle = exercise.parteCuerpo ?? exercise.muscleGroup;
-  const pattern = exercise.patronMovimiento;
+  const { nombre, patronMovimiento, parteCuerpo } = exerciseFields(exercise);
+  const name = nombre.toLowerCase();
+  const muscle = parteCuerpo;
+  const pattern = patronMovimiento;
 
   if (muscle === 'Pecho') {
+    if (/flexi[oó]n|push-?up/i.test(name) && /inclin/i.test(name)) return 'incline_pushup';
+    if (/flexi[oó]n|push-?up/i.test(name)) return 'pushup';
     if (/inclin|incline/i.test(name)) return 'incline_press';
     if (/declin|decline/i.test(name)) return 'decline_press';
     if (/fly|vuelo|apertura|cross|cruce|pullover|pec deck|alrededor|around/i.test(name)) {
@@ -131,6 +142,8 @@ export function resolveStimulusSubtype(exercise) {
 
   if (muscle === 'Bíceps') {
     if (/martillo|hammer|neutro/i.test(name)) return 'neutral_curl';
+    if (/spider|araña|prono|predicador|preacher|concentrad/i.test(name)) return 'preacher_curl';
+    if (/inclinad|incline/i.test(name)) return 'incline_curl';
     return 'supinated_curl';
   }
 
@@ -138,9 +151,10 @@ export function resolveStimulusSubtype(exercise) {
     if (/fondo|dip|cerrado|floor press|press de suelo|press de pecho|board press|pin press|press en rack|bench press|press de banca|jm\b/i.test(name)) {
       return 'compound_triceps';
     }
-    if (
-      /pushdown|polea|extensi[oó]n|tr[ií]ceps|skull|franc[eé]s|jm press|tate|rompecr[aá]neos/i.test(name)
-    ) {
+    if (/supina|overhead|por detr[aá]s|behind|franc[eé]s|skull|rompecr[aá]neos/i.test(name)) {
+      return 'overhead_extension';
+    }
+    if (/pushdown|polea|extensi[oó]n|tr[ií]ceps|jm press|tate/i.test(name)) {
       return 'elbow_extension';
     }
     return 'other_triceps';
@@ -148,6 +162,7 @@ export function resolveStimulusSubtype(exercise) {
 
   if (muscle === 'Glúteos') {
     if (/hip thrust|empuje.*cadera/i.test(name)) return 'hip_thrust';
+    if (/m[aá]quina de abducci[oó]n|abductor/i.test(name)) return 'hip_abduction';
     if (
       /patada|kickback|puente|bridge|abducci[oó]n|pull through|extensi[oó]n.*cadera|hip lift|hip extension|elevaci[oó]n.*cadera|step-up|step up|elevaci[oó]n.*pierna|leg lift|sentadilla arrodillado|kneeling|arrodill|rodillas a sentadilla/i.test(
         name,

@@ -9,7 +9,9 @@ const LOWER_MUSCLES = new Set(['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pan
 
 const CARDIO_MACHINE = /caminadora|treadmill|bicicleta|el[ií]ptica|escaladora|elliptical|rowing/i;
 const WALKING_CARDIO = /caminata|walking/i;
-const HIGH_IMPACT = /saltos|pliom|bound|box jump|cajón|cone hop|salto|jump|star jump|long jump|stride jump/i;
+const HIGH_IMPACT = /saltos|pliom|bound|box jump|cajón|cone hop|salto|jump|star jump|long jump|stride jump|impulso|explosiv|potencia/i;
+const STRENGTH_EXPLOSIVE_WARMUP =
+  /impulso|jerk|explosiv|potencia|pliom|salt|jump|drill de pared|aceleraci[oó]n lineal|star jump|salto de estrella/i;
 const JOGGING = /trote|jogging|carrera en caminadora|running_treadmill/i;
 const REP_BASED = /banda|band|flexion|flexión|sentadilla|squat|press|remo|row|dominada|pull-up|push-up|deadlift|bridge|glúteo|glute|cocoons|dead bug/i;
 
@@ -48,7 +50,7 @@ function labelText(ex) {
 }
 
 function isCardioMachine(ex) {
-  return CARDIO_MACHINE.test(equipmentText(ex));
+  return CARDIO_MACHINE.test(`${equipmentText(ex)} ${labelText(ex)}`);
 }
 
 function isWalkingCardio(ex) {
@@ -95,17 +97,35 @@ function patternMatchesSession(pattern, patterns = []) {
   return patterns.includes(pattern);
 }
 
+function potentiatePatternMatches(pattern, patterns = [], region = 'full') {
+  if (patternMatchesSession(pattern, patterns)) return true;
+  if (region === 'lower' && patterns.includes('Rodilla') && pattern === 'Cadera') return true;
+  if (region === 'lower' && patterns.includes('Cadera') && pattern === 'Rodilla') return true;
+  return false;
+}
+
 function matchesPrehab(ex, prehabTags = []) {
   if (!prehabTags.length) return false;
   const pattern = ex.patronMovimiento ?? 'General';
   const muscle = ex.parteCuerpo;
+  const name = ex.nombre ?? '';
+
+  if (
+    isCardioMachine(ex) &&
+    (prehabTags.includes('movilidad_rodilla') || prehabTags.includes('movilidad_muneca'))
+  ) {
+    return /clamshell|rodilla|knee|cu[aá]driceps isom|terminal knee|glute bridge|wall slide|rotaci[oó]n externa|scaption|wrist|muñeca/i.test(
+      name,
+    );
+  }
 
   return prehabTags.some((tag) => {
     const rule = PREHAB_MATCH[tag];
     if (!rule) return false;
+    if (tag === 'movilidad_muneca' && !/muñeca|wrist|antebrazo/i.test(name)) return false;
     if (rule.muscles.includes(muscle)) return true;
     if (rule.patterns.includes(pattern)) return true;
-    if (tag === 'movilidad_muneca' && /muñeca|wrist/i.test(ex.nombre ?? '')) return true;
+    if (tag === 'movilidad_muneca' && /muñeca|wrist/i.test(name)) return true;
     return false;
   });
 }
@@ -154,11 +174,11 @@ function scoreExercise(ex, phase, ctx) {
   if (phase === 'Raise' && region === 'upper' && /carrera de rodillas?|kneeling arm drill/i.test(text)) {
     score -= 50;
   }
-  if (phase === 'Raise' && region === 'upper' && ex.id === 'Arm_Circles') {
-    score += 30;
+  if (phase === 'Raise' && /c[ií]rculo|estiramiento din[aá]mico|wrist|muñeca/i.test(text) && !isCardioMachine(ex)) {
+    score -= 70;
   }
-  if (phase === 'Raise' && region === 'upper' && /estiramiento dinámico/i.test(ex.nombre ?? '')) {
-    score += 18;
+  if (phase === 'Raise' && region === 'upper' && ex.id === 'Arm_Circles') {
+    score -= 20;
   }
   if (phase === 'Raise' && region === 'upper' && ex.id === 'kettlebell_pirate_ships') {
     score -= 22;
@@ -215,7 +235,7 @@ function scoreExercise(ex, phase, ctx) {
   }
 
   if (phase === 'Potentiate' && ex.id === 'Band_Triceps_Pushdown_Warmup') {
-    score += 30;
+    score -= 50;
   }
   if (phase === 'Potentiate' && /scaption|cocoons|spider crawl|pase de kettlebell/i.test(text)) {
     score -= 40;
@@ -247,26 +267,27 @@ function scoreExercise(ex, phase, ctx) {
 
   if (phase === 'Raise') {
     if (isCardioMachine(ex)) {
-      if (region === 'upper') score -= 80;
-      else if (region === 'lower' || region === 'full') {
+      score += 50;
+      if (region === 'lower' || region === 'full') {
         if (isWalkingCardio(ex)) score += 12;
         else if (isJoggingCardio(ex)) score -= 15;
-        else score += 6;
+        else score += 8;
       }
-      if (conservative) score -= 25;
-      if ((readiness.energyLevel ?? 3) <= 2) score -= 20;
+      if (conservative) score -= 10;
+      if ((readiness.energyLevel ?? 3) <= 2) score -= 15;
     } else if (ex.isDynamic) {
-      if (region === 'upper' && muscle === 'Hombro') score += 20;
-      if (region === 'lower' && LOWER_PATTERNS.has(pattern)) score += 20;
-      if (region === 'full') score += 10;
-      score += 15;
+      if (/escalador|mountain climber|jumping jack|skipping/i.test(text)) score += 6;
+      if (region === 'upper' && muscle === 'Hombro') score += 2;
+      if (region === 'lower' && LOWER_PATTERNS.has(pattern)) score += 12;
+      if (region === 'full') score += 4;
+      score += 2;
     }
   }
 
   if (phase === 'Activate') {
     if (patternMatchesSession(pattern, patterns)) score += 30;
     if (muscleMatchesSession(muscle, sessionMuscles)) score += 20;
-    if (/banda|band/i.test(equipo)) score += 8;
+    if (/banda|band/i.test(equipo)) score -= 80;
     if (pattern === 'General' && muscleMatchesSession(muscle, sessionMuscles)) score += 12;
   }
 
@@ -278,7 +299,9 @@ function scoreExercise(ex, phase, ctx) {
   }
 
   if (phase === 'Potentiate') {
+    if (/banda|band/i.test(equipo) || /\bcon banda\b/i.test(text)) score -= 80;
     if (HIGH_IMPACT.test(text)) {
+      if (goal === 'Fuerza') score -= 100;
       if (goal === 'Hipertrofia') score -= 60;
       if (conservative) score -= 40;
       if ((readiness.sorenessLevel ?? 2) >= 4) score -= 35;
@@ -390,12 +413,19 @@ function pickTop(items, count, seed) {
   return picked;
 }
 
-function isPotentiateEligible(ex, patterns, goal) {
+function isPotentiateEligible(ex, patterns, goal, experienceLevel = 'Intermedio') {
   const name = labelText(ex);
   if (NEVER_POTENTIATE_IDS.has(ex.id)) return false;
   if (/plancha lateral|rotación a plancha/i.test(name)) return false;
   if (/elevación de talón|elevación de talones|calf raise|pantorrilla/i.test(name)) return false;
   if (goal === 'Hipertrofia' && /swing con kettlebell|kettlebell swing/i.test(name)) return false;
+  if (
+    experienceLevel === 'Novato' &&
+    /dominada escapular|pull-up|dominada/i.test(name) &&
+    !/flexion|flexión|inclinada/i.test(name)
+  ) {
+    return false;
+  }
   const exPhase = ex.faseRAMP ?? ex.faseRamp;
   if (exPhase === 'Potentiate') return true;
   return (
@@ -410,7 +440,11 @@ function rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters) {
 
   const phaseItems = items.filter((ex) => {
     const exPhase = ex.faseRAMP ?? ex.faseRamp;
-    if (exPhase && !phaseTags.includes(exPhase)) return false;
+    if (phase === 'Raise' && isCardioMachine(ex)) {
+      // Cardio sistémico válido aunque el catálogo no etiquete fase Raise.
+    } else if (exPhase && !phaseTags.includes(exPhase)) {
+      return false;
+    }
     if (isExerciseBlocked(ex, exclusionFilters)) return false;
     if (phase === 'Mobilize' && isFoamMobilize(ex)) return false;
     if (phase === 'Activate' && patterns.some((p) => p.startsWith('Empuje')) && ex.id === 'Shoulder_Shrug') return false;
@@ -424,6 +458,58 @@ function rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters) {
     if (phase === 'Activate' && patterns.some((p) => p.startsWith('Traccion')) && /flexion|flexión|push-up|incline push/i.test(labelText(ex))) return false;
     if (phase === 'Potentiate' && /elevación de talón|elevación de talones|calf|pantorrilla/i.test(labelText(ex))) return false;
     if (phase === 'Potentiate' && goal === 'Hipertrofia' && HIGH_IMPACT.test(labelText(ex))) return false;
+    if (phase === 'Potentiate' && goal === 'Fuerza' && STRENGTH_EXPLOSIVE_WARMUP.test(labelText(ex))) return false;
+    if (phase === 'Activate' && goal === 'Fuerza' && STRENGTH_EXPLOSIVE_WARMUP.test(labelText(ex))) return false;
+    if (
+      (phase === 'Activate' || phase === 'Potentiate') &&
+      (/banda|band/i.test(equipmentText(ex)) || /\bcon banda\b/i.test(labelText(ex)))
+    ) {
+      return false;
+    }
+    if (
+      phase === 'Activate' &&
+      (ctx.avoidPatterns?.includes('Empuje_V') ?? false) &&
+      /encogimiento|shrug/i.test(labelText(ex))
+    ) {
+      return false;
+    }
+    if (
+      phase === 'Activate' &&
+      (ctx.injuries?.includes('Espalda_Baja') || ctx.avoidPatterns?.includes('Cadera')) &&
+      /encogimiento|shrug/i.test(labelText(ex))
+    ) {
+      return false;
+    }
+    if (
+      phase === 'Activate' &&
+      /drill de pared|aceleraci[oó]n lineal/i.test(labelText(ex))
+    ) {
+      return false;
+    }
+    if (
+      phase === 'Activate' &&
+      (ctx.injuries?.includes('Hombro') || ctx.avoidPatterns?.includes('Empuje_V')) &&
+      /scaption/i.test(labelText(ex))
+    ) {
+      return false;
+    }
+    if (
+      phase === 'Raise' &&
+      /skipping|saltos r[aá]pidos/i.test(labelText(ex)) &&
+      (ctx.conservative ||
+        ctx.injuries?.includes('Rodilla') ||
+        ctx.injuries?.includes('Espalda_Baja'))
+    ) {
+      return false;
+    }
+    if (
+      (phase === 'Activate' || phase === 'Potentiate') &&
+      (ctx.avoidPatterns?.includes('Rodilla') ?? false) &&
+      (/salt|jump|pliom|salto|impulso|diagonal/i.test(labelText(ex)) ||
+        (ex.patronMovimiento === 'Rodilla' && /explosiv|potencia|drill/i.test(labelText(ex))))
+    ) {
+      return false;
+    }
     if (phase === 'Potentiate' && isIsometric(ex)) return false;
     if (phase === 'Potentiate' && NEVER_POTENTIATE_IDS.has(ex.id)) return false;
     if (phase === 'Raise' && goal === 'Hipertrofia' && isJoggingCardio(ex)) return false;
@@ -431,15 +517,27 @@ function rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters) {
     return scoreExercise(ex, phase, ctx) > -20;
   });
 
-  return phaseItems
+  const raiseItems =
+    phase === 'Raise'
+      ? phaseItems.filter((ex) => {
+          const cardioOptions = phaseItems.filter(
+            (candidate) => isCardioMachine(candidate) && !usedIds.has(candidate.id),
+          );
+          if (!cardioOptions.length) return true;
+          return isCardioMachine(ex) || isWalkingCardio(ex);
+        })
+      : phaseItems;
+
+  return raiseItems
     .filter((ex) => !usedIds.has(ex.id))
     .map((ex) => ({ ex, score: scoreExercise(ex, phase, ctx) }))
     .filter((row) => {
-      if (row.score <= 0) return false;
+      if (row.score <= 0 && phase !== 'Raise') return false;
+      if (phase === 'Raise' && row.score < -10) return false;
       if (phase !== 'Potentiate') return true;
       const pattern = row.ex.patronMovimiento ?? 'General';
-      if (!patternMatchesSession(pattern, patterns)) return false;
-      if (!isPotentiateEligible(row.ex, patterns, goal)) return false;
+      if (!potentiatePatternMatches(pattern, patterns, region)) return false;
+      if (!isPotentiateEligible(row.ex, patterns, goal, ctx.experienceLevel)) return false;
       const exPhase = row.ex.faseRAMP ?? row.ex.faseRamp;
       if (exPhase === 'Potentiate') return true;
       return row.score >= 25;
@@ -448,8 +546,22 @@ function rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters) {
 
 function pickForPhase(phase, items, ctx, usedIds, exclusionFilters) {
   const ranked = rankPhaseItems(phase, items, ctx, usedIds, exclusionFilters);
-  const pickCount = phase === 'Mobilize' && ctx.region === 'full' ? 2 : 1;
-  return pickTop(ranked, pickCount, ctx.seed + phase.length);
+  const mobilizeCount =
+    phase === 'Mobilize' && ['full', 'upper', 'lower'].includes(ctx.region) ? 2 : 1;
+  const pickCount = mobilizeCount;
+  const picked = pickTop(ranked, pickCount, ctx.seed + phase.length);
+
+  if (phase === 'Raise' && !picked.length) {
+    const fallback = items.find(
+      (ex) =>
+        !usedIds.has(ex.id) &&
+        !isExerciseBlocked(ex, exclusionFilters) &&
+        (isCardioMachine(ex) || isWalkingCardio(ex) || /jumping jack|escalador/i.test(labelText(ex))),
+    );
+    if (fallback) return [fallback];
+  }
+
+  return picked;
 }
 
 /**
@@ -516,6 +628,10 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
     conservative = false,
     excludeIds = [],
     unavailableEquipment = [],
+    avoidPatterns = [],
+    modifyPatterns = [],
+    injuries = [],
+    experienceLevel = 'Intermedio',
   } = options;
 
   const exclusionFilters = { excludeIds, unavailableEquipment };
@@ -530,6 +646,11 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
     goal,
     conservative,
     seed,
+    avoidPatterns,
+    modifyPatterns,
+    injuries,
+    sessionFocus,
+    experienceLevel,
   };
 
   const warmup = [];
@@ -546,6 +667,41 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
   if (prehab.length) {
     const prehabPool = items
       .filter((ex) => matchesPrehab(ex, prehab) && !usedIds.has(ex.id) && !isExerciseBlocked(ex, exclusionFilters))
+      .filter((ex) => !/banda|band/i.test(`${equipmentText(ex)} ${labelText(ex)}`))
+      .filter(
+        (ex) =>
+          !(
+            (avoidPatterns?.includes('Empuje_V') ?? false) &&
+            /encogimiento|shrug/i.test(labelText(ex))
+          ),
+      )
+      .filter(
+        (ex) =>
+          !(
+            (injuries?.includes('Espalda_Baja') ?? false) &&
+            /encogimiento|shrug|skipping/i.test(labelText(ex))
+          ),
+      )
+      .filter(
+        (ex) =>
+          !(
+            (injuries?.includes('Rodilla') ?? false) &&
+            /sprint|salt|jump|pliom|salto|impulso|skipping/i.test(labelText(ex))
+          ),
+      )
+      .filter((ex) => {
+        const riskyPrehab =
+          /salt|jump|pliom|salto|impulso|diagonal|longitud|salida lineal|skipping|sprint/i.test(
+            labelText(ex),
+          );
+        if (!riskyPrehab) return true;
+        return !(
+          conservative ||
+          injuries?.includes('Rodilla') ||
+          injuries?.includes('Espalda_Baja') ||
+          injuries?.includes('Muñeca')
+        );
+      })
       .map((ex) => ({ ex, score: scoreExercise(ex, 'Activate', ctx) + 15 }));
 
     const prehabPick = pickTop(prehabPool, 2, seed + 99);
@@ -568,5 +724,64 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
     return fallback.map((ex) => toWarmupItem(ex, ex.faseRAMP ?? 'General', readiness, goal));
   }
 
-  return warmup.slice(0, 8);
+  return warmup.slice(0, 10);
+}
+
+const FUERZA_RAMP_PROTOCOL = [
+  { pct: 0.4, reps: '5' },
+  { pct: 0.6, reps: '3' },
+  { pct: 0.8, reps: '2' },
+];
+
+/**
+ * Append approximation (ramp) sets before the main lift on Fuerza sessions.
+ * Skipped for bodyweight lifts and exploratory weeks without a working load.
+ * @param {object[]} warmup
+ * @param {object[]} mainBlock
+ * @param {string} goal
+ * @param {string|null} priorityLiftId
+ * @returns {object[]}
+ */
+export function appendFuerzaRampSets(warmup, mainBlock, goal, sessionFocus = '', priorityLiftId = null) {
+  if (goal !== 'Fuerza') return warmup ?? [];
+
+  const priority =
+    mainBlock.find((ex) => ex.exerciseId === priorityLiftId) ??
+    mainBlock.find((ex) => ex.isPriorityLift) ??
+    mainBlock.find((ex) => (ex.priority ?? 2) === 1);
+
+  if (!priority || priority.loadMode === 'bodyweight') {
+    return warmup ?? [];
+  }
+
+  const workingLoad = priority.prescribedLoadKg ?? priority.suggestedLoadKg;
+  if (!workingLoad || workingLoad <= 0) return warmup ?? [];
+
+  const rampItems = FUERZA_RAMP_PROTOCOL.map((step, index) => {
+    const kg = Math.round((workingLoad * step.pct) / 2.5) * 2.5;
+    return {
+      exerciseId: priority.exerciseId,
+      id: `${priority.exerciseId}_ramp_${index + 1}`,
+      name: priority.exerciseName,
+      nombre: priority.exerciseName,
+      phase: 'Potentiate',
+      faseRAMP: 'Potentiate',
+      movementPattern: priority.movementPattern,
+      patronMovimiento: priority.movementPattern,
+      parteCuerpo: priority.muscleGroup,
+      durationSeconds: 75,
+      duracion: '75 seg',
+      sets: 1,
+      reps: step.reps,
+      prescribedLoadKg: kg,
+      peso: `${kg} kg`,
+      isRampSet: true,
+      rampSetNumber: index + 1,
+      instrucciones: `Aproximación ${index + 1}/${FUERZA_RAMP_PROTOCOL.length}: ${step.reps} reps a ~${Math.round(step.pct * 100)}% de la carga de trabajo.`,
+      imageUrl: priority.imageUrl ?? null,
+      imageUrl2: priority.imageUrl2 ?? null,
+    };
+  });
+
+  return [...(warmup ?? []), ...rampItems];
 }

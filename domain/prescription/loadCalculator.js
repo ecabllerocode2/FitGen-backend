@@ -63,11 +63,29 @@ export function prescribeLoad({
   plateIncrementKg = DEFAULT_PLATE_INCREMENT_KG,
   bodyWeightKg,
   movementPattern,
+  isBodyweight = false,
+  exerciseId = '',
 }) {
   const targetReps = parseRepRangeMidpoint(repRange);
 
+  if (isBodyweight) {
+    return {
+      mode: 'bodyweight',
+      prescribedLoadKg: null,
+      suggestedLoadKg: null,
+      repRange,
+      rirTarget,
+      explanation: 'Ejercicio con peso corporal: registra repeticiones y RIR en la última serie.',
+    };
+  }
+
   if (!history.length) {
-    const suggestedLoadKg = suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType);
+    const suggestedLoadKg = suggestExploratoryLoad(
+      bodyWeightKg,
+      movementPattern,
+      exerciseType,
+      exerciseId,
+    );
     return {
       mode: 'exploratory',
       prescribedLoadKg: null,
@@ -176,8 +194,7 @@ function bumpRepRange(repRange) {
   return `${(parts[0] || 8) + 1}`;
 }
 
-/** Conservative starting load as % bodyweight by movement pattern (display only). */
-function suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType) {
+function suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType, exerciseId = '') {
   if (!bodyWeightKg || bodyWeightKg <= 0) return null;
   const patternFactors = {
     Empuje_H: 0.35,
@@ -190,6 +207,12 @@ function suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType) {
     General: 0.2,
   };
   const factor = patternFactors[movementPattern] ?? (exerciseType === EXERCISE_TYPES.COMPOUND ? 0.35 : 0.15);
-  const raw = bodyWeightKg * factor;
+  let variance = 1;
+  if (exerciseId) {
+    let hash = 0;
+    for (const ch of exerciseId) hash = (hash + ch.charCodeAt(0)) % 11;
+    variance = 1 + (hash - 5) * 0.04;
+  }
+  const raw = bodyWeightKg * factor * variance;
   return Math.round(raw / 2.5) * 2.5;
 }

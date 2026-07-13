@@ -40,7 +40,8 @@ const MANUAL_OVERRIDES = {
 
 function resolveSubtypeForCatalog(item) {
   if (MANUAL_OVERRIDES[item.id]) return MANUAL_OVERRIDES[item.id];
-  return resolveStimulusSubtype(item);
+  const { subtipoEstimulo: _ignored, ...withoutSubtype } = item;
+  return resolveStimulusSubtype(withoutSubtype);
 }
 
 const dryRun = process.argv.includes('--dry-run');

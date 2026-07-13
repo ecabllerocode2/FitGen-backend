@@ -67,13 +67,21 @@ export const MOVEMENT_PATTERNS = [
 /** Muscles trained per split session focus — gym only */
 export const SPLIT_SESSIONS = {
   Full_Body: [
-    { sessionFocus: 'Full Body A', muscles: ['Pecho', 'Espalda', 'Cuádriceps', 'Hombro', 'Core'], patterns: ['Empuje_H', 'Traccion_V', 'Rodilla', 'Empuje_V', 'Core'] },
-    { sessionFocus: 'Full Body B', muscles: ['Espalda', 'Pecho', 'Isquiotibiales', 'Glúteos', 'Bíceps', 'Tríceps', 'Core'], patterns: ['Traccion_H', 'Empuje_V', 'Cadera', 'Traccion_V', 'Core'] },
-    { sessionFocus: 'Full Body C', muscles: ['Cuádriceps', 'Pecho', 'Espalda', 'Hombro', 'Pantorrillas'], patterns: ['Rodilla', 'Empuje_H', 'Traccion_H', 'Empuje_V', 'Core'] },
+    {
+      sessionFocus: 'Full Body A',
+      muscles: ['Pecho', 'Espalda', 'Cuádriceps', 'Isquiotibiales', 'Hombro', 'Core'],
+      patterns: ['Empuje_H', 'Traccion_V', 'Rodilla', 'Cadera', 'Empuje_V', 'Core'],
+    },
+    {
+      sessionFocus: 'Full Body B',
+      muscles: ['Espalda', 'Pecho', 'Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Bíceps', 'Tríceps', 'Core'],
+      patterns: ['Traccion_H', 'Empuje_H', 'Rodilla', 'Cadera', 'Traccion_V', 'Core'],
+    },
+    { sessionFocus: 'Full Body C', muscles: ['Cuádriceps', 'Isquiotibiales', 'Pecho', 'Espalda', 'Hombro', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera', 'Empuje_H', 'Traccion_H', 'Empuje_V', 'Core'] },
   ],
   Torso_Pierna: [
     { sessionFocus: 'Torso (Empuje)', muscles: ['Pecho', 'Hombro', 'Tríceps'], patterns: ['Empuje_H', 'Empuje_V'] },
-    { sessionFocus: 'Pierna (Dominante Rodilla)', muscles: ['Cuádriceps', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla'] },
+    { sessionFocus: 'Pierna (Dominante Rodilla)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
     { sessionFocus: 'Torso (Tracción)', muscles: ['Espalda', 'Bíceps', 'Hombro'], patterns: ['Traccion_H', 'Traccion_V'] },
     { sessionFocus: 'Pierna (Dominante Cadera)', muscles: ['Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Cadera'] },
   ],
@@ -88,11 +96,15 @@ export const SPLIT_SESSIONS = {
     { sessionFocus: 'Legs', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
   ],
   Hibrido_PHUL: [
-    { sessionFocus: 'Upper (Fuerza)', muscles: ['Pecho', 'Espalda', 'Hombro'], patterns: ['Empuje_H', 'Traccion_H'] },
+    { sessionFocus: 'Upper (Fuerza)', muscles: ['Pecho', 'Espalda', 'Hombro'], patterns: ['Empuje_H', 'Traccion_H', 'Traccion_V'] },
     { sessionFocus: 'Lower (Fuerza)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'], patterns: ['Rodilla', 'Cadera'] },
     { sessionFocus: 'Upper (Hipertrofia)', muscles: ['Pecho', 'Espalda', 'Bíceps', 'Tríceps', 'Hombro'], patterns: ['Empuje_H', 'Traccion_V', 'Empuje_V'] },
     { sessionFocus: 'Lower (Hipertrofia)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
-    { sessionFocus: 'Full Body Accesorios', muscles: ['Core', 'Bíceps', 'Tríceps'], patterns: ['Core', 'Empuje_V'] },
+    {
+      sessionFocus: 'Full Body Accesorios',
+      muscles: ['Espalda', 'Isquiotibiales', 'Glúteos', 'Core', 'Bíceps', 'Tríceps', 'Hombro'],
+      patterns: ['Traccion_H', 'Cadera', 'Core', 'Empuje_V'],
+    },
   ],
 };
 
@@ -188,8 +200,8 @@ export const INJURY_MOVEMENT_MAP = {
     prehab: ['movilidad_hombro'],
   },
   Rodilla: {
-    avoidPatterns: ['Rodilla'],
-    modifyPatterns: ['Cadera'],
+    avoidPatterns: [],
+    modifyPatterns: ['Rodilla', 'Cadera'],
     prehab: ['movilidad_rodilla'],
   },
   Espalda_Baja: {

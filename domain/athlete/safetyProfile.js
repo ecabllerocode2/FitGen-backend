@@ -42,6 +42,7 @@ export function buildSafetyProfile(profile) {
     conservative,
     prehab: [...prehab],
     messages,
+    injuries: [...injuries],
   };
 }
 
