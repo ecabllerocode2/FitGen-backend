@@ -18,6 +18,15 @@ const PATTERN_MUSCLE_HINTS = {
   General: null,
 };
 
+/** Muscles that must never use a squat/hinge pattern slot */
+const MUSCLE_PATTERN_MISMATCH = {
+  Pantorrillas: ['Rodilla', 'Cadera'],
+  Bíceps: ['Rodilla', 'Cadera', 'Empuje_H', 'Empuje_V'],
+  Tríceps: ['Rodilla', 'Cadera', 'Traccion_H', 'Traccion_V'],
+};
+
+const AUTO_SELECT_EXCLUDE = new Set(['Clean_Shrug', 'Clock_Push-Up']);
+
 const REQUIRED_PATTERNS = ['Empuje_H', 'Traccion_H', 'Rodilla', 'Cadera'];
 
 function loadDocs() {
@@ -39,6 +48,29 @@ function main() {
     if (hints && !hints.includes(ex.parteCuerpo)) {
       warnings.push(`${ex.id}: patrón ${ex.patronMovimiento} con parteCuerpo ${ex.parteCuerpo}`);
     }
+
+    const forbidden = MUSCLE_PATTERN_MISMATCH[ex.parteCuerpo];
+    if (forbidden?.includes(ex.patronMovimiento)) {
+      errors.push(`${ex.id}: ${ex.parteCuerpo} no debe usar patrón ${ex.patronMovimiento}`);
+    }
+
+    if (ex.prioridad === 1 && AUTO_SELECT_EXCLUDE.has(ex.id)) {
+      warnings.push(`${ex.id}: prioridad 1 pero excluido de auto-selección`);
+    }
+  }
+
+  const missingFields = entrenamiento.filter(
+    (ex) => !ex.id || !ex.patronMovimiento || !ex.parteCuerpo || !ex.prioridad,
+  );
+  if (missingFields.length) {
+    errors.push(`${missingFields.length} ejercicios con campos obligatorios faltantes`);
+  }
+
+  const duplicateIds = entrenamiento
+    .map((ex) => ex.id)
+    .filter((id, i, arr) => arr.indexOf(id) !== i);
+  if (duplicateIds.length) {
+    errors.push(`IDs duplicados: ${[...new Set(duplicateIds)].join(', ')}`);
   }
 
   for (const pattern of REQUIRED_PATTERNS) {

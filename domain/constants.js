@@ -68,7 +68,7 @@ export const MOVEMENT_PATTERNS = [
 export const SPLIT_SESSIONS = {
   Full_Body: [
     { sessionFocus: 'Full Body A', muscles: ['Pecho', 'Espalda', 'Cuádriceps', 'Hombro', 'Core'], patterns: ['Empuje_H', 'Traccion_V', 'Rodilla', 'Empuje_V', 'Core'] },
-    { sessionFocus: 'Full Body B', muscles: ['Espalda', 'Pecho', 'Isquiotibiales', 'Glúteos', 'Bíceps', 'Tríceps'], patterns: ['Traccion_H', 'Empuje_V', 'Cadera', 'Traccion_V', 'Core'] },
+    { sessionFocus: 'Full Body B', muscles: ['Espalda', 'Pecho', 'Isquiotibiales', 'Glúteos', 'Bíceps', 'Tríceps', 'Core'], patterns: ['Traccion_H', 'Empuje_V', 'Cadera', 'Traccion_V', 'Core'] },
     { sessionFocus: 'Full Body C', muscles: ['Cuádriceps', 'Pecho', 'Espalda', 'Hombro', 'Pantorrillas'], patterns: ['Rodilla', 'Empuje_H', 'Traccion_H', 'Empuje_V', 'Core'] },
   ],
   Torso_Pierna: [
@@ -165,6 +165,20 @@ export const EXERCISE_TYPES = {
 
 /** Minimum plate increment (kg) for rounding */
 export const DEFAULT_PLATE_INCREMENT_KG = 2.5;
+
+/** Caps per exercise to avoid dumping weekly volume into a single movement */
+export const MAX_SETS_PER_EXERCISE = {
+  compound: 5,
+  isolation: 4,
+};
+
+/** Muscles that benefit from a second accessory exercise when volume is split across one session */
+export const SPLIT_VOLUME_ACCESSORY_MUSCLES = new Set([
+  'Bíceps',
+  'Tríceps',
+  'Pantorrillas',
+  'Glúteos',
+]);
 
 /** DDS 8.1 / 10 — injury → movement restrictions */
 export const INJURY_MOVEMENT_MAP = {

@@ -1,13 +1,18 @@
-import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, countMuscleSessionsPerWeek } from '../constants.js';
+import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE } from '../constants.js';
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
-import { selectExercises } from '../exerciseSelection/selector.js';
+import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
 import { orderByGoal } from '../exerciseSelection/orderExercises.js';
 import { prescribeLoad } from '../prescription/loadCalculator.js';
 import { generateWarmup } from './rampGenerator.js';
 import { generateCooldown } from './cooldownGenerator.js';
 import { getDayOfWeek } from '../../lib/dateUtils.js';
 import { resolveExclusionFilters } from '../athlete/exercisePreferences.js';
+import {
+  allocateWeeklySetSlot,
+  computeWeeklyVolumePlan,
+  findSessionVolumeSlot,
+} from '../periodization/weekVolumePlanner.js';
 
 /**
  * DDS 8.4 — session orchestrator.
@@ -46,6 +51,13 @@ export function generateSession(context) {
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
   const safetyProfile = mesocycle.safetyProfile ?? profile.safetyProfile ?? {};
   const { excludeIds, warmupExcludeIds, unavailableEquipment } = resolveExclusionFilters(exercisePreferences);
+  const rotationExcludeIds = getMesocycleRotationExclusions(
+    history,
+    mesocycle.mesocycleId,
+    weekNumber,
+    sessionFocus,
+  );
+  const mergedExcludeIds = [...new Set([...excludeIds, ...rotationExcludeIds])];
 
   const weekPlan = getWeekPlan(mesocycle, weekNumber, feedbackModifiers);
   const rirBase = weekPlan?.rirObjetivo ?? 3;
@@ -53,14 +65,41 @@ export function generateSession(context) {
 
   const readinessAdj = applyReadiness(readiness, sessionMuscles);
 
-  const rawExercises = selectExercises(
+  const dayOfWeek = getDayOfWeek(referenceDate, profile.timezone ?? 'UTC');
+
+  const weeklyVolumePlan =
+    context.weeklyVolumePlan ??
+    computeWeeklyVolumePlan({
+      splitType: mesocycle.splitType,
+      trainingDays: profile.trainingDaysPerWeek ?? 3,
+      weeklyScheduleContext: profile.weeklyScheduleContext ?? [],
+      catalog: catalog.entrenamiento ?? [],
+      safetyProfile,
+      goal,
+      weekNumber,
+      excludeIds: mergedExcludeIds,
+      scheduleWeekNumber: weekNumber,
+      history,
+      mesocycleId: mesocycle.mesocycleId,
+    });
+
+  const sessionVolumeSlot = findSessionVolumeSlot(
+    weeklyVolumePlan.sessions,
     sessionFocus,
-    catalog.entrenamiento ?? [],
-    safetyProfile,
-    history,
-    goal,
-    { weekNumber, sessionMuscles, excludeIds },
+    dayOfWeek,
   );
+
+  const rawExercises =
+    sessionVolumeSlot?.exercises && !sessionVolumeSlot.fromHistory
+      ? sessionVolumeSlot.exercises
+      : selectExercises(
+          sessionFocus,
+          catalog.entrenamiento ?? [],
+          safetyProfile,
+          history,
+          goal,
+          { weekNumber, sessionMuscles, excludeIds: mergedExcludeIds, mesocycleId: mesocycle.mesocycleId },
+        );
 
   const ordered = orderByGoal(rawExercises, goal, priorityLiftId);
 
@@ -77,6 +116,8 @@ export function generateSession(context) {
     priorityLiftId,
     splitType: mesocycle.splitType,
     bodyWeightKg: profile.currentWeightKg,
+    weeklyMuscleSlotCounts: weeklyVolumePlan.weeklyMuscleSlotCounts,
+    muscleSlotStart: sessionVolumeSlot?.muscleSlotStart ?? {},
   });
 
   const warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
@@ -91,8 +132,7 @@ export function generateSession(context) {
     unavailableEquipment,
   });
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
-
-  const dayOfWeek = getDayOfWeek(referenceDate, profile.timezone ?? 'UTC');
+  const summary = estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles });
 
   return {
     sessionId: `sess_${mesocycle.mesocycleId}_w${weekNumber}_${dayOfWeek}`,
@@ -113,8 +153,54 @@ export function generateSession(context) {
     warmup,
     mainBlock,
     cooldown,
+    summary,
     completed: false,
   };
+}
+
+const WORK_SECONDS_PER_SET = 45;
+const TRANSITION_SECONDS = 30;
+
+function estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles }) {
+  let totalSeconds = 0;
+
+  for (const item of warmup ?? []) {
+    totalSeconds += item.durationSeconds ?? parseDurationSeconds(item.duracion) ?? 45;
+  }
+
+  for (const ex of mainBlock ?? []) {
+    const sets = ex.sets ?? 3;
+    const rest = ex.restSeconds ?? 90;
+    totalSeconds += sets * WORK_SECONDS_PER_SET;
+    totalSeconds += Math.max(0, sets - 1) * rest;
+    totalSeconds += TRANSITION_SECONDS;
+  }
+
+  totalSeconds += (cooldown?.duracionEstimada ?? 8) * 60;
+
+  const minutes = Math.max(15, Math.round(totalSeconds / 60));
+  const seriesTotales = (mainBlock ?? []).reduce((sum, ex) => sum + (ex.sets ?? 0), 0);
+
+  return {
+    duracionEstimada: formatDurationMinutes(minutes),
+    duracionMinutos: minutes,
+    ejerciciosTotales: (mainBlock ?? []).length,
+    seriesTotales,
+    musculosTrabajos: sessionMuscles ?? [],
+  };
+}
+
+function parseDurationSeconds(value) {
+  if (!value) return null;
+  const match = String(value).match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+function formatDurationMinutes(minutes) {
+  if (minutes < 60) return `${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  return remainder > 0 ? `${hours}h ${remainder} min` : `${hours}h`;
 }
 
 function buildMainBlock({
@@ -129,53 +215,44 @@ function buildMainBlock({
   priorityLiftId,
   splitType,
   bodyWeightKg,
+  weeklyMuscleSlotCounts = {},
+  muscleSlotStart = {},
 }) {
   const repRanges = REP_RANGES[goal] ?? REP_RANGES.Hipertrofia;
   const rest = REST_SECONDS[goal] ?? REST_SECONDS.Hipertrofia;
-  const muscleFrequency = countMuscleSessionsPerWeek(splitType ?? 'Full_Body');
 
-  const exercisesByMuscle = {};
+  const muscleIndexInSession = {};
+  const setsByExerciseId = {};
   for (const ex of exercises) {
     const muscle = ex.parteCuerpo ?? ex.muscleGroup;
-    if (!muscle) continue;
-    exercisesByMuscle[muscle] = exercisesByMuscle[muscle] ?? [];
-    exercisesByMuscle[muscle].push(ex);
-  }
+    const idxInSession = muscleIndexInSession[muscle] ?? 0;
+    muscleIndexInSession[muscle] = idxInSession + 1;
 
-  const setsByExerciseId = {};
-  for (const muscle of sessionMuscles) {
-    const muscleExercises = exercisesByMuscle[muscle] ?? [];
     const weeklySets = volumeByMuscle[muscle] ?? 0;
-    const sessionsPerWeek = muscleFrequency[muscle] || 1;
-    const perExercise = muscleExercises.length
-      ? Math.max(2, Math.round(weeklySets / sessionsPerWeek / muscleExercises.length))
-      : 0;
-    for (const ex of muscleExercises) {
-      setsByExerciseId[ex.id] = perExercise || 3;
-    }
-  }
+    const totalWeeklySlots = weeklyMuscleSlotCounts[muscle] || idxInSession + 1;
+    const slotIndex = (muscleSlotStart[muscle] ?? 0) + idxInSession - 1;
 
-  for (const ex of exercises) {
-    if (!setsByExerciseId[ex.id]) {
-      const muscle = ex.parteCuerpo ?? ex.muscleGroup;
-      const weeklySets = volumeByMuscle[muscle] ?? 0;
-      const sessionsPerWeek = muscleFrequency[muscle] || 1;
-      setsByExerciseId[ex.id] = weeklySets
-        ? Math.max(2, Math.round(weeklySets / sessionsPerWeek))
+    setsByExerciseId[ex.id] =
+      weeklySets > 0
+        ? allocateWeeklySetSlot(weeklySets, slotIndex, totalWeeklySlots)
         : ex.accessorySlot
           ? 2
           : 3;
-    }
   }
 
-  return exercises.map((ex) => {
+  return exercises
+    .filter((ex) => (setsByExerciseId[ex.id] ?? 0) > 0)
+    .map((ex) => {
     const exerciseType =
       (ex.prioridad ?? 3) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
+    const isCore = ex.patronMovimiento === 'Core' || ex.parteCuerpo === 'Core';
     const repRange =
       ex.repRangeOverride ??
-      (exerciseType === EXERCISE_TYPES.COMPOUND
-        ? repRanges.compound
-        : repRanges.isolation);
+      (isCore
+        ? repRanges.core ?? repRanges.isolation
+        : exerciseType === EXERCISE_TYPES.COMPOUND
+          ? repRanges.compound
+          : repRanges.isolation);
 
     const isAccessory = (ex.prioridad ?? 3) !== 1;
     const rirForExercise =
@@ -204,13 +281,20 @@ function buildMainBlock({
       1,
       Math.round((setsByExerciseId[ex.id] ?? 3) * readinessAdj.volumeMultiplier),
     );
+    const setCap =
+      exerciseType === EXERCISE_TYPES.COMPOUND
+        ? MAX_SETS_PER_EXERCISE.compound
+        : MAX_SETS_PER_EXERCISE.isolation;
+    const cappedSets = Math.min(adjustedSets, setCap);
 
     return {
       exerciseId: ex.id,
       exerciseName: ex.nombre,
+      imageUrl: ex.url_img_0 ?? ex.imageUrl ?? null,
+      imageUrl2: ex.url_img_1 ?? ex.imageUrl2 ?? null,
       muscleGroup: ex.parteCuerpo,
       movementPattern: ex.patronMovimiento,
-      sets: adjustedSets,
+      sets: cappedSets,
       repRange: load.repRange ?? repRange,
       repRangeOverride: ex.repRangeOverride ?? null,
       plateauIntervention: ex.plateauIntervention ?? null,

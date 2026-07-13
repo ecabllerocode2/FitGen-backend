@@ -24,15 +24,18 @@ export function generateMesocycle(profile, referenceDate) {
     calculateExperienceLevel(profile.trainingAgeMonths ?? 0);
   const goal = profile.fitnessGoal ?? 'Hipertrofia';
   const trainingDays = normalizeTrainingDays(profile.trainingDaysPerWeek ?? 3);
-  const safetyProfile = buildSafetyProfile(profile);
+  const safetyProfile = {
+    ...buildSafetyProfile(profile),
+    experienceLevel,
+  };
 
-  const splitType = selectSplit(trainingDays, goal, experienceLevel);
+  const splitType = profile.forcedSplitType ?? selectSplit(trainingDays, goal, experienceLevel);
   const durationWeeks = MESOCYCLE_DURATION[experienceLevel];
   const accumulationWeeks = durationWeeks - 1;
   const factor = EXPERIENCE_VOLUME_FACTOR[experienceLevel];
 
   const splitSessions = SPLIT_SESSIONS[splitType] ?? SPLIT_SESSIONS.Full_Body;
-  const relevantMuscles = [...new Set(splitSessions.flatMap((s) => s.muscles))];
+  const relevantMuscles = musclesFromSplitSessions(splitSessions);
 
   const volumeLandmarks = {};
   for (const muscle of relevantMuscles) {
@@ -235,4 +238,17 @@ function orderTemplatesAvoidingConsecutivePatterns(templates, count) {
   }
 
   return ordered.length ? ordered : templates;
+}
+
+function musclesFromSplitSessions(sessions) {
+  const muscles = new Set();
+  for (const session of sessions) {
+    for (const muscle of session.muscles ?? []) {
+      if (muscle) muscles.add(muscle);
+    }
+    if (session.patterns?.includes('Core')) {
+      muscles.add('Core');
+    }
+  }
+  return [...muscles];
 }

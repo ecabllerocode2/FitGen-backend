@@ -10,12 +10,13 @@ import { estimateE1RM, applyLoadLimits } from '../domain/prescription/loadCalcul
 import { detectPlateau, getIntervention } from '../domain/progression/plateau.js';
 import { evaluateCycle } from '../domain/progression/cycleEvaluation.js';
 import { orderByGoal } from '../domain/exerciseSelection/orderExercises.js';
-import { selectExercises } from '../domain/exerciseSelection/selector.js';
+import { selectExercises, getMesocycleRotationExclusions, isOlympicLift } from '../domain/exerciseSelection/selector.js';
 import { generateSession } from '../domain/session/sessionGenerator.js';
 import { generateWarmup } from '../domain/session/rampGenerator.js';
 import { evaluateSplitQuality } from '../domain/periodization/splitQuality.js';
 import { normalizeTrainingDays } from '../domain/periodization/splitSelector.js';
 import { countMuscleSessionsPerWeek, DAY_ORDER } from '../domain/constants.js';
+import { computeWeeklyVolumePlan } from '../domain/periodization/weekVolumePlanner.js';
 import { classifyProfileChanges } from '../domain/athlete/profileChangeImpact.js';
 import {
   remapMesocycleSchedule,
@@ -23,6 +24,14 @@ import {
 } from '../domain/periodization/adaptMesocycleToProfile.js';
 import fs from 'fs';
 import path from 'path';
+
+function referenceDateForDay(dayName) {
+  const monday = new Date('2026-07-06T12:00:00Z');
+  const offset = DAY_ORDER.indexOf(dayName);
+  const date = new Date(monday);
+  date.setUTCDate(monday.getUTCDate() + Math.max(0, offset));
+  return date.toISOString();
+}
 
 const baseProfile = {
   name: 'Test',
@@ -201,6 +210,17 @@ describe('volume per session frequency', () => {
 
     const sessions = mc.microcycles[0].sessions.filter((s) => !s.isRestDay);
     let totalPechoSets = 0;
+    const sessionHistory = [];
+    const weeklyVolumePlan = computeWeeklyVolumePlan({
+      splitType: mc.splitType,
+      trainingDays: profile.trainingDaysPerWeek,
+      weeklyScheduleContext: profile.weeklyScheduleContext,
+      catalog,
+      safetyProfile: mc.safetyProfile ?? {},
+      goal: mc.goal,
+      weekNumber: 1,
+    });
+
     for (const dayPlan of sessions) {
       const session = generateSession({
         profile,
@@ -210,16 +230,19 @@ describe('volume per session frequency', () => {
         sessionMuscles: dayPlan.muscles,
         patterns: dayPlan.patterns,
         catalog: { entrenamiento: catalog, calentamiento: [], enfriamiento: [] },
-        referenceDate: '2026-07-07',
+        history: sessionHistory,
+        weeklyVolumePlan,
+        referenceDate: referenceDateForDay(dayPlan.dayOfWeek),
       });
+      sessionHistory.push(session);
       totalPechoSets += session.mainBlock
         .filter((e) => e.muscleGroup === 'Pecho')
         .reduce((sum, e) => sum + e.sets, 0);
     }
 
     expect(freq).toBe(3);
-    expect(totalPechoSets).toBeLessThan(targetPecho * 2);
-    expect(totalPechoSets).toBeGreaterThan(0);
+    expect(totalPechoSets).toBeLessThanOrEqual(Math.ceil(targetPecho * 1.25));
+    expect(totalPechoSets).toBeGreaterThanOrEqual(Math.floor(targetPecho * 0.75));
   });
 });
 
@@ -263,6 +286,57 @@ describe('continuity week 1', () => {
     ];
     const selected = selectExercises('Torso (Empuje)', catalog, {}, history, 'Hipertrofia', { weekNumber: 2 });
     expect(selected.some((e) => e.id === 'bench')).toBe(true);
+  });
+
+  it('reuses the same exercises for duplicate session focus within the same week', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const profile = {
+      fitnessGoal: 'Hipertrofia',
+      trainingDaysPerWeek: 6,
+      trainingAgeMonths: 36,
+      weeklyScheduleContext: DAY_ORDER.map((day, index) => ({
+        day,
+        canTrain: index < 6,
+      })),
+      forcedSplitType: 'Push_Pull_Legs',
+    };
+    const mesocycle = generateMesocycle(profile, '2026-07-07');
+    const weekPlan = getWeekPlan(mesocycle, 1);
+    const weeklyVolumePlan = computeWeeklyVolumePlan({
+      splitType: mesocycle.splitType,
+      trainingDays: profile.trainingDaysPerWeek,
+      weeklyScheduleContext: profile.weeklyScheduleContext,
+      catalog,
+      safetyProfile: mesocycle.safetyProfile,
+      goal: mesocycle.goal,
+      weekNumber: 1,
+    });
+    const pushSlots = weeklyVolumePlan.sessions.filter((s) => s.sessionFocus === 'Push');
+    expect(pushSlots.length).toBe(2);
+
+    const history = [];
+    const pushSessions = [];
+    for (const slot of pushSlots) {
+      const session = generateSession({
+        profile,
+        mesocycle,
+        weekNumber: 1,
+        sessionFocus: slot.sessionFocus,
+        sessionMuscles: slot.muscles,
+        patterns: slot.patterns,
+        catalog: { entrenamiento: catalog, calentamiento: [], enfriamiento: [] },
+        history,
+        weeklyVolumePlan,
+        referenceDate: referenceDateForDay(slot.dayOfWeek),
+      });
+      history.push(session);
+      pushSessions.push(session);
+    }
+
+    const firstIds = pushSessions[0].mainBlock.map((e) => e.exerciseId).sort();
+    const secondIds = pushSessions[1].mainBlock.map((e) => e.exerciseId).sort();
+    expect(secondIds).toEqual(firstIds);
   });
 });
 
@@ -317,6 +391,205 @@ describe('accessory muscle selection', () => {
       { weekNumber: 1, sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'] },
     );
     expect(selected.some((e) => e.parteCuerpo === 'Tríceps')).toBe(true);
+  });
+
+  it('respects max 2 exercises per pattern when filling accessories', () => {
+    const catalog = [
+      {
+        id: 'bench',
+        nombre: 'Press banca',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'incline',
+        nombre: 'Press inclinado',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 2,
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'ohp',
+        nombre: 'Press militar',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_V',
+        parteCuerpo: 'Hombro',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'curl1',
+        nombre: 'Curl bíceps polea',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Bíceps',
+        prioridad: 3,
+        equipo: ['Poleas'],
+      },
+      {
+        id: 'curl2',
+        nombre: 'Curl bíceps barra',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Bíceps',
+        prioridad: 3,
+        equipo: ['Barra EZ'],
+      },
+      {
+        id: 'curl3',
+        nombre: 'Curl bíceps mancuerna',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Bíceps',
+        prioridad: 3,
+        equipo: ['Mancuernas'],
+      },
+    ];
+    const selected = selectExercises(
+      'Full Body B',
+      catalog,
+      {},
+      [],
+      'Hipertrofia',
+      { weekNumber: 1, sessionMuscles: ['Pecho', 'Hombro', 'Bíceps'] },
+    );
+    const traccionH = selected.filter((e) => e.patronMovimiento === 'Traccion_H');
+    expect(traccionH.length).toBeLessThanOrEqual(2);
+    expect(selected.some((e) => e.parteCuerpo === 'Bíceps')).toBe(true);
+  });
+
+  it('excludes Clean_Shrug and Clock_Push-Up from automatic selection', () => {
+    const catalog = [
+      {
+        id: 'Clean_Shrug',
+        nombre: 'Encogimiento tipo Clean',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Hombro',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'shrug_alt',
+        nombre: 'Encogimiento con mancuernas',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Traccion_V',
+        parteCuerpo: 'Espalda',
+        prioridad: 2,
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'Clock_Push-Up',
+        nombre: 'Flexión de Reloj',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 1,
+        equipo: ['Peso Corporal'],
+      },
+      {
+        id: 'pushup',
+        nombre: 'Flexión estándar',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 2,
+        equipo: ['Peso Corporal'],
+      },
+      {
+        id: 'row',
+        nombre: 'Remo',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Traccion_H',
+        parteCuerpo: 'Espalda',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'squat',
+        nombre: 'Sentadilla',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Rodilla',
+        parteCuerpo: 'Cuádriceps',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+    ];
+    const selected = selectExercises(
+      'Full Body A',
+      catalog,
+      {},
+      [],
+      'Hipertrofia',
+      { weekNumber: 1, sessionMuscles: ['Pecho', 'Espalda', 'Cuádriceps'] },
+    );
+    expect(selected.some((e) => e.id === 'Clean_Shrug')).toBe(false);
+    expect(selected.some((e) => e.id === 'Clock_Push-Up')).toBe(false);
+  });
+});
+
+describe('main block set caps', () => {
+  it('caps isolation exercises at 4 sets and splits volume across same-muscle movements', () => {
+    const catalog = {
+      entrenamiento: [
+        {
+          id: 'curl1',
+          nombre: 'Curl barra',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_H',
+          parteCuerpo: 'Bíceps',
+          prioridad: 3,
+          equipo: ['Barra EZ'],
+        },
+        {
+          id: 'curl2',
+          nombre: 'Curl mancuerna',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_H',
+          parteCuerpo: 'Bíceps',
+          prioridad: 3,
+          equipo: ['Mancuernas'],
+        },
+      ],
+      calentamiento: [],
+      enfriamiento: [],
+    };
+    const mesocycle = {
+      mesocycleId: 'test',
+      goal: 'Hipertrofia',
+      splitType: 'Full_Body',
+      safetyProfile: {},
+      microcycles: [
+        {
+          weekNumber: 1,
+          phase: 'exploratory',
+          rirObjetivo: 4,
+          volumeByMuscle: { Bíceps: 16 },
+        },
+      ],
+    };
+    const session = generateSession({
+      profile: { fitnessGoal: 'Hipertrofia', currentWeightKg: 75, timezone: 'UTC' },
+      mesocycle,
+      weekNumber: 1,
+      sessionFocus: 'Full Body B',
+      sessionMuscles: ['Bíceps'],
+      patterns: ['Traccion_H'],
+      catalog,
+      referenceDate: '2026-07-07',
+    });
+    const biceps = session.mainBlock.filter((e) => e.muscleGroup === 'Bíceps');
+    expect(biceps.length).toBeGreaterThan(0);
+    for (const ex of biceps) {
+      expect(ex.sets).toBeLessThanOrEqual(4);
+    }
+    const totalSets = biceps.reduce((sum, e) => sum + e.sets, 0);
+    expect(totalSets).toBeLessThanOrEqual(8);
   });
 });
 
@@ -395,6 +668,220 @@ describe('safetyProfile', () => {
   it('activates conservative protocol for age >= 50', () => {
     const profile = buildSafetyProfile({ age: 55, injuriesOrLimitations: [] });
     expect(profile.conservative).toBe(true);
+  });
+});
+
+describe('mesocycle-scoped continuity', () => {
+  it('reuses exercises within the same mesocycle but not across mesocycles', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const mc1 = 'mc_2026-01-06_Hipertrofia_Full_Body';
+    const mc2 = 'mc_2026-02-18_Hipertrofia_Full_Body';
+
+    const history = [
+      {
+        mesocycleId: mc1,
+        weekNumber: 1,
+        sessionFocus: 'Full Body A',
+        mainBlock: [
+          {
+            exerciseId: 'bench_anchor',
+            exerciseName: 'Press ancla',
+            movementPattern: 'Empuje_H',
+            muscleGroup: 'Pecho',
+            priority: 1,
+          },
+        ],
+      },
+    ];
+
+    const week2SameMc = selectExercises('Full Body A', catalog, {}, history, 'Hipertrofia', {
+      weekNumber: 2,
+      sessionMuscles: ['Pecho', 'Espalda', 'Cuádriceps', 'Hombro', 'Core'],
+      mesocycleId: mc1,
+    });
+    expect(week2SameMc.some((e) => e.id === 'bench_anchor')).toBe(true);
+
+    const week1NewMc = selectExercises('Full Body A', catalog, {}, history, 'Hipertrofia', {
+      weekNumber: 1,
+      sessionMuscles: ['Pecho', 'Espalda', 'Cuádriceps', 'Hombro', 'Core'],
+      mesocycleId: mc2,
+    });
+    expect(week1NewMc.some((e) => e.id === 'bench_anchor')).toBe(false);
+  });
+
+  it('excludes previous mesocycle exercises on week 1 of a new mesocycle', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const mc1 = 'mc_prev';
+    const mc2 = 'mc_next';
+    const prevIds = selectExercises('Torso (Empuje)', catalog, {}, [], 'Hipertrofia', {
+      weekNumber: 1,
+      sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+      mesocycleId: mc1,
+    }).map((e) => e.id);
+
+    const history = [
+      {
+        mesocycleId: mc1,
+        weekNumber: 1,
+        sessionFocus: 'Torso (Empuje)',
+        mainBlock: prevIds.map((id) => {
+          const ex = catalog.find((c) => c.id === id);
+          return {
+            exerciseId: id,
+            exerciseName: ex?.nombre ?? id,
+            movementPattern: ex?.patronMovimiento,
+            muscleGroup: ex?.parteCuerpo,
+          };
+        }),
+      },
+    ];
+
+    const week1NewMc = selectExercises('Torso (Empuje)', catalog, {}, history, 'Hipertrofia', {
+      weekNumber: 1,
+      sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+      mesocycleId: mc2,
+      excludeIds: getMesocycleRotationExclusions(history, mc2, 1, 'Torso (Empuje)'),
+    });
+
+    const overlap = week1NewMc.filter((e) => prevIds.includes(e.id)).length;
+    expect(overlap).toBeLessThan(prevIds.length);
+  });
+});
+
+describe('stimulus coverage', () => {
+  it('avoids duplicate chest angles when selecting two Empuje_H exercises', () => {
+    const catalog = [
+      {
+        id: 'decline_bench',
+        nombre: 'Press declinado con barra',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+      {
+        id: 'decline_db',
+        nombre: 'Press declinado con mancuernas',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 2,
+        equipo: ['Mancuernas'],
+      },
+      {
+        id: 'cable_cross',
+        nombre: 'Cruce de poleas',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 3,
+        equipo: ['Poleas'],
+      },
+      {
+        id: 'flat_bench',
+        nombre: 'Press de banca plano',
+        categoriaBloque: 'main_block',
+        patronMovimiento: 'Empuje_H',
+        parteCuerpo: 'Pecho',
+        prioridad: 1,
+        equipo: ['Barra Olímpica'],
+      },
+    ];
+
+    const selected = selectExercises('Torso (Empuje)', catalog, {}, [], 'Hipertrofia', {
+      weekNumber: 1,
+      sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+      mesocycleId: 'mc_test',
+    });
+
+    const chest = selected.filter((e) => e.parteCuerpo === 'Pecho');
+    const ids = chest.map((e) => e.id);
+    expect(ids).toContain('flat_bench');
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).not.toEqual(['decline_bench', 'decline_db']);
+  });
+});
+
+describe('novice olympic lift exclusion', () => {
+  it('does not auto-select Olympic lifts for Novato experience level', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const safety = { experienceLevel: 'Novato', avoidPatterns: [], modifyPatterns: [], conservative: false };
+
+    const focuses = ['Full Body A', 'Torso (Empuje)', 'Pierna (Dominante Cadera)'];
+    for (const focus of focuses) {
+      const selected = selectExercises(focus, catalog, safety, [], 'Hipertrofia', {
+        weekNumber: 1,
+        mesocycleId: 'mc_novice_test',
+      });
+      for (const ex of selected) {
+        expect(isOlympicLift(ex)).toBe(false);
+      }
+    }
+  });
+
+  it('allows Olympic lifts for Intermedio', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const olympicInCatalog = catalog.filter((ex) => isOlympicLift(ex));
+    expect(olympicInCatalog.length).toBeGreaterThan(0);
+
+    const safety = { experienceLevel: 'Intermedio', avoidPatterns: [], modifyPatterns: [], conservative: false };
+    const allSelected = [];
+    for (const focus of ['Full Body A', 'Pierna (Dominante Cadera)', 'Torso (Empuje)']) {
+      allSelected.push(
+        ...selectExercises(focus, catalog, safety, [], 'Hipertrofia', {
+          weekNumber: 1,
+          mesocycleId: 'mc_inter_test',
+        }),
+      );
+    }
+    expect(allSelected.some((ex) => isOlympicLift(ex))).toBe(true);
+  });
+});
+
+describe('injury-aware exercise selection', () => {
+  it('substitutes Cadera when Rodilla is avoided on knee-dominant day', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const safety = buildSafetyProfile({ injuriesOrLimitations: ['Rodilla'] });
+    const selected = selectExercises(
+      'Pierna (Dominante Rodilla)',
+      catalog,
+      safety,
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Cuádriceps', 'Glúteos', 'Pantorrillas'],
+      },
+    );
+    expect(selected.some((e) => e.patronMovimiento === 'Rodilla')).toBe(false);
+    expect(selected.some((e) => e.patronMovimiento === 'Cadera')).toBe(true);
+    expect(selected.some((e) => e.parteCuerpo === 'Cuádriceps')).toBe(true);
+  });
+
+  it('avoids Empuje_V and olympic lifts for shoulder limitation on push day', () => {
+    const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
+    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
+    const safety = buildSafetyProfile({ injuriesOrLimitations: ['Hombro'] });
+    const selected = selectExercises(
+      'Torso (Empuje)',
+      catalog,
+      safety,
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+      },
+    );
+    expect(selected.some((e) => e.patronMovimiento === 'Empuje_V')).toBe(false);
+    expect(selected.some((e) => /snatch|arrancada|clean|jerk/i.test(e.nombre ?? ''))).toBe(false);
+    expect(selected.some((e) => e.parteCuerpo === 'Hombro')).toBe(true);
   });
 });
 
