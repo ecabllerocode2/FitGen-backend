@@ -49,8 +49,19 @@ export function createUserRepository(db) {
 
     async archiveSession(userId, session) {
       const ref = users().doc(userId).collection('recentSessions');
-      await ref.add({ ...session, archivedAt: new Date().toISOString() });
-      return session;
+      const docRef = await ref.add({ ...session, archivedAt: new Date().toISOString() });
+      return { id: docRef.id, ...session, archivedAt: new Date().toISOString() };
+    },
+
+    async getRecentSession(userId, sessionId) {
+      const snap = await users().doc(userId).collection('recentSessions').doc(sessionId).get();
+      if (!snap.exists) return null;
+      return { id: snap.id, ...snap.data() };
+    },
+
+    async updateRecentSession(userId, sessionId, data) {
+      await users().doc(userId).collection('recentSessions').doc(sessionId).set(data, { merge: true });
+      return { id: sessionId, ...data };
     },
 
     async getRecentSessions(userId, limit = 20) {
@@ -61,6 +72,30 @@ export function createUserRepository(db) {
         .limit(limit)
         .get();
       return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    },
+
+    async getRecentCelebrations(userId, limit = 20) {
+      const now = Date.now();
+      const sessions = await this.getRecentSessions(userId, limit);
+      return sessions
+        .filter(
+          (s) =>
+            s.celebrationCardUrl &&
+            (!s.celebrationCardExpiresAt || new Date(s.celebrationCardExpiresAt).getTime() > now),
+        )
+        .map((s) => ({
+          id: s.id,
+          celebrationCardUrl: s.celebrationCardUrl,
+          celebrationCardExpiresAt: s.celebrationCardExpiresAt,
+          celebrationSummary: s.celebrationSummary ?? {
+            sessionFocus: s.sessionFocus ?? 'Entrenamiento',
+            durationLabel: s.summary?.duracionEstimada ?? '—',
+            exerciseCount: s.summary?.ejerciciosTotales ?? 0,
+            totalSets: s.summary?.seriesTotales ?? 0,
+            muscles: s.summary?.musculosTrabajos ?? s.sessionMuscles ?? [],
+            completedAt: s.completedAt ?? s.archivedAt,
+          },
+        }));
     },
   };
 }

@@ -1,6 +1,7 @@
 import { SPLIT_SESSIONS } from '../constants.js';
 import { assignSessionsToSchedule } from './mesocycleGenerator.js';
 import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
+import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
 
 /**
  * Evenly distributes weekly sets across all exercise slots for a muscle in the week.
@@ -26,6 +27,8 @@ function historyEntryToExercises(entry) {
     parteCuerpo: block.muscleGroup,
     prioridad: block.priority ?? 2,
     accessorySlot: block.accessorySlot ?? false,
+    isBodyweight: block.isBodyweight ?? block.loadMode === 'bodyweight',
+    loadMode: block.loadMode ?? null,
   }));
 }
 
@@ -130,6 +133,7 @@ export function computeWeeklyVolumePlan({
           muscleGroup: ex.parteCuerpo,
           priority: ex.prioridad ?? 2,
           accessorySlot: ex.accessorySlot ?? false,
+          isBodyweight: isBodyweightExercise(ex, catalog),
         })),
       });
     }

@@ -2289,6 +2289,8 @@ function getContinuityExercises(history, sessionFocus, mesocycleId) {
     parteCuerpo: block.muscleGroup,
     prioridad: block.priority ?? 2,
     equipo: block.equipo ?? [],
+    isBodyweight: block.isBodyweight ?? block.loadMode === 'bodyweight',
+    loadMode: block.loadMode ?? null,
     repRangeOverride: block.repRangeOverride ?? null,
     plateauRepRangeChanged: block.plateauRepRangeChanged ?? false,
     swappedFromPlateau: block.swappedFrom ?? null,

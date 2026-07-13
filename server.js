@@ -12,6 +12,8 @@ import mesocycleEvaluateHandler from './api/mesocycle/evaluate.js'; // 👈 NUEV
 // import sessionGenerateHandler from './api/session/generate.js'; // Removed: deprecated
 import sessionGenerateV2Handler from './api/session/generateV2.js'; 
 import sessionCompleteHandler from './api/session/complete.js';
+import sessionCelebrationCardHandler from './api/session/celebration-card.js';
+import sessionCelebrationsHandler from './api/session/celebrations.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
@@ -58,6 +60,10 @@ app.post('/api/session/generateV2', sessionGenerateV2Handler);
 
 // Completar Sesión (Guardar Feedback e Historial)
 app.post('/api/session/complete', sessionCompleteHandler);
+
+// Tarjetas de celebración (R2, 7 días)
+app.post('/api/session/celebration-card', sessionCelebrationCardHandler);
+app.get('/api/session/celebrations', sessionCelebrationsHandler);
 
 // 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
 app.post('/api/session/swap-exercise', sessionSwapHandler);

@@ -22,3 +22,5 @@ yarn-error.log*
 *.backup.json
 .env
 *.backup.json
+.vercel
+.env*.local

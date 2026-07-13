@@ -155,6 +155,7 @@ export function generateSession(context) {
     muscleSlotStart: sessionVolumeSlot?.muscleSlotStart ?? {},
     safetyProfile,
     trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
+    catalog: catalog.entrenamiento ?? [],
   });
 
   let warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
@@ -420,6 +421,7 @@ function buildMainBlock({
   muscleSlotStart = {},
   safetyProfile = {},
   trainingDaysPerWeek = 3,
+  catalog = [],
 }) {
   const repRanges = getSessionRepRanges(sessionGoal);
   const rest = getSessionRestSeconds(sessionGoal);
@@ -522,7 +524,7 @@ function buildMainBlock({
         rir: e.actualRIR ?? e.rirReported,
       }));
 
-    const bodyweight = isBodyweightExercise(ex);
+    const bodyweight = isBodyweightExercise(ex, catalog);
     const load = prescribeLoad({
       exerciseType,
       rirTarget,
@@ -562,6 +564,7 @@ function buildMainBlock({
       prescribedLoadKg: load.prescribedLoadKg,
       suggestedLoadKg: load.suggestedLoadKg ?? null,
       loadMode: load.mode,
+      isBodyweight: bodyweight,
       loadExplanation: load.explanation,
       restSeconds:
         exerciseType === EXERCISE_TYPES.COMPOUND ? rest.compound : rest.isolation,

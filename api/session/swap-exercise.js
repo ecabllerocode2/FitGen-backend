@@ -2,6 +2,7 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { selectExercises } from '../../domain/exerciseSelection/selector.js';
+import { isBodyweightExercise } from '../../domain/exerciseSelection/bodyweight.js';
 import {
   addExerciseExclusion,
   exerciseEquipmentList,
@@ -90,6 +91,7 @@ export default async function handler(req, res) {
 
     const mainBlock = (session.mainBlock ?? []).map((ex) => {
       if (ex.exerciseId !== exerciseIdToReplace) return ex;
+      const bodyweight = isBodyweightExercise(replacement, catalog.entrenamiento ?? []);
       return {
         ...ex,
         exerciseId: replacement.id,
@@ -99,6 +101,10 @@ export default async function handler(req, res) {
         imageUrl: replacement.url_img_0 ?? null,
         imageUrl2: replacement.url_img_1 ?? null,
         swappedFrom: exerciseIdToReplace,
+        isBodyweight: bodyweight,
+        loadMode: bodyweight ? 'bodyweight' : ex.loadMode,
+        prescribedLoadKg: bodyweight ? null : ex.prescribedLoadKg,
+        suggestedLoadKg: bodyweight ? null : ex.suggestedLoadKg,
       };
     });
 

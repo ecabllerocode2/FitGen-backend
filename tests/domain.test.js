@@ -1436,6 +1436,79 @@ describe('bodyweight and fuerza session rules', () => {
     expect(load.suggestedLoadKg).toBeNull();
   });
 
+  it('detects bodyweight from catalog when continuity stub lacks equipo', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items;
+
+    const inclineStub = {
+      id: 'Incline_Push-Up_Wide',
+      nombre: 'Flexión inclinada agarre ancho',
+      patronMovimiento: 'Empuje_H',
+      parteCuerpo: 'Pecho',
+      equipo: [],
+    };
+
+    expect(isBodyweightExercise(inclineStub, catalog)).toBe(true);
+  });
+
+  it('prescribes bodyweight load for incline push-up continuity stubs', () => {
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),
+    ).items;
+
+    const history = [
+      {
+        mesocycleId: 'bw-test',
+        weekNumber: 1,
+        sessionFocus: 'Torso (Empuje)',
+        mainBlock: [
+          {
+            exerciseId: 'Incline_Push-Up_Wide',
+            exerciseName: 'Flexión inclinada agarre ancho',
+            movementPattern: 'Empuje_H',
+            muscleGroup: 'Pecho',
+            priority: 1,
+            loadMode: 'bodyweight',
+            isBodyweight: true,
+          },
+          {
+            exerciseId: 'Barbell_Bench_Press_-_Medium_Grip',
+            exerciseName: 'Press de banca con barra',
+            movementPattern: 'Empuje_H',
+            muscleGroup: 'Pecho',
+            priority: 1,
+          },
+        ],
+      },
+    ];
+
+    const selected = selectExercises('Torso (Empuje)', catalog, {}, history, 'Hipertrofia', {
+      weekNumber: 2,
+      sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
+      mesocycleId: 'bw-test',
+    });
+
+    const incline = selected.find((ex) => ex.id === 'Incline_Push-Up_Wide');
+    expect(incline).toBeTruthy();
+    expect(incline.equipo ?? []).toEqual([]);
+    expect(isBodyweightExercise(incline, catalog)).toBe(true);
+
+    const load = prescribeLoad({
+      exerciseType: 'compound',
+      rirTarget: 3,
+      repRange: '8-12',
+      history: [],
+      bodyWeightKg: 80,
+      movementPattern: incline.patronMovimiento,
+      isBodyweight: isBodyweightExercise(incline, catalog),
+      exerciseId: incline.id,
+    });
+    expect(load.mode).toBe('bodyweight');
+    expect(load.suggestedLoadKg).toBeNull();
+    expect(load.prescribedLoadKg).toBeNull();
+  });
+
   it('selects at most one exercise per pattern on Fuerza upper sessions', () => {
     const catalog = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'colecciones/curated/entrenamiento.json'), 'utf8'),

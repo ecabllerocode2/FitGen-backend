@@ -125,13 +125,21 @@ export default async function handler(req, res) {
       weeklyFeedbackModifiers: weekClosed ? weeklyFeedbackModifiers : user.weeklyFeedbackModifiers ?? {},
     };
 
-    await users.archiveSession(userId, completedSession);
+    const archived = await users.archiveSession(userId, completedSession);
     await users.saveSession(userId, null);
     await users.saveUser(userId, userUpdates);
 
     return res.status(200).json({
       success: true,
       message: 'Sesión completada y archivada.',
+      archivedSessionId: archived.id,
+      celebrationSummary: {
+        sessionFocus: session.sessionFocus ?? 'Entrenamiento',
+        durationLabel: session.summary?.duracionEstimada ?? '—',
+        exerciseCount: session.summary?.ejerciciosTotales ?? 0,
+        totalSets: session.summary?.seriesTotales ?? 0,
+        muscles: session.summary?.musculosTrabajos ?? session.sessionMuscles ?? [],
+      },
       weeklyAdjustment,
       weekClosed,
       requiresEvaluation: false,
