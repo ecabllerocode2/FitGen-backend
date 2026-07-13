@@ -20,10 +20,15 @@ export function generateCooldown(cooldownCatalog, sessionMuscles) {
 
   return selected.map((ex) => ({
     exerciseId: ex.id,
+    id: ex.id,
     name: ex.nombre,
+    nombre: ex.nombre,
     muscleGroup: ex.parteCuerpo ?? 'General',
     durationSeconds: 45,
     sets: 1,
     reps: '30-45s',
+    tiempo: '45s',
+    imageUrl: ex.url_img_0 ?? null,
+    imageUrl2: ex.url_img_1 ?? null,
   }));
 }

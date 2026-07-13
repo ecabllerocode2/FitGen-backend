@@ -96,6 +96,8 @@ export default async function handler(req, res) {
         exerciseName: replacement.nombre,
         muscleGroup: replacement.parteCuerpo,
         movementPattern: replacement.patronMovimiento,
+        imageUrl: replacement.url_img_0 ?? null,
+        imageUrl2: replacement.url_img_1 ?? null,
         swappedFrom: exerciseIdToReplace,
       };
     });
