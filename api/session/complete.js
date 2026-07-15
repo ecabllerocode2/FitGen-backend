@@ -13,6 +13,7 @@ import {
 import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
 import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
 import { applySessionCompleteGamification } from '../../domain/gamification/updateGamification.js';
+import { computeTotalWeightKg } from '../../domain/session/sessionVolume.js';
 
 const users = createUserRepository(db);
 
@@ -118,6 +119,11 @@ export default async function handler(req, res) {
       });
     }
 
+    const totalWeightKg = computeTotalWeightKg(completedSession.performance);
+    if (completedSession.summary && totalWeightKg != null) {
+      completedSession.summary = { ...completedSession.summary, totalWeightKg };
+    }
+
     const muscles = musclesWorkedInSession(session);
     const pendingWeeklyFeedback = { ...(user.pendingWeeklyFeedback ?? {}) };
     for (const muscle of muscles) {
@@ -195,6 +201,7 @@ export default async function handler(req, res) {
         durationLabel: session.summary?.duracionEstimada ?? '—',
         exerciseCount: session.summary?.ejerciciosTotales ?? 0,
         totalSets: session.summary?.seriesTotales ?? 0,
+        totalWeightKg: totalWeightKg ?? undefined,
         muscles: session.summary?.musculosTrabajos ?? session.sessionMuscles ?? [],
       },
       weeklyAdjustment,

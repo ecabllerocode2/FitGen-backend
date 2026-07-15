@@ -5,6 +5,7 @@ import {
   isCelebrationStorageConfigured,
   uploadCelebrationPng,
 } from '../../infrastructure/r2/celebrationStorage.js';
+import { computeTotalWeightKg } from '../../domain/session/sessionVolume.js';
 
 const users = createUserRepository(db);
 
@@ -66,6 +67,7 @@ export default async function handler(req, res) {
         durationLabel: session.summary?.duracionEstimada ?? '—',
         exerciseCount: session.summary?.ejerciciosTotales ?? 0,
         totalSets: session.summary?.seriesTotales ?? 0,
+        totalWeightKg: computeTotalWeightKg(session.performance) ?? session.summary?.totalWeightKg ?? undefined,
         muscles: session.summary?.musculosTrabajos ?? session.sessionMuscles ?? [],
         completedAt: session.completedAt ?? session.archivedAt,
       },
