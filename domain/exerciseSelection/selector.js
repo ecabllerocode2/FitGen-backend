@@ -1579,6 +1579,7 @@ export function selectExercises(
   const {
     maxPerPattern = MAX_PER_PATTERN,
     excludeIds = [],
+    rotationExcludeIds = [],
     weekNumber = 1,
     sessionMuscles = [],
     mesocycleId = null,
@@ -1588,6 +1589,9 @@ export function selectExercises(
   const sessionGoal = resolveSessionGoal(sessionFocus, goal);
   const effectiveMaxPerPattern = sessionGoal === 'Fuerza' ? 1 : maxPerPattern;
   const excludeSet = new Set(excludeIds);
+  const rotationExcludeSet = new Set(rotationExcludeIds);
+  const patternExcludeSet = (allowRotationRepeats = false) =>
+    allowRotationRepeats ? excludeSet : new Set([...excludeIds, ...rotationExcludeIds]);
   const requiredPatterns = adjustPatternsForNovatoLowFreq(
     resolvePatternsForSafety(
       SESSION_FOCUS_PATTERN_MAP[sessionFocus] ?? inferPatternsFromFocus(sessionFocus),
@@ -1651,7 +1655,7 @@ export function selectExercises(
 
     const candidates = catalog
       .filter((ex) => ex.patronMovimiento === pattern)
-      .filter((ex) => !excludeSet.has(ex.id))
+      .filter((ex) => !patternExcludeSet(false).has(ex.id))
       .filter((ex) => !AUTO_SELECT_EXCLUDE.has(ex.id))
       .filter((ex) => !avoidPatterns.has(ex.patronMovimiento))
       .filter((ex) => passesInjuryExerciseFilter(ex, safetyProfile))
@@ -2271,24 +2275,25 @@ export function getMesocycleRotationExclusions(history, mesocycleId, weekNumber,
   ];
   if (!previousMesocycleIds.length) return [];
 
-  const previousMesocycleId = previousMesocycleIds[previousMesocycleIds.length - 1];
-  const anchor =
-    history.find(
-      (s) =>
-        s.mesocycleId === previousMesocycleId &&
-        s.sessionFocus === sessionFocus &&
-        s.weekNumber === 1,
-    ) ??
-    history.find(
-      (s) => s.mesocycleId === previousMesocycleId && s.sessionFocus === sessionFocus,
-    );
+  const usedIds = new Set();
+  for (const prevId of previousMesocycleIds) {
+    const anchor =
+      history.find(
+        (s) =>
+          s.mesocycleId === prevId &&
+          s.sessionFocus === sessionFocus &&
+          s.weekNumber === 1 &&
+          s.mainBlock?.length,
+      ) ??
+      history.find(
+        (s) => s.mesocycleId === prevId && s.sessionFocus === sessionFocus && s.mainBlock?.length,
+      );
+    for (const block of anchor?.mainBlock ?? []) {
+      if (block.exerciseId) usedIds.add(block.exerciseId);
+    }
+  }
 
-  if (!anchor?.mainBlock?.length) return [];
-  // Rotate accessories only; keep basic/compound lifts (prioridad 1) across mesociclos.
-  return anchor.mainBlock
-    .filter((b) => (b.priority ?? 2) > 1)
-    .map((b) => b.exerciseId)
-    .filter(Boolean);
+  return [...usedIds];
 }
 
 function getContinuityExercises(history, sessionFocus, mesocycleId, continuityOverrides = {}) {

@@ -97,7 +97,8 @@ export function computeWeeklyVolumePlan({
           {
             weekNumber,
             sessionMuscles: slot.muscles ?? [],
-            excludeIds: mergedExcludeIds,
+            excludeIds,
+            rotationExcludeIds,
             mesocycleId,
             trainingDaysPerWeek: trainingDays,
           },

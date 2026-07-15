@@ -3,7 +3,7 @@ import { createUserRepository } from '../../infrastructure/firebase/userReposito
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { selectExercises } from '../../domain/exerciseSelection/selector.js';
 import { isBodyweightExercise } from '../../domain/exerciseSelection/bodyweight.js';
-import { prescribeLoad } from '../../domain/prescription/loadCalculator.js';
+import { prescribeLoad, buildLoadHistoryFromSessions } from '../../domain/prescription/loadCalculator.js';
 import { EXERCISE_TYPES } from '../../domain/constants.js';
 import {
   addExerciseExclusion,
@@ -23,16 +23,8 @@ async function authenticate(req) {
   return decoded.uid;
 }
 
-function buildExerciseHistory(history, exerciseId) {
-  return (history ?? [])
-    .flatMap((s) => s.performance?.exercises ?? s.mainBlock ?? [])
-    .filter((e) => (e.exerciseId ?? e.id) === exerciseId)
-    .map((e) => ({
-      weightKg: e.actualWeightKg ?? e.prescribedLoadKg ?? e.load ?? e.weight,
-      reps: e.actualReps ?? e.reps,
-      rir: e.actualRIR ?? e.rirReported ?? e.rir,
-    }))
-    .filter((row) => row.reps != null);
+function buildExerciseHistory(history, exerciseId, movementPattern, priority = 2) {
+  return buildLoadHistoryFromSessions(history, exerciseId, movementPattern, priority);
 }
 
 /**
@@ -108,6 +100,7 @@ export default async function handler(req, res) {
       goal,
       {
         excludeIds: [...new Set([...currentIds, ...excludeIds])],
+        rotationExcludeIds: [],
         weekNumber: session.weekNumber ?? 1,
         sessionMuscles,
         mesocycleId,
@@ -126,7 +119,12 @@ export default async function handler(req, res) {
       const bodyweight = isBodyweightExercise(replacement, catalog.entrenamiento ?? []);
       const exerciseType =
         (replacement.prioridad ?? 2) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
-      const exerciseHistory = buildExerciseHistory(history, replacement.id);
+      const exerciseHistory = buildExerciseHistory(
+        history,
+        replacement.id,
+        replacement.patronMovimiento,
+        replacement.prioridad ?? 2,
+      );
       const load = prescribeLoad({
         exerciseType,
         rirTarget: ex.rirTarget ?? 2,

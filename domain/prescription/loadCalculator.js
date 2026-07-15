@@ -33,6 +33,78 @@ export function estimateE1RMWithRIR(weightKg, reps, reportedRIR = 0) {
 }
 
 /**
+ * Pick the performance entry with the highest estimated e1RM.
+ * @param {object[]} entries
+ * @returns {object|null}
+ */
+export function pickBestHistoryEntry(entries = []) {
+  let best = null;
+  let bestE1rm = 0;
+  for (const entry of entries) {
+    const weight = entry.weightKg ?? entry.weight ?? entry.load ?? entry.actualWeightKg;
+    const reps = entry.reps ?? entry.repsCompleted ?? entry.actualReps;
+    const rir = entry.rir ?? entry.rirReported ?? entry.actualRIR ?? 0;
+    const e1rm = estimateE1RMWithRIR(weight, reps, rir);
+    if (e1rm && e1rm > bestE1rm) {
+      bestE1rm = e1rm;
+      best = { ...entry, weightKg: weight, reps, rir };
+    }
+  }
+  return best;
+}
+
+/**
+ * Build load history for an exercise: exact id first, then same pattern + tier.
+ * @param {object[]} sessions — archived sessions (newest first)
+ */
+export function buildLoadHistoryFromSessions(
+  sessions = [],
+  exerciseId,
+  movementPattern,
+  priority = 2,
+) {
+  const rows = (sessions ?? []).flatMap((s) => {
+    const block = s.mainBlock ?? s.performance ?? s.exercises ?? [];
+    return Array.isArray(block) ? block : [];
+  });
+
+  const mapRow = (e) => {
+    const weight = e.actualWeightKg ?? e.prescribedLoadKg ?? e.weight ?? e.load;
+    const reps = e.actualReps ?? e.reps;
+    const rir = e.actualRIR ?? e.rirReported ?? e.rir;
+    if (weight == null || reps == null) return null;
+    return {
+      weightKg: weight,
+      reps,
+      rir: rir ?? 2,
+      movementPattern: e.movementPattern ?? e.patronMovimiento,
+      priority: e.priority ?? e.prioridad ?? 2,
+      exerciseId: e.exerciseId ?? e.id,
+      fromPatternFallback: e.fromPatternFallback ?? false,
+    };
+  };
+
+  const sameExercise = rows
+    .filter((e) => (e.exerciseId ?? e.id) === exerciseId)
+    .map(mapRow)
+    .filter(Boolean);
+  if (sameExercise.length) return sameExercise;
+
+  const isBasic = priority === 1;
+  return rows
+    .filter((e) => (e.movementPattern ?? e.patronMovimiento) === movementPattern)
+    .filter((e) => {
+      const p = e.priority ?? e.prioridad ?? 2;
+      return isBasic ? p === 1 : p > 1;
+    })
+    .map((e) => {
+      const mapped = mapRow(e);
+      return mapped ? { ...mapped, fromPatternFallback: true } : null;
+    })
+    .filter(Boolean);
+}
+
+/**
  * Get %1RM from RIR using Zourdos/Helms table.
  * @param {number} rirTarget
  * @param {number} targetReps — midpoint of rep range
@@ -98,14 +170,8 @@ export function prescribeLoad({
     };
   }
 
-  const last = history[0];
-  const e1rm = estimateE1RMWithRIR(
-    last.weightKg ?? last.weight ?? 0,
-    last.reps ?? last.repsCompleted ?? 0,
-    last.rir ?? last.rirReported ?? 0,
-  );
-
-  if (!e1rm) {
+  const last = pickBestHistoryEntry(history);
+  if (!last) {
     return {
       mode: 'exploratory',
       prescribedLoadKg: null,
@@ -113,6 +179,16 @@ export function prescribeLoad({
       rirTarget,
       explanation: 'Historial insuficiente para calcular carga.',
     };
+  }
+
+  let e1rm = estimateE1RMWithRIR(
+    last.weightKg ?? last.weight ?? 0,
+    last.reps ?? last.repsCompleted ?? 0,
+    last.rir ?? last.rirReported ?? 0,
+  );
+
+  if (last.fromPatternFallback && e1rm) {
+    e1rm *= 0.92;
   }
 
   const pct = getPercent1RMFromRIR(rirTarget, targetReps);
@@ -124,12 +200,14 @@ export function prescribeLoad({
 
   const rounded = roundDownToIncrement(targetWeight, plateIncrementKg);
   const result = {
-    mode: 'calculated',
+    mode: last.fromPatternFallback ? 'pattern_transfer' : 'calculated',
     prescribedLoadKg: rounded.weight,
     repRange,
     rirTarget,
     e1rm: Math.round(e1rm * 10) / 10,
-    explanation: 'Carga calculada desde tu e1RM y RIR objetivo de la semana.',
+    explanation: last.fromPatternFallback
+      ? 'Carga estimada desde un ejercicio similar del mismo patrón (ajuste conservador −8%).'
+      : 'Carga calculada desde tu e1RM y RIR objetivo de la semana.',
   };
 
   if (rounded.addRep) {

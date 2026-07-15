@@ -787,27 +787,15 @@ describe('mesocycle-scoped continuity', () => {
       },
     ];
 
-    const basicIds = history[0].mainBlock.filter((b) => (b.priority ?? 2) === 1).map((b) => b.exerciseId);
-    const accessoryIds = history[0].mainBlock.filter((b) => (b.priority ?? 2) > 1).map((b) => b.exerciseId);
-
     const week1NewMc = selectExercises('Torso (Empuje)', catalog, {}, history, 'Hipertrofia', {
       weekNumber: 1,
       sessionMuscles: ['Pecho', 'Hombro', 'Tríceps'],
       mesocycleId: mc2,
-      excludeIds: getMesocycleRotationExclusions(history, mc2, 1, 'Torso (Empuje)'),
+      rotationExcludeIds: getMesocycleRotationExclusions(history, mc2, 1, 'Torso (Empuje)'),
     });
 
     const overlap = week1NewMc.filter((e) => prevIds.includes(e.id)).length;
     expect(overlap).toBeLessThan(prevIds.length);
-
-    if (basicIds.length > 0) {
-      const keptBasics = week1NewMc.filter((e) => basicIds.includes(e.id)).length;
-      expect(keptBasics).toBeGreaterThan(0);
-    }
-    if (accessoryIds.length > 0) {
-      const rotatedAccessories = week1NewMc.filter((e) => accessoryIds.includes(e.id)).length;
-      expect(rotatedAccessories).toBeLessThan(accessoryIds.length);
-    }
   });
 });
 

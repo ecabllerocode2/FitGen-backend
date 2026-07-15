@@ -2,7 +2,7 @@ import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE } from 
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
 import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
-import { prescribeLoad } from '../prescription/loadCalculator.js';
+import { prescribeLoad, buildLoadHistoryFromSessions } from '../prescription/loadCalculator.js';
 import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
 import {
   resolveSessionGoal,
@@ -119,7 +119,8 @@ export function generateSession(context) {
           {
             weekNumber,
             sessionMuscles,
-            excludeIds: mergedExcludeIds,
+            excludeIds,
+            rotationExcludeIds,
             mesocycleId: mesocycle.mesocycleId,
             trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
             continuityOverrides,
@@ -517,14 +518,12 @@ function buildMainBlock({
       sessionGoal === 'Fuerza' && isAccessory ? rirAccessory : rirBase;
     const rirTarget = Math.round((rirForExercise + readinessAdj.rirDelta) * 10) / 10;
 
-    const exerciseHistory = (history ?? [])
-      .flatMap((s) => s.mainBlock ?? s.exercises ?? s.performance ?? [])
-      .filter((e) => (e.exerciseId ?? e.id) === ex.id)
-      .map((e) => ({
-        weightKg: e.actualWeightKg ?? e.prescribedLoadKg ?? e.weight,
-        reps: e.actualReps ?? e.reps,
-        rir: e.actualRIR ?? e.rirReported,
-      }));
+    const exerciseHistory = buildLoadHistoryFromSessions(
+      history,
+      ex.id,
+      ex.patronMovimiento,
+      ex.prioridad ?? 2,
+    );
 
     const bodyweight = isBodyweightExercise(ex, catalog);
     const load = prescribeLoad({

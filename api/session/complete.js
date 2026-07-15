@@ -1,7 +1,7 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { applyWeeklyFeedback } from '../../domain/autoregulation/weeklyFeedback.js';
-import { estimateE1RMWithRIR } from '../../domain/prescription/loadCalculator.js';
+import { estimateE1RMWithRIR, pickBestHistoryEntry } from '../../domain/prescription/loadCalculator.js';
 import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
 import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
 
@@ -76,11 +76,16 @@ export default async function handler(req, res) {
     if (Array.isArray(completedSession.performance)) {
       completedSession.performance = completedSession.performance.map((ex) => {
         const sets = ex.sets ?? ex.actualSets ?? [];
-        const best = sets.find((s) => s.completed !== false) ?? sets[0];
-        if (!best?.load && !best?.weightKg) return ex;
-        const weight = best.load ?? best.weightKg;
-        const reps = best.reps ?? 8;
-        const rir = best.rir ?? 2;
+        const completedSets = sets.filter((s) => s.completed !== false);
+        const best = pickBestHistoryEntry(
+          completedSets.map((s) => ({
+            weightKg: s.load ?? s.weightKg,
+            reps: s.reps,
+            rir: s.rir,
+          })),
+        );
+        if (!best?.weightKg) return ex;
+        const { weightKg: weight, reps, rir = 2 } = best;
         return {
           ...ex,
           e1RM: estimateE1RMWithRIR(weight, reps, rir),
