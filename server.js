@@ -15,6 +15,7 @@ import sessionCompleteHandler from './api/session/complete.js';
 import sessionCelebrationCardHandler from './api/session/celebration-card.js';
 import sessionCelebrationsHandler from './api/session/celebrations.js';
 import sessionHistoryHandler from './api/session/history.js';
+import sessionDiscardStaleHandler from './api/session/discard-stale.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
@@ -66,6 +67,7 @@ app.post('/api/session/complete', sessionCompleteHandler);
 app.post('/api/session/celebration-card', sessionCelebrationCardHandler);
 app.get('/api/session/celebrations', sessionCelebrationsHandler);
 app.get('/api/session/history', sessionHistoryHandler);
+app.post('/api/session/discard-stale', sessionDiscardStaleHandler);
 
 // 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
 app.post('/api/session/swap-exercise', sessionSwapHandler);

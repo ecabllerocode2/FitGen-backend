@@ -3,10 +3,14 @@
 ## Seguridad
 
 - [x] Firestore rules restringidas por `request.auth.uid` (no `if true`)
+- [x] Cliente solo **lee** `users/{uid}` y subcolecciones; **escritura solo vía backend** (Admin SDK)
+- [x] `recentSessions` y `evaluations`: read owner / write false
+- [x] Limpieza de `currentSession` obsoleta vía `POST /api/session/discard-stale` (no `updateDoc` en cliente)
 - [x] Todos los endpoints de sesión/mesociclo requieren Bearer token
 - [x] `generateV2` ya no acepta `userId` sin autenticación
-- [ ] Desplegar `firestore.rules` a producción: `firebase deploy --only firestore:rules`
+- [ ] Desplegar `firestore.rules` a producción: `firebase deploy --only firestore:rules --project fitgen-d94f6`
 - [ ] Verificar que `FIREBASE_SERVICE_ACCOUNT` está configurado en Vercel
+- [ ] Activar Firebase App Check antes de beta pública
 
 ## Registro y acceso
 
