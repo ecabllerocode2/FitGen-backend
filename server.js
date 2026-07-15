@@ -19,6 +19,7 @@ import sessionDiscardStaleHandler from './api/session/discard-stale.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
+import gamificationSummaryHandler from './api/gamification/summary.js';
 
 const app = express();
 const PORT = 3000;
@@ -73,6 +74,7 @@ app.post('/api/session/discard-stale', sessionDiscardStaleHandler);
 app.post('/api/session/swap-exercise', sessionSwapHandler);
 app.post('/api/session/swap-warmup-exercise', sessionSwapWarmupHandler);
 app.post('/api/profile/exercise-preferences', exercisePreferencesHandler);
+app.get('/api/gamification/summary', gamificationSummaryHandler);
 
 
 // Ruta de estado (Health Check)

@@ -251,6 +251,39 @@ Carga: `npm run curate-catalog` → `npm run upload-catalog -- --yes`
 
 ---
 
+## GET `/api/gamification/summary`
+
+**Auth:** Bearer requerido.
+
+Devuelve contadores lifetime, logros desbloqueados/bloqueados y progreso.
+
+```json
+{
+  "success": true,
+  "counters": {
+    "lifetimeSessionsCompleted": 12,
+    "lifetimeActiveDays": 8,
+    "currentStreakDays": 3,
+    "seasonPoints": 120
+  },
+  "achievements": [
+    {
+      "id": "dedication",
+      "title": "Dedicación",
+      "unlocked": true,
+      "progress": 10,
+      "target": 10
+    }
+  ],
+  "unlockedCount": 4,
+  "nextAchievement": { "id": "warrior", "progress": 12, "target": 25 }
+}
+```
+
+`POST /api/session/complete` incluye además `gamificationDelta.newAchievements` cuando se desbloquea un logro.
+
+---
+
 ## Errores comunes
 
 | Código | Significado |

@@ -12,6 +12,7 @@ import {
 } from '../../domain/athlete/mesocycleExerciseIndex.js';
 import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
 import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
+import { applySessionCompleteGamification } from '../../domain/gamification/updateGamification.js';
 
 const users = createUserRepository(db);
 
@@ -155,6 +156,20 @@ export default async function handler(req, res) {
         ? upsertMesocycleExerciseIndex(user.mesocycleExerciseIndex, completedSession)
         : normalizeMesocycleExerciseIndex(user.mesocycleExerciseIndex);
 
+    const timezone = user.profileData?.timezone ?? 'America/Mexico_City';
+    const recentForWeek = await users.getRecentSessions(userId, 40);
+    const { gamification, delta: gamificationDelta } = applySessionCompleteGamification({
+      gamification: user.gamification,
+      completedAt: completedSession.completedAt,
+      timezone,
+      weekClosed,
+      mesocycle: user.currentMesocycle,
+      weekNumber,
+      recentSessions: recentForWeek,
+      completedSession,
+      hasFeedback: Boolean(sessionFeedback),
+    });
+
     const userUpdates = {
       lastWorkoutDate: completedSession.completedAt,
       lastCompletedDayOfWeek: dayOfWeek,
@@ -164,6 +179,7 @@ export default async function handler(req, res) {
       weeklyFeedbackModifiers: weekClosed ? weeklyFeedbackModifiers : user.weeklyFeedbackModifiers ?? {},
       loadPerformanceLedger,
       mesocycleExerciseIndex,
+      gamification,
     };
 
     const archived = await users.archiveSession(userId, completedSession);
@@ -184,6 +200,7 @@ export default async function handler(req, res) {
       weeklyAdjustment,
       weekClosed,
       requiresEvaluation: false,
+      gamificationDelta,
     });
   } catch (err) {
     const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);
