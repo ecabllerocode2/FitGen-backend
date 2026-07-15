@@ -3,6 +3,7 @@ import {
   applyContinuityReplacements,
   getSessionContinuityReplacements,
 } from '../athlete/continuityPreferences.js';
+import { getRotationIdsFromIndex } from '../athlete/mesocycleExerciseIndex.js';
 import { detectPlateau, getIntervention } from '../progression/plateau.js';
 import { passesBodyweightLoadFilter } from './bodyweight.js';
 import { passesGymEquipmentFilter } from './equipmentFilters.js';
@@ -2256,9 +2257,16 @@ function inferPatternsFromFocus(sessionFocus) {
  * @param {string|null} mesocycleId
  * @param {number} weekNumber
  * @param {string} sessionFocus
+ * @param {object[]} [mesocycleExerciseIndex]
  * @returns {string[]}
  */
-export function getMesocycleRotationExclusions(history, mesocycleId, weekNumber, sessionFocus) {
+export function getMesocycleRotationExclusions(
+  history,
+  mesocycleId,
+  weekNumber,
+  sessionFocus,
+  mesocycleExerciseIndex = [],
+) {
   if (weekNumber !== 1 || !mesocycleId || !sessionFocus || !history?.length) return [];
 
   const alreadyAnchoredInCurrentMc = history.some(
@@ -2293,7 +2301,7 @@ export function getMesocycleRotationExclusions(history, mesocycleId, weekNumber,
     }
   }
 
-  return [...usedIds];
+  return [...new Set([...usedIds, ...getRotationIdsFromIndex(mesocycleExerciseIndex, mesocycleId, sessionFocus)])];
 }
 
 function getContinuityExercises(history, sessionFocus, mesocycleId, continuityOverrides = {}) {

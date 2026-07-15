@@ -2,6 +2,11 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { evaluateCycle } from '../../domain/progression/cycleEvaluation.js';
 import { calculateExperienceLevel } from '../../domain/athlete/experienceLevel.js';
+import {
+  resolveHybridExperienceLevel,
+  buildLevelUpgrade,
+} from '../../domain/athlete/levelProgression.js';
+import { normalizeLoadPerformanceLedger } from '../../domain/athlete/loadPerformanceLedger.js';
 import { mesocycleEvaluationSchema } from '../../schemas/profileSchema.js';
 
 const users = createUserRepository(db);
@@ -28,15 +33,24 @@ function parseEvaluationBody(body = {}) {
   });
 }
 
-function buildLevelUpgrade(previousLevel, newLevel) {
-  if (!previousLevel || !newLevel || previousLevel === newLevel) return null;
-  return {
-    shouldShowCelebration: true,
-    celebrationTitle: `¡Nivel ${newLevel}!`,
-    celebrationMessage: `Pasaste de ${previousLevel} a ${newLevel}. Tu plan se adaptará a tu nueva experiencia.`,
-    newLevel,
-    previousLevel,
-  };
+function buildLevelUpgradeResponse(previousLevel, newLevel, promotionReasons) {
+  return buildLevelUpgrade(previousLevel, newLevel, promotionReasons);
+}
+
+function countMesocycleCompletionRate(mesocycle, history) {
+  const mesocycleId = mesocycle?.mesocycleId;
+  if (!mesocycleId) return 1;
+  const planned =
+    (mesocycle.mesocyclePlan?.microcycles ?? []).reduce(
+      (sum, mc) => sum + (mc.sessions?.length ?? 0),
+      0,
+    ) ||
+    (mesocycle.durationWeeks ?? 4) * (mesocycle.trainingDaysPerWeek ?? 3);
+  const completed = (history ?? []).filter(
+    (s) => s.mesocycleId === mesocycleId && s.completed,
+  ).length;
+  if (!planned) return 1;
+  return Math.min(1, completed / planned);
 }
 
 /**
@@ -60,6 +74,7 @@ export default async function handler(req, res) {
       ? new Date(req.body.referenceDate)
       : new Date();
 
+    const history = await users.getRecentSessions(userId, 40);
     const previousLevel =
       user.profileData?.experienceLevel ??
       calculateExperienceLevel(user.profileData?.trainingAgeMonths ?? 0);
@@ -69,9 +84,21 @@ export default async function handler(req, res) {
       user.currentMesocycle.mesocyclePlan?.durationWeeks ??
       4;
     const monthsGained = Math.max(1, Math.round(durationWeeks / 4));
+    const trainingAgeMonths = (user.profileData?.trainingAgeMonths ?? 0) + monthsGained;
+
+    const mesocycleCompletionRate = countMesocycleCompletionRate(user.currentMesocycle, history);
+    const hybrid = resolveHybridExperienceLevel({
+      trainingAgeMonths,
+      currentLevel: previousLevel,
+      mesocycleCompletionRate,
+      persistentJointPain: evaluation.persistentJointPain,
+      loadPerformanceLedger: normalizeLoadPerformanceLedger(user.loadPerformanceLedger),
+      mesocyclesCompleted: (user.mesocycleExerciseIndex ?? []).length,
+    });
+
     const profileForEval = {
       ...user.profileData,
-      trainingAgeMonths: (user.profileData?.trainingAgeMonths ?? 0) + monthsGained,
+      trainingAgeMonths,
     };
 
     const cycleResult = evaluateCycle(
@@ -81,8 +108,11 @@ export default async function handler(req, res) {
       referenceDate,
     );
 
+    cycleResult.updatedProfile.trainingAgeMonths = trainingAgeMonths;
+    cycleResult.updatedProfile.experienceLevel = hybrid.experienceLevel;
+
     const newLevel = cycleResult.updatedProfile.experienceLevel;
-    const levelUpgrade = buildLevelUpgrade(previousLevel, newLevel);
+    const levelUpgrade = buildLevelUpgradeResponse(previousLevel, newLevel, hybrid.promotionReasons);
 
     const profileData = cycleResult.updatedProfile;
     const wrapped = {
@@ -112,6 +142,7 @@ export default async function handler(req, res) {
       landmarkAdjustments: cycleResult.updatedLandmarks,
       levelUpgrade,
       trainingAgeMonths: profileData.trainingAgeMonths,
+      levelProgression: hybrid.progressSignal,
     });
   } catch (err) {
     const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);

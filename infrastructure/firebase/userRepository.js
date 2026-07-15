@@ -2,6 +2,8 @@
  * Firestore user/session repository — thin persistence layer.
  * @param {import('firebase-admin/firestore').Firestore} db
  */
+import { RECENT_SESSIONS_MAX } from '../../domain/athlete/loadPerformanceLedger.js';
+
 export function createUserRepository(db) {
   const users = () => db.collection('users');
 
@@ -50,7 +52,21 @@ export function createUserRepository(db) {
     async archiveSession(userId, session) {
       const ref = users().doc(userId).collection('recentSessions');
       const docRef = await ref.add({ ...session, archivedAt: new Date().toISOString() });
+      await this.trimRecentSessions(userId, RECENT_SESSIONS_MAX);
       return { id: docRef.id, ...session, archivedAt: new Date().toISOString() };
+    },
+
+    async trimRecentSessions(userId, maxKeep = RECENT_SESSIONS_MAX) {
+      const ref = users().doc(userId).collection('recentSessions');
+      const snap = await ref.orderBy('archivedAt', 'desc').get();
+      if (snap.size <= maxKeep) return snap.size;
+      const toDelete = snap.docs.slice(maxKeep);
+      const batch = db.batch();
+      for (const doc of toDelete) {
+        batch.delete(doc.ref);
+      }
+      await batch.commit();
+      return maxKeep;
     },
 
     async getRecentSession(userId, sessionId) {

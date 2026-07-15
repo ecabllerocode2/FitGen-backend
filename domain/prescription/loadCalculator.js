@@ -4,6 +4,7 @@ import {
   EXERCISE_TYPES,
   DEFAULT_PLATE_INCREMENT_KG,
 } from '../constants.js';
+import { ledgerEntriesForPrescription } from '../athlete/loadPerformanceLedger.js';
 
 /**
  * Brzycki e1RM — DDS 5.8.
@@ -62,7 +63,18 @@ export function buildLoadHistoryFromSessions(
   exerciseId,
   movementPattern,
   priority = 2,
+  ledger = null,
+  experienceLevel = 'Intermedio',
 ) {
+  const fromLedger = ledgerEntriesForPrescription(
+    ledger,
+    exerciseId,
+    movementPattern,
+    priority,
+    experienceLevel,
+  );
+  if (fromLedger.length) return fromLedger;
+
   const rows = (sessions ?? []).flatMap((s) => {
     const block = s.mainBlock ?? s.performance ?? s.exercises ?? [];
     return Array.isArray(block) ? block : [];
@@ -181,7 +193,7 @@ export function prescribeLoad({
     };
   }
 
-  let e1rm = estimateE1RMWithRIR(
+  let e1rm = last.e1RM ?? estimateE1RMWithRIR(
     last.weightKg ?? last.weight ?? 0,
     last.reps ?? last.repsCompleted ?? 0,
     last.rir ?? last.rirReported ?? 0,

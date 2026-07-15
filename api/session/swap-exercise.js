@@ -23,8 +23,15 @@ async function authenticate(req) {
   return decoded.uid;
 }
 
-function buildExerciseHistory(history, exerciseId, movementPattern, priority = 2) {
-  return buildLoadHistoryFromSessions(history, exerciseId, movementPattern, priority);
+function buildExerciseHistory(history, exerciseId, movementPattern, priority = 2, ledger, experienceLevel) {
+  return buildLoadHistoryFromSessions(
+    history,
+    exerciseId,
+    movementPattern,
+    priority,
+    ledger,
+    experienceLevel,
+  );
 }
 
 /**
@@ -124,6 +131,8 @@ export default async function handler(req, res) {
         replacement.id,
         replacement.patronMovimiento,
         replacement.prioridad ?? 2,
+        user.loadPerformanceLedger,
+        safetyProfile?.experienceLevel ?? user.profileData?.experienceLevel ?? 'Intermedio',
       );
       const load = prescribeLoad({
         exerciseType,
@@ -153,6 +162,8 @@ export default async function handler(req, res) {
         priority: replacement.prioridad ?? ex.priority ?? 2,
       };
     });
+
+    const updatedSession = { ...session, mainBlock };
 
     await users.saveSession(userId, updatedSession);
 

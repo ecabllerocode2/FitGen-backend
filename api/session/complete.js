@@ -2,6 +2,14 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { applyWeeklyFeedback } from '../../domain/autoregulation/weeklyFeedback.js';
 import { estimateE1RMWithRIR, pickBestHistoryEntry } from '../../domain/prescription/loadCalculator.js';
+import {
+  updateLoadPerformanceLedger,
+  normalizeLoadPerformanceLedger,
+} from '../../domain/athlete/loadPerformanceLedger.js';
+import {
+  upsertMesocycleExerciseIndex,
+  normalizeMesocycleExerciseIndex,
+} from '../../domain/athlete/mesocycleExerciseIndex.js';
 import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
 import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
 
@@ -74,7 +82,10 @@ export default async function handler(req, res) {
     };
 
     if (Array.isArray(completedSession.performance)) {
-      completedSession.performance = completedSession.performance.map((ex) => {
+      completedSession.performance = completedSession.performance.map((ex, index) => {
+        const template =
+          (session.mainBlock ?? []).find((m) => m.exerciseId === (ex.exerciseId ?? ex.id)) ??
+          session.mainBlock?.[index];
         const sets = ex.sets ?? ex.actualSets ?? [];
         const completedSets = sets.filter((s) => s.completed !== false);
         const best = pickBestHistoryEntry(
@@ -84,10 +95,20 @@ export default async function handler(req, res) {
             rir: s.rir,
           })),
         );
-        if (!best?.weightKg) return ex;
+        const enriched = {
+          ...ex,
+          exerciseId: ex.exerciseId ?? ex.id ?? template?.exerciseId,
+          movementPattern: ex.movementPattern ?? template?.movementPattern ?? template?.patronMovimiento,
+          patronMovimiento: ex.patronMovimiento ?? template?.patronMovimiento ?? template?.movementPattern,
+          priority: ex.priority ?? template?.priority ?? template?.prioridad ?? 2,
+          prioridad: ex.prioridad ?? template?.prioridad ?? template?.priority ?? 2,
+          muscleGroup: ex.muscleGroup ?? template?.muscleGroup ?? template?.parteCuerpo,
+          parteCuerpo: ex.parteCuerpo ?? template?.parteCuerpo ?? template?.muscleGroup,
+        };
+        if (!best?.weightKg) return enriched;
         const { weightKg: weight, reps, rir = 2 } = best;
         return {
-          ...ex,
+          ...enriched,
           e1RM: estimateE1RMWithRIR(weight, reps, rir),
           actualWeightKg: weight,
           actualReps: reps,
@@ -123,11 +144,24 @@ export default async function handler(req, res) {
       }
     }
 
+    const loadPerformanceLedger = updateLoadPerformanceLedger(
+      user.loadPerformanceLedger,
+      completedSession.performance,
+      completedSession.completedAt,
+    );
+
+    const mesocycleExerciseIndex =
+      (session.weekNumber ?? 1) === 1
+        ? upsertMesocycleExerciseIndex(user.mesocycleExerciseIndex, completedSession)
+        : normalizeMesocycleExerciseIndex(user.mesocycleExerciseIndex);
+
     const userUpdates = {
       lastWorkoutDate: completedSession.completedAt,
       lastSessionFeedback: sessionFeedback,
       pendingWeeklyFeedback: weekClosed ? {} : pendingWeeklyFeedback,
       weeklyFeedbackModifiers: weekClosed ? weeklyFeedbackModifiers : user.weeklyFeedbackModifiers ?? {},
+      loadPerformanceLedger,
+      mesocycleExerciseIndex,
     };
 
     const archived = await users.archiveSession(userId, completedSession);

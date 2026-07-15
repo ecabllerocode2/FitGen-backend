@@ -58,6 +58,8 @@ export function generateSession(context) {
     priorityLiftId = null,
     exercisePreferences = {},
     continuityOverrides = {},
+    loadPerformanceLedger = null,
+    mesocycleExerciseIndex = [],
   } = context;
 
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
@@ -69,6 +71,7 @@ export function generateSession(context) {
     mesocycle.mesocycleId,
     weekNumber,
     sessionFocus,
+    mesocycleExerciseIndex,
   );
   const mergedExcludeIds = [...new Set([...excludeIds, ...rotationExcludeIds])];
 
@@ -159,6 +162,8 @@ export function generateSession(context) {
     safetyProfile,
     trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
     catalog: catalog.entrenamiento ?? [],
+    loadPerformanceLedger,
+    experienceLevel: safetyProfile?.experienceLevel ?? profile.experienceLevel ?? 'Intermedio',
   });
 
   let warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
@@ -425,6 +430,8 @@ function buildMainBlock({
   safetyProfile = {},
   trainingDaysPerWeek = 3,
   catalog = [],
+  loadPerformanceLedger = null,
+  experienceLevel = 'Intermedio',
 }) {
   const repRanges = getSessionRepRanges(sessionGoal);
   const rest = getSessionRestSeconds(sessionGoal);
@@ -523,6 +530,8 @@ function buildMainBlock({
       ex.id,
       ex.patronMovimiento,
       ex.prioridad ?? 2,
+      loadPerformanceLedger,
+      experienceLevel,
     );
 
     const bodyweight = isBodyweightExercise(ex, catalog);

@@ -115,6 +115,8 @@ export default async function handler(req, res) {
       referenceDate,
       exercisePreferences: user.exercisePreferences ?? {},
       continuityOverrides: user.continuityOverrides ?? {},
+      loadPerformanceLedger: user.loadPerformanceLedger ?? null,
+      mesocycleExerciseIndex: user.mesocycleExerciseIndex ?? [],
     });
 
     session.version = '3.0.0';
