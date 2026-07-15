@@ -28,8 +28,11 @@ if (!admin.apps.length) {
 }
 
 const db = admin.firestore();
-const targetAll = process.argv.includes('--all');
-const userId = process.argv.find((arg) => arg && !arg.startsWith('-'));
+const cliArgs = process.argv.slice(2);
+const targetAll = cliArgs.includes('--all');
+const userIds = cliArgs.filter(
+  (arg) => !arg.startsWith('-') && /^[A-Za-z0-9]{10,}$/.test(arg),
+);
 
 async function backfillUser(uid) {
   const ref = db.collection('users').doc(uid);
@@ -51,6 +54,7 @@ async function backfillUser(uid) {
 
   const estimated = estimateGamificationFromSessions(sessions, timezone);
   const gamification = normalizeGamification(estimated, new Date(), timezone);
+  delete gamification._backfillNote;
 
   await ref.set({ gamification }, { merge: true });
   console.log(
@@ -63,8 +67,10 @@ if (targetAll) {
   for (const doc of usersSnap.docs) {
     await backfillUser(doc.id);
   }
-} else if (userId) {
-  await backfillUser(userId);
+} else if (userIds.length) {
+  for (const uid of userIds) {
+    await backfillUser(uid);
+  }
 } else {
   console.error('Usage: node scripts/backfill-gamification.mjs <userId> | --all [--force]');
   process.exit(1);
