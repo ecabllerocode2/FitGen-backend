@@ -28,7 +28,10 @@ export default async function handler(req, res) {
     }
 
     const timezone = user.profileData?.timezone ?? 'America/Mexico_City';
-    const summary = buildGamificationSummary(user.gamification, { timezone });
+    const summary = buildGamificationSummary(user.gamification, {
+      timezone,
+      experienceLevel: user.profileData?.experienceLevel ?? null,
+    });
 
     return res.status(200).json({
       success: true,

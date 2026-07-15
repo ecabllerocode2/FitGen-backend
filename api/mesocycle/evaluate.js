@@ -7,6 +7,7 @@ import {
   buildLevelUpgrade,
 } from '../../domain/athlete/levelProgression.js';
 import { normalizeLoadPerformanceLedger } from '../../domain/athlete/loadPerformanceLedger.js';
+import { applyMesocycleEvaluateGamification } from '../../domain/gamification/updateGamification.js';
 import { mesocycleEvaluationSchema } from '../../schemas/profileSchema.js';
 
 const users = createUserRepository(db);
@@ -126,6 +127,16 @@ export default async function handler(req, res) {
       },
     };
 
+    const timezone = user.profileData?.timezone ?? 'America/Mexico_City';
+    const { gamification, delta: gamificationDelta } = applyMesocycleEvaluateGamification({
+      gamification: user.gamification,
+      evaluatedAt: referenceDate.toISOString(),
+      timezone,
+      mesocycleCompletionRate,
+      previousExperienceLevel: previousLevel,
+      newExperienceLevel: newLevel,
+    });
+
     await users.saveUser(userId, {
       profileData,
       currentMesocycle: wrapped,
@@ -133,6 +144,7 @@ export default async function handler(req, res) {
       lastMesocycleEvaluation: referenceDate.toISOString(),
       planStatus: 'active',
       weeklyFeedbackModifiers: {},
+      gamification,
     });
 
     return res.status(200).json({
@@ -143,6 +155,7 @@ export default async function handler(req, res) {
       levelUpgrade,
       trainingAgeMonths: profileData.trainingAgeMonths,
       levelProgression: hybrid.progressSignal,
+      gamificationDelta,
     });
   } catch (err) {
     const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);

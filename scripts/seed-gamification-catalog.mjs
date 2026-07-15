@@ -35,6 +35,8 @@ const payload = {
     { stage: 1, name: 'Trainee', requirement: '1 semana perfecta' },
     { stage: 2, name: 'Regular', requirement: '4 semanas perfectas' },
     { stage: 3, name: 'Dedicated', requirement: '12 semanas perfectas' },
+    { stage: 4, name: 'Veteran', requirement: '26 semanas perfectas' },
+    { stage: 5, name: 'Elite', requirement: '52 semanas perfectas' },
   ],
   shop: [],
   updatedAt: new Date().toISOString(),

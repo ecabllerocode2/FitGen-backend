@@ -136,16 +136,79 @@ export function applySessionCompleteGamification({
     delta: {
       seasonPointsEarned,
       fitCoinsEarned,
-      newAchievements: newlyUnlocked.map(({ id, title, description, unlockedAt }) => ({
+      newAchievements: newlyUnlocked.map(({ id, title, description, milestone, unlockedAt }) => ({
         id,
         title,
         description,
+        milestone: milestone ?? false,
         unlockedAt,
       })),
       avatarStageUp: false,
       currentStreakDays: next.currentStreakDays,
       weekPerfectBonus,
       lifetimeSessionsCompleted: next.lifetimeSessionsCompleted,
+    },
+  };
+}
+
+const MESOCYCLE_POINTS = 50;
+const MESOCYCLE_FITCOINS = 15;
+const MESOCYCLE_MIN_COMPLETION_RATE = 0.75;
+
+/**
+ * Apply gamification updates after mesocycle evaluation.
+ * @param {object} params
+ */
+export function applyMesocycleEvaluateGamification({
+  gamification,
+  evaluatedAt,
+  timezone = 'America/Mexico_City',
+  mesocycleCompletionRate = 1,
+  previousExperienceLevel,
+  newExperienceLevel,
+}) {
+  const referenceDate = new Date(evaluatedAt);
+  let next = normalizeGamification(gamification, referenceDate, timezone);
+  next = applySeasonRollover(next, referenceDate, timezone);
+
+  let seasonPointsEarned = 0;
+  let fitCoinsEarned = 0;
+  let mesocycleCounted = false;
+
+  if (mesocycleCompletionRate >= MESOCYCLE_MIN_COMPLETION_RATE) {
+    next.lifetimeMesocyclesCompleted += 1;
+    seasonPointsEarned += MESOCYCLE_POINTS;
+    fitCoinsEarned += MESOCYCLE_FITCOINS;
+    mesocycleCounted = true;
+  }
+
+  next.seasonPoints += seasonPointsEarned;
+  next.fitCoinsBalance += fitCoinsEarned;
+  next.updatedAt = referenceDate.toISOString();
+
+  const achievementContext = {
+    previousExperienceLevel,
+    newExperienceLevel,
+    experienceLevel: newExperienceLevel,
+  };
+  const newlyUnlocked = evaluateAchievements(next, achievementContext);
+  next = mergeAchievementUnlocks(next, newlyUnlocked);
+
+  return {
+    gamification: next,
+    delta: {
+      seasonPointsEarned,
+      fitCoinsEarned,
+      newAchievements: newlyUnlocked.map(({ id, title, description, milestone, unlockedAt }) => ({
+        id,
+        title,
+        description,
+        milestone: milestone ?? false,
+        unlockedAt,
+      })),
+      avatarStageUp: false,
+      mesocycleCounted,
+      lifetimeMesocyclesCompleted: next.lifetimeMesocyclesCompleted,
     },
   };
 }

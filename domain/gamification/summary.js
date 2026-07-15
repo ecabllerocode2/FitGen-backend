@@ -1,6 +1,7 @@
 import { normalizeGamification } from './defaults.js';
 import {
   buildAchievementViews,
+  buildAchievementSections,
   getNextLockedAchievement,
 } from './achievements.js';
 
@@ -12,7 +13,11 @@ import {
 export function buildGamificationSummary(rawGamification, options = {}) {
   const timezone = options.timezone ?? 'America/Mexico_City';
   const gamification = normalizeGamification(rawGamification, new Date(), timezone);
-  const achievements = buildAchievementViews(gamification);
+  const context = {
+    experienceLevel: options.experienceLevel ?? null,
+  };
+  const achievements = buildAchievementViews(gamification, context);
+  const achievementSections = buildAchievementSections(gamification, context);
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
   return {
@@ -25,13 +30,15 @@ export function buildGamificationSummary(rawGamification, options = {}) {
       longestStreakDays: gamification.longestStreakDays,
       seasonPoints: gamification.seasonPoints,
       seasonSessionsCompleted: gamification.seasonSessionsCompleted,
+      seasonWeeksPerfect: gamification.seasonWeeksPerfect,
       fitCoinsBalance: gamification.fitCoinsBalance,
       currentSeasonId: gamification.currentSeasonId,
     },
     avatar: gamification.avatar,
     achievements,
+    achievementSections,
     unlockedCount,
-    nextAchievement: getNextLockedAchievement(gamification),
+    nextAchievement: getNextLockedAchievement(gamification, context),
     updatedAt: gamification.updatedAt,
   };
 }

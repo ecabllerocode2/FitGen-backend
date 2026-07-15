@@ -8,10 +8,12 @@ import {
   evaluateAchievements,
   mergeAchievementUnlocks,
   buildAchievementViews,
+  buildAchievementSections,
   getNextLockedAchievement,
 } from '../domain/gamification/achievements.js';
 import {
   applySessionCompleteGamification,
+  applyMesocycleEvaluateGamification,
   toDayKey,
   daysBetweenDayKeys,
   estimateGamificationFromSessions,
@@ -185,7 +187,26 @@ describe('achievements engine', () => {
   it('returns next locked achievement in catalog order', () => {
     const gamification = normalizeGamification({ lifetimeSessionsCompleted: 5 });
     const next = getNextLockedAchievement(gamification);
-    expect(next?.id).toBe('first-week');
+    expect(next?.id).toBe('dedication');
+  });
+
+  it('shows progress toward sessions-75 after legend tier', () => {
+    const views = buildAchievementViews(
+      normalizeGamification({ lifetimeSessionsCompleted: 60 }),
+    );
+    const sessions75 = views.find((v) => v.id === 'sessions-75');
+    expect(sessions75?.progress).toBe(60);
+    expect(sessions75?.target).toBe(75);
+    expect(sessions75?.unlocked).toBe(false);
+  });
+
+  it('builds achievement sections by category', () => {
+    const sections = buildAchievementSections(
+      normalizeGamification({ lifetimeSessionsCompleted: 25, lifetimeWeeksPerfect: 1 }),
+    );
+    expect(sections.some((s) => s.category === 'sessions')).toBe(true);
+    expect(sections.some((s) => s.category === 'consistency')).toBe(true);
+    expect(sections.some((s) => s.category === 'mesocycles')).toBe(true);
   });
 
   it('builds achievement views with progress', () => {
@@ -225,6 +246,38 @@ describe('week completion assessment', () => {
   });
 });
 
+describe('mesocycle evaluate gamification', () => {
+  it('increments mesocycle counter and unlocks mesocycle-1', () => {
+    const { gamification, delta } = applyMesocycleEvaluateGamification({
+      gamification: null,
+      evaluatedAt: '2026-07-15T12:00:00.000Z',
+      mesocycleCompletionRate: 0.8,
+      previousExperienceLevel: 'Novato',
+      newExperienceLevel: 'Intermedio',
+    });
+
+    expect(gamification.lifetimeMesocyclesCompleted).toBe(1);
+    expect(delta.mesocycleCounted).toBe(true);
+    expect(delta.seasonPointsEarned).toBe(50);
+    expect(gamification.achievementsUnlocked['mesocycle-1']).toBeDefined();
+    expect(delta.newAchievements.some((a) => a.id === 'level-intermediate')).toBe(true);
+  });
+
+  it('skips mesocycle counter below 75% adherence', () => {
+    const { gamification, delta } = applyMesocycleEvaluateGamification({
+      gamification: null,
+      evaluatedAt: '2026-07-15T12:00:00.000Z',
+      mesocycleCompletionRate: 0.5,
+      previousExperienceLevel: 'Intermedio',
+      newExperienceLevel: 'Intermedio',
+    });
+
+    expect(gamification.lifetimeMesocyclesCompleted).toBe(0);
+    expect(delta.mesocycleCounted).toBe(false);
+    expect(gamification.achievementsUnlocked['mesocycle-1']).toBeUndefined();
+  });
+});
+
 describe('gamification summary', () => {
   it('returns counters and achievements for API', () => {
     const summary = buildGamificationSummary({
@@ -236,7 +289,8 @@ describe('gamification summary', () => {
 
     expect(summary.counters.lifetimeSessionsCompleted).toBe(25);
     expect(summary.unlockedCount).toBeGreaterThanOrEqual(1);
-    expect(summary.achievements.length).toBeGreaterThan(0);
+    expect(summary.achievements.length).toBeGreaterThan(20);
+    expect(summary.achievementSections?.length).toBeGreaterThan(0);
   });
 });
 
