@@ -157,6 +157,8 @@ export default async function handler(req, res) {
 
     const userUpdates = {
       lastWorkoutDate: completedSession.completedAt,
+      lastCompletedDayOfWeek: dayOfWeek,
+      lastCompletedWeekNumber: weekNumber,
       lastSessionFeedback: sessionFeedback,
       pendingWeeklyFeedback: weekClosed ? {} : pendingWeeklyFeedback,
       weeklyFeedbackModifiers: weekClosed ? weeklyFeedbackModifiers : user.weeklyFeedbackModifiers ?? {},
