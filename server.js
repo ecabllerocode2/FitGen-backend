@@ -14,6 +14,7 @@ import sessionGenerateV2Handler from './api/session/generateV2.js';
 import sessionCompleteHandler from './api/session/complete.js';
 import sessionCelebrationCardHandler from './api/session/celebration-card.js';
 import sessionCelebrationsHandler from './api/session/celebrations.js';
+import sessionHistoryHandler from './api/session/history.js';
 import sessionSwapHandler from './api/session/swap-exercise.js'; 
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
@@ -64,6 +65,7 @@ app.post('/api/session/complete', sessionCompleteHandler);
 // Tarjetas de celebración (R2, 7 días)
 app.post('/api/session/celebration-card', sessionCelebrationCardHandler);
 app.get('/api/session/celebrations', sessionCelebrationsHandler);
+app.get('/api/session/history', sessionHistoryHandler);
 
 // 🔄 RUTA PARA INTERCAMBIO DE EJERCICIOS (SWAP)
 app.post('/api/session/swap-exercise', sessionSwapHandler);

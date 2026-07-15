@@ -3,6 +3,7 @@ import { createUserRepository } from '../../infrastructure/firebase/userReposito
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { generateSession } from '../../domain/session/sessionGenerator.js';
 import { getTodaySessionPlan, isMesocycleComplete } from '../../lib/mesocycleUtils.js';
+import { isStaleIncompleteSession } from '../../domain/session/sessionFreshness.js';
 import { validateReadiness } from '../../schemas/profileSchema.js';
 
 const LOAD_TO_SCHEMA = {
@@ -86,13 +87,10 @@ export default async function handler(req, res) {
     }
 
     const existing = user.currentSession;
-    if (existing && !existing.completed) {
-      const sameDay =
-        existing.dayOfWeek === dayOfWeek &&
-        existing.weekNumber === weekNumber;
-      if (!sameDay) {
-        await users.saveSession(userId, null);
-      }
+    if (
+      isStaleIncompleteSession(existing, referenceDate, dayOfWeek, weekNumber)
+    ) {
+      await users.saveSession(userId, null);
     }
 
     const catalog = await loadCatalog(db);
