@@ -5,7 +5,7 @@ import {
   isCelebrationStorageConfigured,
   uploadCelebrationPng,
 } from '../../infrastructure/r2/celebrationStorage.js';
-import { computeTotalWeightKg } from '../../domain/session/sessionVolume.js';
+import { computeMainBlockVolumeKg } from '../../domain/session/sessionVolume.js';
 
 const users = createUserRepository(db);
 
@@ -34,6 +34,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'archivedSessionId e imageBase64 son requeridos' });
     }
 
+    const user = await users.getUser(userId);
     const session = await users.getRecentSession(userId, archivedSessionId);
     if (!session) {
       return res.status(404).json({ error: 'Sesión archivada no encontrada' });
@@ -58,6 +59,8 @@ export default async function handler(req, res) {
       return res.status(503).json({ error: 'No se pudo subir la tarjeta de celebración' });
     }
 
+    const bodyWeightKg =
+      session.summary?.volumeBodyWeightKg ?? user?.profileData?.currentWeightKg ?? null;
     const celebrationCardExpiresAt = celebrationExpiresAt();
     await users.updateRecentSession(userId, archivedSessionId, {
       celebrationCardUrl,
@@ -67,7 +70,10 @@ export default async function handler(req, res) {
         durationLabel: session.summary?.duracionEstimada ?? '—',
         exerciseCount: session.summary?.ejerciciosTotales ?? 0,
         totalSets: session.summary?.seriesTotales ?? 0,
-        totalWeightKg: computeTotalWeightKg(session.performance) ?? session.summary?.totalWeightKg ?? undefined,
+        totalWeightKg:
+          computeMainBlockVolumeKg(session.performance, { bodyWeightKg }) ??
+          session.summary?.totalWeightKg ??
+          undefined,
         muscles: session.summary?.musculosTrabajos ?? session.sessionMuscles ?? [],
         completedAt: session.completedAt ?? session.archivedAt,
       },
