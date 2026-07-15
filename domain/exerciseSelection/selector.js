@@ -1,4 +1,8 @@
 import { SESSION_FOCUS_PATTERN_MAP, SPLIT_VOLUME_ACCESSORY_MUSCLES } from '../constants.js';
+import {
+  applyContinuityReplacements,
+  getSessionContinuityReplacements,
+} from '../athlete/continuityPreferences.js';
 import { detectPlateau, getIntervention } from '../progression/plateau.js';
 import { passesBodyweightLoadFilter } from './bodyweight.js';
 import { passesGymEquipmentFilter } from './equipmentFilters.js';
@@ -1579,6 +1583,7 @@ export function selectExercises(
     sessionMuscles = [],
     mesocycleId = null,
     trainingDaysPerWeek = 3,
+    continuityOverrides = {},
   } = options;
   const sessionGoal = resolveSessionGoal(sessionFocus, goal);
   const effectiveMaxPerPattern = sessionGoal === 'Fuerza' ? 1 : maxPerPattern;
@@ -1610,7 +1615,12 @@ export function selectExercises(
   const avoidPatterns = new Set(safetyProfile?.avoidPatterns ?? []);
   const modifyPatterns = new Set(safetyProfile?.modifyPatterns ?? []);
 
-  const continuityExercises = getContinuityExercises(history, sessionFocus, mesocycleId);
+  const continuityExercises = getContinuityExercises(
+    history,
+    sessionFocus,
+    mesocycleId,
+    continuityOverrides,
+  );
 
   const selected = [];
   const usedIds = new Set();
@@ -1675,6 +1685,12 @@ export function selectExercises(
         if (priorityDiff !== 0) return priorityDiff;
         const diffDiff = difficultyRank(a) - difficultyRank(b);
         if (diffDiff !== 0) return diffDiff;
+        const equipmentDiff = prefersEquipmentByExperience(
+          a,
+          b,
+          safetyProfile?.experienceLevel,
+        );
+        if (equipmentDiff !== 0) return equipmentDiff;
         if (modifyPatterns.has(pattern) && safetyProfile?.conservative) {
           return prefersMachine(a, b);
         }
@@ -2084,6 +2100,12 @@ function pickAccessoryForMuscle(
       if (priorityDiff !== 0) return priorityDiff;
       const diffDiff = difficultyRank(a) - difficultyRank(b);
       if (diffDiff !== 0) return diffDiff;
+      const equipmentDiff = prefersEquipmentByExperience(
+        a,
+        b,
+        safetyProfile?.experienceLevel,
+      );
+      if (equipmentDiff !== 0) return equipmentDiff;
       const patternLoad =
         patternCount(selected, a.patronMovimiento) - patternCount(selected, b.patronMovimiento);
       if (patternLoad !== 0) return patternLoad;
@@ -2262,10 +2284,14 @@ export function getMesocycleRotationExclusions(history, mesocycleId, weekNumber,
     );
 
   if (!anchor?.mainBlock?.length) return [];
-  return anchor.mainBlock.map((b) => b.exerciseId).filter(Boolean);
+  // Rotate accessories only; keep basic/compound lifts (prioridad 1) across mesociclos.
+  return anchor.mainBlock
+    .filter((b) => (b.priority ?? 2) > 1)
+    .map((b) => b.exerciseId)
+    .filter(Boolean);
 }
 
-function getContinuityExercises(history, sessionFocus, mesocycleId) {
+function getContinuityExercises(history, sessionFocus, mesocycleId, continuityOverrides = {}) {
   if (!history?.length) return [];
 
   const scopedHistory = mesocycleId
@@ -2282,7 +2308,13 @@ function getContinuityExercises(history, sessionFocus, mesocycleId) {
 
   if (!anchorSession) return [];
 
-  return anchorSession.mainBlock.map((block) => ({
+  const replacements = getSessionContinuityReplacements(
+    continuityOverrides,
+    mesocycleId,
+    sessionFocus,
+  );
+
+  const stubs = anchorSession.mainBlock.map((block) => ({
     id: block.exerciseId,
     nombre: block.exerciseName,
     patronMovimiento: block.movementPattern,
@@ -2295,6 +2327,8 @@ function getContinuityExercises(history, sessionFocus, mesocycleId) {
     plateauRepRangeChanged: block.plateauRepRangeChanged ?? false,
     swappedFromPlateau: block.swappedFrom ?? null,
   }));
+
+  return applyContinuityReplacements(stubs, replacements);
 }
 
 function shiftRepRange(repRange) {
@@ -2315,6 +2349,28 @@ function prefersMachine(a, b) {
   const bMachine = hasMachineEquipment(b);
   if (aMachine && !bMachine) return -1;
   if (!aMachine && bMachine) return 1;
+  return 0;
+}
+
+function hasFreeWeightEquipment(exercise) {
+  const equipo = exercise.equipo ?? [];
+  const arr = Array.isArray(equipo) ? equipo : [equipo];
+  return arr.some((e) =>
+    /barra ol[ií]mpica|mancuerna|kettlebell|rack de potencia|disco|barra z|barra hex/i.test(
+      String(e),
+    ),
+  );
+}
+
+function prefersEquipmentByExperience(a, b, experienceLevel) {
+  const level = experienceLevel ?? 'Intermedio';
+  if (level === 'Novato') return prefersMachine(a, b);
+  if (level === 'Intermedio' || level === 'Avanzado') {
+    const aFree = hasFreeWeightEquipment(a);
+    const bFree = hasFreeWeightEquipment(b);
+    if (aFree && !bFree) return -1;
+    if (!aFree && bFree) return 1;
+  }
   return 0;
 }
 

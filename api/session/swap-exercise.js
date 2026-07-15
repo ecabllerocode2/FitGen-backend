@@ -3,12 +3,15 @@ import { createUserRepository } from '../../infrastructure/firebase/userReposito
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { selectExercises } from '../../domain/exerciseSelection/selector.js';
 import { isBodyweightExercise } from '../../domain/exerciseSelection/bodyweight.js';
+import { prescribeLoad } from '../../domain/prescription/loadCalculator.js';
+import { EXERCISE_TYPES } from '../../domain/constants.js';
 import {
   addExerciseExclusion,
   exerciseEquipmentList,
   getUserExercisePreferences,
   resolveExclusionFilters,
 } from '../../domain/athlete/exercisePreferences.js';
+import { setContinuityReplacement } from '../../domain/athlete/continuityPreferences.js';
 
 const users = createUserRepository(db);
 
@@ -20,9 +23,26 @@ async function authenticate(req) {
   return decoded.uid;
 }
 
+function buildExerciseHistory(history, exerciseId) {
+  return (history ?? [])
+    .flatMap((s) => s.performance?.exercises ?? s.mainBlock ?? [])
+    .filter((e) => (e.exerciseId ?? e.id) === exerciseId)
+    .map((e) => ({
+      weightKg: e.actualWeightKg ?? e.prescribedLoadKg ?? e.load ?? e.weight,
+      reps: e.actualReps ?? e.reps,
+      rir: e.actualRIR ?? e.rirReported ?? e.rir,
+    }))
+    .filter((row) => row.reps != null);
+}
+
 /**
  * POST /api/session/swap-exercise
- * Body: { exerciseIdToReplace, reason?: 'unavailable'|'preference', excludeEquipment?: boolean }
+ * Body: {
+ *   exerciseIdToReplace,
+ *   reason?: 'unavailable'|'preference',
+ *   excludeEquipment?: boolean,
+ *   useAsContinuity?: boolean,
+ * }
  */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -43,6 +63,7 @@ export default async function handler(req, res) {
       sessionFocus,
       reason = 'preference',
       excludeEquipment = false,
+      useAsContinuity = false,
     } = req.body ?? {};
     if (!exerciseIdToReplace) {
       return res.status(400).json({ error: 'exerciseIdToReplace requerido' });
@@ -50,6 +71,7 @@ export default async function handler(req, res) {
 
     const catalog = await loadCatalog(db);
     const focus = sessionFocus ?? session.sessionFocus;
+    const mesocycleId = session.mesocycleId ?? user.currentMesocycle?.mesocycleId ?? null;
     const safetyProfile = user.currentMesocycle?.safetyProfile ?? user.profileData?.safetyProfile ?? {};
     const goal = user.currentMesocycle?.goal ?? user.profileData?.fitnessGoal ?? 'Hipertrofia';
 
@@ -73,15 +95,25 @@ export default async function handler(req, res) {
       await users.saveUser(userId, { exercisePreferences });
     }
 
+    const history = await users.getRecentSessions(userId, 30);
     const { excludeIds } = resolveExclusionFilters(exercisePreferences);
     const currentIds = (session.mainBlock ?? []).map((e) => e.exerciseId);
+    const sessionMuscles = session.sessionMuscles ?? [];
+
     const alternatives = selectExercises(
       focus,
       catalog.entrenamiento ?? [],
       safetyProfile,
-      [],
+      history,
       goal,
-      { excludeIds: [...new Set([...currentIds, ...excludeIds])], weekNumber: session.weekNumber },
+      {
+        excludeIds: [...new Set([...currentIds, ...excludeIds])],
+        weekNumber: session.weekNumber ?? 1,
+        sessionMuscles,
+        mesocycleId,
+        trainingDaysPerWeek: user.profileData?.trainingDaysPerWeek ?? 3,
+        continuityOverrides: user.continuityOverrides ?? {},
+      },
     );
 
     const replacement = alternatives.find((e) => e.id !== exerciseIdToReplace) ?? alternatives[0];
@@ -92,6 +124,20 @@ export default async function handler(req, res) {
     const mainBlock = (session.mainBlock ?? []).map((ex) => {
       if (ex.exerciseId !== exerciseIdToReplace) return ex;
       const bodyweight = isBodyweightExercise(replacement, catalog.entrenamiento ?? []);
+      const exerciseType =
+        (replacement.prioridad ?? 2) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
+      const exerciseHistory = buildExerciseHistory(history, replacement.id);
+      const load = prescribeLoad({
+        exerciseType,
+        rirTarget: ex.rirTarget ?? 2,
+        repRange: ex.repRange ?? '8-12',
+        history: exerciseHistory,
+        bodyWeightKg: user.profileData?.currentWeightKg,
+        movementPattern: replacement.patronMovimiento,
+        isBodyweight: bodyweight,
+        exerciseId: replacement.id,
+      });
+
       return {
         ...ex,
         exerciseId: replacement.id,
@@ -102,14 +148,32 @@ export default async function handler(req, res) {
         imageUrl2: replacement.url_img_1 ?? null,
         swappedFrom: exerciseIdToReplace,
         isBodyweight: bodyweight,
-        loadMode: bodyweight ? 'bodyweight' : ex.loadMode,
-        prescribedLoadKg: bodyweight ? null : ex.prescribedLoadKg,
-        suggestedLoadKg: bodyweight ? null : ex.suggestedLoadKg,
+        loadMode: load.mode,
+        prescribedLoadKg: load.prescribedLoadKg,
+        suggestedLoadKg: load.suggestedLoadKg,
+        loadExplanation: load.explanation,
+        priority: replacement.prioridad ?? ex.priority ?? 2,
       };
     });
 
-    const updatedSession = { ...session, mainBlock, swappedAt: new Date().toISOString() };
     await users.saveSession(userId, updatedSession);
+
+    const userPatch = {};
+    if (reason === 'unavailable') {
+      userPatch.exercisePreferences = exercisePreferences;
+    }
+    if (useAsContinuity && mesocycleId && focus) {
+      userPatch.continuityOverrides = setContinuityReplacement(
+        user.continuityOverrides ?? {},
+        mesocycleId,
+        focus,
+        exerciseIdToReplace,
+        replacement,
+      );
+    }
+    if (Object.keys(userPatch).length) {
+      await users.saveUser(userId, userPatch);
+    }
 
     return res.status(200).json({
       success: true,
@@ -124,6 +188,7 @@ export default async function handler(req, res) {
         parteCuerpo: replacement.parteCuerpo,
         patronMovimiento: replacement.patronMovimiento,
       },
+      continuitySaved: Boolean(useAsContinuity),
       exercisePreferences: reason === 'unavailable' ? exercisePreferences : undefined,
     });
   } catch (err) {

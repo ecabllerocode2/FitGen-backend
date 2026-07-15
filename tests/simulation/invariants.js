@@ -113,12 +113,18 @@ export function validateInvariants({ history, mesocycles, persona }) {
         const prevSession = prevWeek1.find((s) => s.sessionFocus === nextSession.sessionFocus);
         if (!prevSession?.mainBlock?.length || !nextSession.mainBlock?.length) continue;
 
-        const prevIds = new Set(prevSession.mainBlock.map((e) => e.exerciseId));
-        const nextIds = nextSession.mainBlock.map((e) => e.exerciseId);
-        const newCount = nextIds.filter((id) => !prevIds.has(id)).length;
-        if (newCount === 0 && nextIds.length > 0) {
+        const prevAccessoryIds = new Set(
+          prevSession.mainBlock
+            .filter((e) => (e.priority ?? 2) > 1)
+            .map((e) => e.exerciseId),
+        );
+        const nextAccessoryIds = nextSession.mainBlock
+          .filter((e) => (e.priority ?? 2) > 1)
+          .map((e) => e.exerciseId);
+        const newAccessoryCount = nextAccessoryIds.filter((id) => !prevAccessoryIds.has(id)).length;
+        if (prevAccessoryIds.size > 0 && newAccessoryCount === 0 && nextAccessoryIds.length > 0) {
           violations.push(
-            `Sin rotación inter-mesociclo: ${nextSession.sessionFocus} repite todos los ejercicios`,
+            `Sin rotación inter-mesociclo: ${nextSession.sessionFocus} repite todos los accesorios`,
           );
         }
       }

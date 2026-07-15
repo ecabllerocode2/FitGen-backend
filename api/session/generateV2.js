@@ -85,6 +85,16 @@ export default async function handler(req, res) {
       });
     }
 
+    const existing = user.currentSession;
+    if (existing && !existing.completed) {
+      const sameDay =
+        existing.dayOfWeek === dayOfWeek &&
+        existing.weekNumber === weekNumber;
+      if (!sameDay) {
+        await users.saveSession(userId, null);
+      }
+    }
+
     const catalog = await loadCatalog(db);
     const history = await users.getRecentSessions(userId, 30);
 
@@ -104,6 +114,7 @@ export default async function handler(req, res) {
       history,
       referenceDate,
       exercisePreferences: user.exercisePreferences ?? {},
+      continuityOverrides: user.continuityOverrides ?? {},
     });
 
     session.version = '3.0.0';

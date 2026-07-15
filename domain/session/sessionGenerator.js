@@ -57,6 +57,7 @@ export function generateSession(context) {
     referenceDate,
     priorityLiftId = null,
     exercisePreferences = {},
+    continuityOverrides = {},
   } = context;
 
   const goal = mesocycle.goal ?? profile.fitnessGoal ?? 'Hipertrofia';
@@ -121,6 +122,7 @@ export function generateSession(context) {
             excludeIds: mergedExcludeIds,
             mesocycleId: mesocycle.mesocycleId,
             trainingDaysPerWeek: profile.trainingDaysPerWeek ?? 3,
+            continuityOverrides,
           },
         );
 
@@ -552,6 +554,8 @@ function buildMainBlock({
     return {
       exerciseId: ex.id,
       exerciseName: ex.nombre,
+      descripcion: ex.descripcion ?? null,
+      correcciones: ex.correcciones ?? [],
       imageUrl: ex.url_img_0 ?? ex.imageUrl ?? null,
       imageUrl2: ex.url_img_1 ?? ex.imageUrl2 ?? null,
       muscleGroup: ex.parteCuerpo,

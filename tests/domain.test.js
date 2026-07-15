@@ -758,7 +758,7 @@ describe('mesocycle-scoped continuity', () => {
     expect(week1NewMc.some((e) => e.id === 'bench_anchor')).toBe(false);
   });
 
-  it('excludes previous mesocycle exercises on week 1 of a new mesocycle', () => {
+  it('excludes previous mesocycle accessory exercises on week 1 but keeps basic lifts', () => {
     const catalogPath = path.join(process.cwd(), 'colecciones/curated/entrenamiento.json');
     const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).items;
     const mc1 = 'mc_prev';
@@ -781,10 +781,14 @@ describe('mesocycle-scoped continuity', () => {
             exerciseName: ex?.nombre ?? id,
             movementPattern: ex?.patronMovimiento,
             muscleGroup: ex?.parteCuerpo,
+            priority: ex?.prioridad ?? 2,
           };
         }),
       },
     ];
+
+    const basicIds = history[0].mainBlock.filter((b) => (b.priority ?? 2) === 1).map((b) => b.exerciseId);
+    const accessoryIds = history[0].mainBlock.filter((b) => (b.priority ?? 2) > 1).map((b) => b.exerciseId);
 
     const week1NewMc = selectExercises('Torso (Empuje)', catalog, {}, history, 'Hipertrofia', {
       weekNumber: 1,
@@ -795,6 +799,15 @@ describe('mesocycle-scoped continuity', () => {
 
     const overlap = week1NewMc.filter((e) => prevIds.includes(e.id)).length;
     expect(overlap).toBeLessThan(prevIds.length);
+
+    if (basicIds.length > 0) {
+      const keptBasics = week1NewMc.filter((e) => basicIds.includes(e.id)).length;
+      expect(keptBasics).toBeGreaterThan(0);
+    }
+    if (accessoryIds.length > 0) {
+      const rotatedAccessories = week1NewMc.filter((e) => accessoryIds.includes(e.id)).length;
+      expect(rotatedAccessories).toBeLessThan(accessoryIds.length);
+    }
   });
 });
 
