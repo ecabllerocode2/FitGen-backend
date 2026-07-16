@@ -90,6 +90,11 @@ export function createUserRepository(db) {
       return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     },
 
+    async listAllUsers(limit = 300) {
+      const snap = await users().limit(limit).get();
+      return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    },
+
     async getRecentCelebrations(userId, limit = 20) {
       const now = Date.now();
       const sessions = await this.getRecentSessions(userId, limit);
