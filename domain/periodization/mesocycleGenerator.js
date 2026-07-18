@@ -11,6 +11,11 @@ import { calculateExperienceLevel } from '../athlete/experienceLevel.js';
 import { buildSafetyProfile } from '../athlete/safetyProfile.js';
 import { selectSplit, normalizeTrainingDays } from './splitSelector.js';
 import { addDays, toISODateString } from '../../lib/dateUtils.js';
+import { buildMuscleEmphasisLandmarks } from '../athlete/muscleEmphasis.js';
+import {
+  applyBodyCompositionToLandmarks,
+  applyBodyCompositionToMicrocycles,
+} from '../athlete/bodyCompositionStrategy.js';
 
 /**
  * DDS 8.2 — generate full mesocycle object (section 6.2).
@@ -55,6 +60,13 @@ export function generateMesocycle(profile, referenceDate) {
     };
   }
 
+  const emphasizedLandmarks = buildMuscleEmphasisLandmarks(profile, volumeLandmarks);
+  const bodyCompositionGoal = profile.bodyCompositionGoal ?? 'Mantener';
+  const adjustedLandmarks = applyBodyCompositionToLandmarks(
+    emphasizedLandmarks,
+    bodyCompositionGoal,
+  );
+
   const microcycles = [];
   for (let week = 1; week <= durationWeeks; week += 1) {
     const isDeload = week === durationWeeks;
@@ -69,7 +81,7 @@ export function generateMesocycle(profile, referenceDate) {
 
     const volumeTargets = {};
     for (const muscle of relevantMuscles) {
-      const landmarks = volumeLandmarks[muscle];
+      const landmarks = adjustedLandmarks[muscle];
       if (!landmarks) continue;
       const baseVolume = interpolateVolume(
         landmarks.MEV,
@@ -100,6 +112,11 @@ export function generateMesocycle(profile, referenceDate) {
   const startDate = toISODateString(referenceDate);
   const endDate = toISODateString(addDays(referenceDate, durationWeeks * 7 - 1));
 
+  const finalMicrocycles = applyBodyCompositionToMicrocycles(
+    microcycles,
+    bodyCompositionGoal,
+  );
+
   return {
     mesocycleId: `mc_${startDate}_${goal}_${splitType}`,
     goal,
@@ -110,9 +127,9 @@ export function generateMesocycle(profile, referenceDate) {
     endDate,
     currentWeek: 1,
     status: 'activo',
-    volumeLandmarks,
+    volumeLandmarks: adjustedLandmarks,
     safetyProfile,
-    microcycles,
+    microcycles: finalMicrocycles,
   };
 }
 

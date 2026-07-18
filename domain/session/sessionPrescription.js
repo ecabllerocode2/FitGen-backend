@@ -65,6 +65,14 @@ export function isGoodMorningExercise(exercise) {
 export function resolveSessionRir(weekPlan, sessionGoal, accumulationWeeks, isAccessory = false) {
   const week = weekPlan?.week ?? 1;
   const isDeload = weekPlan?.isDeload ?? false;
+
+  const plannedRir = isAccessory
+    ? weekPlan?.rirObjetivoAccessory ?? weekPlan?.rirObjetivo
+    : weekPlan?.rirObjetivo;
+  if (plannedRir != null && Number.isFinite(plannedRir)) {
+    return plannedRir;
+  }
+
   const prog =
     sessionGoal === 'Fuerza'
       ? RIR_PROGRESSION.Fuerza[isAccessory ? 'accessory' : 'main']

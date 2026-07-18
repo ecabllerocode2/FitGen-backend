@@ -18,6 +18,8 @@ import {
 } from './sessionPrescription.js';
 import { appendFuerzaRampSets, generateWarmup } from './rampGenerator.js';
 import { generateCooldown } from './cooldownGenerator.js';
+import { generateFatLossFinisher } from './finisherGenerator.js';
+import { buildSessionCoachingBrief } from './sessionCoachingBrief.js';
 import { getDayOfWeek } from '../../lib/dateUtils.js';
 import { resolveExclusionFilters } from '../athlete/exercisePreferences.js';
 import {
@@ -165,6 +167,7 @@ export function generateSession(context) {
     catalog: catalog.entrenamiento ?? [],
     loadPerformanceLedger,
     experienceLevel: safetyProfile?.experienceLevel ?? profile.experienceLevel ?? 'Intermedio',
+    musclePriorities: profile.musclePriorities ?? [],
   });
 
   let warmup = generateWarmup(patterns, catalog.calentamiento ?? [], {
@@ -190,7 +193,19 @@ export function generateSession(context) {
     resolvedPriorityLiftId,
   );
   const cooldown = generateCooldown(catalog.enfriamiento ?? [], sessionMuscles);
-  const summary = estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles });
+  const finisher = generateFatLossFinisher({
+    profile,
+    sessionFocus,
+    warmupCatalog: catalog.calentamiento ?? [],
+  });
+  const coachingBrief = buildSessionCoachingBrief({
+    profile,
+    sessionMuscles,
+    mainBlock,
+    finisher,
+    weekPlan,
+  });
+  const summary = estimateSessionSummary({ warmup, mainBlock, cooldown, finisher, sessionMuscles });
 
   return {
     sessionId: `sess_${mesocycle.mesocycleId}_w${weekNumber}_${dayOfWeek}`,
@@ -211,6 +226,8 @@ export function generateSession(context) {
     warmup,
     mainBlock,
     cooldown,
+    finisher,
+    coachingBrief,
     summary,
     completed: false,
   };
@@ -219,7 +236,7 @@ export function generateSession(context) {
 const WORK_SECONDS_PER_SET = 45;
 const TRANSITION_SECONDS = 30;
 
-function estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles }) {
+function estimateSessionSummary({ warmup, mainBlock, cooldown, finisher, sessionMuscles }) {
   let totalSeconds = 0;
 
   for (const item of warmup ?? []) {
@@ -235,6 +252,9 @@ function estimateSessionSummary({ warmup, mainBlock, cooldown, sessionMuscles })
   }
 
   totalSeconds += (cooldown?.duracionEstimada ?? 8) * 60;
+  if (finisher?.durationMinutes) {
+    totalSeconds += finisher.durationMinutes * 60;
+  }
 
   const minutes = Math.max(15, Math.round(totalSeconds / 60));
   const seriesTotales = (mainBlock ?? []).reduce((sum, ex) => sum + (ex.sets ?? 0), 0);
@@ -433,6 +453,7 @@ function buildMainBlock({
   catalog = [],
   loadPerformanceLedger = null,
   experienceLevel = 'Intermedio',
+  musclePriorities = [],
 }) {
   const repRanges = getSessionRepRanges(sessionGoal);
   const rest = getSessionRestSeconds(sessionGoal);
@@ -476,6 +497,22 @@ function buildMainBlock({
     sessionFocus,
     volumeByMuscle,
     weeklyMuscleSlotCounts,
+  });
+
+  const priorityExerciseIds = new Set(
+    getMusclePriorityBonusExerciseIds({
+      setsByExerciseId,
+      exercises,
+      musclePriorities,
+      sessionMuscles,
+    }),
+  );
+
+  applyMusclePrioritySetBonus({
+    setsByExerciseId,
+    exercises,
+    musclePriorities,
+    sessionMuscles,
   });
 
   applyConservativeSessionCap(setsByExerciseId, exercises, safetyProfile);
@@ -562,6 +599,8 @@ function buildMainBlock({
       isFuerzaPullBiceps ? 2 : setCap,
     );
 
+    const isPriorityMuscle = priorityExerciseIds.has(ex.id);
+
     return {
       exerciseId: ex.id,
       exerciseName: ex.nombre,
@@ -598,6 +637,42 @@ function buildMainBlock({
       exerciseType,
       fuerzaMainLift: isFuerzaMain,
       priority: ex.prioridad ?? 2,
+      emphasisTag: isPriorityMuscle && sessionMuscles.includes(muscle) ? 'priority' : null,
     };
   });
+}
+
+function getMusclePriorityBonusExerciseIds({
+  setsByExerciseId,
+  exercises,
+  musclePriorities = [],
+  sessionMuscles = [],
+}) {
+  const ids = [];
+  const seen = new Set();
+  for (const item of musclePriorities.slice(0, 2)) {
+    const muscle = item?.muscle;
+    if (!muscle || !sessionMuscles.includes(muscle) || seen.has(muscle)) continue;
+    const target = exercises.find((ex) => (ex.parteCuerpo ?? ex.muscleGroup) === muscle);
+    if (!target || (setsByExerciseId[target.id] ?? 0) <= 0) continue;
+    ids.push(target.id);
+    seen.add(muscle);
+  }
+  return ids;
+}
+
+function applyMusclePrioritySetBonus({
+  setsByExerciseId,
+  exercises,
+  musclePriorities = [],
+  sessionMuscles = [],
+}) {
+  for (const id of getMusclePriorityBonusExerciseIds({
+    setsByExerciseId,
+    exercises,
+    musclePriorities,
+    sessionMuscles,
+  })) {
+    setsByExerciseId[id] = Math.min((setsByExerciseId[id] ?? 0) + 1, MAX_SETS_PER_EXERCISE.compound);
+  }
 }

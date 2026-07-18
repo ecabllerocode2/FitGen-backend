@@ -20,7 +20,7 @@ import sessionSwapHandler from './api/session/swap-exercise.js';
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
 import gamificationSummaryHandler from './api/gamification/summary.js';
-import adminUsersOverviewHandler from './api/admin/users-overview.js';
+import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
 
 const app = express();
 const PORT = 3000;
@@ -75,6 +75,8 @@ app.post('/api/session/discard-stale', sessionDiscardStaleHandler);
 app.post('/api/session/swap-exercise', sessionSwapHandler);
 app.post('/api/session/swap-warmup-exercise', sessionSwapWarmupHandler);
 app.post('/api/profile/exercise-preferences', exercisePreferencesHandler);
+app.get('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
+app.post('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
 app.get('/api/gamification/summary', gamificationSummaryHandler);
 app.get('/api/admin/users-overview', adminUsersOverviewHandler);
 
@@ -97,6 +99,8 @@ app.get('/', (req, res) => {
             'POST /api/session/swap-exercise',
             'POST /api/session/swap-warmup-exercise',
             'POST /api/profile/exercise-preferences',
+            'GET /api/body-metrics/checkin',
+            'POST /api/body-metrics/checkin',
         ]
     });
 });

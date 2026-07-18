@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const GOAL_ENUM = z.enum(['Hipertrofia', 'Fuerza']);
+export const BODY_COMPOSITION_GOAL_ENUM = z.enum(['Mantener', 'Perder_Grasa', 'Ganar_Musculo']);
+export const MUSCLE_EMPHASIS_INTENSITY_ENUM = z.enum(['light', 'moderate', 'strong']);
 export const GENDER_ENUM = z.enum(['M', 'F']);
 export const EXTERNAL_LOAD_ENUM = z.enum(['ninguna', 'ligera', 'moderada', 'alta']);
 export const INJURY_ENUM = z.enum(['Hombro', 'Rodilla', 'Espalda_Baja', 'Muñeca']);
@@ -23,6 +25,21 @@ export const profileSchema = z.object({
   weeklyScheduleContext: z.array(weeklyScheduleEntrySchema).min(1),
   injuriesOrLimitations: z.array(INJURY_ENUM).optional().default([]),
   timezone: z.string().min(1),
+  focusArea: z
+    .enum(['General', 'Tren_Superior', 'Tren_Inferior', 'Core'])
+    .optional()
+    .default('General'),
+  bodyCompositionGoal: BODY_COMPOSITION_GOAL_ENUM.optional().default('Mantener'),
+  musclePriorities: z
+    .array(
+      z.object({
+        muscle: z.string().min(1),
+        intensity: MUSCLE_EMPHASIS_INTENSITY_ENUM.optional().default('moderate'),
+      }),
+    )
+    .max(2)
+    .optional()
+    .default([]),
 });
 
 export const readinessSchema = z.object({

@@ -9,8 +9,27 @@ import {
 import { normalizeLoadPerformanceLedger } from '../../domain/athlete/loadPerformanceLedger.js';
 import { applyMesocycleEvaluateGamification } from '../../domain/gamification/updateGamification.js';
 import { mesocycleEvaluationSchema } from '../../schemas/profileSchema.js';
+import {
+  appendBodyMetricEntry,
+  normalizeBodyMetricsEntry,
+} from '../../domain/athlete/bodyMetrics.js';
 
 const users = createUserRepository(db);
+
+const GOAL_PREFERENCE_MAP = {
+  'Ganancia Muscular': { bodyCompositionGoal: 'Ganar_Musculo' },
+  'Ganancia muscular': { bodyCompositionGoal: 'Ganar_Musculo' },
+  'Pérdida de Grasa': { bodyCompositionGoal: 'Perder_Grasa' },
+  'Perder grasa': { bodyCompositionGoal: 'Perder_Grasa' },
+  'Fuerza Máxima': { fitnessGoal: 'Fuerza', changeGoal: true },
+  'Fuerza máxima': { fitnessGoal: 'Fuerza', changeGoal: true },
+  Resistencia: { bodyCompositionGoal: 'Mantener' },
+  'body:Ganar_Musculo': { bodyCompositionGoal: 'Ganar_Musculo' },
+  'body:Perder_Grasa': { bodyCompositionGoal: 'Perder_Grasa' },
+  'body:Mantener': { bodyCompositionGoal: 'Mantener' },
+  'fitness:Fuerza': { fitnessGoal: 'Fuerza', changeGoal: true },
+  'fitness:Hipertrofia': { fitnessGoal: 'Hipertrofia', changeGoal: true },
+};
 
 async function authenticate(req) {
   const header = req.headers.authorization ?? '';
@@ -23,14 +42,41 @@ async function authenticate(req) {
 function parseEvaluationBody(body = {}) {
   const raw = body.evaluation ?? body;
   const painAreas = raw.painAreas ?? raw.painZones ?? [];
-  return mesocycleEvaluationSchema.parse({
+  const preference = raw.nextGoalPreference ?? raw.newGoal ?? '';
+  const mapped = GOAL_PREFERENCE_MAP[preference] ?? null;
+
+  const parsed = mesocycleEvaluationSchema.parse({
     generalDifficulty: raw.generalDifficulty ?? raw.difficultyScore ?? 3,
     persistentJointPain:
       raw.persistentJointPain ??
       (Array.isArray(painAreas) && painAreas.length > 0 && !painAreas.includes('none')),
-    changeGoal: raw.changeGoal ?? Boolean(raw.nextGoalPreference),
-    newGoal: raw.newGoal ?? raw.nextGoalPreference ?? undefined,
+    changeGoal: raw.changeGoal ?? Boolean(mapped?.changeGoal),
+    newGoal: mapped?.fitnessGoal ?? (mapped ? undefined : raw.newGoal ?? undefined),
     painZones: Array.isArray(painAreas) ? painAreas.filter((p) => p !== 'none') : [],
+  });
+
+  return {
+    ...parsed,
+    newBodyCompositionGoal: mapped?.bodyCompositionGoal ?? raw.bodyCompositionGoal ?? null,
+    notes: raw.notes ?? '',
+  };
+}
+
+function parseBodyMetricsPayload(body = {}) {
+  const raw = body.bodyMetrics ?? body.metrics ?? null;
+  if (!raw) return null;
+
+  const weightKg = raw.weightKg ?? raw.weight;
+  if (weightKg == null || !Number.isFinite(Number(weightKg))) return null;
+
+  return normalizeBodyMetricsEntry({
+    weightKg: Number(weightKg),
+    waistCm: raw.waistCm != null ? Number(raw.waistCm) : null,
+    hipCm: raw.hipCm != null ? Number(raw.hipCm) : null,
+    armCm: raw.armCm != null ? Number(raw.armCm) : null,
+    thighCm: raw.thighCm != null ? Number(raw.thighCm) : null,
+    kind: 'full',
+    source: 'mesocycle_evaluate',
   });
 }
 
@@ -102,8 +148,18 @@ export default async function handler(req, res) {
       trainingAgeMonths,
     };
 
+    let bodyMetrics = user.bodyMetrics ?? { entries: [] };
+    const metricsEntry = parseBodyMetricsPayload(req.body);
+    if (metricsEntry) {
+      bodyMetrics = appendBodyMetricEntry(bodyMetrics, metricsEntry);
+      profileForEval.currentWeightKg = metricsEntry.weightKg;
+    }
+
     const cycleResult = evaluateCycle(
-      evaluation,
+      {
+        ...evaluation,
+        bodyMetricsEntries: bodyMetrics.entries ?? [],
+      },
       user.currentMesocycle.volumeLandmarks,
       profileForEval,
       referenceDate,
@@ -139,6 +195,7 @@ export default async function handler(req, res) {
 
     await users.saveUser(userId, {
       profileData,
+      bodyMetrics,
       currentMesocycle: wrapped,
       currentSession: null,
       lastMesocycleEvaluation: referenceDate.toISOString(),

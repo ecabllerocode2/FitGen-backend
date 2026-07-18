@@ -1,4 +1,5 @@
 import { calculateExperienceLevel } from '../athlete/experienceLevel.js';
+import { analyzeBodyTrend, applyTrendToLandmarks } from '../athlete/bodyMetrics.js';
 import { generateMesocycle } from '../periodization/mesocycleGenerator.js';
 
 /**
@@ -15,6 +16,8 @@ export function evaluateCycle(feedback, currentLandmarks, profile, referenceDate
     persistentJointPain = false,
     changeGoal = false,
     newGoal = null,
+    newBodyCompositionGoal = null,
+    bodyMetricsEntries = [],
   } = feedback;
 
   const updatedLandmarks = {};
@@ -42,6 +45,20 @@ export function evaluateCycle(feedback, currentLandmarks, profile, referenceDate
   if (changeGoal && newGoal) {
     updatedProfile.fitnessGoal = newGoal;
   }
+  if (newBodyCompositionGoal) {
+    updatedProfile.bodyCompositionGoal = newBodyCompositionGoal;
+  }
+
+  const bodyCompositionGoal =
+    updatedProfile.bodyCompositionGoal ?? profile.bodyCompositionGoal ?? 'Mantener';
+  const trend = analyzeBodyTrend(bodyMetricsEntries);
+  const trendAdjustment = applyTrendToLandmarks(
+    updatedLandmarks,
+    trend,
+    bodyCompositionGoal,
+  );
+  Object.assign(updatedLandmarks, trendAdjustment.landmarks);
+  landmarkMessages.push(...trendAdjustment.messages);
 
   updatedProfile.experienceLevel = calculateExperienceLevel(
     updatedProfile.trainingAgeMonths ?? 0,
@@ -69,5 +86,7 @@ export function evaluateCycle(feedback, currentLandmarks, profile, referenceDate
     preserveE1RMHistory: true,
     messages: landmarkMessages,
     goalChanged: Boolean(changeGoal && newGoal),
+    bodyCompositionChanged: Boolean(newBodyCompositionGoal),
+    bodyTrend: trend,
   };
 }
