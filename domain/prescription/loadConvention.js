@@ -14,6 +14,47 @@ function normalizeEquipo(equipo) {
 }
 
 /**
+ * Fallback when catalog fields are missing from persisted session rows.
+ * @param {object} exercise
+ * @returns {string|null}
+ */
+function inferConventionFromMetadata(exercise = {}) {
+  const nombre = String(exercise.exerciseName ?? exercise.nombre ?? exercise.name ?? '');
+  const exerciseId = String(exercise.exerciseId ?? exercise.id ?? '');
+  const haystack = `${nombre} ${exerciseId}`;
+
+  if (/\b(unilateral|una mano|un brazo|single[-_ ]arm|one[-_ ]arm)\b/i.test(haystack)) {
+    return LOAD_CONVENTIONS.UNILATERAL;
+  }
+
+  // One implement held with both hands (goblet / plié).
+  if (/\b(goblet|plie|plié)\b/i.test(haystack) && /mancuerna|dumbbell|kettlebell/i.test(haystack)) {
+    return LOAD_CONVENTIONS.BARBELL_TOTAL;
+  }
+
+  // Bilateral dumbbells: plural name or dumbbell_* exercise id.
+  if (/\bmancuernas\b|\bdumbbells\b/i.test(haystack) || /dumbbell_/i.test(exerciseId)) {
+    return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
+  }
+
+  if (/\bmancuerna\b|\bdumbbell\b|\bkettlebell\b/i.test(haystack)) {
+    return exercise.isUnilateral === true
+      ? LOAD_CONVENTIONS.UNILATERAL
+      : LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
+  }
+
+  if (/\bbarra\b|\bbarbell\b/i.test(haystack)) {
+    return LOAD_CONVENTIONS.BARBELL_TOTAL;
+  }
+
+  if (/\bmáquina\b|\bmaquina\b|\bpolea\b|\bcable\b/i.test(haystack)) {
+    return LOAD_CONVENTIONS.MACHINE_STACK;
+  }
+
+  return null;
+}
+
+/**
  * Infer how prescribed/logged load should be interpreted for an exercise.
  * @param {object} exercise
  * @returns {string}
@@ -33,13 +74,19 @@ export function resolveLoadConvention(exercise = {}) {
     return LOAD_CONVENTIONS.BODYWEIGHT;
   }
 
+  if (exercise.isUnilateral === true) {
+    return LOAD_CONVENTIONS.UNILATERAL;
+  }
+
+  const inferredUnilateral = inferConventionFromMetadata(exercise);
+  if (inferredUnilateral === LOAD_CONVENTIONS.UNILATERAL) {
+    return LOAD_CONVENTIONS.UNILATERAL;
+  }
+
   const isDumbbellLike = /mancuerna|dumbbell|kettlebell|kettelbell/i.test(joined);
   const isBarbellLike = /barra|barbell|smith/i.test(joined);
   const isMachineLike = /máquina|maquina|polea|cable|selectorizado|stack|máquina de palancas/i.test(joined);
 
-  if (exercise.isUnilateral === true) {
-    return LOAD_CONVENTIONS.UNILATERAL;
-  }
   if (isDumbbellLike && !isBarbellLike) {
     return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
   }
@@ -52,6 +99,9 @@ export function resolveLoadConvention(exercise = {}) {
   if (isDumbbellLike) {
     return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
   }
+
+  const inferred = inferConventionFromMetadata(exercise);
+  if (inferred) return inferred;
 
   return LOAD_CONVENTIONS.BARBELL_TOTAL;
 }

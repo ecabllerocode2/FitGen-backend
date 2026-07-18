@@ -2,6 +2,7 @@ import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE } from 
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
 import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
+import { resolveLoadConvention } from '../prescription/loadConvention.js';
 import { prescribeLoad, buildLoadHistoryFromSessions } from '../prescription/loadCalculator.js';
 import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
 import {
@@ -570,6 +571,8 @@ function buildMainBlock({
       imageUrl2: ex.url_img_1 ?? ex.imageUrl2 ?? null,
       muscleGroup: ex.parteCuerpo,
       movementPattern: ex.patronMovimiento,
+      equipo: ex.equipo ?? [],
+      isUnilateral: ex.isUnilateral === true,
       sets: cappedSets,
       repRange: load.repRange ?? repRange,
       repRangeOverride: ex.repRangeOverride ?? null,
@@ -578,7 +581,14 @@ function buildMainBlock({
       prescribedLoadKg: load.prescribedLoadKg,
       suggestedLoadKg: load.suggestedLoadKg ?? null,
       loadMode: load.mode,
-      loadConvention: load.loadConvention ?? null,
+      loadConvention: load.loadConvention
+        ?? resolveLoadConvention({
+          equipo: ex.equipo,
+          isUnilateral: ex.isUnilateral,
+          isBodyweight: bodyweight,
+          exerciseId: ex.id,
+          exerciseName: ex.nombre,
+        }),
       isBodyweight: bodyweight,
       loadExplanation: load.explanation,
       restSeconds:

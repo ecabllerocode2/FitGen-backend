@@ -7,6 +7,7 @@ import { getWeekPlan, applyDeloadVolume } from '../domain/periodization/microcyc
 import { applyReadiness } from '../domain/autoregulation/readiness.js';
 import { applyWeeklyFeedback } from '../domain/autoregulation/weeklyFeedback.js';
 import { estimateE1RM, applyLoadLimits, prescribeLoad } from '../domain/prescription/loadCalculator.js';
+import { resolveLoadConvention } from '../domain/prescription/loadConvention.js';
 import { isBodyweightExercise } from '../domain/exerciseSelection/bodyweight.js';
 import { detectPlateau, getIntervention } from '../domain/progression/plateau.js';
 import { evaluateCycle } from '../domain/progression/cycleEvaluation.js';
@@ -113,6 +114,23 @@ describe('loadCalculator', () => {
     expect(load.loadConvention).toBe('dumbbell_per_hand');
     expect(load.prescribedLoadKg).toBeLessThanOrEqual(14);
     expect(load.prescribedLoadKg % 1).toBe(0);
+  });
+});
+
+describe('loadConvention', () => {
+  it('infers dumbbell_per_hand from exercise name when equipo is missing', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Dumbbell_Squat',
+      exerciseName: 'Sentadilla con Mancuernas',
+      isUnilateral: false,
+    })).toBe('dumbbell_per_hand');
+  });
+
+  it('keeps bilateral dumbbells distinct from unilateral work', () => {
+    expect(resolveLoadConvention({
+      exerciseName: 'Curl de bíceps a un brazo',
+      equipo: ['Mancuernas'],
+    })).toBe('unilateral');
   });
 });
 

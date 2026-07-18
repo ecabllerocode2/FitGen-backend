@@ -162,7 +162,12 @@ export function prescribeLoad({
 }) {
   const targetReps = parseRepRangeMidpoint(repRange);
   const loadConvention = loadConventionInput
-    ?? resolveLoadConvention({ equipo, isUnilateral, isBodyweight, loadMode: isBodyweight ? 'bodyweight' : undefined });
+    ?? resolveLoadConvention({
+      equipo,
+      isUnilateral,
+      isBodyweight,
+      exerciseId,
+    });
 
   if (isBodyweight || loadConvention === LOAD_CONVENTIONS.BODYWEIGHT) {
     return {

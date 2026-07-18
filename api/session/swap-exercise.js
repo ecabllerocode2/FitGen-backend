@@ -157,6 +157,8 @@ export default async function handler(req, res) {
         imageUrl2: replacement.url_img_1 ?? null,
         swappedFrom: exerciseIdToReplace,
         isBodyweight: bodyweight,
+        equipo: replacement.equipo ?? [],
+        isUnilateral: replacement.isUnilateral === true,
         loadMode: load.mode,
         loadConvention: load.loadConvention ?? null,
         prescribedLoadKg: load.prescribedLoadKg,
