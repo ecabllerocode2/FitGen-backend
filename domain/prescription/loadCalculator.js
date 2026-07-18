@@ -7,10 +7,10 @@ import {
 import { ledgerEntriesForPrescription } from '../athlete/loadPerformanceLedger.js';
 import {
   resolveLoadConvention,
-  getPlateIncrementForConvention,
   convertLoadBetweenConventions,
   LOAD_CONVENTIONS,
 } from './loadConvention.js';
+import { snapPrescribedLoad, snapToGymWeight } from './gymInventory.js';
 
 /**
  * Brzycki e1RM — DDS 5.8.
@@ -193,10 +193,13 @@ export function prescribeLoad({
       && (loadConvention === LOAD_CONVENTIONS.DUMBBELL_PER_HAND
         || loadConvention === LOAD_CONVENTIONS.UNILATERAL)
     ) {
-      suggestedLoadKg = roundDownToIncrement(
+      suggestedLoadKg = snapToGymWeight(
         suggestedLoadKg * 0.45,
-        getPlateIncrementForConvention(loadConvention, suggestedLoadKg * 0.45),
-      ).weight;
+        loadConvention,
+        { direction: 'nearest' },
+      );
+    } else if (suggestedLoadKg != null) {
+      suggestedLoadKg = snapToGymWeight(suggestedLoadKg, loadConvention, { direction: 'nearest' });
     }
     const suffix = loadConvention === LOAD_CONVENTIONS.DUMBBELL_PER_HAND
       ? ' por mano'
@@ -251,8 +254,7 @@ export function prescribeLoad({
   targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'weekly');
   targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'session');
 
-  const increment = getPlateIncrementForConvention(loadConvention, targetWeight) ?? plateIncrementKg;
-  const rounded = roundDownToIncrement(targetWeight, increment);
+  const rounded = snapPrescribedLoad(targetWeight, loadConvention);
   const result = {
     mode: last.fromPatternFallback ? 'pattern_transfer' : 'calculated',
     loadConvention,
@@ -311,13 +313,6 @@ function findNearestRepKey(targetReps) {
   return nearest;
 }
 
-function roundDownToIncrement(weight, increment) {
-  if (!increment || increment <= 0) return { weight: Math.round(weight * 10) / 10, addRep: false };
-  const rounded = Math.floor(weight / increment) * increment;
-  const diff = weight - rounded;
-  const addRep = diff > 0 && diff < increment;
-  return { weight: Math.round(rounded * 100) / 100, addRep };
-}
 
 function bumpRepRange(repRange) {
   const parts = String(repRange).split('-').map(Number);
@@ -347,5 +342,5 @@ function suggestExploratoryLoad(bodyWeightKg, movementPattern, exerciseType, exe
     variance = 1 + (hash - 5) * 0.04;
   }
   const raw = bodyWeightKg * factor * variance;
-  return Math.round(raw / 2.5) * 2.5;
+  return snapToGymWeight(raw, LOAD_CONVENTIONS.BARBELL_TOTAL, { direction: 'nearest' });
 }

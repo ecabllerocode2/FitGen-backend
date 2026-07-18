@@ -103,17 +103,17 @@ describe('loadCalculator', () => {
     expect(applyLoadLimits(110, 100, 'compound', 'weekly')).toBe(105);
   });
 
-  it('prescribes dumbbell loads per hand with 1 kg increments below 20 kg', () => {
+  it('prescribes dumbbell loads per hand on realistic rack pairs', () => {
     const load = prescribeLoad({
       exerciseType: 'isolation',
       rirTarget: 2,
       repRange: '10-12',
       equipo: ['Mancuernas'],
-      history: [{ weightKg: 14, reps: 10, rir: 2 }],
+      history: [{ weightKg: 14, reps: 10, rir: 2, loadConvention: 'dumbbell_per_hand' }],
     });
     expect(load.loadConvention).toBe('dumbbell_per_hand');
     expect(load.prescribedLoadKg).toBeLessThanOrEqual(14);
-    expect(load.prescribedLoadKg % 1).toBe(0);
+    expect(load.prescribedLoadKg % 2).toBe(0);
   });
 });
 
@@ -131,6 +131,22 @@ describe('loadConvention', () => {
       exerciseName: 'Curl de bíceps a un brazo',
       equipo: ['Mancuernas'],
     })).toBe('unilateral');
+  });
+});
+
+describe('gymInventory', () => {
+  it('snaps barbell loads to 5 kg totals without micro-plates (no 27.5)', async () => {
+    const { snapToGymWeight } = await import('../domain/prescription/gymInventory.js');
+    expect(snapToGymWeight(27.5, 'barbell_total', { direction: 'down' })).toBe(25);
+    expect(snapToGymWeight(32.5, 'barbell_total', { direction: 'down' })).toBe(30);
+    expect(snapToGymWeight(20, 'barbell_total', { direction: 'down' })).toBe(20);
+  });
+
+  it('snaps dumbbells to rack pairs without 12.5 kg', async () => {
+    const { snapToGymWeight } = await import('../domain/prescription/gymInventory.js');
+    expect(snapToGymWeight(12.5, 'dumbbell_per_hand', { direction: 'down' })).toBe(12);
+    expect(snapToGymWeight(13, 'dumbbell_per_hand', { direction: 'down' })).toBe(12);
+    expect(snapToGymWeight(2.5, 'dumbbell_per_hand', { direction: 'nearest' })).toBe(2.5);
   });
 });
 
