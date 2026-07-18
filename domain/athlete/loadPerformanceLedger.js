@@ -60,6 +60,7 @@ export function updateLoadPerformanceLedger(ledger, performance = [], completedA
       movementPattern,
       muscleGroup: ex.muscleGroup ?? ex.parteCuerpo ?? null,
       priority,
+      loadConvention: ex.loadConvention ?? null,
       e1RM: Math.round(e1RM * 10) / 10,
       previousE1RM,
       lastWeightKg: weight,
@@ -137,6 +138,7 @@ export function ledgerEntriesForPrescription(
         e1RM: applyStrengthRecencyAdjustment(exact.e1RM, months, experienceLevel),
         fromLedger: true,
         fromPatternFallback: false,
+        loadConvention: exact.loadConvention ?? null,
         ledgerAgeMonths: months,
       },
     ];

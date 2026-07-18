@@ -544,6 +544,8 @@ function buildMainBlock({
       movementPattern: ex.patronMovimiento,
       isBodyweight: bodyweight,
       exerciseId: ex.id,
+      equipo: ex.equipo,
+      isUnilateral: ex.isUnilateral === true,
     });
 
     const adjustedSets = Math.max(
@@ -576,6 +578,7 @@ function buildMainBlock({
       prescribedLoadKg: load.prescribedLoadKg,
       suggestedLoadKg: load.suggestedLoadKg ?? null,
       loadMode: load.mode,
+      loadConvention: load.loadConvention ?? null,
       isBodyweight: bodyweight,
       loadExplanation: load.explanation,
       restSeconds:

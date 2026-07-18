@@ -5,6 +5,12 @@ import {
   DEFAULT_PLATE_INCREMENT_KG,
 } from '../constants.js';
 import { ledgerEntriesForPrescription } from '../athlete/loadPerformanceLedger.js';
+import {
+  resolveLoadConvention,
+  getPlateIncrementForConvention,
+  convertLoadBetweenConventions,
+  LOAD_CONVENTIONS,
+} from './loadConvention.js';
 
 /**
  * Brzycki e1RM — DDS 5.8.
@@ -92,6 +98,7 @@ export function buildLoadHistoryFromSessions(
       movementPattern: e.movementPattern ?? e.patronMovimiento,
       priority: e.priority ?? e.prioridad ?? 2,
       exerciseId: e.exerciseId ?? e.id,
+      loadConvention: e.loadConvention ?? resolveLoadConvention(e),
       fromPatternFallback: e.fromPatternFallback ?? false,
     };
   };
@@ -149,12 +156,18 @@ export function prescribeLoad({
   movementPattern,
   isBodyweight = false,
   exerciseId = '',
+  equipo = [],
+  isUnilateral = false,
+  loadConvention: loadConventionInput = null,
 }) {
   const targetReps = parseRepRangeMidpoint(repRange);
+  const loadConvention = loadConventionInput
+    ?? resolveLoadConvention({ equipo, isUnilateral, isBodyweight, loadMode: isBodyweight ? 'bodyweight' : undefined });
 
-  if (isBodyweight) {
+  if (isBodyweight || loadConvention === LOAD_CONVENTIONS.BODYWEIGHT) {
     return {
       mode: 'bodyweight',
+      loadConvention: LOAD_CONVENTIONS.BODYWEIGHT,
       prescribedLoadKg: null,
       suggestedLoadKg: null,
       repRange,
@@ -164,20 +177,36 @@ export function prescribeLoad({
   }
 
   if (!history.length) {
-    const suggestedLoadKg = suggestExploratoryLoad(
+    let suggestedLoadKg = suggestExploratoryLoad(
       bodyWeightKg,
       movementPattern,
       exerciseType,
       exerciseId,
     );
+    if (
+      suggestedLoadKg != null
+      && (loadConvention === LOAD_CONVENTIONS.DUMBBELL_PER_HAND
+        || loadConvention === LOAD_CONVENTIONS.UNILATERAL)
+    ) {
+      suggestedLoadKg = roundDownToIncrement(
+        suggestedLoadKg * 0.45,
+        getPlateIncrementForConvention(loadConvention, suggestedLoadKg * 0.45),
+      ).weight;
+    }
+    const suffix = loadConvention === LOAD_CONVENTIONS.DUMBBELL_PER_HAND
+      ? ' por mano'
+      : loadConvention === LOAD_CONVENTIONS.UNILATERAL
+        ? ' por lado'
+        : '';
     return {
       mode: 'exploratory',
+      loadConvention,
       prescribedLoadKg: null,
       suggestedLoadKg,
       repRange,
       rirTarget,
       explanation: suggestedLoadKg
-        ? `Semana exploratoria: prueba ~${suggestedLoadKg} kg como punto de partida conservador y reporta RIR real.`
+        ? `Semana exploratoria: prueba ~${suggestedLoadKg} kg${suffix} como punto de partida conservador y reporta RIR real.`
         : 'Semana exploratoria: elige una carga conservadora y reporta RIR real al terminar.',
     };
   }
@@ -186,6 +215,7 @@ export function prescribeLoad({
   if (!last) {
     return {
       mode: 'exploratory',
+      loadConvention,
       prescribedLoadKg: null,
       repRange,
       rirTarget,
@@ -205,14 +235,22 @@ export function prescribeLoad({
 
   const pct = getPercent1RMFromRIR(rirTarget, targetReps);
   let targetWeight = e1rm * pct;
-  const previousWeight = last.weightKg ?? last.weight ?? 0;
+  let previousWeight = last.weightKg ?? last.weight ?? 0;
+  const historyConvention = last.loadConvention ?? LOAD_CONVENTIONS.BARBELL_TOTAL;
+
+  if (historyConvention !== loadConvention) {
+    targetWeight = convertLoadBetweenConventions(targetWeight, historyConvention, loadConvention);
+    previousWeight = convertLoadBetweenConventions(previousWeight, historyConvention, loadConvention);
+  }
 
   targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'weekly');
   targetWeight = applyLoadLimits(targetWeight, previousWeight, exerciseType, 'session');
 
-  const rounded = roundDownToIncrement(targetWeight, plateIncrementKg);
+  const increment = getPlateIncrementForConvention(loadConvention, targetWeight) ?? plateIncrementKg;
+  const rounded = roundDownToIncrement(targetWeight, increment);
   const result = {
     mode: last.fromPatternFallback ? 'pattern_transfer' : 'calculated',
+    loadConvention,
     prescribedLoadKg: rounded.weight,
     repRange,
     rirTarget,

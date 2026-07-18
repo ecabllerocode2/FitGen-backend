@@ -143,6 +143,8 @@ export default async function handler(req, res) {
         movementPattern: replacement.patronMovimiento,
         isBodyweight: bodyweight,
         exerciseId: replacement.id,
+        equipo: replacement.equipo,
+        isUnilateral: replacement.isUnilateral === true,
       });
 
       return {
@@ -156,6 +158,7 @@ export default async function handler(req, res) {
         swappedFrom: exerciseIdToReplace,
         isBodyweight: bodyweight,
         loadMode: load.mode,
+        loadConvention: load.loadConvention ?? null,
         prescribedLoadKg: load.prescribedLoadKg,
         suggestedLoadKg: load.suggestedLoadKg,
         loadExplanation: load.explanation,

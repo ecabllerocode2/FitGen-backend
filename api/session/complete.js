@@ -15,6 +15,14 @@ import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUti
 import { applySessionCompleteGamification } from '../../domain/gamification/updateGamification.js';
 import { computeMainBlockVolumeKg } from '../../domain/session/sessionVolume.js';
 
+const MAX_COMPLETION_RECEIPTS = 20;
+
+function pruneCompletionReceipts(receipts = {}) {
+  const entries = Object.entries(receipts);
+  if (entries.length <= MAX_COMPLETION_RECEIPTS) return receipts;
+  return Object.fromEntries(entries.slice(-MAX_COMPLETION_RECEIPTS));
+}
+
 const users = createUserRepository(db);
 
 async function authenticate(req) {
@@ -71,7 +79,12 @@ export default async function handler(req, res) {
       sessionFeedback: rawFeedback = {},
       performanceData = {},
       exercises = performanceData.exercises,
+      clientCompletionId = null,
     } = req.body;
+
+    if (clientCompletionId && user.completionReceipts?.[clientCompletionId]) {
+      return res.status(200).json(user.completionReceipts[clientCompletionId]);
+    }
 
     const sessionFeedback = weeklyFeedbackSchema.parse(rawFeedback);
 
@@ -79,6 +92,7 @@ export default async function handler(req, res) {
       ...session,
       completed: true,
       completedAt: new Date().toISOString(),
+      clientCompletionId: clientCompletionId ?? null,
       sessionFeedback,
       performance: exercises ?? req.body.mainBlock ?? session.mainBlock,
     };
@@ -197,7 +211,7 @@ export default async function handler(req, res) {
     await users.saveSession(userId, null);
     await users.saveUser(userId, userUpdates);
 
-    return res.status(200).json({
+    const responseBody = {
       success: true,
       message: 'Sesión completada y archivada.',
       archivedSessionId: archived.id,
@@ -213,7 +227,18 @@ export default async function handler(req, res) {
       weekClosed,
       requiresEvaluation: false,
       gamificationDelta,
-    });
+    };
+
+    if (clientCompletionId) {
+      await users.saveUser(userId, {
+        completionReceipts: pruneCompletionReceipts({
+          ...(user.completionReceipts ?? {}),
+          [clientCompletionId]: responseBody,
+        }),
+      });
+    }
+
+    return res.status(200).json(responseBody);
   } catch (err) {
     const status = err.status ?? (err.name === 'ZodError' ? 400 : 500);
     console.error('session/complete error:', err);

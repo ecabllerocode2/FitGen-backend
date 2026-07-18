@@ -101,6 +101,19 @@ describe('loadCalculator', () => {
   it('caps weekly compound increase at 5%', () => {
     expect(applyLoadLimits(110, 100, 'compound', 'weekly')).toBe(105);
   });
+
+  it('prescribes dumbbell loads per hand with 1 kg increments below 20 kg', () => {
+    const load = prescribeLoad({
+      exerciseType: 'isolation',
+      rirTarget: 2,
+      repRange: '10-12',
+      equipo: ['Mancuernas'],
+      history: [{ weightKg: 14, reps: 10, rir: 2 }],
+    });
+    expect(load.loadConvention).toBe('dumbbell_per_hand');
+    expect(load.prescribedLoadKg).toBeLessThanOrEqual(14);
+    expect(load.prescribedLoadKg % 1).toBe(0);
+  });
 });
 
 describe('weeklyFeedback', () => {
