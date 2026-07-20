@@ -14,6 +14,9 @@ import { weeklyFeedbackSchema } from '../../schemas/profileSchema.js';
 import { isMesocycleComplete, isLastSessionOfWeek } from '../../lib/mesocycleUtils.js';
 import { applySessionCompleteGamification } from '../../domain/gamification/updateGamification.js';
 import { computeMainBlockVolumeKg } from '../../domain/session/sessionVolume.js';
+import { assessSessionVolumeCompletion } from '../../domain/gamification/volumeGate.js';
+import { detectE1rmPersonalRecords } from '../../domain/gamification/e1rmPrs.js';
+import { upsertLeaderboardEntry } from '../../domain/gamification/leaderboard.js';
 
 const MAX_COMPLETION_RECEIPTS = 20;
 
@@ -176,6 +179,17 @@ export default async function handler(req, res) {
       completedSession.completedAt,
     );
 
+    const e1rmRecords = detectE1rmPersonalRecords(
+      normalizeLoadPerformanceLedger(user.loadPerformanceLedger),
+      loadPerformanceLedger,
+    );
+
+    const volumeAssessment = assessSessionVolumeCompletion(session, completedSession.performance);
+    const readiness = session.readinessAdjustment ?? {};
+    const hasPreReadiness = Boolean(
+      readiness.energyLevel != null || readiness.sorenessLevel != null,
+    );
+
     const mesocycleExerciseIndex =
       (session.weekNumber ?? 1) === 1
         ? upsertMesocycleExerciseIndex(user.mesocycleExerciseIndex, completedSession)
@@ -192,7 +206,17 @@ export default async function handler(req, res) {
       weekNumber,
       recentSessions: recentForWeek,
       completedSession,
-      hasFeedback: Boolean(sessionFeedback),
+      hasPreReadiness,
+      hasPostFeedback: Boolean(sessionFeedback),
+      volumeMetTarget: volumeAssessment.meetsTarget,
+      e1rmRecords,
+    });
+
+    await upsertLeaderboardEntry(db, {
+      userId,
+      gamification,
+      profileData: user.profileData ?? {},
+      timezone,
     });
 
     const userUpdates = {

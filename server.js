@@ -20,6 +20,11 @@ import sessionSwapHandler from './api/session/swap-exercise.js';
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
 import gamificationSummaryHandler from './api/gamification/summary.js';
+import gamificationLeaderboardHandler from './api/gamification/leaderboard.js';
+import gamificationOptInLeaderboardHandler from './api/gamification/opt-in-leaderboard.js';
+import gamificationEquipHandler from './api/gamification/equip.js';
+import shopPurchaseHandler from './api/shop/purchase.js';
+import shopRedeemPremiumHandler from './api/shop/redeem-premium.js';
 import adminUsersOverviewHandler from './api/admin/users-overview.js';
 import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
 
@@ -84,6 +89,12 @@ app.post('/api/profile/exercise-preferences', exercisePreferencesHandler);
 app.get('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
 app.post('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
 app.get('/api/gamification/summary', gamificationSummaryHandler);
+app.get('/api/gamification/leaderboard', gamificationLeaderboardHandler);
+app.post('/api/gamification/opt-in-leaderboard', gamificationOptInLeaderboardHandler);
+app.post('/api/gamification/equip', gamificationEquipHandler);
+app.get('/api/shop/catalog', shopPurchaseHandler);
+app.post('/api/shop/purchase', shopPurchaseHandler);
+app.post('/api/shop/redeem-premium', shopRedeemPremiumHandler);
 app.get('/api/admin/users-overview', adminUsersOverviewHandler);
 
 
