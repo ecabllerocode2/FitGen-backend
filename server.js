@@ -39,9 +39,6 @@ const corsOptions = {
     credentials: true,
 };
 
-// Preflight explícito para Vercel serverless
-app.options('*', cors(corsOptions));
-
 // 1. Usar el middleware CORS 
 app.use(cors(corsOptions));
 
