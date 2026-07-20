@@ -20,6 +20,7 @@ import sessionSwapHandler from './api/session/swap-exercise.js';
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
 import gamificationSummaryHandler from './api/gamification/summary.js';
+import adminUsersOverviewHandler from './api/admin/users-overview.js';
 import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
 
 const app = express();
@@ -28,10 +29,18 @@ const PORT = 3000;
 // 💡 CONFIGURACIÓN CORS ROBUSTA
 const corsOptions = {
     origin: '*', // Permite todas las fuentes (vital para Codespaces -> Vercel)
-    methods: ['GET', 'POST', 'OPTIONS'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], 
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'x-vercel-protection-bypass',
+        'x-vercel-set-bypass-cookie',
+    ],
     credentials: true,
 };
+
+// Preflight explícito para Vercel serverless
+app.options('*', cors(corsOptions));
 
 // 1. Usar el middleware CORS 
 app.use(cors(corsOptions));
