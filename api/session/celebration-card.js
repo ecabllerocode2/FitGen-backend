@@ -67,7 +67,11 @@ export default async function handler(req, res) {
       celebrationCardExpiresAt,
       celebrationSummary: {
         sessionFocus: session.sessionFocus ?? session.sessionName ?? 'Entrenamiento',
-        durationLabel: session.summary?.duracionEstimada ?? '—',
+        durationLabel:
+          session.celebrationSummary?.durationLabel
+          ?? session.summary?.durationLabel
+          ?? session.summary?.duracionEstimada
+          ?? '—',
         exerciseCount: session.summary?.ejerciciosTotales ?? 0,
         totalSets: session.summary?.seriesTotales ?? 0,
         totalWeightKg:

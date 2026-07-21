@@ -20,7 +20,11 @@ function mapSessionRow(session) {
     weekNumber: session.weekNumber ?? null,
     dayOfWeek: session.dayOfWeek ?? null,
     summary: {
-      durationLabel: session.summary?.duracionEstimada ?? session.summary?.durationLabel ?? '—',
+      durationLabel:
+        session.celebrationSummary?.durationLabel
+        ?? session.summary?.durationLabel
+        ?? session.summary?.duracionEstimada
+        ?? '—',
       exerciseCount: session.summary?.ejerciciosTotales ?? session.summary?.exerciseCount ?? 0,
       totalSets: session.summary?.seriesTotales ?? session.summary?.totalSets ?? 0,
       muscles: session.summary?.musculosTrabajos ?? session.sessionMuscles ?? [],

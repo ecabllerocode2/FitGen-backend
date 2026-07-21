@@ -26,6 +26,24 @@ function pruneCompletionReceipts(receipts = {}) {
   return Object.fromEntries(entries.slice(-MAX_COMPLETION_RECEIPTS));
 }
 
+function formatDurationLabelFromSeconds(totalSeconds) {
+  const minutes = Math.max(1, Math.round(Number(totalSeconds) / 60));
+  if (minutes < 60) return `${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  return remainder > 0 ? `${hours}h ${remainder} min` : `${hours}h`;
+}
+
+function resolveActualDurationLabel({ durationLabel, actualDurationSeconds, fallback }) {
+  if (typeof durationLabel === 'string' && durationLabel.trim() && durationLabel.trim() !== '—') {
+    return durationLabel.trim();
+  }
+  if (actualDurationSeconds != null && Number.isFinite(Number(actualDurationSeconds))) {
+    return formatDurationLabelFromSeconds(actualDurationSeconds);
+  }
+  return fallback ?? '—';
+}
+
 const users = createUserRepository(db);
 
 async function authenticate(req) {
@@ -83,6 +101,8 @@ export default async function handler(req, res) {
       performanceData = {},
       exercises = performanceData.exercises,
       clientCompletionId = null,
+      actualDurationSeconds = null,
+      durationLabel: clientDurationLabel = null,
     } = req.body;
 
     if (clientCompletionId && user.completionReceipts?.[clientCompletionId]) {
@@ -91,6 +111,12 @@ export default async function handler(req, res) {
 
     const sessionFeedback = weeklyFeedbackSchema.parse(rawFeedback);
 
+    const actualDurationLabel = resolveActualDurationLabel({
+      durationLabel: clientDurationLabel,
+      actualDurationSeconds,
+      fallback: session.summary?.duracionEstimada ?? '—',
+    });
+
     const completedSession = {
       ...session,
       completed: true,
@@ -98,6 +124,14 @@ export default async function handler(req, res) {
       clientCompletionId: clientCompletionId ?? null,
       sessionFeedback,
       performance: exercises ?? req.body.mainBlock ?? session.mainBlock,
+      actualDurationSeconds:
+        actualDurationSeconds != null && Number.isFinite(Number(actualDurationSeconds))
+          ? Math.max(1, Math.round(Number(actualDurationSeconds)))
+          : null,
+      summary: {
+        ...(session.summary ?? {}),
+        durationLabel: actualDurationLabel,
+      },
     };
 
     if (Array.isArray(completedSession.performance)) {
@@ -241,7 +275,7 @@ export default async function handler(req, res) {
       archivedSessionId: archived.id,
       celebrationSummary: {
         sessionFocus: session.sessionFocus ?? 'Entrenamiento',
-        durationLabel: session.summary?.duracionEstimada ?? '—',
+        durationLabel: actualDurationLabel,
         exerciseCount: session.summary?.ejerciciosTotales ?? 0,
         totalSets: session.summary?.seriesTotales ?? 0,
         totalWeightKg: totalWeightKg ?? undefined,
