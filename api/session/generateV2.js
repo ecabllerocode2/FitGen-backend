@@ -4,6 +4,7 @@ import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
 import { generateSession } from '../../domain/session/sessionGenerator.js';
 import { getTodaySessionPlan, isMesocycleComplete } from '../../lib/mesocycleUtils.js';
 import { isStaleIncompleteSession } from '../../domain/session/sessionFreshness.js';
+import { hasCompletedScheduledSessionToday } from '../../domain/session/sameDayCompletion.js';
 import { validateReadiness } from '../../schemas/profileSchema.js';
 
 const LOAD_TO_SCHEMA = {
@@ -95,6 +96,25 @@ export default async function handler(req, res) {
 
     const catalog = await loadCatalog(db);
     const history = await users.getRecentSessions(userId, 30);
+    const timezone = user.profileData?.timezone ?? 'UTC';
+
+    if (
+      hasCompletedScheduledSessionToday({
+        user,
+        history,
+        dayOfWeek,
+        weekNumber,
+        referenceDate,
+        timezone,
+      })
+    ) {
+      return res.status(409).json({
+        error: 'Ya completaste la sesión de hoy. Vuelve mañana para la siguiente.',
+        alreadyCompletedToday: true,
+        dayOfWeek,
+        weekNumber,
+      });
+    }
 
     const feedbackModifiers =
       weekNumber > 1 ? (user.weeklyFeedbackModifiers ?? {}) : {};
