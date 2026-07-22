@@ -1,4 +1,5 @@
 import { estimateE1RMWithRIR } from '../prescription/loadCalculator.js';
+import { resolveLoadConvention } from '../prescription/loadConvention.js';
 
 /** Full session archives kept for continuity / feedback (FIFO). */
 export const RECENT_SESSIONS_MAX = 36;
@@ -41,15 +42,41 @@ export function updateLoadPerformanceLedger(ledger, performance = [], completedA
     const exerciseId = ex.exerciseId ?? ex.id;
     if (!exerciseId) continue;
 
-    const weight = ex.actualWeightKg ?? ex.prescribedLoadKg ?? ex.load;
-    const reps = ex.actualReps ?? ex.reps;
-    const rir = ex.actualRIR ?? ex.rirReported ?? ex.rir ?? 2;
-    const e1RM = ex.e1RM ?? estimateE1RMWithRIR(weight, reps, rir);
+    const sets = ex.sets ?? ex.actualSets ?? [];
+    let bestSet = null;
+    let bestE1rm = 0;
+    for (const s of sets) {
+      if (s?.completed === false) continue;
+      const setWeight = s.load ?? s.weightKg ?? s.actualWeightKg;
+      const setReps = s.reps;
+      const setRir = s.rir ?? s.rirReported ?? 2;
+      const setE1rm = estimateE1RMWithRIR(setWeight, setReps, setRir);
+      if (setE1rm && setE1rm > bestE1rm) {
+        bestE1rm = setE1rm;
+        bestSet = { weightKg: setWeight, reps: setReps, rir: setRir };
+      }
+    }
+
+    const weight = bestSet?.weightKg ?? ex.actualWeightKg ?? ex.prescribedLoadKg ?? ex.load;
+    const reps = bestSet?.reps ?? ex.actualReps ?? ex.reps;
+    const rir = bestSet?.rir ?? ex.actualRIR ?? ex.rirReported ?? ex.rir ?? 2;
+    // Always recompute with capped-rep e1RM; ignore stale inflated ex.e1RM from clients.
+    const e1RM = estimateE1RMWithRIR(weight, reps, rir);
     if (!e1RM || !weight) continue;
 
     const movementPattern = ex.movementPattern ?? ex.patronMovimiento ?? 'General';
     const priority = ex.priority ?? ex.prioridad ?? 2;
     const tier = priority === 1 ? 'basic' : 'accessory';
+    const loadConvention =
+      ex.loadConvention
+      ?? resolveLoadConvention({
+        exerciseId,
+        exerciseName: ex.exerciseName ?? ex.nombre,
+        equipo: ex.equipo,
+        isUnilateral: ex.isUnilateral,
+        isBodyweight: ex.isBodyweight,
+        loadMode: ex.loadMode,
+      });
 
     const prev = next.byExerciseId[exerciseId];
     const previousE1RM = prev?.e1RM ?? null;
@@ -60,7 +87,7 @@ export function updateLoadPerformanceLedger(ledger, performance = [], completedA
       movementPattern,
       muscleGroup: ex.muscleGroup ?? ex.parteCuerpo ?? null,
       priority,
-      loadConvention: ex.loadConvention ?? null,
+      loadConvention,
       e1RM: Math.round(e1RM * 10) / 10,
       previousE1RM,
       lastWeightKg: weight,
@@ -78,6 +105,7 @@ export function updateLoadPerformanceLedger(ledger, performance = [], completedA
         e1RM: Math.round(e1RM * 10) / 10,
         lastWeightKg: weight,
         exerciseId,
+        loadConvention,
         updatedAt: completedAt,
       };
     }
@@ -155,6 +183,7 @@ export function ledgerEntriesForPrescription(
         e1RM: applyStrengthRecencyAdjustment(patternEntry.e1RM, months, experienceLevel),
         fromLedger: true,
         fromPatternFallback: true,
+        loadConvention: patternEntry.loadConvention ?? null,
         ledgerAgeMonths: months,
       },
     ];

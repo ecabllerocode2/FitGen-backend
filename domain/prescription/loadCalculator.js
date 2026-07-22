@@ -13,6 +13,15 @@ import {
 import { snapPrescribedLoad, snapToGymWeight } from './gymInventory.js';
 
 /**
+ * Brzycki is unreliable above ~10–12 reps (Reynolds et al. 2006).
+ * Cap effective reps so high-rep isolation sets cannot inflate e1RM.
+ */
+export const E1RM_MAX_EFFECTIVE_REPS = 12;
+
+/** Conservative discount when transferring load across exercises of the same pattern. */
+export const PATTERN_TRANSFER_E1RM_FACTOR = 0.85;
+
+/**
  * Brzycki e1RM — DDS 5.8.
  * @param {number} weightKg
  * @param {number} reps
@@ -20,11 +29,12 @@ import { snapPrescribedLoad, snapToGymWeight } from './gymInventory.js';
  */
 export function estimateE1RM(weightKg, reps) {
   if (!weightKg || !reps || reps < 1) return null;
-  if (reps > 10) {
-    const raw = weightKg / (1.0278 - 0.0278 * reps);
+  const cappedReps = Math.min(Number(reps), E1RM_MAX_EFFECTIVE_REPS);
+  if (cappedReps > 10) {
+    const raw = weightKg / (1.0278 - 0.0278 * cappedReps);
     return raw * 0.9;
   }
-  return weightKg / (1.0278 - 0.0278 * reps);
+  return weightKg / (1.0278 - 0.0278 * cappedReps);
 }
 
 /**
@@ -35,7 +45,7 @@ export function estimateE1RM(weightKg, reps) {
  * @returns {number|null}
  */
 export function estimateE1RMWithRIR(weightKg, reps, reportedRIR = 0) {
-  const repsAtFailure = reps + (reportedRIR ?? 0);
+  const repsAtFailure = Number(reps) + (reportedRIR ?? 0);
   return estimateE1RM(weightKg, repsAtFailure);
 }
 
@@ -156,6 +166,7 @@ export function prescribeLoad({
   movementPattern,
   isBodyweight = false,
   exerciseId = '',
+  exerciseName = '',
   equipo = [],
   isUnilateral = false,
   loadConvention: loadConventionInput = null,
@@ -167,6 +178,7 @@ export function prescribeLoad({
       isUnilateral,
       isBodyweight,
       exerciseId,
+      exerciseName,
     });
 
   if (isBodyweight || loadConvention === LOAD_CONVENTIONS.BODYWEIGHT) {
@@ -231,20 +243,24 @@ export function prescribeLoad({
     };
   }
 
-  let e1rm = last.e1RM ?? estimateE1RMWithRIR(
-    last.weightKg ?? last.weight ?? 0,
-    last.reps ?? last.repsCompleted ?? 0,
-    last.rir ?? last.rirReported ?? 0,
-  );
+  // Recompute e1RM with capped-rep formula even if ledger stored a stale inflated value.
+  const rawWeight = last.weightKg ?? last.weight ?? 0;
+  const rawReps = last.reps ?? last.repsCompleted ?? 0;
+  const rawRir = last.rir ?? last.rirReported ?? 0;
+  let e1rm = estimateE1RMWithRIR(rawWeight, rawReps, rawRir);
+  if (e1rm == null && last.e1RM) e1rm = last.e1RM;
 
   if (last.fromPatternFallback && e1rm) {
-    e1rm *= 0.92;
+    e1rm *= PATTERN_TRANSFER_E1RM_FACTOR;
   }
 
   const pct = getPercent1RMFromRIR(rirTarget, targetReps);
   let targetWeight = e1rm * pct;
-  let previousWeight = last.weightKg ?? last.weight ?? 0;
-  const historyConvention = last.loadConvention ?? LOAD_CONVENTIONS.BARBELL_TOTAL;
+  let previousWeight = rawWeight;
+  // Missing history convention almost always means the athlete logged in the same
+  // units as this exercise (per-hand / unilateral). Defaulting to barbell_total
+  // incorrectly applied ×0.45 and under-prescribed dumbbell/unilateral lifts.
+  const historyConvention = last.loadConvention ?? loadConvention;
 
   if (historyConvention !== loadConvention) {
     targetWeight = convertLoadBetweenConventions(targetWeight, historyConvention, loadConvention);
@@ -263,7 +279,7 @@ export function prescribeLoad({
     rirTarget,
     e1rm: Math.round(e1rm * 10) / 10,
     explanation: last.fromPatternFallback
-      ? 'Carga estimada desde un ejercicio similar del mismo patrón (ajuste conservador −8%).'
+      ? 'Carga estimada desde un ejercicio similar del mismo patrón (ajuste conservador −15%).'
       : 'Carga calculada desde tu e1RM y RIR objetivo de la semana.',
   };
 

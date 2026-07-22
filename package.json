@@ -18,7 +18,8 @@
     "verify-catalog:remote": "node scripts/verifyCatalog.cjs --remote",
     "advance-time": "node scripts/dev/advance-time.mjs",
     "qa-mesocycle": "node scripts/dev/qa-mesocycle.mjs",
-    "audit-catalog": "node scripts/auditCatalogQuality.cjs"
+    "audit-catalog": "node scripts/auditCatalogQuality.cjs",
+    "audit-load-calibration": "node scripts/dev/audit-load-calibration.mjs"
   },
   "keywords": [
     "fitness",

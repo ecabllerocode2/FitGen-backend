@@ -582,6 +582,7 @@ function buildMainBlock({
       movementPattern: ex.patronMovimiento,
       isBodyweight: bodyweight,
       exerciseId: ex.id,
+      exerciseName: ex.nombre,
       equipo: ex.equipo,
       isUnilateral: ex.isUnilateral === true,
     });
