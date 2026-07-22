@@ -23,7 +23,7 @@ function inferConventionFromMetadata(exercise = {}) {
   const exerciseId = String(exercise.exerciseId ?? exercise.id ?? '');
   const haystack = `${nombre} ${exerciseId}`;
 
-  if (/\b(unilateral|una mano|un brazo|single[-_ ]arm|one[-_ ]arm)\b/i.test(haystack)) {
+  if (/\b(unilateral|una mano|un brazo|una pierna|single[-_ ]arm|one[-_ ]arm|single[-_ ]leg|one[-_ ]leg)\b/i.test(haystack)) {
     return LOAD_CONVENTIONS.UNILATERAL;
   }
 

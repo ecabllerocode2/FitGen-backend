@@ -154,6 +154,13 @@ export default async function handler(req, res) {
           prioridad: ex.prioridad ?? template?.prioridad ?? template?.priority ?? 2,
           muscleGroup: ex.muscleGroup ?? template?.muscleGroup ?? template?.parteCuerpo,
           parteCuerpo: ex.parteCuerpo ?? template?.parteCuerpo ?? template?.muscleGroup,
+          loadConvention:
+            ex.loadConvention
+            ?? template?.loadConvention
+            ?? null,
+          isUnilateral: ex.isUnilateral ?? template?.isUnilateral,
+          equipo: ex.equipo ?? template?.equipo,
+          exerciseName: ex.exerciseName ?? ex.nombre ?? template?.exerciseName ?? template?.nombre,
         };
         if (!best?.weightKg) return enriched;
         const { weightKg: weight, reps, rir = 2 } = best;
