@@ -26,6 +26,7 @@ import gamificationEquipHandler from './api/gamification/equip.js';
 import shopPurchaseHandler from './api/shop/purchase.js';
 import shopRedeemPremiumHandler from './api/shop/redeem-premium.js';
 import adminUsersOverviewHandler from './api/admin/users-overview.js';
+import adminUserDetailHandler from './api/admin/user-detail.js';
 import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
 
 const app = express();
@@ -96,6 +97,7 @@ app.get('/api/shop/catalog', shopPurchaseHandler);
 app.post('/api/shop/purchase', shopPurchaseHandler);
 app.post('/api/shop/redeem-premium', shopRedeemPremiumHandler);
 app.get('/api/admin/users-overview', adminUsersOverviewHandler);
+app.get('/api/admin/user-detail', adminUserDetailHandler);
 
 
 // Ruta de estado (Health Check)
@@ -118,6 +120,8 @@ app.get('/', (req, res) => {
             'POST /api/profile/exercise-preferences',
             'GET /api/body-metrics/checkin',
             'POST /api/body-metrics/checkin',
+            'GET /api/admin/users-overview',
+            'GET /api/admin/user-detail',
         ]
     });
 });

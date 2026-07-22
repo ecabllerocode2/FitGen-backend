@@ -38,8 +38,8 @@ function trainedInLastDays(lastWorkoutDate, days, timezone = DEFAULT_TIMEZONE, r
 export function buildAdminUsersOverview(users, referenceDate = new Date()) {
   const rows = users.map((user) => {
     const timezone = user.profileData?.timezone ?? DEFAULT_TIMEZONE;
+    // Gamification is stored flat on the user doc (not under counters).
     const gamification = user.gamification ?? {};
-    const counters = gamification.counters ?? {};
     const lastWorkoutDate = user.lastWorkoutDate ?? null;
 
     return {
@@ -50,10 +50,10 @@ export function buildAdminUsersOverview(users, referenceDate = new Date()) {
       lastSessionAt: lastWorkoutDate,
       trainedToday: trainedOnDay(lastWorkoutDate, timezone, referenceDate),
       activeThisWeek: trainedInLastDays(lastWorkoutDate, 7, timezone, referenceDate),
-      totalSessions: counters.lifetimeSessionsCompleted ?? 0,
-      fitCoins: counters.fitCoinsBalance ?? 0,
-      seasonPoints: counters.seasonPoints ?? 0,
-      currentStreak: counters.currentStreakDays ?? 0,
+      totalSessions: gamification.lifetimeSessionsCompleted ?? gamification.counters?.lifetimeSessionsCompleted ?? 0,
+      fitCoins: gamification.fitCoinsBalance ?? gamification.counters?.fitCoinsBalance ?? 0,
+      seasonPoints: gamification.seasonPoints ?? gamification.counters?.seasonPoints ?? 0,
+      currentStreak: gamification.currentStreakDays ?? gamification.counters?.currentStreakDays ?? 0,
       experienceLevel: user.profileData?.experienceLevel ?? null,
       createdAt: user.createdAt ?? null,
     };
