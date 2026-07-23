@@ -46,6 +46,9 @@ export default async function handler(req, res) {
       if (['soft', 'slender', 'ectomorph'].includes(rawProfile.avatarStartingBuild)) {
         patch.avatarStartingBuild = rawProfile.avatarStartingBuild;
       }
+      if (rawProfile.weightUnit === 'kg' || rawProfile.weightUnit === 'lb') {
+        patch.weightUnit = rawProfile.weightUnit;
+      }
       profileData = { ...existingUser.profileData, ...patch };
     } else {
       profileData = normalizeProfileInput(rawProfile);
