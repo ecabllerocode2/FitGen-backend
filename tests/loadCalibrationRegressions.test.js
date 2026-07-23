@@ -67,6 +67,36 @@ describe('load calibration regressions (audit fixes)', () => {
     expect(load.prescribedLoadKg).not.toBe(6);
   });
 
+  // Repro: swap-exercise wrote suggestedLoadKg: undefined → Firestore reject
+  // (currentSession.mainBlock.N.suggestedLoadKg) when prescribeLoad was in calculated mode.
+  it('never returns undefined suggestedLoadKg (Firestore-safe)', () => {
+    const calculated = prescribeLoad({
+      exerciseType: 'isolation',
+      rirTarget: 2.8,
+      repRange: '11-16',
+      isUnilateral: true,
+      exerciseId: 'Dumbbell_Seated_One-Leg_Calf_Raise',
+      exerciseName: 'Elevación de Talón Sentado a una Pierna',
+      equipo: ['Mancuernas'],
+      history: [{ weightKg: 15, reps: 13, rir: 2, loadConvention: null }],
+    });
+    expect(calculated.mode).toBe('calculated');
+    expect(calculated).toHaveProperty('suggestedLoadKg');
+    expect(calculated.suggestedLoadKg).toBeNull();
+
+    const exploratory = prescribeLoad({
+      exerciseType: 'isolation',
+      rirTarget: 2,
+      repRange: '10-12',
+      history: [],
+      bodyWeightKg: null,
+      movementPattern: 'Cadera',
+    });
+    expect(exploratory.mode).toBe('exploratory');
+    expect(exploratory).toHaveProperty('suggestedLoadKg');
+    expect(exploratory.suggestedLoadKg).toBeNull();
+  });
+
   it('applies a stronger conservative bias on pattern_transfer (−15%)', () => {
     const exact = prescribeLoad({
       exerciseType: 'isolation',
