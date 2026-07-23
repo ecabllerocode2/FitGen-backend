@@ -5,6 +5,8 @@ import { verifyFirebaseToken } from '../../infrastructure/firebase/authMiddlewar
 import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
 import { classifyProfileChanges } from '../../domain/athlete/profileChangeImpact.js';
 import { adaptMesocycleToProfile } from '../../domain/periodization/adaptMesocycleToProfile.js';
+import { buildProfileCompleteness } from '../../domain/coach/profileCompleteness.js';
+import { ACCOUNT_TYPES, ATHLETE_ORIGINS } from '../../domain/coach/constants.js';
 
 const users = createUserRepository(db);
 const requireAuth = verifyFirebaseToken(auth);
@@ -68,14 +70,21 @@ export default async function handler(req, res) {
 
     let planStatus = existingUser?.planStatus ?? 'active';
     let pendingProfileAdaptation = existingUser?.pendingProfileAdaptation ?? null;
+    const profileCompleteness = buildProfileCompleteness(profileData);
     const userPatch = {
       userId,
       email: userEmail ?? existingUser?.email ?? null,
       status: 'approved',
       plan: 'free',
       profileData,
+      profileCompleteness,
       lastProfileUpdate: new Date().toISOString(),
     };
+
+    if (!existingUser?.accountType) {
+      userPatch.accountType = ACCOUNT_TYPES.ATHLETE;
+      userPatch.athleteOrigin = ATHLETE_ORIGINS.DIRECT;
+    }
 
     if (isProfileEdit && existingMesocycle) {
       profileChange = classifyProfileChanges(
