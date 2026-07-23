@@ -161,9 +161,9 @@ export default async function handler(req, res) {
         isUnilateral: replacement.isUnilateral === true,
         loadMode: load.mode,
         loadConvention: load.loadConvention ?? null,
-        prescribedLoadKg: load.prescribedLoadKg,
-        suggestedLoadKg: load.suggestedLoadKg,
-        loadExplanation: load.explanation,
+        prescribedLoadKg: load.prescribedLoadKg ?? null,
+        suggestedLoadKg: load.suggestedLoadKg ?? null,
+        loadExplanation: load.explanation ?? null,
         priority: replacement.prioridad ?? ex.priority ?? 2,
       };
     });
