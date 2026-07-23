@@ -38,10 +38,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'profileData requerido' });
     }
 
-    const profileData = normalizeProfileInput(rawProfile);
-    const isProfileEdit = action === 'profile_update_and_invalidate_plan';
-
     const existingUser = await users.getUser(userId);
+
+    let profileData;
+    if (action === 'profile_metadata_update' && existingUser?.profileData) {
+      const patch = {};
+      if (['soft', 'slender', 'ectomorph'].includes(rawProfile.avatarStartingBuild)) {
+        patch.avatarStartingBuild = rawProfile.avatarStartingBuild;
+      }
+      if (rawProfile.weightUnit === 'kg' || rawProfile.weightUnit === 'lb') {
+        patch.weightUnit = rawProfile.weightUnit;
+      }
+      profileData = { ...existingUser.profileData, ...patch };
+    } else {
+      profileData = normalizeProfileInput(rawProfile);
+    }
+
+    const isProfileEdit = action === 'profile_update_and_invalidate_plan';
     const existingMesocycle = existingUser?.currentMesocycle ?? null;
 
     await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
