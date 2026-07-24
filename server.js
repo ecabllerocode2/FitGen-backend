@@ -51,8 +51,9 @@ const app = express();
 const PORT = 3000;
 
 // 💡 CONFIGURACIÓN CORS ROBUSTA
+// Reflect request Origin (never ACAO:* with credentials — Safari rejects that combo).
 const corsOptions = {
-    origin: '*', // Permite todas las fuentes (vital para Codespaces -> Vercel)
+    origin: true,
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
         'Content-Type',

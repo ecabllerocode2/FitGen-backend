@@ -56,8 +56,6 @@ export default async function handler(req, res) {
 
     const isProfileEdit = action === 'profile_update_and_invalidate_plan';
 
-    await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
-
     const profileCompleteness = buildProfileCompleteness(profileData);
     const userPatch = {
       userId,
@@ -96,7 +94,14 @@ export default async function handler(req, res) {
       userPatch.lastProfileUpdate = new Date().toISOString();
     }
 
+    // Persist Firestore first so a claims failure never leaves Auth without a user doc.
     await users.saveUser(userId, userPatch);
+
+    try {
+      await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
+    } catch (claimsErr) {
+      console.error('profile/save claims warning (user already saved):', claimsErr);
+    }
 
     return res.status(200).json({
       success: true,
