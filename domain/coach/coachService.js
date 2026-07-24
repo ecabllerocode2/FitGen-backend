@@ -17,6 +17,7 @@ import {
 } from './seatLedger.js';
 import { hashEmail, emailsAreEquivalent } from './tokenUtils.js';
 import { syncCoachedAthleteClaims, syncDirectAthleteClaims } from '../../lib/coachClaims.js';
+import { assertClientOwnership } from '../../infrastructure/firebase/coachAuthMiddleware.js';
 import {
   CLIENT_STATUSES,
   ACCOUNT_TYPES,
@@ -72,9 +73,7 @@ export async function generateMesocycleForAthlete(athleteId, referenceDate = new
 }
 
 export async function updateTrainingProfileForClient(coachId, athleteId, rawTrainingPatch) {
-  const { athlete } = await import('../infrastructure/firebase/coachAuthMiddleware.js').then((m) =>
-    m.assertClientOwnership(coachId, athleteId),
-  );
+  const { athlete } = await assertClientOwnership(coachId, athleteId);
 
   const existingProfile = athlete.profileData ?? {};
   const merged = { ...existingProfile, ...rawTrainingPatch };
@@ -170,9 +169,7 @@ export async function activateCoachedClient({
 }
 
 export async function releaseClient(coachId, athleteId, { reason = 'coach_release' } = {}) {
-  const { relation, athlete } = await import('../infrastructure/firebase/coachAuthMiddleware.js').then(
-    (m) => m.assertClientOwnership(coachId, athleteId),
-  );
+  const { relation, athlete } = await assertClientOwnership(coachId, athleteId);
 
   const sessions = await users.getRecentSessions(athleteId, 50);
   const sessionCount = sessions.filter((s) => s.completed).length;
