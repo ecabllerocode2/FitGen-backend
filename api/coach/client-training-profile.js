@@ -1,10 +1,15 @@
 import { requireCoach } from '../../infrastructure/firebase/coachAuthMiddleware.js';
 import { coachTrainingProfileSchema } from '../../schemas/coachSchema.js';
+import { db } from '../../lib/firebaseAdmin.js';
+import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
+import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
 import {
   updateTrainingProfileForClient,
   generateMesocycleForAthlete,
   coaches,
 } from '../../domain/coach/coachService.js';
+
+const users = createUserRepository(db);
 
 /**
  * PATCH /api/coach/clients/:athleteId/training-profile
@@ -21,7 +26,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'athleteId requerido' });
     }
 
-    const parsed = coachTrainingProfileSchema.parse(req.body?.profileData ?? req.body ?? {});
+    const rawPatch = req.body?.profileData ?? req.body ?? {};
+    const existingUser = await users.getUser(athleteId);
+    if (!existingUser) {
+      return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+
+    const normalized = normalizeProfileInput({
+      ...(existingUser.profileData ?? {}),
+      ...rawPatch,
+    });
+    const parsed = coachTrainingProfileSchema.parse({
+      fitnessGoal: normalized.fitnessGoal,
+      trainingAgeMonths: normalized.trainingAgeMonths,
+      trainingDaysPerWeek: normalized.trainingDaysPerWeek,
+      weeklyScheduleContext: normalized.weeklyScheduleContext,
+      injuriesOrLimitations: normalized.injuriesOrLimitations,
+      focusArea: normalized.focusArea,
+      bodyCompositionGoal: normalized.bodyCompositionGoal,
+      musclePriorities: normalized.musclePriorities,
+    });
     const result = await updateTrainingProfileForClient(coach.id, athleteId, parsed);
 
     await coaches.logCoachAction({
