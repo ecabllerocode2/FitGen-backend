@@ -1,5 +1,6 @@
-import { requireCoach, assertClientOwnership } from '../../infrastructure/firebase/coachAuthMiddleware.js';
+import { requireCoach } from '../../infrastructure/firebase/coachAuthMiddleware.js';
 import { coaches, users } from '../../domain/coach/coachService.js';
+import { buildClientListFlags } from '../../domain/coach/clientDashboard.js';
 
 /**
  * GET /api/coach/clients
@@ -18,6 +19,8 @@ export default async function handler(req, res) {
         const athlete = await users.getUser(rel.athleteId);
         const sessions = await users.getRecentSessions(rel.athleteId, 10);
         const lastSession = sessions.find((s) => s.completed && s.completedAt);
+        const flags = buildClientListFlags(athlete);
+
         return {
           athleteId: rel.athleteId,
           status: rel.status,
@@ -27,6 +30,7 @@ export default async function handler(req, res) {
           hasMesocycle: Boolean(athlete?.currentMesocycle),
           lastSessionAt: lastSession?.completedAt ?? null,
           activatedAt: rel.activatedAt,
+          ...flags,
         };
       }),
     );

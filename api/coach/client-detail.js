@@ -1,6 +1,9 @@
 import { requireCoach, assertClientOwnership } from '../../infrastructure/firebase/coachAuthMiddleware.js';
 import { coaches, users } from '../../domain/coach/coachService.js';
-import { buildClientInsights } from '../../domain/coach/insights.js';
+import {
+  buildClientDashboard,
+  RECENT_SESSIONS_MAX,
+} from '../../domain/coach/clientDashboard.js';
 
 /**
  * GET /api/coach/clients/:athleteId
@@ -18,11 +21,8 @@ export default async function handler(req, res) {
     }
 
     const { relation, athlete } = await assertClientOwnership(coach.id, athleteId);
-    const recentSessions = await users.getRecentSessions(athleteId, 20);
-    const { insights, metrics } = buildClientInsights({
-      athleteUser: athlete,
-      recentSessions,
-    });
+    const recentSessions = await users.getRecentSessions(athleteId, RECENT_SESSIONS_MAX);
+    const dashboard = buildClientDashboard({ athleteUser: athlete, recentSessions });
     const notes = relation.notes ?? [];
 
     return res.status(200).json({
@@ -35,22 +35,15 @@ export default async function handler(req, res) {
         currentMesocycle: athlete.currentMesocycle,
         currentSession: athlete.currentSession
           ? {
-              sessionId: athlete.currentSession.sessionId,
+              sessionId: athlete.currentSession.sessionId ?? athlete.currentSession.id,
               sessionFocus: athlete.currentSession.sessionFocus,
               weekNumber: athlete.currentSession.weekNumber,
+              dayOfWeek: athlete.currentSession.dayOfWeek,
               completed: athlete.currentSession.completed,
             }
           : null,
-        recentSessions: recentSessions.slice(0, 10).map((s) => ({
-          id: s.id,
-          sessionFocus: s.sessionFocus,
-          completed: s.completed,
-          completedAt: s.completedAt,
-          weekNumber: s.weekNumber,
-        })),
-        insights,
-        metrics,
         notes,
+        ...dashboard,
       },
     });
   } catch (err) {
