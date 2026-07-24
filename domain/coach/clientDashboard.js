@@ -191,10 +191,33 @@ export function buildCheckinSummary(bodyMetrics = {}, clientName = 'atleta') {
   };
 }
 
+function collectSessionRirs(session) {
+  const rows = Array.isArray(session?.performance) ? session.performance : [];
+  const rirs = [];
+  for (const ex of rows) {
+    if (ex.actualRIR != null && Number.isFinite(Number(ex.actualRIR))) {
+      rirs.push(Number(ex.actualRIR));
+    }
+    const sets = Array.isArray(ex.sets) ? ex.sets : [];
+    for (const set of sets) {
+      if (set?.completed === false) continue;
+      const rir = set?.rir ?? set?.actualRIR;
+      if (rir != null && Number.isFinite(Number(rir))) rirs.push(Number(rir));
+    }
+  }
+  return rirs;
+}
+
 export function summarizeSessionHistoryEntry(session) {
   const exercises = summarizeSessionExercises(session, { completed: true });
   const completedSets = exercises.reduce((sum, ex) => sum + ex.setsCompleted, 0);
   const prescribedSets = exercises.reduce((sum, ex) => sum + ex.setsPrescribed, 0);
+  const rirs = collectSessionRirs(session);
+  const avgRir = rirs.length
+    ? Math.round((rirs.reduce((s, v) => s + v, 0) / rirs.length) * 10) / 10
+    : null;
+  const failureSets = rirs.filter((r) => r <= 0).length;
+  const readiness = session.readinessAdjustment ?? {};
 
   return {
     id: session.id,
@@ -207,10 +230,74 @@ export function summarizeSessionHistoryEntry(session) {
     exerciseCount: exercises.length,
     setsCompleted: completedSets,
     setsPrescribed: prescribedSets,
-    readinessEnergy: session.readinessAdjustment?.energyLevel ?? session.sessionFeedback?.energyLevel ?? null,
+    readinessEnergy: readiness.energyLevel ?? session.sessionFeedback?.energyLevel ?? null,
+    readinessVolumeMultiplier: readiness.volumeMultiplierApplied ?? null,
     jointPain: Boolean(session.feedback?.jointPain ?? session.sessionFeedback?.jointPain ?? session.weeklyFeedback?.jointPain),
     totalVolumeKg: session.summary?.totalWeightKg ?? null,
+    avgRir,
+    failureSetCount: failureSets,
     exercises,
+  };
+}
+
+function round1(value) {
+  return Math.round(value * 10) / 10;
+}
+
+/**
+ * Progress series for coach charts: volume, load adherence, RIR, body metrics.
+ */
+export function buildCoachProgressCharts({ recentSessions = [], bodyMetrics = {} } = {}) {
+  const completed = [...recentSessions]
+    .filter((s) => s.completed && (s.completedAt || s.archivedAt))
+    .sort(
+      (a, b) =>
+        new Date(a.completedAt ?? a.archivedAt).getTime()
+        - new Date(b.completedAt ?? b.archivedAt).getTime(),
+    )
+    .slice(-16);
+
+  const volumeBySession = completed.map((session) => {
+    const summary = summarizeSessionHistoryEntry(session);
+    const comparable = summary.exercises.filter((e) => e.loadComparison !== 'na');
+    const over = comparable.filter((e) => e.loadComparison === 'over').length;
+    const under = comparable.filter((e) => e.loadComparison === 'under').length;
+    const onTarget = comparable.filter((e) => e.loadComparison === 'on_target').length;
+    return {
+      date: summary.completedAt,
+      label: summary.sessionFocus,
+      volumeKg: summary.totalVolumeKg,
+      avgRir: summary.avgRir,
+      failureSetCount: summary.failureSetCount,
+      setsCompleted: summary.setsCompleted,
+      setsPrescribed: summary.setsPrescribed,
+      completionRate:
+        summary.setsPrescribed > 0
+          ? round1(summary.setsCompleted / summary.setsPrescribed)
+          : null,
+      loadOver: over,
+      loadUnder: under,
+      loadOnTarget: onTarget,
+    };
+  });
+
+  const weightHistory = (bodyMetrics.entries ?? [])
+    .filter((e) => e?.recordedAt && e.weightKg != null)
+    .slice(-12)
+    .map((e) => ({
+      date: e.recordedAt,
+      weightKg: Number(e.weightKg),
+      waistCm: e.waistCm != null ? Number(e.waistCm) : null,
+      hipCm: e.hipCm != null ? Number(e.hipCm) : null,
+    }));
+
+  const strengthHighlights = [];
+  // filled by caller if ledger available — keep shape stable
+
+  return {
+    volumeBySession,
+    weightHistory,
+    strengthHighlights,
   };
 }
 
@@ -242,6 +329,28 @@ export function buildClientDashboard({ athleteUser, recentSessions = [], now = n
 
   const sessionHistory = recentSessions.map(summarizeSessionHistoryEntry);
   const lastCompleted = sessionHistory.find((s) => s.completed && s.completedAt);
+  const charts = buildCoachProgressCharts({
+    recentSessions,
+    bodyMetrics,
+  });
+
+  const ledger = athleteUser?.loadPerformanceLedger;
+  const ledgerEntries = Array.isArray(ledger?.entries)
+    ? ledger.entries
+    : Object.values(ledger?.byExerciseId ?? {});
+  charts.strengthHighlights = ledgerEntries
+    .filter((e) => e?.e1RM != null)
+    .sort((a, b) => Number(b.e1RM) - Number(a.e1RM))
+    .slice(0, 6)
+    .map((e) => ({
+      exerciseId: e.exerciseId ?? null,
+      name: e.exerciseName ?? e.exerciseId ?? 'Ejercicio',
+      e1RM: e.e1RM,
+      previousE1RM: e.previousE1RM ?? null,
+      lastWeightKg: e.lastWeightKg ?? null,
+      lastRir: e.lastRir ?? null,
+      updatedAt: e.updatedAt ?? null,
+    }));
 
   return {
     anthropometrics,
@@ -254,6 +363,7 @@ export function buildClientDashboard({ athleteUser, recentSessions = [], now = n
     sessionHistoryCount: sessionHistory.length,
     insights,
     metrics,
+    charts,
     trainingProfile: {
       fitnessGoal: profile.fitnessGoal ?? null,
       trainingDaysPerWeek: profile.trainingDaysPerWeek ?? null,
