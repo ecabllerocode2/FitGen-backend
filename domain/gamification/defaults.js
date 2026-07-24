@@ -31,17 +31,23 @@ export function createDefaultGamification(referenceDate = new Date(), timezone =
     fitCoinsBalance: 0,
     avatar: {
       baseStage: 0,
-      equippedSkinId: 'default',
       equippedFrameId: null,
       equippedCelebrationId: null,
+      equippedShareTemplateId: null,
     },
     inventory: {
-      skins: ['default'],
       frames: [],
       celebrations: [],
+      shareTemplates: ['default'],
     },
     lastSeasonRank: null,
     lastSeasonLeague: null,
+    weekPointsKey: null,
+    weekPointsEarned: 0,
+    showInLeaderboard: false,
+    publicDisplayName: null,
+    premiumRedemptionsThisYear: 0,
+    premiumRedemptionYear: null,
     updatedAt: new Date(referenceDate).toISOString(),
   };
 }
@@ -62,11 +68,19 @@ export function normalizeGamification(raw, referenceDate = new Date(), timezone 
         : {},
     avatar: { ...defaults.avatar, ...(raw.avatar ?? {}) },
     inventory: {
-      skins: Array.isArray(raw.inventory?.skins) ? [...raw.inventory.skins] : defaults.inventory.skins,
       frames: Array.isArray(raw.inventory?.frames) ? [...raw.inventory.frames] : [],
       celebrations: Array.isArray(raw.inventory?.celebrations) ? [...raw.inventory.celebrations] : [],
+      shareTemplates: Array.isArray(raw.inventory?.shareTemplates)
+        ? [...raw.inventory.shareTemplates]
+        : defaults.inventory.shareTemplates,
     },
     currentSeasonId: raw.currentSeasonId ?? defaults.currentSeasonId,
+    weekPointsKey: raw.weekPointsKey ?? defaults.weekPointsKey,
+    weekPointsEarned: raw.weekPointsEarned ?? defaults.weekPointsEarned,
+    showInLeaderboard: raw.showInLeaderboard ?? defaults.showInLeaderboard,
+    publicDisplayName: raw.publicDisplayName ?? defaults.publicDisplayName,
+    premiumRedemptionsThisYear: raw.premiumRedemptionsThisYear ?? defaults.premiumRedemptionsThisYear,
+    premiumRedemptionYear: raw.premiumRedemptionYear ?? defaults.premiumRedemptionYear,
     updatedAt: raw.updatedAt ?? defaults.updatedAt,
   };
 }

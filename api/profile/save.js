@@ -1,10 +1,10 @@
-import { FieldValue } from 'firebase-admin/firestore';
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { verifyFirebaseToken } from '../../infrastructure/firebase/authMiddleware.js';
 import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
-import { classifyProfileChanges } from '../../domain/athlete/profileChangeImpact.js';
-import { adaptMesocycleToProfile } from '../../domain/periodization/adaptMesocycleToProfile.js';
+import { applyProfileAdaptation } from '../../domain/athlete/applyProfileAdaptation.js';
+import { buildProfileCompleteness } from '../../domain/coach/profileCompleteness.js';
+import { ACCOUNT_TYPES, ATHLETE_ORIGINS } from '../../domain/coach/constants.js';
 
 const users = createUserRepository(db);
 const requireAuth = verifyFirebaseToken(auth);
@@ -55,9 +55,23 @@ export default async function handler(req, res) {
     }
 
     const isProfileEdit = action === 'profile_update_and_invalidate_plan';
-    const existingMesocycle = existingUser?.currentMesocycle ?? null;
 
     await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
+
+    const profileCompleteness = buildProfileCompleteness(profileData);
+    const userPatch = {
+      userId,
+      email: userEmail ?? existingUser?.email ?? null,
+      status: 'approved',
+      plan: 'free',
+      profileData,
+      profileCompleteness,
+    };
+
+    if (!existingUser?.accountType) {
+      userPatch.accountType = ACCOUNT_TYPES.ATHLETE;
+      userPatch.athleteOrigin = ATHLETE_ORIGINS.DIRECT;
+    }
 
     let profileChange = {
       tier: 'metadata_only',
@@ -66,69 +80,20 @@ export default async function handler(req, res) {
       details: {},
     };
 
-    let planStatus = existingUser?.planStatus ?? 'active';
-    let pendingProfileAdaptation = existingUser?.pendingProfileAdaptation ?? null;
-    const userPatch = {
-      userId,
-      email: userEmail ?? existingUser?.email ?? null,
-      status: 'approved',
-      plan: 'free',
-      profileData,
-      lastProfileUpdate: new Date().toISOString(),
-    };
-
-    if (isProfileEdit && existingMesocycle) {
-      profileChange = classifyProfileChanges(
-        existingUser?.profileData ?? null,
+    if (isProfileEdit) {
+      const adaptation = await applyProfileAdaptation({
+        users,
+        userId,
+        existingUser,
+        existingProfile: existingUser?.profileData ?? null,
         profileData,
-        existingMesocycle,
-      );
-
-      if (profileChange.tier === 'periodization_deferred') {
-        const currentWeek =
-          existingMesocycle.currentWeek ??
-          1;
-        pendingProfileAdaptation = {
-          type: 'periodization',
-          effectiveFromWeek: currentWeek + 1,
-          appliedAt: null,
-          goal: profileData.fitnessGoal,
-          experienceLevel: profileData.experienceLevel,
-          trainingAgeMonths: profileData.trainingAgeMonths,
-        };
-        planStatus = 'active';
-      } else if (
-        profileChange.tier === 'schedule_remap' ||
-        profileChange.tier === 'safety_update' ||
-        profileChange.tier === 'partial_regeneration'
-      ) {
-        const adapted = adaptMesocycleToProfile(
-          existingMesocycle,
-          profileData,
-          profileChange,
-          new Date(),
-        );
-        await users.saveMesocycle(userId, adapted);
-        planStatus = 'active';
-        pendingProfileAdaptation = null;
-
-        if (profileChange.requiresSessionClear) {
-          userPatch.currentSession = FieldValue.delete();
-        }
-      } else {
-        planStatus = 'active';
-      }
-    } else if (isProfileEdit && !existingMesocycle) {
-      planStatus = 'needs_regeneration';
+        applyPlanChanges: true,
+      });
+      profileChange = adaptation.profileChange;
+      Object.assign(userPatch, adaptation.userPatch);
     } else {
-      planStatus = 'active';
-    }
-
-    userPatch.planStatus = planStatus;
-    if (pendingProfileAdaptation) {
-      userPatch.pendingProfileAdaptation = pendingProfileAdaptation;
-    } else if (isProfileEdit) {
-      userPatch.pendingProfileAdaptation = FieldValue.delete();
+      userPatch.planStatus = 'active';
+      userPatch.lastProfileUpdate = new Date().toISOString();
     }
 
     await users.saveUser(userId, userPatch);
@@ -137,7 +102,7 @@ export default async function handler(req, res) {
       success: true,
       status: 'approved',
       experienceLevel: profileData.experienceLevel,
-      planStatus,
+      planStatus: userPatch.planStatus,
       profileChange,
       message: profileChange.message,
     });

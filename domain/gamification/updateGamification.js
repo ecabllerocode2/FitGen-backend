@@ -11,10 +11,14 @@ import { assessWeekCompletion } from './weekCompletion.js';
 
 const SESSION_POINTS = 10;
 const SESSION_FITCOINS = 2;
+const READINESS_POINTS = 2;
 const FEEDBACK_POINTS = 2;
+const E1RM_PR_POINTS = 5;
+const E1RM_PR_MAX_PER_SESSION = 3;
 const WEEK_PERFECT_POINTS = 25;
 const WEEK_PERFECT_FITCOINS = 5;
 const STREAK_GAP_DAYS = 3;
+const WEEKLY_POINTS_CAP = 120;
 
 /**
  * Calendar day key in user timezone (yyyy-MM-dd).
@@ -34,6 +38,33 @@ export function toDayKey(isoDate, timezone = 'UTC') {
   const month = parts.find((p) => p.type === 'month')?.value ?? '01';
   const day = parts.find((p) => p.type === 'day')?.value ?? '01';
   return `${year}-${month}-${day}`;
+}
+
+/**
+ * Monday-based week key in user timezone (yyyy-MM-dd).
+ */
+export function toWeekKey(isoDate, timezone = 'UTC') {
+  const date = isoDate instanceof Date ? isoDate : new Date(isoDate);
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    weekday: 'short',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+
+  const weekday = parts.find((p) => p.type === 'weekday')?.value ?? 'Mon';
+  const year = parts.find((p) => p.type === 'year')?.value ?? '1970';
+  const month = parts.find((p) => p.type === 'month')?.value ?? '01';
+  const day = Number(parts.find((p) => p.type === 'day')?.value ?? '01');
+
+  const weekdayIndex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(weekday);
+  const mondayOffset = weekdayIndex === 0 ? -6 : 1 - weekdayIndex;
+  const monday = new Date(Date.UTC(Number(year), Number(month) - 1, day + mondayOffset, 12));
+  const mondayYear = monday.getUTCFullYear();
+  const mondayMonth = String(monday.getUTCMonth() + 1).padStart(2, '0');
+  const mondayDay = String(monday.getUTCDate()).padStart(2, '0');
+  return `${mondayYear}-${mondayMonth}-${mondayDay}`;
 }
 
 /**
@@ -60,6 +91,39 @@ export function applySeasonRollover(gamification, referenceDate, timezone) {
   return next;
 }
 
+function syncWeekPointsBucket(gamification, referenceDate, timezone) {
+  const next = { ...gamification };
+  const weekKey = toWeekKey(referenceDate, timezone);
+  if (next.weekPointsKey !== weekKey) {
+    next.weekPointsKey = weekKey;
+    next.weekPointsEarned = 0;
+  }
+  return next;
+}
+
+/**
+ * Apply weekly cap and mutate gamification counters.
+ * @returns {{ appliedPoints: number, cappedByWeeklyLimit: boolean }}
+ */
+function applySeasonPoints(gamification, pointsToAdd, referenceDate, timezone) {
+  const synced = syncWeekPointsBucket(gamification, referenceDate, timezone);
+  const remaining = Math.max(0, WEEKLY_POINTS_CAP - (synced.weekPointsEarned ?? 0));
+  const appliedPoints = Math.min(pointsToAdd, remaining);
+
+  synced.weekPointsEarned = (synced.weekPointsEarned ?? 0) + appliedPoints;
+  synced.seasonPoints = (synced.seasonPoints ?? 0) + appliedPoints;
+
+  return {
+    gamification: synced,
+    appliedPoints,
+    cappedByWeeklyLimit: appliedPoints < pointsToAdd,
+  };
+}
+
+function buildBreakdownEntry(label, points = 0, fitCoins = 0) {
+  return { label, points, fitCoins };
+}
+
 /**
  * Apply gamification updates after session complete.
  * @param {object} params
@@ -73,22 +137,51 @@ export function applySessionCompleteGamification({
   weekNumber = 1,
   recentSessions = [],
   completedSession = null,
-  hasFeedback = true,
+  hasPreReadiness = false,
+  hasPostFeedback = false,
+  volumeMetTarget = true,
+  e1rmRecords = [],
 }) {
   const referenceDate = new Date(completedAt);
   let next = normalizeGamification(gamification, referenceDate, timezone);
   next = applySeasonRollover(next, referenceDate, timezone);
 
   const dayKey = toDayKey(completedAt, timezone);
-  let seasonPointsEarned = SESSION_POINTS;
-  let fitCoinsEarned = SESSION_FITCOINS;
+  let seasonPointsEarned = 0;
+  let fitCoinsEarned = 0;
+  const breakdown = [];
+  let weeklyCapHit = false;
 
-  if (hasFeedback) seasonPointsEarned += FEEDBACK_POINTS;
+  if (volumeMetTarget) {
+    seasonPointsEarned += SESSION_POINTS;
+    fitCoinsEarned += SESSION_FITCOINS;
+    breakdown.push(buildBreakdownEntry('Sesión completada', SESSION_POINTS, SESSION_FITCOINS));
+  }
 
-  next.lifetimeSessionsCompleted += 1;
-  next.seasonSessionsCompleted += 1;
+  if (hasPreReadiness) {
+    seasonPointsEarned += READINESS_POINTS;
+    breakdown.push(buildBreakdownEntry('Readiness pre-entreno', READINESS_POINTS, 0));
+  }
 
-  if (next.lastActiveDayKey !== dayKey) {
+  if (hasPostFeedback) {
+    seasonPointsEarned += FEEDBACK_POINTS;
+    breakdown.push(buildBreakdownEntry('Feedback post-entreno', FEEDBACK_POINTS, 0));
+  }
+
+  const prs = (e1rmRecords ?? []).slice(0, E1RM_PR_MAX_PER_SESSION);
+  for (const pr of prs) {
+    seasonPointsEarned += E1RM_PR_POINTS;
+    breakdown.push(
+      buildBreakdownEntry(`Récord e1RM · ${pr.exerciseName ?? pr.exerciseId}`, E1RM_PR_POINTS, 0),
+    );
+  }
+
+  if (volumeMetTarget) {
+    next.lifetimeSessionsCompleted += 1;
+    next.seasonSessionsCompleted += 1;
+  }
+
+  if (volumeMetTarget && next.lastActiveDayKey !== dayKey) {
     next.lifetimeActiveDays += 1;
 
     if (next.lastActiveDayKey) {
@@ -121,10 +214,17 @@ export function applySessionCompleteGamification({
       seasonPointsEarned += WEEK_PERFECT_POINTS;
       fitCoinsEarned += WEEK_PERFECT_FITCOINS;
       weekPerfectBonus = true;
+      breakdown.push(
+        buildBreakdownEntry('Semana perfecta', WEEK_PERFECT_POINTS, WEEK_PERFECT_FITCOINS),
+      );
     }
   }
 
-  next.seasonPoints += seasonPointsEarned;
+  const pointsResult = applySeasonPoints(next, seasonPointsEarned, referenceDate, timezone);
+  next = pointsResult.gamification;
+  weeklyCapHit = pointsResult.cappedByWeeklyLimit;
+  seasonPointsEarned = pointsResult.appliedPoints;
+
   next.fitCoinsBalance += fitCoinsEarned;
   next.updatedAt = referenceDate.toISOString();
 
@@ -146,6 +246,17 @@ export function applySessionCompleteGamification({
       avatarStageUp: false,
       currentStreakDays: next.currentStreakDays,
       weekPerfectBonus,
+      volumeMetTarget,
+      weeklyCapHit,
+      e1rmRecords: prs.map(({ exerciseId, exerciseName, previousE1RM, newE1RM }) => ({
+        exerciseId,
+        exerciseName,
+        previousE1RM,
+        newE1RM,
+      })),
+      breakdown,
+      newSeasonPointsTotal: next.seasonPoints,
+      newFitCoinsTotal: next.fitCoinsBalance,
       lifetimeSessionsCompleted: next.lifetimeSessionsCompleted,
     },
   };
@@ -174,15 +285,22 @@ export function applyMesocycleEvaluateGamification({
   let seasonPointsEarned = 0;
   let fitCoinsEarned = 0;
   let mesocycleCounted = false;
+  const breakdown = [];
 
   if (mesocycleCompletionRate >= MESOCYCLE_MIN_COMPLETION_RATE) {
     next.lifetimeMesocyclesCompleted += 1;
     seasonPointsEarned += MESOCYCLE_POINTS;
     fitCoinsEarned += MESOCYCLE_FITCOINS;
     mesocycleCounted = true;
+    breakdown.push(
+      buildBreakdownEntry('Mesociclo evaluado', MESOCYCLE_POINTS, MESOCYCLE_FITCOINS),
+    );
   }
 
-  next.seasonPoints += seasonPointsEarned;
+  const pointsResult = applySeasonPoints(next, seasonPointsEarned, referenceDate, timezone);
+  next = pointsResult.gamification;
+  seasonPointsEarned = pointsResult.appliedPoints;
+
   next.fitCoinsBalance += fitCoinsEarned;
   next.updatedAt = referenceDate.toISOString();
 
@@ -208,6 +326,9 @@ export function applyMesocycleEvaluateGamification({
       })),
       avatarStageUp: false,
       mesocycleCounted,
+      breakdown,
+      newSeasonPointsTotal: next.seasonPoints,
+      newFitCoinsTotal: next.fitCoinsBalance,
       lifetimeMesocyclesCompleted: next.lifetimeMesocyclesCompleted,
     },
   };
@@ -243,7 +364,10 @@ export function estimateGamificationFromSessions(sessions = [], timezone = 'Amer
       weekNumber: session.weekNumber ?? 1,
       recentSessions: [],
       completedSession: session,
-      hasFeedback: true,
+      hasPreReadiness: true,
+      hasPostFeedback: true,
+      volumeMetTarget: true,
+      e1rmRecords: [],
     });
     gamification = result.gamification;
   }

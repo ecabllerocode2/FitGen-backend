@@ -26,7 +26,7 @@ describe('gamification defaults', () => {
     const g = createDefaultGamification(new Date('2026-07-15T12:00:00.000Z'), 'UTC');
     expect(g.lifetimeSessionsCompleted).toBe(0);
     expect(g.achievementsUnlocked).toEqual({});
-    expect(g.inventory.skins).toContain('default');
+    expect(g.inventory.shareTemplates).toContain('default');
   });
 
   it('normalizes partial gamification objects', () => {
@@ -42,13 +42,14 @@ describe('applySessionCompleteGamification', () => {
       gamification: null,
       completedAt: '2026-07-15T18:00:00.000Z',
       timezone: 'UTC',
-      hasFeedback: true,
+      hasPreReadiness: true,
+      hasPostFeedback: true,
     });
 
     expect(gamification.lifetimeSessionsCompleted).toBe(1);
     expect(gamification.lifetimeActiveDays).toBe(1);
     expect(gamification.currentStreakDays).toBe(1);
-    expect(delta.seasonPointsEarned).toBe(12);
+    expect(delta.seasonPointsEarned).toBe(14);
     expect(delta.fitCoinsEarned).toBe(2);
     expect(delta.newAchievements.some((a) => a.id === 'first-session')).toBe(true);
     expect(gamification.achievementsUnlocked['first-session']).toBeDefined();

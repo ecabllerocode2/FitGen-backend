@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import admin from 'firebase-admin';
 import { ACHIEVEMENT_DEFINITIONS } from '../domain/gamification/achievements.js';
+import { SHOP_CATALOG } from '../domain/gamification/shop.js';
 
 function loadServiceAccount() {
   const text = fs.readFileSync(path.join(process.cwd(), '.env.local'), 'utf8');
@@ -38,9 +39,9 @@ const payload = {
     { stage: 4, name: 'Veteran', requirement: '26 semanas perfectas' },
     { stage: 5, name: 'Elite', requirement: '52 semanas perfectas' },
   ],
-  shop: [],
+  shop: SHOP_CATALOG,
   updatedAt: new Date().toISOString(),
 };
 
 await db.collection('catalogs').doc('gamification').set(payload, { merge: true });
-console.log(`✓ catalogs/gamification seeded (${payload.achievements.length} achievements)`);
+console.log(`✓ catalogs/gamification seeded (${payload.achievements.length} achievements, ${payload.shop.length} shop items)`);

@@ -80,10 +80,25 @@ function enrichCatalogWithLocalImages(catalog = {}) {
       if (!local) return ex;
       const needs0 = !stringOrNull(ex.url_img_0) && !stringOrNull(ex.imageUrl);
       const needs1 = !stringOrNull(ex.url_img_1) && !stringOrNull(ex.imageUrl2);
-      if (!needs0 && !needs1) return ex;
+      const needsDescription = !stringOrNull(ex.descripcion) && !stringOrNull(ex.instrucciones);
+      const needsCorrecciones = !Array.isArray(ex.correcciones) || ex.correcciones.length === 0;
+      if (!needs0 && !needs1 && !needsDescription && !needsCorrecciones) return ex;
       repaired += 1;
       return {
         ...ex,
+        descripcion: stringOrNull(ex.descripcion) || stringOrNull(local.descripcion) || null,
+        instrucciones:
+          stringOrNull(ex.instrucciones)
+          || stringOrNull(ex.descripcion)
+          || stringOrNull(local.instrucciones)
+          || stringOrNull(local.descripcion)
+          || null,
+        correcciones:
+          Array.isArray(ex.correcciones) && ex.correcciones.length
+            ? ex.correcciones
+            : Array.isArray(local.correcciones)
+              ? local.correcciones
+              : [],
         url_img_0: stringOrNull(ex.url_img_0) || stringOrNull(ex.imageUrl) || local.url_img_0 || null,
         url_img_1: stringOrNull(ex.url_img_1) || stringOrNull(ex.imageUrl2) || local.url_img_1 || null,
         imageUrl: stringOrNull(ex.imageUrl) || stringOrNull(ex.url_img_0) || local.url_img_0 || null,

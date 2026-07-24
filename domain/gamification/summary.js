@@ -39,6 +39,11 @@ export function buildGamificationSummary(rawGamification, options = {}) {
     achievementSections,
     unlockedCount,
     nextAchievement: getNextLockedAchievement(gamification, context),
+    preferences: {
+      showInLeaderboard: gamification.showInLeaderboard === true,
+      publicDisplayName: gamification.publicDisplayName ?? null,
+    },
+    inventory: gamification.inventory,
     updatedAt: gamification.updatedAt,
   };
 }

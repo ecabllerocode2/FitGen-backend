@@ -20,8 +20,32 @@ import sessionSwapHandler from './api/session/swap-exercise.js';
 import sessionSwapWarmupHandler from './api/session/swap-warmup-exercise.js';
 import exercisePreferencesHandler from './api/profile/exercise-preferences.js';
 import gamificationSummaryHandler from './api/gamification/summary.js';
+import gamificationLeaderboardHandler from './api/gamification/leaderboard.js';
+import gamificationOptInLeaderboardHandler from './api/gamification/opt-in-leaderboard.js';
+import gamificationEquipHandler from './api/gamification/equip.js';
+import shopPurchaseHandler from './api/shop/purchase.js';
+import shopRedeemPremiumHandler from './api/shop/redeem-premium.js';
 import adminUsersOverviewHandler from './api/admin/users-overview.js';
+import adminUserDetailHandler from './api/admin/user-detail.js';
+import adminCoachSetPlanHandler from './api/admin/coach-set-plan.js';
 import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
+import coachRegisterHandler from './api/coach/register.js';
+import coachMeHandler from './api/coach/me.js';
+import coachInvitesHandler from './api/coach/invites.js';
+import coachInvitesRevokeHandler from './api/coach/invites-revoke.js';
+import coachClientsHandler from './api/coach/clients.js';
+import coachClientDetailHandler from './api/coach/client-detail.js';
+import coachClientSessionDetailHandler from './api/coach/client-session-detail.js';
+import coachClientTrainingProfileHandler from './api/coach/client-training-profile.js';
+import coachClientMesocycleGenerateHandler from './api/coach/client-mesocycle-generate.js';
+import coachClientReleaseHandler from './api/coach/client-release.js';
+import coachClientNotesHandler from './api/coach/client-notes.js';
+import coachClientInsightsHandler from './api/coach/client-insights.js';
+import coachClientSwapExerciseHandler from './api/coach/client-swap-exercise.js';
+import coachClientExercisePreferencesHandler from './api/coach/client-exercise-preferences.js';
+import joinLookupHandler from './api/join/lookup.js';
+import joinAcceptHandler from './api/join/accept.js';
+import athleteShareBrandingHandler from './api/athlete/share-branding.js';
 
 const app = express();
 const PORT = 3000;
@@ -29,7 +53,7 @@ const PORT = 3000;
 // 💡 CONFIGURACIÓN CORS ROBUSTA
 const corsOptions = {
     origin: '*', // Permite todas las fuentes (vital para Codespaces -> Vercel)
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
         'Content-Type',
         'Authorization',
@@ -84,8 +108,37 @@ app.post('/api/profile/exercise-preferences', exercisePreferencesHandler);
 app.get('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
 app.post('/api/body-metrics/checkin', bodyMetricsCheckinHandler);
 app.get('/api/gamification/summary', gamificationSummaryHandler);
+app.get('/api/gamification/leaderboard', gamificationLeaderboardHandler);
+app.post('/api/gamification/opt-in-leaderboard', gamificationOptInLeaderboardHandler);
+app.post('/api/gamification/equip', gamificationEquipHandler);
+app.get('/api/shop/catalog', shopPurchaseHandler);
+app.post('/api/shop/purchase', shopPurchaseHandler);
+app.post('/api/shop/redeem-premium', shopRedeemPremiumHandler);
 app.get('/api/admin/users-overview', adminUsersOverviewHandler);
+app.get('/api/admin/user-detail', adminUserDetailHandler);
+app.post('/api/admin/coach-set-plan', adminCoachSetPlanHandler);
 
+// Coach platform
+app.post('/api/coach/register', coachRegisterHandler);
+app.get('/api/coach/me', coachMeHandler);
+app.get('/api/coach/invites', coachInvitesHandler);
+app.post('/api/coach/invites', coachInvitesHandler);
+app.post('/api/coach/invites/revoke', coachInvitesRevokeHandler);
+app.get('/api/coach/clients', coachClientsHandler);
+app.get('/api/coach/clients/:athleteId/sessions/:sessionId', coachClientSessionDetailHandler);
+app.get('/api/coach/clients/:athleteId', coachClientDetailHandler);
+app.patch('/api/coach/clients/:athleteId/training-profile', coachClientTrainingProfileHandler);
+app.post('/api/coach/clients/:athleteId/training-profile', coachClientTrainingProfileHandler);
+app.post('/api/coach/clients/:athleteId/mesocycle/generate', coachClientMesocycleGenerateHandler);
+app.post('/api/coach/clients/:athleteId/release', coachClientReleaseHandler);
+app.get('/api/coach/clients/:athleteId/notes', coachClientNotesHandler);
+app.post('/api/coach/clients/:athleteId/notes', coachClientNotesHandler);
+app.get('/api/coach/clients/:athleteId/insights', coachClientInsightsHandler);
+app.post('/api/coach/clients/:athleteId/swap-exercise', coachClientSwapExerciseHandler);
+app.post('/api/coach/clients/:athleteId/exercise-preferences', coachClientExercisePreferencesHandler);
+app.get('/api/join/:token', joinLookupHandler);
+app.post('/api/join/:token/accept', joinAcceptHandler);
+app.get('/api/athlete/share-branding', athleteShareBrandingHandler);
 
 // Ruta de estado (Health Check)
 app.get('/', (req, res) => {
@@ -107,6 +160,8 @@ app.get('/', (req, res) => {
             'POST /api/profile/exercise-preferences',
             'GET /api/body-metrics/checkin',
             'POST /api/body-metrics/checkin',
+            'GET /api/admin/users-overview',
+            'GET /api/admin/user-detail',
         ]
     });
 });
