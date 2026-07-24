@@ -91,5 +91,7 @@ describe('clientDashboard', () => {
     expect(dashboard.checkin.needsCheckin).toBe(true);
     expect(dashboard.anthropometrics.bmi).toBe(25.5);
     expect(dashboard.mesocycle?.weeklySplit.length).toBeGreaterThanOrEqual(1);
+    expect(dashboard.charts).toBeTruthy();
+    expect(Array.isArray(dashboard.charts.volumeBySession)).toBe(true);
   });
 });
