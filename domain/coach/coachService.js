@@ -7,8 +7,7 @@ import { createCoachRepository } from '../../infrastructure/firebase/coachReposi
 import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
 import { buildProfileCompleteness } from './profileCompleteness.js';
 import { generateMesocycle } from '../periodization/mesocycleGenerator.js';
-import { classifyProfileChanges } from '../athlete/profileChangeImpact.js';
-import { adaptMesocycleToProfile } from '../periodization/adaptMesocycleToProfile.js';
+import { applyProfileAdaptation } from '../athlete/applyProfileAdaptation.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import {
   canConsumeSeat,
@@ -79,19 +78,21 @@ export async function updateTrainingProfileForClient(coachId, athleteId, rawTrai
   const merged = { ...existingProfile, ...rawTrainingPatch };
   const { profileData, profileCompleteness } = await mergeAthleteProfile(athleteId, merged);
 
-  let profileChange = { tier: 'metadata_only', requiresSessionClear: false, message: 'Perfil actualizado.' };
-  const existingMesocycle = athlete.currentMesocycle ?? null;
+  const hasMesocycle = Boolean(athlete.currentMesocycle);
+  const { profileChange, userPatch } = await applyProfileAdaptation({
+    users,
+    userId: athleteId,
+    existingUser: athlete,
+    existingProfile,
+    profileData,
+    applyPlanChanges: hasMesocycle,
+  });
 
-  if (existingMesocycle) {
-    profileChange = classifyProfileChanges(existingProfile, profileData, existingMesocycle);
-    if (['schedule_remap', 'safety_update', 'partial_regeneration'].includes(profileChange.tier)) {
-      const adapted = adaptMesocycleToProfile(existingMesocycle, profileData, profileChange, new Date());
-      await users.saveMesocycle(athleteId, adapted);
-      if (profileChange.requiresSessionClear) {
-        await users.saveUser(athleteId, { currentSession: FieldValue.delete() });
-      }
-    }
-  }
+  await users.saveUser(athleteId, {
+    profileData,
+    profileCompleteness,
+    ...userPatch,
+  });
 
   const relationPatch = {
     status: profileCompleteness.readyForMesocycle
@@ -101,7 +102,7 @@ export async function updateTrainingProfileForClient(coachId, athleteId, rawTrai
   };
   await coaches.saveClientRelation(coachId, athleteId, relationPatch);
 
-  return { profileData, profileCompleteness, profileChange };
+  return { profileData, profileCompleteness, profileChange, planStatus: userPatch.planStatus };
 }
 
 export async function activateCoachedClient({

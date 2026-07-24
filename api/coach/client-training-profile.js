@@ -71,6 +71,8 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       ...result,
+      profileChange: result.profileChange,
+      message: result.profileChange?.message,
       mesocycle,
     });
   } catch (err) {
