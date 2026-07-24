@@ -27,6 +27,8 @@ import shopPurchaseHandler from './api/shop/purchase.js';
 import shopRedeemPremiumHandler from './api/shop/redeem-premium.js';
 import adminUsersOverviewHandler from './api/admin/users-overview.js';
 import adminUserDetailHandler from './api/admin/user-detail.js';
+import adminUsersDashboardListHandler from './api/admin/users-dashboard-list.js';
+import adminUserDashboardHandler from './api/admin/user-dashboard.js';
 import adminCoachSetPlanHandler from './api/admin/coach-set-plan.js';
 import bodyMetricsCheckinHandler from './api/body-metrics/checkin.js';
 import coachRegisterHandler from './api/coach/register.js';
@@ -117,6 +119,8 @@ app.post('/api/shop/purchase', shopPurchaseHandler);
 app.post('/api/shop/redeem-premium', shopRedeemPremiumHandler);
 app.get('/api/admin/users-overview', adminUsersOverviewHandler);
 app.get('/api/admin/user-detail', adminUserDetailHandler);
+app.get('/api/admin/users-dashboard-list', adminUsersDashboardListHandler);
+app.get('/api/admin/user-dashboard', adminUserDashboardHandler);
 app.post('/api/admin/coach-set-plan', adminCoachSetPlanHandler);
 
 // Coach platform
@@ -163,6 +167,8 @@ app.get('/', (req, res) => {
             'POST /api/body-metrics/checkin',
             'GET /api/admin/users-overview',
             'GET /api/admin/user-detail',
+            'GET /api/admin/users-dashboard-list',
+            'GET /api/admin/user-dashboard',
         ]
     });
 });
