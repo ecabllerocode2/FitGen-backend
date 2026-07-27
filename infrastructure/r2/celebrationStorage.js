@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
-const CELEBRATION_TTL_DAYS = 7;
+const CELEBRATION_TTL_DAYS = 30;
 
 function getR2Client() {
   const accountId = process.env.R2_ACCOUNT_ID;
@@ -21,7 +21,7 @@ export function celebrationExpiresAt(fromDate = new Date()) {
 
 /**
  * Upload celebration PNG to R2.
- * Bucket lifecycle should delete objects under celebrations/ after 7 days.
+ * Bucket lifecycle should delete objects under celebrations/ after 30 days.
  * @returns {Promise<string|null>} public URL or null if R2 is not configured
  */
 export async function uploadCelebrationPng(userId, sessionId, buffer) {
@@ -37,7 +37,7 @@ export async function uploadCelebrationPng(userId, sessionId, buffer) {
       Key: key,
       Body: buffer,
       ContentType: 'image/png',
-      CacheControl: 'public, max-age=604800',
+      CacheControl: 'public, max-age=2592000',
     }),
   );
 

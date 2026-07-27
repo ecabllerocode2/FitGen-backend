@@ -13,7 +13,7 @@ async function authenticate(req) {
 
 /**
  * GET /api/session/celebrations
- * Returns celebration cards from the last 7 days.
+ * Returns celebration cards from the last 30 days.
  */
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
