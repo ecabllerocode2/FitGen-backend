@@ -2,7 +2,7 @@
 /**
  * One-shot setup for R2 celebration storage:
  * - lists buckets
- * - applies 7-day lifecycle on celebrations/ prefix
+ * - applies 30-day lifecycle on celebrations/ prefix
  */
 import {
   S3Client,
@@ -46,16 +46,16 @@ await s3.send(
     LifecycleConfiguration: {
       Rules: [
         {
-          ID: 'delete-celebrations-7d',
+          ID: 'delete-celebrations-30d',
           Status: 'Enabled',
           Filter: { Prefix: 'celebrations/' },
-          Expiration: { Days: 7 },
+          Expiration: { Days: 30 },
         },
       ],
     },
   }),
 );
 
-console.log('Lifecycle rule applied via S3 API: celebrations/* deleted after 7 days');
+console.log('Lifecycle rule applied via S3 API: celebrations/* deleted after 30 days');
 console.log(`R2_BUCKET_NAME=${bucketName}`);
 console.log('R2_PUBLIC_URL=https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev');

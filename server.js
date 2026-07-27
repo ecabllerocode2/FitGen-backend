@@ -98,7 +98,7 @@ app.post('/api/session/generateV2', sessionGenerateV2Handler);
 // Completar Sesión (Guardar Feedback e Historial)
 app.post('/api/session/complete', sessionCompleteHandler);
 
-// Tarjetas de celebración (R2, 7 días)
+// Tarjetas de celebración (R2, 30 días)
 app.post('/api/session/celebration-card', sessionCelebrationCardHandler);
 app.get('/api/session/celebrations', sessionCelebrationsHandler);
 app.get('/api/session/history', sessionHistoryHandler);
