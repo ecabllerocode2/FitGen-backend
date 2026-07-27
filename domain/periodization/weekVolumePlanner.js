@@ -56,6 +56,7 @@ export function computeWeeklyVolumePlan({
   goal,
   weekNumber,
   excludeIds = [],
+  unavailableEquipment = [],
   scheduleWeekNumber = 1,
   history = [],
   mesocycleId = null,
@@ -84,7 +85,6 @@ export function computeWeeklyVolumePlan({
       weekNumber,
       slot.sessionFocus,
     );
-    const mergedExcludeIds = [...new Set([...excludeIds, ...rotationExcludeIds])];
 
     const selected = completed
       ? historyEntryToExercises(completed)
@@ -99,6 +99,7 @@ export function computeWeeklyVolumePlan({
             sessionMuscles: slot.muscles ?? [],
             excludeIds,
             rotationExcludeIds,
+            unavailableEquipment,
             mesocycleId,
             trainingDaysPerWeek: trainingDays,
           },

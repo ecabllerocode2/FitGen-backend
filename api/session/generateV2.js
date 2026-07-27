@@ -6,6 +6,7 @@ import { getTodaySessionPlan, isMesocycleComplete } from '../../lib/mesocycleUti
 import { isStaleIncompleteSession } from '../../domain/session/sessionFreshness.js';
 import { hasCompletedScheduledSessionToday } from '../../domain/session/sameDayCompletion.js';
 import { validateReadiness } from '../../schemas/profileSchema.js';
+import { getUserExercisePreferences } from '../../domain/athlete/exercisePreferences.js';
 
 const LOAD_TO_SCHEMA = {
   none: 'ninguna',
@@ -131,7 +132,7 @@ export default async function handler(req, res) {
       catalog,
       history,
       referenceDate,
-      exercisePreferences: user.exercisePreferences ?? {},
+      exercisePreferences: getUserExercisePreferences(user),
       continuityOverrides: user.continuityOverrides ?? {},
       loadPerformanceLedger: user.loadPerformanceLedger ?? null,
       mesocycleExerciseIndex: user.mesocycleExerciseIndex ?? [],

@@ -12,6 +12,9 @@ serviceAccountKey.json
 # Build artifacts
 /dist
 /build
+/coverage
+/reports
+/.stryker-tmp
 
 # Logs
 npm-debug.log*

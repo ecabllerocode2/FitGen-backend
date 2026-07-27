@@ -1,10 +1,6 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { loadCatalog } from '../../infrastructure/catalog/catalogRepository.js';
-import { selectExercises } from '../../domain/exerciseSelection/selector.js';
-import { isBodyweightExercise } from '../../domain/exerciseSelection/bodyweight.js';
-import { prescribeLoad, buildLoadHistoryFromSessions } from '../../domain/prescription/loadCalculator.js';
-import { EXERCISE_TYPES } from '../../domain/constants.js';
 import {
   addExerciseExclusion,
   exerciseEquipmentList,
@@ -12,6 +8,7 @@ import {
   resolveExclusionFilters,
 } from '../../domain/athlete/exercisePreferences.js';
 import { setContinuityReplacement } from '../../domain/athlete/continuityPreferences.js';
+import { applyMainExerciseSwap } from '../../domain/session/applyMainExerciseSwap.js';
 
 const users = createUserRepository(db);
 
@@ -21,17 +18,6 @@ async function authenticate(req) {
   if (!match) throw Object.assign(new Error('Token requerido'), { status: 401 });
   const decoded = await auth.verifyIdToken(match[1]);
   return decoded.uid;
-}
-
-function buildExerciseHistory(history, exerciseId, movementPattern, priority = 2, ledger, experienceLevel) {
-  return buildLoadHistoryFromSessions(
-    history,
-    exerciseId,
-    movementPattern,
-    priority,
-    ledger,
-    experienceLevel,
-  );
 }
 
 /**
@@ -72,7 +58,6 @@ export default async function handler(req, res) {
     const focus = sessionFocus ?? session.sessionFocus;
     const mesocycleId = session.mesocycleId ?? user.currentMesocycle?.mesocycleId ?? null;
     const safetyProfile = user.currentMesocycle?.safetyProfile ?? user.profileData?.safetyProfile ?? {};
-    const goal = user.currentMesocycle?.goal ?? user.profileData?.fitnessGoal ?? 'Hipertrofia';
 
     let exercisePreferences = getUserExercisePreferences(user);
 
@@ -95,79 +80,27 @@ export default async function handler(req, res) {
     }
 
     const history = await users.getRecentSessions(userId, 30);
-    const { excludeIds } = resolveExclusionFilters(exercisePreferences);
-    const currentIds = (session.mainBlock ?? []).map((e) => e.exerciseId);
-    const sessionMuscles = session.sessionMuscles ?? [];
+    const { excludeIds, unavailableEquipment } = resolveExclusionFilters(exercisePreferences);
 
-    const alternatives = selectExercises(
-      focus,
-      catalog.entrenamiento ?? [],
+    const swapResult = applyMainExerciseSwap({
+      session,
+      exerciseIdToReplace,
+      catalog: catalog.entrenamiento ?? [],
+      excludeIds,
+      unavailableEquipment,
       safetyProfile,
       history,
-      goal,
-      {
-        excludeIds: [...new Set([...currentIds, ...excludeIds])],
-        rotationExcludeIds: [],
-        weekNumber: session.weekNumber ?? 1,
-        sessionMuscles,
-        mesocycleId,
-        trainingDaysPerWeek: user.profileData?.trainingDaysPerWeek ?? 3,
-        continuityOverrides: user.continuityOverrides ?? {},
-      },
-    );
-
-    const replacement = alternatives.find((e) => e.id !== exerciseIdToReplace) ?? alternatives[0];
-    if (!replacement) {
-      return res.status(404).json({ error: 'No hay ejercicio alternativo disponible' });
-    }
-
-    const mainBlock = (session.mainBlock ?? []).map((ex) => {
-      if (ex.exerciseId !== exerciseIdToReplace) return ex;
-      const bodyweight = isBodyweightExercise(replacement, catalog.entrenamiento ?? []);
-      const exerciseType =
-        (replacement.prioridad ?? 2) === 1 ? EXERCISE_TYPES.COMPOUND : EXERCISE_TYPES.ISOLATION;
-      const exerciseHistory = buildExerciseHistory(
-        history,
-        replacement.id,
-        replacement.patronMovimiento,
-        replacement.prioridad ?? 2,
-        user.loadPerformanceLedger,
+      loadPerformanceLedger: user.loadPerformanceLedger,
+      bodyWeightKg: user.profileData?.currentWeightKg,
+      experienceLevel:
         safetyProfile?.experienceLevel ?? user.profileData?.experienceLevel ?? 'Intermedio',
-      );
-      const load = prescribeLoad({
-        exerciseType,
-        rirTarget: ex.rirTarget ?? 2,
-        repRange: ex.repRange ?? '8-12',
-        history: exerciseHistory,
-        bodyWeightKg: user.profileData?.currentWeightKg,
-        movementPattern: replacement.patronMovimiento,
-        isBodyweight: bodyweight,
-        exerciseId: replacement.id,
-        equipo: replacement.equipo,
-        isUnilateral: replacement.isUnilateral === true,
-      });
-
-      return {
-        ...ex,
-        exerciseId: replacement.id,
-        exerciseName: replacement.nombre,
-        muscleGroup: replacement.parteCuerpo,
-        movementPattern: replacement.patronMovimiento,
-        imageUrl: replacement.url_img_0 ?? null,
-        imageUrl2: replacement.url_img_1 ?? null,
-        swappedFrom: exerciseIdToReplace,
-        isBodyweight: bodyweight,
-        equipo: replacement.equipo ?? [],
-        isUnilateral: replacement.isUnilateral === true,
-        loadMode: load.mode,
-        loadConvention: load.loadConvention ?? null,
-        prescribedLoadKg: load.prescribedLoadKg ?? null,
-        suggestedLoadKg: load.suggestedLoadKg ?? null,
-        loadExplanation: load.explanation ?? null,
-        priority: replacement.prioridad ?? ex.priority ?? 2,
-      };
     });
 
+    if (swapResult.error) {
+      return res.status(404).json({ error: swapResult.error });
+    }
+
+    const { mainBlock, replacement } = swapResult;
     const updatedSession = { ...session, mainBlock };
 
     await users.saveSession(userId, updatedSession);

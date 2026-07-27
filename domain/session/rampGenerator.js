@@ -319,6 +319,7 @@ function scoreExercise(ex, phase, ctx) {
 function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
   const energy = readiness.energyLevel ?? 3;
   const text = labelText(ex);
+  const unilateral = ex.isUnilateral === true && phase !== 'Raise' && !isCardioMachine(ex);
 
   if (phase === 'Raise') {
     if (isCardioMachine(ex)) {
@@ -352,6 +353,14 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
   }
 
   if (phase === 'Activate') {
+    if (unilateral) {
+      const perSideSec = energy <= 2 ? 40 : 45;
+      return {
+        durationSeconds: perSideSec * 2,
+        reps: energy <= 2 ? '10 reps por lado' : '12-15 reps por lado',
+        cue: 'Primero un brazo/lado, luego el otro.',
+      };
+    }
     if (REP_BASED.test(text) || /banda|band/i.test(equipmentText(ex))) {
       const reps = energy <= 2 ? '10 reps' : '12-15 reps';
       return { durationSeconds: energy <= 2 ? 50 : 60, reps };
@@ -363,14 +372,38 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
     if (ex.isDynamic) {
       return { durationSeconds: energy <= 2 ? 50 : 60, reps: '10 reps por lado' };
     }
+    if (unilateral) {
+      const perSideSec = energy <= 2 ? 40 : 45;
+      return {
+        durationSeconds: perSideSec * 2,
+        reps: `${perSideSec}s por lado`,
+        cue: 'Primero un lado, luego el otro.',
+      };
+    }
     return { durationSeconds: energy <= 2 ? 45 : 60, reps: energy <= 2 ? '45s' : '60s' };
   }
 
   if (phase === 'Prehab') {
+    if (unilateral) {
+      return {
+        durationSeconds: 90,
+        reps: '12 reps por lado',
+        cue: 'Primero un lado, luego el otro.',
+      };
+    }
     return { durationSeconds: 45, reps: '12 reps' };
   }
 
   const baseOther = energy <= 2 ? 45 : 60;
+  if (unilateral) {
+    return {
+      durationSeconds: baseOther * 2,
+      reps: ex.reps && typeof ex.reps === 'string' && !/^\d+s$/i.test(ex.reps)
+        ? `${ex.reps} por lado`
+        : `${baseOther}s por lado`,
+      cue: 'Primero un lado, luego el otro.',
+    };
+  }
   if (ex.reps && typeof ex.reps === 'string' && !/^\d+s$/i.test(ex.reps)) {
     return { durationSeconds: baseOther, reps: ex.reps };
   }
@@ -379,6 +412,8 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
 
 function toWarmupItem(ex, phase, readiness, goal) {
   const dose = prescribeDose(ex, phase, readiness, goal);
+  const unilateral = ex.isUnilateral === true && phase !== 'Raise' && !isCardioMachine(ex);
+  const cue = dose.cue ?? (unilateral ? 'Primero un brazo/lado, luego el otro.' : null);
   return {
     exerciseId: ex.id,
     id: ex.id,
@@ -393,7 +428,12 @@ function toWarmupItem(ex, phase, readiness, goal) {
     duracion: `${dose.durationSeconds} seg`,
     sets: 1,
     reps: dose.reps,
-    instrucciones: ex.descripcion,
+    isUnilateral: unilateral,
+    unilateralCue: cue,
+    instrucciones: cue
+      ? `${ex.descripcion ?? ''}${ex.descripcion ? ' ' : ''}${cue}`.trim()
+      : ex.descripcion,
+    descripcion: ex.descripcion,
     imageUrl: ex.url_img_0,
     imageUrl2: ex.url_img_1,
     equipo: ex.equipo,
