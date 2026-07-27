@@ -3,6 +3,7 @@ import {
   applyContinuityReplacements,
   getSessionContinuityReplacements,
 } from '../athlete/continuityPreferences.js';
+import { isExerciseBlocked } from '../athlete/exercisePreferences.js';
 import { getRotationIdsFromIndex } from '../athlete/mesocycleExerciseIndex.js';
 import { detectPlateau, getIntervention } from '../progression/plateau.js';
 import { passesBodyweightLoadFilter } from './bodyweight.js';
@@ -599,6 +600,7 @@ function pickPatternExercise(
   sessionFocus,
   sessionMuscles,
   goal,
+  unavailableEquipment = [],
 ) {
   const avoidPatterns = new Set(safetyProfile?.avoidPatterns ?? []);
   const candidates = catalog
@@ -613,6 +615,7 @@ function pickPatternExercise(
     .filter((ex) => passesDifficultyFilter(ex))
     .filter((ex) => isGymExercise(ex))
     .filter((ex) => passesGymEquipmentFilter(ex))
+    .filter((ex) => !isExerciseBlocked(ex, { unavailableEquipment }))
     .filter((ex) => passesBodyweightLoadFilter(ex, selected))
     .filter((ex) => passesHingeFatigueFilter(ex, selected))
     .filter((ex) => passesPullPatternFilter(ex, pattern, sessionMuscles))
@@ -1011,6 +1014,25 @@ function ensureFuerzaSessionMinimums(
   if (/upper/i.test(focus) && !selected.some((e) => e.patronMovimiento === 'Traccion_V')) {
     const pick = pickPatternExercise(
       'Traccion_V',
+      selected,
+      usedIds,
+      catalog,
+      safetyProfile,
+      weekNumber,
+      excludeSet,
+      sessionFocus,
+      sessionMuscles,
+      goal,
+    );
+    if (pick) {
+      selected.push({ ...pick, fromContinuity: false });
+      usedIds.add(pick.id);
+    }
+  }
+
+  if (/upper/i.test(focus) && !selected.some((e) => e.patronMovimiento === 'Empuje_V')) {
+    const pick = pickPatternExercise(
+      'Empuje_V',
       selected,
       usedIds,
       catalog,
@@ -1581,6 +1603,7 @@ export function selectExercises(
     maxPerPattern = MAX_PER_PATTERN,
     excludeIds = [],
     rotationExcludeIds = [],
+    unavailableEquipment = [],
     weekNumber = 1,
     sessionMuscles = [],
     mesocycleId = null,
@@ -1591,8 +1614,10 @@ export function selectExercises(
   const effectiveMaxPerPattern = sessionGoal === 'Fuerza' ? 1 : maxPerPattern;
   const excludeSet = new Set(excludeIds);
   const rotationExcludeSet = new Set(rotationExcludeIds);
+  const equipmentBlockFilters = { excludeIds: [], unavailableEquipment };
   const patternExcludeSet = (allowRotationRepeats = false) =>
     allowRotationRepeats ? excludeSet : new Set([...excludeIds, ...rotationExcludeIds]);
+  const passesEquipmentAvailability = (ex) => !isExerciseBlocked(ex, equipmentBlockFilters);
   const requiredPatterns = adjustPatternsForNovatoLowFreq(
     resolvePatternsForSafety(
       SESSION_FOCUS_PATTERN_MAP[sessionFocus] ?? inferPatternsFromFocus(sessionFocus),
@@ -1665,6 +1690,7 @@ export function selectExercises(
       .filter((ex) => passesDifficultyFilter(ex))
       .filter((ex) => isGymExercise(ex))
       .filter((ex) => passesGymEquipmentFilter(ex))
+      .filter((ex) => passesEquipmentAvailability(ex))
       .filter((ex) => passesBodyweightLoadFilter(ex, selected))
       .filter((ex) => passesHingeFatigueFilter(ex, selected))
       .filter((ex) => passesPullPatternFilter(ex, pattern, sessionMuscles))

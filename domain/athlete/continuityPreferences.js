@@ -17,12 +17,20 @@ export function applyContinuityReplacements(stubs, replacements) {
   return stubs.map((stub) => {
     const rep = replacements[stub.id];
     if (!rep) return stub;
+
+    const repPattern = rep.patronMovimiento ?? rep.movementPattern;
+    const stubPattern = stub.patronMovimiento ?? stub.movementPattern;
+    // Ignore corrupted continuity that crossed movement patterns (e.g. pull → press).
+    if (repPattern && stubPattern && repPattern !== stubPattern) {
+      return stub;
+    }
+
     const exerciseId = rep.exerciseId ?? rep.id;
     return {
       ...stub,
       id: exerciseId,
       nombre: rep.nombre ?? rep.exerciseName ?? stub.nombre,
-      patronMovimiento: rep.patronMovimiento ?? rep.movementPattern ?? stub.patronMovimiento,
+      patronMovimiento: repPattern ?? stub.patronMovimiento,
       parteCuerpo: rep.parteCuerpo ?? rep.muscleGroup ?? stub.parteCuerpo,
       prioridad: rep.prioridad ?? rep.priority ?? stub.prioridad ?? 2,
       equipo: rep.equipo ?? stub.equipo ?? [],

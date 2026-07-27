@@ -96,7 +96,7 @@ export const SPLIT_SESSIONS = {
     { sessionFocus: 'Legs', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
   ],
   Hibrido_PHUL: [
-    { sessionFocus: 'Upper (Fuerza)', muscles: ['Pecho', 'Espalda', 'Hombro'], patterns: ['Empuje_H', 'Traccion_H', 'Traccion_V'] },
+    { sessionFocus: 'Upper (Fuerza)', muscles: ['Pecho', 'Espalda', 'Hombro'], patterns: ['Empuje_H', 'Traccion_H', 'Traccion_V', 'Empuje_V'] },
     { sessionFocus: 'Lower (Fuerza)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'], patterns: ['Rodilla', 'Cadera'] },
     { sessionFocus: 'Upper (Hipertrofia)', muscles: ['Pecho', 'Espalda', 'Bíceps', 'Tríceps', 'Hombro'], patterns: ['Empuje_H', 'Traccion_V', 'Empuje_V'] },
     { sessionFocus: 'Lower (Hipertrofia)', muscles: ['Cuádriceps', 'Isquiotibiales', 'Glúteos', 'Pantorrillas'], patterns: ['Rodilla', 'Cadera'] },
