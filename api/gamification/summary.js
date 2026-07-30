@@ -1,6 +1,11 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { buildGamificationSummary } from '../../domain/gamification/summary.js';
+import {
+  buildAthleteStrengthHighlights,
+  markRetentionFeedRead,
+} from '../../domain/retention/milestones.js';
+import { normalizeLoadPerformanceLedger } from '../../domain/athlete/loadPerformanceLedger.js';
 
 const users = createUserRepository(db);
 
@@ -33,9 +38,25 @@ export default async function handler(req, res) {
       experienceLevel: user.profileData?.experienceLevel ?? null,
     });
 
+    const retentionFeed = user.retentionFeed ?? [];
+    const strengthHighlights = buildAthleteStrengthHighlights(
+      normalizeLoadPerformanceLedger(user.loadPerformanceLedger),
+    );
+
+    if (req.query?.markRetentionRead) {
+      const ids = String(req.query.markRetentionRead).split(',').filter(Boolean);
+      if (ids.length) {
+        const updatedFeed = markRetentionFeedRead(retentionFeed, ids);
+        await users.saveUser(userId, { retentionFeed: updatedFeed });
+      }
+    }
+
     return res.status(200).json({
       success: true,
       ...summary,
+      retentionFeed,
+      unreadRetentionCount: retentionFeed.filter((item) => !item.readAt).length,
+      strengthHighlights,
     });
   } catch (err) {
     const status = err.status ?? 500;
