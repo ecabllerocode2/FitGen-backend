@@ -126,6 +126,24 @@ describe('loadConvention', () => {
     })).toBe('dumbbell_per_hand');
   });
 
+  it('infers dumbbell_per_hand for seated lateral raise without equipo', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Seated_Side_Lateral_Raise',
+      exerciseName: 'Elevación Lateral Sentado',
+      isUnilateral: false,
+    })).toBe('dumbbell_per_hand');
+  });
+
+  it('repairs stale barbell_total when equipo is mancuernas only', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Seated_Side_Lateral_Raise',
+      exerciseName: 'Elevación Lateral Sentado',
+      equipo: ['Mancuernas', 'Banco Ajustable'],
+      loadConvention: 'barbell_total',
+      isUnilateral: false,
+    })).toBe('dumbbell_per_hand');
+  });
+
   it('keeps bilateral dumbbells distinct from unilateral work', () => {
     expect(resolveLoadConvention({
       exerciseName: 'Curl de bíceps a un brazo',

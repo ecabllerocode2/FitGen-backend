@@ -60,8 +60,36 @@ describe('unilateral warmup dosing', () => {
     expect(rotation).toBeTruthy();
     expect(rotation.isUnilateral).toBe(true);
     expect(rotation.durationSeconds).toBeGreaterThanOrEqual(80);
+    expect(rotation.perSideSeconds).toBeGreaterThanOrEqual(40);
+    expect(rotation.sideSwitchRestSeconds).toBe(5);
     expect(rotation.reps).toMatch(/por lado/i);
     expect(rotation.unilateralCue).toMatch(/brazo|lado/i);
+  });
+
+  it('does not label bilateral dynamic mobilize as por lado', () => {
+    const mobilizeCatalog = [
+      {
+        id: 'Frankenstein_Squat',
+        nombre: 'Sentadilla Frankenstein',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'Rodilla',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Barra Olímpica'],
+        isUnilateral: false,
+        isDynamic: true,
+      },
+    ];
+    const warmup = generateWarmup(['Rodilla'], mobilizeCatalog, {
+      sessionFocus: 'Lower (Fuerza)',
+      goal: 'Fuerza',
+      weekNumber: 1,
+    });
+    const squat = warmup.find((w) => w.exerciseId === 'Frankenstein_Squat');
+    if (squat) {
+      expect(squat.isUnilateral).toBe(false);
+      expect(squat.reps).not.toMatch(/por lado/i);
+      expect(squat.perSideSeconds).toBeFalsy();
+    }
   });
 
   it('does not treat raise cardio as unilateral even if catalog flag is wrong', () => {

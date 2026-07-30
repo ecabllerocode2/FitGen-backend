@@ -316,6 +316,18 @@ function scoreExercise(ex, phase, ctx) {
   return score;
 }
 
+const SIDE_SWITCH_REST_SECONDS = 5;
+
+function unilateralDose(perSideSec, reps, cue = 'Primero un lado, luego el otro.') {
+  return {
+    perSideSeconds: perSideSec,
+    durationSeconds: perSideSec * 2,
+    sideSwitchRestSeconds: SIDE_SWITCH_REST_SECONDS,
+    reps,
+    cue,
+  };
+}
+
 function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
   const energy = readiness.energyLevel ?? 3;
   const text = labelText(ex);
@@ -355,11 +367,11 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
   if (phase === 'Activate') {
     if (unilateral) {
       const perSideSec = energy <= 2 ? 40 : 45;
-      return {
-        durationSeconds: perSideSec * 2,
-        reps: energy <= 2 ? '10 reps por lado' : '12-15 reps por lado',
-        cue: 'Primero un brazo/lado, luego el otro.',
-      };
+      return unilateralDose(
+        perSideSec,
+        energy <= 2 ? '10 reps por lado' : '12-15 reps por lado',
+        'Primero un brazo/lado, luego el otro.',
+      );
     }
     if (REP_BASED.test(text) || /banda|band/i.test(equipmentText(ex))) {
       const reps = energy <= 2 ? '10 reps' : '12-15 reps';
@@ -370,39 +382,37 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
 
   if (phase === 'Mobilize') {
     if (ex.isDynamic) {
-      return { durationSeconds: energy <= 2 ? 50 : 60, reps: '10 reps por lado' };
+      const durationSeconds = energy <= 2 ? 50 : 60;
+      if (unilateral) {
+        const perSideSec = Math.round(durationSeconds / 2);
+        return unilateralDose(perSideSec, '10 reps por lado');
+      }
+      return {
+        durationSeconds,
+        reps: '10 reps',
+        cue: 'Reps controladas — mantén el torso estable.',
+      };
     }
     if (unilateral) {
       const perSideSec = energy <= 2 ? 40 : 45;
-      return {
-        durationSeconds: perSideSec * 2,
-        reps: `${perSideSec}s por lado`,
-        cue: 'Primero un lado, luego el otro.',
-      };
+      return unilateralDose(perSideSec, `${perSideSec}s por lado`);
     }
     return { durationSeconds: energy <= 2 ? 45 : 60, reps: energy <= 2 ? '45s' : '60s' };
   }
 
   if (phase === 'Prehab') {
     if (unilateral) {
-      return {
-        durationSeconds: 90,
-        reps: '12 reps por lado',
-        cue: 'Primero un lado, luego el otro.',
-      };
+      return unilateralDose(45, '12 reps por lado');
     }
     return { durationSeconds: 45, reps: '12 reps' };
   }
 
   const baseOther = energy <= 2 ? 45 : 60;
   if (unilateral) {
-    return {
-      durationSeconds: baseOther * 2,
-      reps: ex.reps && typeof ex.reps === 'string' && !/^\d+s$/i.test(ex.reps)
-        ? `${ex.reps} por lado`
-        : `${baseOther}s por lado`,
-      cue: 'Primero un lado, luego el otro.',
-    };
+    const reps = ex.reps && typeof ex.reps === 'string' && !/^\d+s$/i.test(ex.reps)
+      ? `${ex.reps} por lado`
+      : `${baseOther}s por lado`;
+    return unilateralDose(baseOther, reps);
   }
   if (ex.reps && typeof ex.reps === 'string' && !/^\d+s$/i.test(ex.reps)) {
     return { durationSeconds: baseOther, reps: ex.reps };
@@ -429,6 +439,8 @@ function toWarmupItem(ex, phase, readiness, goal) {
     sets: 1,
     reps: dose.reps,
     isUnilateral: unilateral,
+    perSideSeconds: dose.perSideSeconds ?? null,
+    sideSwitchRestSeconds: dose.sideSwitchRestSeconds ?? (unilateral ? SIDE_SWITCH_REST_SECONDS : null),
     unilateralCue: cue,
     instrucciones: cue
       ? `${ex.descripcion ?? ''}${ex.descripcion ? ' ' : ''}${cue}`.trim()
@@ -768,9 +780,9 @@ export function generateWarmup(patterns, warmupCatalog, options = {}) {
 }
 
 const FUERZA_RAMP_PROTOCOL = [
-  { pct: 0.4, reps: '5' },
-  { pct: 0.6, reps: '3' },
-  { pct: 0.8, reps: '2' },
+  { pct: 0.4, reps: '5', restAfterSeconds: 45 },
+  { pct: 0.6, reps: '3', restAfterSeconds: 60 },
+  { pct: 0.8, reps: '2', restAfterSeconds: 90 },
 ];
 
 /**
@@ -815,6 +827,7 @@ export function appendFuerzaRampSets(warmup, mainBlock, goal, sessionFocus = '',
       peso: `${kg} kg`,
       isRampSet: true,
       rampSetNumber: index + 1,
+      restAfterSeconds: step.restAfterSeconds,
       instrucciones: `Aproximación ${index + 1}/${FUERZA_RAMP_PROTOCOL.length}: ${step.reps} reps a ~${Math.round(step.pct * 100)}% de la carga de trabajo.`,
       imageUrl: priority.imageUrl ?? null,
       imageUrl2: priority.imageUrl2 ?? null,

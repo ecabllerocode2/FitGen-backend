@@ -17,6 +17,10 @@ import { computeMainBlockVolumeKg } from '../../domain/session/sessionVolume.js'
 import { assessSessionVolumeCompletion } from '../../domain/gamification/volumeGate.js';
 import { detectE1rmPersonalRecords } from '../../domain/gamification/e1rmPrs.js';
 import { upsertLeaderboardEntry } from '../../domain/gamification/leaderboard.js';
+import {
+  evaluateRetentionMilestones,
+  enqueueRetentionPush,
+} from '../../domain/retention/milestones.js';
 
 const MAX_COMPLETION_RECEIPTS = 20;
 
@@ -225,6 +229,20 @@ export default async function handler(req, res) {
       loadPerformanceLedger,
     );
 
+    const { milestones: retentionMilestones, retentionFeed } = evaluateRetentionMilestones({
+      mesocycle: user.currentMesocycle,
+      weekNumber,
+      completedAt: completedSession.completedAt,
+      e1rmRecords,
+      retentionFeed: user.retentionFeed ?? [],
+      mesocycleId: user.currentMesocycle?.mesocycleId,
+      loadPerformanceLedger,
+    });
+
+    for (const milestone of retentionMilestones) {
+      enqueueRetentionPush(userId, milestone);
+    }
+
     const volumeAssessment = assessSessionVolumeCompletion(session, completedSession.performance);
     const readiness = session.readinessAdjustment ?? {};
     const hasPreReadiness = Boolean(
@@ -270,6 +288,7 @@ export default async function handler(req, res) {
       loadPerformanceLedger,
       mesocycleExerciseIndex,
       gamification,
+      retentionFeed,
     };
 
     const archived = await users.archiveSession(userId, completedSession);
@@ -292,6 +311,8 @@ export default async function handler(req, res) {
       weekClosed,
       requiresEvaluation: false,
       gamificationDelta,
+      retentionMilestones,
+      unreadRetentionCount: retentionFeed.filter((item) => !item.readAt).length,
     };
 
     if (clientCompletionId) {
