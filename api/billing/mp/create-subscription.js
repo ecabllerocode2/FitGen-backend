@@ -16,6 +16,12 @@ import {
 
 const users = createUserRepository(db);
 
+function resolveSubscriptionAmountMxn() {
+  const fromEnv = Number(process.env.MP_SUBSCRIPTION_AMOUNT);
+  if (Number.isFinite(fromEnv) && fromEnv > 0) return fromEnv;
+  return ATHLETE_SUBSCRIPTION_AMOUNT_MXN;
+}
+
 async function authenticate(req) {
   const header = req.headers.authorization ?? '';
   const match = header.match(/^Bearer\s+(.+)$/i);
@@ -72,10 +78,11 @@ export default async function handler(req, res) {
       });
     }
 
+    const amountMxn = resolveSubscriptionAmountMxn();
     const preapproval = await createAthletePreapproval({
       userId,
       payerEmail,
-      amountMxn: ATHLETE_SUBSCRIPTION_AMOUNT_MXN,
+      amountMxn,
     });
 
     if (!preapproval.initPoint) {
@@ -90,6 +97,7 @@ export default async function handler(req, res) {
       mpPreapprovalId: preapproval.id,
       mpPayerEmail: payerEmail,
       mpStatus: preapproval.status,
+      subscriptionAmountMxn: amountMxn,
       billingUpdatedAt: new Date().toISOString(),
     });
 
@@ -98,7 +106,7 @@ export default async function handler(req, res) {
       initPoint: preapproval.initPoint,
       sandboxInitPoint: preapproval.sandboxInitPoint,
       preapprovalId: preapproval.id,
-      amountMxn: ATHLETE_SUBSCRIPTION_AMOUNT_MXN,
+      amountMxn,
     });
   } catch (err) {
     console.error('billing/create-subscription error:', err);

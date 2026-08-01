@@ -45,7 +45,10 @@ export default async function handler(req, res) {
       subscriptionStatus: user.subscriptionStatus ?? access.subscriptionStatus,
       trialStartedAt: user.trialStartedAt ?? null,
       trialEndsAt: user.trialEndsAt ?? null,
-      amountMxn: user.subscriptionAmountMxn ?? ATHLETE_SUBSCRIPTION_AMOUNT_MXN,
+      amountMxn: user.subscriptionAmountMxn
+        ?? (Number(process.env.MP_SUBSCRIPTION_AMOUNT) > 0
+          ? Number(process.env.MP_SUBSCRIPTION_AMOUNT)
+          : ATHLETE_SUBSCRIPTION_AMOUNT_MXN),
       trialDays: ATHLETE_TRIAL_DAYS,
       mpConfigured: isMercadoPagoConfigured(),
       mpPreapprovalId: user.mpPreapprovalId ?? null,
