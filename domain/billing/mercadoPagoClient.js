@@ -111,6 +111,16 @@ export async function fetchPreapproval(preapprovalId) {
   return mpFetch(`/preapproval/${preapprovalId}`);
 }
 
+export async function searchPreapprovalsByExternalReference(externalReference) {
+  const q = new URLSearchParams({
+    external_reference: String(externalReference),
+    status: 'authorized',
+  });
+  const json = await mpFetch(`/preapproval/search?${q.toString()}`);
+  const results = json.results || json;
+  return Array.isArray(results) ? results : [];
+}
+
 export async function fetchAuthorizedPayment(authorizedPaymentId) {
   return mpFetch(`/authorized_payments/${authorizedPaymentId}`);
 }

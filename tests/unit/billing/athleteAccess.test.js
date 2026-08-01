@@ -328,7 +328,13 @@ describe('subscription transitions (race guards)', () => {
     ).toBe(SUBSCRIPTION_STATUS.ACTIVE);
     expect(
       buildAuthorizedPaymentPatch({ status: 'rejected' }, 'ap_1', now).subscriptionStatus,
-    ).toBe(SUBSCRIPTION_STATUS.PAST_DUE);
+    ).toBeUndefined();
+    expect(
+      buildAuthorizedPaymentPatch({ status: 'rejected' }, 'ap_1', now).lastPaymentRejectedAt,
+    ).toBeTruthy();
+    expect(
+      resolveSubscriptionTransition(SUBSCRIPTION_STATUS.CANCELED, SUBSCRIPTION_STATUS.ACTIVE).apply,
+    ).toBe(true);
   });
 });
 

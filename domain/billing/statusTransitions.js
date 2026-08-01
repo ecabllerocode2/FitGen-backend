@@ -3,16 +3,13 @@ import { SUBSCRIPTION_STATUS } from './constants.js';
 /**
  * Monotonic-ish subscription transitions for webhook races.
  * Prevents regressions like active → pending_checkout when notifications reorder.
+ * Re-subscribe after cancel/expire is allowed (canceled/expired → active).
  */
 const REGRESSIONS = new Set([
   `${SUBSCRIPTION_STATUS.ACTIVE}->${SUBSCRIPTION_STATUS.PENDING_CHECKOUT}`,
   `${SUBSCRIPTION_STATUS.ACTIVE}->${SUBSCRIPTION_STATUS.TRIALING}`,
   `${SUBSCRIPTION_STATUS.ACTIVE}->${SUBSCRIPTION_STATUS.EXPIRED}`,
-  `${SUBSCRIPTION_STATUS.CANCELED}->${SUBSCRIPTION_STATUS.PENDING_CHECKOUT}`,
   `${SUBSCRIPTION_STATUS.CANCELED}->${SUBSCRIPTION_STATUS.TRIALING}`,
-  `${SUBSCRIPTION_STATUS.CANCELED}->${SUBSCRIPTION_STATUS.ACTIVE}`,
-  `${SUBSCRIPTION_STATUS.CANCELED}->${SUBSCRIPTION_STATUS.PAST_DUE}`,
-  `${SUBSCRIPTION_STATUS.PAST_DUE}->${SUBSCRIPTION_STATUS.PENDING_CHECKOUT}`,
   `${SUBSCRIPTION_STATUS.PAST_DUE}->${SUBSCRIPTION_STATUS.TRIALING}`,
 ]);
 
@@ -77,6 +74,7 @@ function mapIncomingFromMp(mpStatus) {
 export function buildAuthorizedPaymentPatch(invoice, authorizedPaymentId, now = new Date()) {
   const paymentStatus = String(invoice?.payment?.status || invoice?.status || '').toLowerCase();
   const iso = now.toISOString();
+  const preapprovalId = invoice?.preapproval_id || invoice?.preapprovalId || null;
   if (paymentStatus === 'approved' || paymentStatus === 'processed') {
     return {
       lastPaymentAt: iso,
@@ -84,13 +82,15 @@ export function buildAuthorizedPaymentPatch(invoice, authorizedPaymentId, now = 
       subscriptionStatus: SUBSCRIPTION_STATUS.ACTIVE,
       billingUpdatedAt: iso,
       subscriptionActivatedAt: iso,
+      ...(preapprovalId ? { mpPreapprovalId: String(preapprovalId), mpStatus: 'authorized' } : {}),
     };
   }
   if (paymentStatus === 'rejected' || paymentStatus === 'cancelled' || paymentStatus === 'canceled') {
     return {
-      subscriptionStatus: SUBSCRIPTION_STATUS.PAST_DUE,
-      billingUpdatedAt: iso,
+      // Soft signal only — do not force cancel of another active subscription.
       lastAuthorizedPaymentId: String(authorizedPaymentId),
+      billingUpdatedAt: iso,
+      lastPaymentRejectedAt: iso,
     };
   }
   return null;
