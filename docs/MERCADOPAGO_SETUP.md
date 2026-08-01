@@ -79,7 +79,15 @@ APIs de entrenamiento (`mesocycle/generate`, `session/generateV2`, `session/comp
 - `mpPreapprovalId`, `mpStatus`, `mpPayerEmail`
 - `lastPaymentAt` (cuando llega un authorized payment aprobado)
 
-## Fuera de alcance (por ahora)
+## Quality / seguridad (billing)
 
-- Paywall de coaches (asientos Premium) — sigue manual / “próximamente”
-- Portal de cancelación en-app (el usuario puede cancelar en su cuenta Mercado Pago)
+```bash
+npm run test:billing           # unitarios (access, firma, races, idempotencia)
+npm run test:billing:coverage  # coverage ≥ 75% en domain/billing
+npm run test:billing:mutation  # Stryker (break ≥ 60)
+npm run qa:billing             # coverage + mutación
+```
+
+CI: `.github/workflows/billing-quality.yml` (PRs que tocan `domain/billing` o `api/billing`).
+
+El gate incremental también mapea cambios de billing a `tests/unit/billing/**`.

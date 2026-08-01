@@ -119,12 +119,20 @@ export async function fetchAuthorizedPayment(authorizedPaymentId) {
  * Validate Mercado Pago webhook signature (x-signature + x-request-id + data.id).
  * If MP_WEBHOOK_SECRET is unset, skips verification (dev only) and returns true.
  */
-export function verifyWebhookSignature({ xSignature, xRequestId, dataId, secret }) {
+export function verifyWebhookSignature({
+  xSignature,
+  xRequestId,
+  dataId,
+  secret,
+  nodeEnv = process.env.NODE_ENV,
+}) {
   const webhookSecret = secret ?? process.env.MP_WEBHOOK_SECRET?.trim();
   if (!webhookSecret) {
-    if (process.env.NODE_ENV === 'production') {
-      console.warn('MP_WEBHOOK_SECRET missing — skipping signature check (configure ASAP)');
+    if (nodeEnv === 'production') {
+      console.error('MP_WEBHOOK_SECRET missing in production — rejecting webhook');
+      return false;
     }
+    console.warn('MP_WEBHOOK_SECRET missing — skipping signature check (dev only)');
     return true;
   }
   if (!xSignature || !xRequestId || !dataId) return false;
@@ -142,7 +150,10 @@ export function verifyWebhookSignature({ xSignature, xRequestId, dataId, secret 
   const manifest = `id:${dataId};request-id:${xRequestId};ts:${ts};`;
   const expected = crypto.createHmac('sha256', webhookSecret).update(manifest).digest('hex');
   try {
-    return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(v1));
+    const a = Buffer.from(expected, 'utf8');
+    const b = Buffer.from(String(v1), 'utf8');
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
   } catch {
     return false;
   }
