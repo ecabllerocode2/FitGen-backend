@@ -52,6 +52,7 @@ import billingStatusHandler from './api/billing/status.js';
 import billingCreateSubscriptionHandler from './api/billing/mp/create-subscription.js';
 import billingMpWebhookHandler from './api/billing/mp/webhook.js';
 import billingMpSyncHandler from './api/billing/mp/sync.js';
+import billingMpCancelHandler from './api/billing/mp/cancel.js';
 
 const app = express();
 const PORT = 3000;
@@ -153,6 +154,7 @@ app.get('/api/athlete/share-branding', athleteShareBrandingHandler);
 app.get('/api/billing/status', billingStatusHandler);
 app.post('/api/billing/mp/create-subscription', billingCreateSubscriptionHandler);
 app.post('/api/billing/mp/sync', billingMpSyncHandler);
+app.post('/api/billing/mp/cancel', billingMpCancelHandler);
 app.post('/api/billing/mp/webhook', billingMpWebhookHandler);
 app.get('/api/billing/mp/webhook', billingMpWebhookHandler);
 
@@ -182,6 +184,8 @@ app.get('/', (req, res) => {
             'GET /api/admin/user-dashboard',
             'GET /api/billing/status',
             'POST /api/billing/mp/create-subscription',
+            'POST /api/billing/mp/sync',
+            'POST /api/billing/mp/cancel',
             'POST /api/billing/mp/webhook',
         ]
     });
