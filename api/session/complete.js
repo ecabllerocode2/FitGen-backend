@@ -21,6 +21,7 @@ import {
   evaluateRetentionMilestones,
   enqueueRetentionPush,
 } from '../../domain/retention/milestones.js';
+import { assertAthleteBillingAccess } from '../../domain/billing/assertAccess.js';
 
 const MAX_COMPLETION_RECEIPTS = 20;
 
@@ -77,6 +78,17 @@ export default async function handler(req, res) {
   try {
     const userId = await authenticate(req);
     const user = await users.getUser(userId);
+
+    try {
+      await assertAthleteBillingAccess({ users, userId, user });
+    } catch (billingErr) {
+      return res.status(billingErr.status ?? 402).json({
+        error: billingErr.message,
+        code: billingErr.code,
+        billing: billingErr.billing,
+      });
+    }
+
     const session = user?.currentSession;
 
     if (!session) {

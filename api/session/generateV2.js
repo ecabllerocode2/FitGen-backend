@@ -7,6 +7,7 @@ import { isStaleIncompleteSession } from '../../domain/session/sessionFreshness.
 import { hasCompletedScheduledSessionToday } from '../../domain/session/sameDayCompletion.js';
 import { validateReadiness } from '../../schemas/profileSchema.js';
 import { getUserExercisePreferences } from '../../domain/athlete/exercisePreferences.js';
+import { assertAthleteBillingAccess } from '../../domain/billing/assertAccess.js';
 
 const LOAD_TO_SCHEMA = {
   none: 'ninguna',
@@ -43,6 +44,17 @@ export default async function handler(req, res) {
     if (!user?.profileData) {
       return res.status(400).json({ error: 'Perfil no encontrado' });
     }
+
+    try {
+      await assertAthleteBillingAccess({ users, userId, user });
+    } catch (billingErr) {
+      return res.status(billingErr.status ?? 402).json({
+        error: billingErr.message,
+        code: billingErr.code,
+        billing: billingErr.billing,
+      });
+    }
+
     if (!user.currentMesocycle) {
       return res.status(400).json({ error: 'No hay mesociclo activo. Genera un plan primero.' });
     }
