@@ -1,16 +1,20 @@
-import { auth } from '../../lib/firebaseAdmin.js';
 import {
   ensureDirectAthleteBilling,
   evaluateAthleteBillingAccess,
-} from '../../domain/billing/athleteAccess.js';
+} from './athleteAccess.js';
 
 /**
  * Assert direct athlete has trial or active subscription.
- * Mutates nothing beyond ensureDirectAthleteBilling side effects.
+ * Callers must pass `auth` (or `null` in unit tests).
  * @throws {{ status: number, code: string, message: string }}
  */
-export async function assertAthleteBillingAccess({ users, userId, user }) {
-  const ensured = await ensureDirectAthleteBilling({ users, auth, userId, user });
+export async function assertAthleteBillingAccess({ users, userId, user, auth = null }) {
+  const ensured = await ensureDirectAthleteBilling({
+    users,
+    auth,
+    userId,
+    user,
+  });
   const access = evaluateAthleteBillingAccess(ensured);
   if (access.allowed) {
     return { user: ensured, access };

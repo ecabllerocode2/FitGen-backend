@@ -2,21 +2,13 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['tests/**/*.test.js'],
+    include: ['tests/unit/billing/**/*.test.js'],
     reporters: ['default'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'text-summary', 'json-summary', 'html'],
-      reportsDirectory: './coverage',
+      reportsDirectory: './coverage-billing',
       include: [
-        'domain/exerciseSelection/swapReplacement.js',
-        'domain/exerciseSelection/swapReplacementSupport.js',
-        'domain/session/applyMainExerciseSwap.js',
-        'domain/athlete/continuityPreferences.js',
-        'domain/athlete/exercisePreferences.js',
-        'domain/session/rampGenerator.js',
-        'domain/periodization/weekVolumePlanner.js',
-        'domain/constants.js',
         'domain/billing/athleteAccess.js',
         'domain/billing/statusTransitions.js',
         'domain/billing/eventStore.js',
@@ -26,10 +18,10 @@ export default defineConfig({
         'domain/billing/constants.js',
       ],
       thresholds: {
-        lines: 70,
-        functions: 70,
+        lines: 75,
+        functions: 75,
         branches: 55,
-        statements: 70,
+        statements: 75,
       },
     },
   },

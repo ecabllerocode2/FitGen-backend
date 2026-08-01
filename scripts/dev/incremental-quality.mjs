@@ -67,10 +67,20 @@ function isSourceFile(rel) {
 
 function relatedTests(changedSources) {
   const tests = new Set();
-  const allTests = fs
-    .readdirSync(path.join(root, 'tests'))
-    .filter((f) => f.endsWith('.test.js'))
-    .map((f) => `tests/${f}`);
+
+  function collectTestFiles(dir, prefix = 'tests') {
+    const abs = path.join(root, dir);
+    if (!fs.existsSync(abs)) return [];
+    const out = [];
+    for (const entry of fs.readdirSync(abs, { withFileTypes: true })) {
+      const rel = `${prefix}/${entry.name}`;
+      if (entry.isDirectory()) out.push(...collectTestFiles(path.join(dir, entry.name), rel));
+      else if (entry.name.endsWith('.test.js')) out.push(rel);
+    }
+    return out;
+  }
+
+  const allTests = collectTestFiles('tests');
 
   for (const src of changedSources) {
     const base = path.basename(src, path.extname(src));
@@ -95,6 +105,9 @@ function relatedTests(changedSources) {
     }
     if (src.includes('loadConvention') || src.includes('loadCalculator') || src.includes('gymInventory')) {
       allTests.filter((t) => /domain|load|calibration|swap/i.test(t)).forEach((t) => tests.add(t));
+    }
+    if (src.includes('billing/') || src.includes('api/billing/')) {
+      allTests.filter((t) => /billing|mercadopago|athleteAccess|webhook/i.test(t)).forEach((t) => tests.add(t));
     }
   }
 

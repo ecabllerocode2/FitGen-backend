@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const user = await users.getUser(userId);
 
     try {
-      await assertAthleteBillingAccess({ users, userId, user });
+      await assertAthleteBillingAccess({ users, userId, user, auth });
     } catch (billingErr) {
       return res.status(billingErr.status ?? 402).json({
         error: billingErr.message,
