@@ -70,10 +70,12 @@ export default async function handler(req, res) {
       });
     }
 
-    const payerEmail = decoded.email || user.email;
-    if (!payerEmail) {
+    const bodyEmail =
+      typeof req.body?.payerEmail === 'string' ? req.body.payerEmail.trim().toLowerCase() : '';
+    const payerEmail = bodyEmail || decoded.email || user.email || '';
+    if (!payerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail)) {
       return res.status(400).json({
-        error: 'Necesitas un email en tu cuenta para suscribirte.',
+        error: 'Necesitas un email válido para Mercado Pago (el mismo con el que pagarás).',
         code: 'email_required',
       });
     }
