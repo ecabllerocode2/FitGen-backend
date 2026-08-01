@@ -126,6 +126,21 @@ export async function fetchAuthorizedPayment(authorizedPaymentId) {
 }
 
 /**
+ * Cancel an authorized/pending subscription in Mercado Pago (irreversible).
+ */
+export async function cancelPreapproval(preapprovalId) {
+  if (!preapprovalId) {
+    const err = new Error('preapprovalId requerido');
+    err.status = 400;
+    throw err;
+  }
+  return mpFetch(`/preapproval/${preapprovalId}`, {
+    method: 'PUT',
+    body: { status: 'canceled' },
+  });
+}
+
+/**
  * Validate Mercado Pago webhook signature (x-signature + x-request-id + data.id).
  * If MP_WEBHOOK_SECRET is unset, skips verification (dev only) and returns true.
  */
