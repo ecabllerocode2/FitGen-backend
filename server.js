@@ -51,6 +51,7 @@ import athleteShareBrandingHandler from './api/athlete/share-branding.js';
 import billingStatusHandler from './api/billing/status.js';
 import billingCreateSubscriptionHandler from './api/billing/mp/create-subscription.js';
 import billingMpWebhookHandler from './api/billing/mp/webhook.js';
+import billingMpSyncHandler from './api/billing/mp/sync.js';
 
 const app = express();
 const PORT = 3000;
@@ -151,6 +152,7 @@ app.get('/api/athlete/share-branding', athleteShareBrandingHandler);
 // Billing / Mercado Pago (athlete B2C)
 app.get('/api/billing/status', billingStatusHandler);
 app.post('/api/billing/mp/create-subscription', billingCreateSubscriptionHandler);
+app.post('/api/billing/mp/sync', billingMpSyncHandler);
 app.post('/api/billing/mp/webhook', billingMpWebhookHandler);
 app.get('/api/billing/mp/webhook', billingMpWebhookHandler);
 

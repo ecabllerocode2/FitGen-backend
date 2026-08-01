@@ -22,6 +22,24 @@ export async function applyPreapprovalSync({
   }
 
   const incomingPatch = buildPreapprovalPatch(preapproval, now);
+
+  // Ignore cancel/expire/pending from a different (stale) preapproval while another is active.
+  if (
+    user.subscriptionStatus === 'active' &&
+    user.mpPreapprovalId &&
+    preapproval?.id &&
+    user.mpPreapprovalId !== preapproval.id &&
+    ['canceled', 'expired', 'pending_checkout'].includes(incomingPatch.subscriptionStatus)
+  ) {
+    return {
+      ok: true,
+      userId,
+      subscriptionStatus: user.subscriptionStatus,
+      skipped: true,
+      reason: 'stale_preapproval',
+    };
+  }
+
   const transition = resolveSubscriptionTransition(
     user.subscriptionStatus,
     incomingPatch.subscriptionStatus,
@@ -93,6 +111,17 @@ export async function applyAuthorizedPaymentSync({
   const paymentPatch = buildAuthorizedPaymentPatch(invoice, authorizedPaymentId, now);
   if (!paymentPatch) {
     return { ...base, paymentApplied: false, reason: 'payment_status_ignored' };
+  }
+
+  // Rejected/recycling invoices: store metadata only (do not downgrade another active sub).
+  if (!paymentPatch.subscriptionStatus) {
+    await users.saveUser(userId, paymentPatch);
+    return {
+      ...base,
+      paymentApplied: true,
+      reason: 'payment_metadata_only',
+      subscriptionStatus: base.subscriptionStatus ?? user.subscriptionStatus,
+    };
   }
 
   // Reload conceptual state after preapproval apply
