@@ -13,6 +13,12 @@ import {
   ATHLETE_SUBSCRIPTION_AMOUNT_MXN,
   SUBSCRIPTION_STATUS,
 } from '../../../domain/billing/constants.js';
+import {
+  attachPreapprovalToCoupon,
+  claimCouponSlot,
+  normalizeCouponCode,
+  releaseCouponSlot,
+} from '../../../domain/billing/coupons.js';
 
 const users = createUserRepository(db);
 
@@ -32,11 +38,14 @@ async function authenticate(req) {
 /**
  * POST /api/billing/mp/create-subscription
  * Creates a pending Mercado Pago preapproval and returns checkout init_point.
+ * Optional couponCode applies a discounted amount (claimed atomically).
  */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido. Solo POST.' });
   }
+
+  let claimedCouponCode = null;
 
   try {
     if (!isMercadoPagoConfigured()) {
@@ -80,28 +89,74 @@ export default async function handler(req, res) {
       });
     }
 
-    const amountMxn = resolveSubscriptionAmountMxn();
-    const preapproval = await createAthletePreapproval({
-      userId,
-      payerEmail,
-      amountMxn,
-    });
+    const rawCoupon =
+      typeof req.body?.couponCode === 'string' ? req.body.couponCode : '';
+    const couponCode = normalizeCouponCode(rawCoupon);
+
+    let amountMxn = resolveSubscriptionAmountMxn();
+    let couponClaim = null;
+
+    if (couponCode) {
+      couponClaim = await claimCouponSlot(db, couponCode, userId);
+      claimedCouponCode = couponClaim.code;
+      amountMxn = couponClaim.amountMxn;
+    }
+
+    let preapproval;
+    try {
+      preapproval = await createAthletePreapproval({
+        userId,
+        payerEmail,
+        amountMxn,
+      });
+    } catch (mpErr) {
+      if (claimedCouponCode && !couponClaim?.reused) {
+        try {
+          await releaseCouponSlot(db, claimedCouponCode, userId);
+        } catch (releaseErr) {
+          console.error('coupon release after MP failure:', releaseErr);
+        }
+      }
+      throw mpErr;
+    }
 
     if (!preapproval.initPoint) {
+      if (claimedCouponCode && !couponClaim?.reused) {
+        try {
+          await releaseCouponSlot(db, claimedCouponCode, userId);
+        } catch (releaseErr) {
+          console.error('coupon release after missing init_point:', releaseErr);
+        }
+      }
       return res.status(502).json({
         error: 'Mercado Pago no devolvió URL de checkout.',
         code: 'mp_missing_init_point',
       });
     }
 
-    await users.saveUser(userId, {
+    if (claimedCouponCode) {
+      try {
+        await attachPreapprovalToCoupon(db, claimedCouponCode, userId, preapproval.id);
+      } catch (attachErr) {
+        console.warn('coupon attach preapproval warning:', attachErr.message);
+      }
+    }
+
+    const userPatch = {
       subscriptionStatus: SUBSCRIPTION_STATUS.PENDING_CHECKOUT,
       mpPreapprovalId: preapproval.id,
       mpPayerEmail: payerEmail,
       mpStatus: preapproval.status,
       subscriptionAmountMxn: amountMxn,
       billingUpdatedAt: new Date().toISOString(),
-    });
+    };
+
+    if (claimedCouponCode) {
+      userPatch.billingCouponCode = claimedCouponCode;
+      userPatch.billingCouponAmountMxn = amountMxn;
+    }
+
+    await users.saveUser(userId, userPatch);
 
     return res.status(200).json({
       success: true,
@@ -109,6 +164,7 @@ export default async function handler(req, res) {
       sandboxInitPoint: preapproval.sandboxInitPoint,
       preapprovalId: preapproval.id,
       amountMxn,
+      couponCode: claimedCouponCode || null,
     });
   } catch (err) {
     console.error('billing/create-subscription error:', err);

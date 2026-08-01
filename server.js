@@ -53,6 +53,7 @@ import billingCreateSubscriptionHandler from './api/billing/mp/create-subscripti
 import billingMpWebhookHandler from './api/billing/mp/webhook.js';
 import billingMpSyncHandler from './api/billing/mp/sync.js';
 import billingMpCancelHandler from './api/billing/mp/cancel.js';
+import billingCouponValidateHandler from './api/billing/coupons/validate.js';
 
 const app = express();
 const PORT = 3000;
@@ -155,6 +156,7 @@ app.get('/api/billing/status', billingStatusHandler);
 app.post('/api/billing/mp/create-subscription', billingCreateSubscriptionHandler);
 app.post('/api/billing/mp/sync', billingMpSyncHandler);
 app.post('/api/billing/mp/cancel', billingMpCancelHandler);
+app.post('/api/billing/coupons/validate', billingCouponValidateHandler);
 app.post('/api/billing/mp/webhook', billingMpWebhookHandler);
 app.get('/api/billing/mp/webhook', billingMpWebhookHandler);
 
@@ -186,6 +188,7 @@ app.get('/', (req, res) => {
             'POST /api/billing/mp/create-subscription',
             'POST /api/billing/mp/sync',
             'POST /api/billing/mp/cancel',
+            'POST /api/billing/coupons/validate',
             'POST /api/billing/mp/webhook',
         ]
     });
