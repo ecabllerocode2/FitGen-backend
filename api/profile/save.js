@@ -5,13 +5,14 @@ import { normalizeProfileInput } from '../../lib/profileNormalizer.js';
 import { applyProfileAdaptation } from '../../domain/athlete/applyProfileAdaptation.js';
 import { buildProfileCompleteness } from '../../domain/coach/profileCompleteness.js';
 import { ACCOUNT_TYPES, ATHLETE_ORIGINS } from '../../domain/coach/constants.js';
+import { buildTrialFields } from '../../domain/billing/athleteAccess.js';
 
 const users = createUserRepository(db);
 const requireAuth = verifyFirebaseToken(auth);
 
 /**
  * POST /api/profile/save
- * Saves profile, auto-approves user for beta (no payment gate).
+ * Saves profile, auto-approves, and starts 14-day trial for direct athletes.
  * Profile edits adapt the active mesocycle in-place when possible (DDS §8).
  */
 export default async function handler(req, res) {
@@ -71,6 +72,14 @@ export default async function handler(req, res) {
       userPatch.athleteOrigin = ATHLETE_ORIGINS.DIRECT;
     }
 
+    const becomingDirectAthlete =
+      (userPatch.athleteOrigin ?? existingUser?.athleteOrigin) === ATHLETE_ORIGINS.DIRECT &&
+      (userPatch.accountType ?? existingUser?.accountType) !== ACCOUNT_TYPES.COACH;
+
+    if (becomingDirectAthlete && !existingUser?.subscriptionStatus) {
+      Object.assign(userPatch, buildTrialFields(new Date().toISOString()));
+    }
+
     let profileChange = {
       tier: 'metadata_only',
       requiresSessionClear: false,
@@ -98,7 +107,17 @@ export default async function handler(req, res) {
     await users.saveUser(userId, userPatch);
 
     try {
-      await auth.setCustomUserClaims(userId, { role: 'approved', access: true });
+      const existingClaims = (await auth.getUser(userId)).customClaims || {};
+      await auth.setCustomUserClaims(userId, {
+        ...existingClaims,
+        role: 'approved',
+        access: true,
+        accountType: userPatch.accountType ?? existingUser?.accountType ?? ACCOUNT_TYPES.ATHLETE,
+        athleteOrigin:
+          userPatch.athleteOrigin ?? existingUser?.athleteOrigin ?? ATHLETE_ORIGINS.DIRECT,
+        subscriptionStatus:
+          userPatch.subscriptionStatus ?? existingUser?.subscriptionStatus ?? 'trialing',
+      });
     } catch (claimsErr) {
       console.error('profile/save claims warning (user already saved):', claimsErr);
     }

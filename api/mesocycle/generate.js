@@ -2,6 +2,7 @@ import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { verifyFirebaseToken } from '../../infrastructure/firebase/authMiddleware.js';
 import { generateMesocycle } from '../../domain/periodization/mesocycleGenerator.js';
+import { assertAthleteBillingAccess } from '../../domain/billing/assertAccess.js';
 
 const users = createUserRepository(db);
 
@@ -26,6 +27,16 @@ export default async function handler(req, res) {
     const user = await users.getUser(userId);
     if (!user?.profileData) {
       return res.status(400).json({ error: 'Perfil incompleto. Completa el onboarding primero.' });
+    }
+
+    try {
+      await assertAthleteBillingAccess({ users, userId, user });
+    } catch (billingErr) {
+      return res.status(billingErr.status ?? 402).json({
+        error: billingErr.message,
+        code: billingErr.code,
+        billing: billingErr.billing,
+      });
     }
 
     const referenceDate = req.body?.referenceDate
