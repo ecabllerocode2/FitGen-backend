@@ -52,9 +52,10 @@ function signWebhook({ dataId, requestId, ts, secret }) {
 }
 
 describe('athlete billing access matrix', () => {
-  it('exempts coaches and coached athletes', () => {
+  it('exempts coaches, coached athletes and lifetimeAccess grants', () => {
     expect(isBillingExempt({ accountType: 'coach' })).toBe(true);
     expect(isBillingExempt({ athleteOrigin: 'coached' })).toBe(true);
+    expect(isBillingExempt({ lifetimeAccess: true, athleteOrigin: 'direct' })).toBe(true);
     expect(isBillingExempt({ accountType: 'athlete', athleteOrigin: 'direct' })).toBe(false);
   });
 
