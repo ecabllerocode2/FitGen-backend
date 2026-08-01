@@ -8,10 +8,11 @@ import {
 
 /**
  * Direct (independent) athletes need a trial or paid subscription.
- * Coaches and coached athletes are exempt (coach seat model).
+ * Coaches, coached athletes, and lifetimeAccess grants are exempt.
  */
 export function isBillingExempt(user) {
   if (!user) return false;
+  if (user.lifetimeAccess === true) return true;
   if (user.accountType === ACCOUNT_TYPES.COACH) return true;
   if (user.athleteOrigin === ATHLETE_ORIGINS.COACHED) return true;
   return false;
