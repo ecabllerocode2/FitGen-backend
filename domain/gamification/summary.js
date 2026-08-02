@@ -4,15 +4,22 @@ import {
   buildAchievementSections,
   getNextLockedAchievement,
 } from './achievements.js';
+import { applySeasonRollover } from './updateGamification.js';
 
 /**
  * Build API summary payload from user gamification state.
+ * Applies lazy season rollover on read so Aug 1 shows a fresh season without
+ * requiring a session complete first.
  * @param {object|null|undefined} rawGamification
  * @param {object} [options]
  */
 export function buildGamificationSummary(rawGamification, options = {}) {
   const timezone = options.timezone ?? 'America/Mexico_City';
-  const gamification = normalizeGamification(rawGamification, new Date(), timezone);
+  const referenceDate = options.referenceDate ?? new Date();
+  const normalized = normalizeGamification(rawGamification, referenceDate, timezone);
+  const previousSeasonId = normalized.currentSeasonId;
+  const gamification = applySeasonRollover(normalized, referenceDate, timezone);
+  const seasonRolledOver = previousSeasonId !== gamification.currentSeasonId;
   const context = {
     experienceLevel: options.experienceLevel ?? null,
   };
@@ -45,5 +52,8 @@ export function buildGamificationSummary(rawGamification, options = {}) {
     },
     inventory: gamification.inventory,
     updatedAt: gamification.updatedAt,
+    seasonRolledOver,
+    /** Normalized+rolled gamification for callers that need to persist the rollover. */
+    gamificationState: gamification,
   };
 }

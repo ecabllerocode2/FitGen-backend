@@ -1,7 +1,7 @@
 {
   "id": "enfriamiento",
-  "updatedAt": "2026-07-12T19:41:53.459Z",
-  "count": 81,
+  "updatedAt": "2026-08-02T00:08:58.076Z",
+  "count": 80,
   "items": [
     {
       "id": "90_90_Hamstring",
@@ -288,28 +288,6 @@
       "isDynamic": false,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chin_To_Chest_Stretch_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Chin_To_Chest_Stretch_1.webp"
-    },
-    {
-      "id": "Crossover_Reverse_Lunge",
-      "nombre": "Zancada Inversa con Rotación",
-      "descripcion": "Realiza una zancada hacia atrás mientras rotas el torso hacia el lado de la pierna delantera para estirar y activar la cadena posterior y el core.",
-      "correcciones": [
-        "Mantener el equilibrio y la columna erguida durante la rotación",
-        "Asegurar que la rodilla delantera no colapse hacia adentro"
-      ],
-      "categoriaBloque": "enfriamiento",
-      "faseRAMP": null,
-      "prioridad": 2,
-      "patronMovimiento": "General",
-      "parteCuerpo": "Core",
-      "dificultadTecnica": "Media",
-      "equipo": [
-        "Peso Corporal"
-      ],
-      "isUnilateral": true,
-      "isDynamic": true,
-      "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Crossover_Reverse_Lunge_0.webp",
-      "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Crossover_Reverse_Lunge_1.webp"
     },
     {
       "id": "Dancers_Stretch",

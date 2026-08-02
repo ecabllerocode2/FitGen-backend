@@ -66,6 +66,54 @@ describe('unilateral warmup dosing', () => {
     expect(rotation.unilateralCue).toMatch(/brazo|lado/i);
   });
 
+  it('doses unilateral potentiate (single-leg glute bridge) per side', () => {
+    const potentiateCatalog = [
+      {
+        id: 'raise_cardio',
+        nombre: 'Caminata en cinta',
+        faseRAMP: 'Raise',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Cuádriceps',
+        equipo: ['Cinta de Correr'],
+        isUnilateral: false,
+        isDynamic: true,
+      },
+      {
+        id: 'Single_Leg_Glute_Bridge',
+        nombre: 'Puente de glúteo a una pierna',
+        faseRAMP: 'Activate',
+        patronMovimiento: 'Cadera',
+        parteCuerpo: 'Glúteos',
+        equipo: ['Peso Corporal'],
+        isUnilateral: true,
+        isDynamic: false,
+      },
+      {
+        id: 'Arm_Circles_mob',
+        nombre: 'Círculos de brazos',
+        faseRAMP: 'Mobilize',
+        patronMovimiento: 'General',
+        parteCuerpo: 'Hombro',
+        equipo: ['Peso Corporal'],
+        isUnilateral: false,
+        isDynamic: true,
+      },
+    ];
+
+    const warmup = generateWarmup(['Cadera', 'Rodilla'], potentiateCatalog, {
+      sessionFocus: 'Lower (Hipertrofia)',
+      sessionMuscles: ['Glúteos', 'Isquiotibiales'],
+      goal: 'Hipertrofia',
+      weekNumber: 1,
+    });
+    const bridge = warmup.find((w) => w.exerciseId === 'Single_Leg_Glute_Bridge');
+    expect(bridge).toBeTruthy();
+    expect(bridge.isUnilateral).toBe(true);
+    expect(bridge.perSideSeconds).toBeGreaterThan(0);
+    expect(bridge.durationSeconds).toBe(bridge.perSideSeconds * 2);
+    expect(bridge.reps).toMatch(/por lado/i);
+  });
+
   it('does not label bilateral dynamic mobilize as por lado', () => {
     const mobilizeCatalog = [
       {

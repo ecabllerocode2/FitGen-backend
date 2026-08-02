@@ -150,6 +150,34 @@ describe('loadConvention', () => {
       equipo: ['Mancuernas'],
     })).toBe('unilateral');
   });
+
+  it('treats vertical swing as single-implement total load (not per-hand)', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Vertical_Swing',
+      exerciseName: 'Swing Vertical con Mancuerna',
+      equipo: ['Mancuerna'],
+      isUnilateral: false,
+    })).toBe('barbell_total');
+  });
+
+  it('marks inverted row / step-up / box jump as bodyweight via equipo', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Inverted_Row',
+      exerciseName: 'Remo invertido',
+      equipo: ['Peso Corporal', 'Smith Machine', 'Rack de Potencia'],
+    })).toBe('bodyweight');
+    expect(resolveLoadConvention({
+      exerciseId: 'Step-up_with_Knee_Raise',
+      exerciseName: 'Step-up con Elevación de Rodilla',
+      equipo: ['Peso Corporal', 'Cajón Pliométrico'],
+      isUnilateral: true,
+    })).toBe('bodyweight');
+    expect(resolveLoadConvention({
+      exerciseId: 'Box_Jump_Multiple_Response',
+      exerciseName: 'Salto al Cajón (Respuesta Múltiple)',
+      equipo: ['Peso Corporal', 'Cajón Pliométrico'],
+    })).toBe('bodyweight');
+  });
 });
 
 describe('gymInventory', () => {

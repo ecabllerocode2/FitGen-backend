@@ -27,8 +27,11 @@ function inferConventionFromMetadata(exercise = {}) {
     return LOAD_CONVENTIONS.UNILATERAL;
   }
 
-  // One implement held with both hands (goblet / plié).
-  if (/\b(goblet|plie|plié)\b/i.test(haystack) && /mancuerna|dumbbell|kettlebell/i.test(haystack)) {
+  // One implement held with both hands (goblet / plié / vertical swing).
+  if (
+    /\b(goblet|plie|plié|vertical[_\s-]?swing|swing vertical)\b/i.test(haystack)
+    && /mancuerna|dumbbell|kettlebell/i.test(haystack)
+  ) {
     return LOAD_CONVENTIONS.BARBELL_TOTAL;
   }
 
@@ -68,6 +71,9 @@ function inferConventionFromMetadata(exercise = {}) {
  * @returns {string}
  */
 export function resolveLoadConvention(exercise = {}) {
+  const nameHaystack = `${exercise.exerciseName ?? exercise.nombre ?? exercise.name ?? ''} ${exercise.exerciseId ?? exercise.id ?? ''}`;
+  const isSingleImplementDb = /\b(goblet|plie|plié|vertical[_\s-]?swing|swing vertical)\b/i.test(nameHaystack);
+
   if (exercise.loadConvention && Object.values(LOAD_CONVENTIONS).includes(exercise.loadConvention)) {
     const stored = exercise.loadConvention;
     // Repair stale barbell_total on clear dumbbell-only catalog rows (e.g. lateral raise).
@@ -76,9 +82,14 @@ export function resolveLoadConvention(exercise = {}) {
       const isDumbbellOnly = /mancuerna|dumbbell|kettlebell/i.test(equipo)
         && !/barra|barbell|smith/i.test(equipo);
       if (isDumbbellOnly || inferConventionFromMetadata(exercise) === LOAD_CONVENTIONS.DUMBBELL_PER_HAND) {
+        if (isSingleImplementDb) return LOAD_CONVENTIONS.BARBELL_TOTAL;
         if (exercise.isUnilateral === true) return LOAD_CONVENTIONS.UNILATERAL;
         return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
       }
+    }
+    // Repair stale per-hand on single-implement swings/goblets.
+    if (stored === LOAD_CONVENTIONS.DUMBBELL_PER_HAND && isSingleImplementDb) {
+      return LOAD_CONVENTIONS.BARBELL_TOTAL;
     }
     return stored;
   }
@@ -107,6 +118,8 @@ export function resolveLoadConvention(exercise = {}) {
   const isMachineLike = /máquina|maquina|polea|cable|selectorizado|stack|máquina de palancas/i.test(joined);
 
   if (isDumbbellLike && !isBarbellLike) {
+    // Single DB held with both hands → total load, not per-hand.
+    if (isSingleImplementDb) return LOAD_CONVENTIONS.BARBELL_TOTAL;
     return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
   }
   if (isMachineLike && !isBarbellLike && !isDumbbellLike) {
@@ -116,6 +129,7 @@ export function resolveLoadConvention(exercise = {}) {
     return LOAD_CONVENTIONS.BARBELL_TOTAL;
   }
   if (isDumbbellLike) {
+    if (isSingleImplementDb) return LOAD_CONVENTIONS.BARBELL_TOTAL;
     return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
   }
 
