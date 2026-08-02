@@ -30,14 +30,18 @@ export async function uploadCelebrationPng(userId, sessionId, buffer) {
   const publicBase = process.env.R2_PUBLIC_URL;
   if (!client || !bucket || !publicBase) return null;
 
-  const key = `celebrations/${userId}/${sessionId}.png`;
+  // Versioned key so photo overwrite never hits a stale CDN/browser cache of the
+  // design-only PNG uploaded on celebration mount (same sessionId).
+  const version = Date.now();
+  const key = `celebrations/${userId}/${sessionId}-${version}.png`;
   await client.send(
     new PutObjectCommand({
       Bucket: bucket,
       Key: key,
       Body: buffer,
       ContentType: 'image/png',
-      CacheControl: 'public, max-age=2592000',
+      // Short cache: object is immutable (versioned), but avoid long-lived stale URLs.
+      CacheControl: 'public, max-age=3600',
     }),
   );
 

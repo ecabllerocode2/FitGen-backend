@@ -355,6 +355,17 @@ function prescribeDose(ex, phase, readiness = {}, goal = 'Hipertrofia') {
   }
 
   if (phase === 'Potentiate') {
+    // Activate-tagged unilaterals (e.g. single-leg glute bridge) often land in Potentiate.
+    // Without perSideSeconds the UI shows "primero un lado" but only one timer.
+    if (unilateral) {
+      if (HIGH_IMPACT.test(text) && goal === 'Fuerza') {
+        return unilateralDose(20, '4-6 reps por lado');
+      }
+      if (REP_BASED.test(text) || isLowImpactPotentiate(ex)) {
+        return unilateralDose(22, '5 reps por lado');
+      }
+      return unilateralDose(20, '5 reps por lado');
+    }
     if (HIGH_IMPACT.test(text) && goal === 'Fuerza') {
       return { durationSeconds: 40, reps: '4-6 reps' };
     }

@@ -1,7 +1,8 @@
 import { db, auth } from '../../lib/firebaseAdmin.js';
 import { createUserRepository } from '../../infrastructure/firebase/userRepository.js';
 import { fetchCurrentLeaderboard } from '../../domain/gamification/leaderboard.js';
-import { getCurrentSeasonId } from '../../domain/gamification/defaults.js';
+import { getCurrentSeasonId, normalizeGamification } from '../../domain/gamification/defaults.js';
+import { applySeasonRollover } from '../../domain/gamification/updateGamification.js';
 
 const users = createUserRepository(db);
 
@@ -29,10 +30,20 @@ export default async function handler(req, res) {
     }
 
     const timezone = user.profileData?.timezone ?? 'America/Mexico_City';
+    const now = new Date();
+    const normalized = normalizeGamification(user.gamification, now, timezone);
+    const previousSeasonId = normalized.currentSeasonId;
+    const rolled = applySeasonRollover(normalized, now, timezone);
+    if (previousSeasonId !== rolled.currentSeasonId) {
+      await users.saveUser(userId, {
+        gamification: { ...rolled, updatedAt: now.toISOString() },
+      });
+    }
+
     const seasonId =
       req.query?.seasonId ??
-      user.gamification?.currentSeasonId ??
-      getCurrentSeasonId(new Date(), timezone);
+      rolled.currentSeasonId ??
+      getCurrentSeasonId(now, timezone);
 
     const board = await fetchCurrentLeaderboard(db, {
       seasonId,
@@ -44,9 +55,9 @@ export default async function handler(req, res) {
       success: true,
       ...board,
       myRank: board.myEntry?.rank ?? null,
-      mySeasonPoints: user.gamification?.seasonPoints ?? 0,
-      showInLeaderboard: user.gamification?.showInLeaderboard === true,
-      publicDisplayName: user.gamification?.publicDisplayName ?? null,
+      mySeasonPoints: rolled.seasonPoints ?? 0,
+      showInLeaderboard: rolled.showInLeaderboard === true,
+      publicDisplayName: rolled.publicDisplayName ?? null,
     });
   } catch (err) {
     const status = err.status ?? 500;

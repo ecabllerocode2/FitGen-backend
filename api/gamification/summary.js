@@ -43,19 +43,36 @@ export default async function handler(req, res) {
       normalizeLoadPerformanceLedger(user.loadPerformanceLedger),
     );
 
+    const persistPayload = {};
+    if (summary.seasonRolledOver && summary.gamificationState) {
+      persistPayload.gamification = {
+        ...summary.gamificationState,
+        updatedAt: new Date().toISOString(),
+      };
+    }
+
     if (req.query?.markRetentionRead) {
       const ids = String(req.query.markRetentionRead).split(',').filter(Boolean);
       if (ids.length) {
-        const updatedFeed = markRetentionFeedRead(retentionFeed, ids);
-        await users.saveUser(userId, { retentionFeed: updatedFeed });
+        persistPayload.retentionFeed = markRetentionFeedRead(retentionFeed, ids);
       }
     }
 
+    if (Object.keys(persistPayload).length) {
+      await users.saveUser(userId, persistPayload);
+    }
+
+    const {
+      seasonRolledOver: _rolled,
+      gamificationState: _state,
+      ...publicSummary
+    } = summary;
+
     return res.status(200).json({
       success: true,
-      ...summary,
-      retentionFeed,
-      unreadRetentionCount: retentionFeed.filter((item) => !item.readAt).length,
+      ...publicSummary,
+      retentionFeed: persistPayload.retentionFeed ?? retentionFeed,
+      unreadRetentionCount: (persistPayload.retentionFeed ?? retentionFeed).filter((item) => !item.readAt).length,
       strengthHighlights,
     });
   } catch (err) {

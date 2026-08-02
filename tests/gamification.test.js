@@ -293,6 +293,47 @@ describe('gamification summary', () => {
     expect(summary.achievements.length).toBeGreaterThan(20);
     expect(summary.achievementSections?.length).toBeGreaterThan(0);
   });
+
+  it('rolls season points to 0 on read when month changes (Aug 1)', () => {
+    const summary = buildGamificationSummary(
+      {
+        currentSeasonId: '2026-07',
+        seasonPoints: 340,
+        seasonSessionsCompleted: 12,
+        seasonWeeksPerfect: 2,
+        lifetimeSessionsCompleted: 40,
+      },
+      {
+        timezone: 'UTC',
+        referenceDate: new Date('2026-08-01T12:00:00.000Z'),
+      },
+    );
+
+    expect(summary.seasonRolledOver).toBe(true);
+    expect(summary.counters.currentSeasonId).toBe('2026-08');
+    expect(summary.counters.seasonPoints).toBe(0);
+    expect(summary.counters.seasonSessionsCompleted).toBe(0);
+    expect(summary.counters.seasonWeeksPerfect).toBe(0);
+    expect(summary.counters.lifetimeSessionsCompleted).toBe(40);
+    expect(summary.gamificationState.currentSeasonId).toBe('2026-08');
+  });
+
+  it('does not roll over within the same month', () => {
+    const summary = buildGamificationSummary(
+      {
+        currentSeasonId: '2026-08',
+        seasonPoints: 40,
+      },
+      {
+        timezone: 'UTC',
+        referenceDate: new Date('2026-08-15T12:00:00.000Z'),
+      },
+    );
+
+    expect(summary.seasonRolledOver).toBe(false);
+    expect(summary.counters.seasonPoints).toBe(40);
+    expect(summary.counters.currentSeasonId).toBe('2026-08');
+  });
 });
 
 describe('backfill estimation', () => {

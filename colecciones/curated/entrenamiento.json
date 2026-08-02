@@ -1,6 +1,6 @@
 {
   "id": "entrenamiento",
-  "updatedAt": "2026-07-13T17:54:01.044Z",
+  "updatedAt": "2026-08-02T00:08:58.081Z",
   "count": 563,
   "items": [
     {
@@ -1626,11 +1626,12 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 3,
       "patronMovimiento": "General",
       "parteCuerpo": "Cuádriceps",
       "dificultadTecnica": "Media",
       "equipo": [
+        "Peso Corporal",
         "Cajón Pliométrico"
       ],
       "isUnilateral": false,
@@ -5640,6 +5641,7 @@
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Baja",
       "equipo": [
+        "Peso Corporal",
         "Smith Machine",
         "Rack de Potencia"
       ],
@@ -11864,6 +11866,7 @@
       "parteCuerpo": "Glúteos",
       "dificultadTecnica": "Media",
       "equipo": [
+        "Peso Corporal",
         "Cajón Pliométrico"
       ],
       "isUnilateral": true,
@@ -12701,7 +12704,7 @@
       "parteCuerpo": "Isquiotibiales",
       "dificultadTecnica": "Media",
       "equipo": [
-        "Mancuernas"
+        "Mancuerna"
       ],
       "isUnilateral": false,
       "isDynamic": true,

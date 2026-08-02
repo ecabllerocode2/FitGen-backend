@@ -1795,11 +1795,12 @@
     ],
     "categoriaBloque": "main_block",
     "faseRAMP": null,
-    "prioridad": 1,
+    "prioridad": 3,
     "patronMovimiento": "General",
     "parteCuerpo": "Cuádriceps",
     "dificultadTecnica": "Media",
     "equipo": [
+      "Peso Corporal",
       "Cajón Pliométrico"
     ],
     "isUnilateral": false,
@@ -3327,8 +3328,8 @@
       "Mantener el equilibrio y la columna erguida durante la rotación",
       "Asegurar que la rodilla delantera no colapse hacia adentro"
     ],
-    "categoriaBloque": "enfriamiento",
-    "faseRAMP": null,
+    "categoriaBloque": "calentamiento",
+    "faseRAMP": "Activate",
     "prioridad": 2,
     "patronMovimiento": "General",
     "parteCuerpo": "Core",
@@ -5332,6 +5333,7 @@
     "parteCuerpo": "Isquiotibiales",
     "dificultadTecnica": "Media",
     "equipo": [
+      "Peso Corporal",
       "Cajón Pliométrico"
     ],
     "isUnilateral": false,
@@ -6631,6 +6633,7 @@
     "parteCuerpo": "Espalda",
     "dificultadTecnica": "Baja",
     "equipo": [
+      "Peso Corporal",
       "Smith Machine",
       "Rack de Potencia"
     ],
@@ -7582,6 +7585,7 @@
     "parteCuerpo": "Cuádriceps",
     "dificultadTecnica": "Alta",
     "equipo": [
+      "Peso Corporal",
       "Cajón Pliométrico"
     ],
     "isUnilateral": false,
@@ -14504,6 +14508,7 @@
     "parteCuerpo": "Glúteos",
     "dificultadTecnica": "Media",
     "equipo": [
+      "Peso Corporal",
       "Cajón Pliométrico"
     ],
     "isUnilateral": true,
@@ -15481,7 +15486,7 @@
     "parteCuerpo": "Isquiotibiales",
     "dificultadTecnica": "Media",
     "equipo": [
-      "Mancuernas"
+      "Mancuerna"
     ],
     "isUnilateral": false,
     "isDynamic": true,
