@@ -215,6 +215,8 @@ export function generateSession(context) {
     weekNumber,
     dayOfWeek,
     sessionFocus,
+    phase: weekPlan?.phase ?? null,
+    isDeload: Boolean(weekPlan?.isDeload),
     generatedAt: new Date(referenceDate).toISOString(),
     patterns,
     sessionMuscles,

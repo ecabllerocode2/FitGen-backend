@@ -40,6 +40,20 @@ export function buildSessionCoachingBrief({
   const items = [];
   const bodyCompositionGoal = profile.bodyCompositionGoal ?? 'Mantener';
   const bodyCopy = BODY_GOAL_COPY[bodyCompositionGoal] ?? BODY_GOAL_COPY.Mantener;
+  const isDeload = Boolean(weekPlan?.isDeload) || weekPlan?.phase === 'deload';
+
+  if (isDeload) {
+    const rir =
+      weekPlan?.rirObjetivo != null && !Number.isNaN(Number(weekPlan.rirObjetivo))
+        ? Number(weekPlan.rirObjetivo)
+        : 3;
+    items.push({
+      id: 'deload_week',
+      type: 'strategy',
+      title: 'Semana de descarga',
+      message: `Usa el peso prescrito y el rango de reps. Para en RIR ~${rir}: el peso más bajo es a propósito. No cargues más ni busques el fallo — así te recuperas para el siguiente bloque.`,
+    });
+  }
 
   items.push({
     id: 'body_goal',
