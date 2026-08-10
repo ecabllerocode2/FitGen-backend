@@ -1,9 +1,11 @@
 /**
  * Find a like-for-like exercise replacement for user/coach swaps.
- * Prefer same pattern + muscle, then same pattern, then same muscle.
+ * Prefer same pattern + muscle, then same muscle (any pattern), then same pattern
+ * with compatible muscles (never compound → arm isolation).
  */
 import { hasDistinctStimulusForMuscle } from './stimulusCoverage.js';
 import {
+  isCompatibleSwapMuscle,
   isSwapCandidateEligible,
   rankCandidate,
   sourceFields,
@@ -63,18 +65,31 @@ export function findEquivalentSwapReplacement(catalog, sourceExercise, options =
   );
   if (samePatternAndMuscle) return samePatternAndMuscle;
 
-  const samePattern = pick(
+  // Prefer keeping the muscle (e.g. Espalda row) over a same-pattern isolation curl.
+  const sameMuscle = pick(
     (c) =>
-      c.patronMovimiento === source.patronMovimiento &&
+      c.parteCuerpo === source.parteCuerpo &&
       hasDistinctStimulusForMuscle(selectedStub, c),
   );
-  if (samePattern) return samePattern;
-
-  const samePatternLoose = pick((c) => c.patronMovimiento === source.patronMovimiento);
-  if (samePatternLoose) return samePatternLoose;
-
-  const sameMuscle = pick((c) => c.parteCuerpo === source.parteCuerpo);
   if (sameMuscle) return sameMuscle;
+
+  const sameMuscleLoose = pick((c) => c.parteCuerpo === source.parteCuerpo);
+  if (sameMuscleLoose) return sameMuscleLoose;
+
+  const samePatternCompatible = pick(
+    (c) =>
+      c.patronMovimiento === source.patronMovimiento &&
+      isCompatibleSwapMuscle(source.parteCuerpo, c.parteCuerpo) &&
+      hasDistinctStimulusForMuscle(selectedStub, c),
+  );
+  if (samePatternCompatible) return samePatternCompatible;
+
+  const samePatternLoose = pick(
+    (c) =>
+      c.patronMovimiento === source.patronMovimiento &&
+      isCompatibleSwapMuscle(source.parteCuerpo, c.parteCuerpo),
+  );
+  if (samePatternLoose) return samePatternLoose;
 
   return null;
 }

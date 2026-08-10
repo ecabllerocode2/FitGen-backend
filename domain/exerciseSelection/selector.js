@@ -72,6 +72,8 @@ const AUTO_SELECT_EXCLUDE = new Set([
   'one_arm_pronated_dumbbell_triceps_extension',
   'one_arm_supinated_dumbbell_triceps_extension',
   'Dumbbell_One-Arm_Triceps_Extension',
+  'Rack_Delivery',
+  'Gorilla_Chin_Crunch',
 ]);
 
 /**
@@ -86,14 +88,14 @@ export function isOlympicLift(exercise) {
   if (/apret[oó]n.*disco|plate pinch|plate_hand|hand_squeeze/i.test(name + id)) return false;
 
   if (
-    /snatch|arrancada|hang_clean|hang_snatch|power_clean|split_clean|split_snatch|muscle_clean|muscle_snatch|clean_and_jerk|clean_from|snatch_from|snatch_balance|clean_dead|turkish_get/i.test(
+    /snatch|arrancada|hang_clean|hang_snatch|power_clean|split_clean|split_snatch|muscle_clean|muscle_snatch|clean_and_jerk|clean_from|snatch_from|snatch_balance|clean_dead|turkish_get|rack_delivery/i.test(
       id,
     )
   ) {
     return true;
   }
 
-  return /arrancada|snatch|\bclean\b|cargada|jerk|envi[oó]n|thruster|balance de jerk|snatch balance|hang snatch|hang clean|power clean|split clean|split snatch|muscle snatch|muscle clean|clean and jerk|cargada y envi[oó]n|clean & jerk|one-arm.*snatch|kettlebell.*snatch|kettlebell.*clean|bottoms-up clean/i.test(
+  return /arrancada|snatch|\bclean\b|cargada|jerk|envi[oó]n|thruster|balance de jerk|snatch balance|hang snatch|hang clean|power clean|split clean|split snatch|muscle snatch|muscle clean|clean and jerk|cargada y envi[oó]n|clean & jerk|one-arm.*snatch|kettlebell.*snatch|kettlebell.*clean|bottoms-up clean|entrega al rack|rack delivery|front.?rack/i.test(
     name,
   );
 }

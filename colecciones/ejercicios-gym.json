@@ -5685,7 +5685,7 @@
     ],
     "categoriaBloque": "main_block",
     "faseRAMP": null,
-    "prioridad": 1,
+    "prioridad": 3,
     "patronMovimiento": "Traccion_V",
     "parteCuerpo": "Espalda",
     "dificultadTecnica": "Media",
@@ -5695,7 +5695,8 @@
     "isUnilateral": false,
     "isDynamic": true,
     "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Gorilla_Chin_Crunch_0.webp",
-    "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Gorilla_Chin_Crunch_1.webp"
+    "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Gorilla_Chin_Crunch_1.webp",
+    "mainstream": false
   },
   {
     "id": "Groin_and_Back_Stretch",
@@ -10578,10 +10579,11 @@
     ],
     "categoriaBloque": "main_block",
     "faseRAMP": null,
-    "prioridad": 2,
-    "patronMovimiento": "Traccion_V",
+    "prioridad": 3,
+    "patronMovimiento": "Empuje_V",
     "parteCuerpo": "Hombro",
     "dificultadTecnica": "Alta",
+    "mainstream": false,
     "equipo": [
       "Barra Olímpica"
     ],

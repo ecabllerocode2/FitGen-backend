@@ -28,8 +28,10 @@ describe('exercise swap equivalence', () => {
     });
 
     expect(replacement).toBeTruthy();
-    expect(replacement.patronMovimiento).toBe('Traccion_V');
+    // Prefer same muscle (Espalda row) over same-pattern isolation when vertical peers are blocked.
+    expect(replacement.parteCuerpo).toBe('Espalda');
     expect(replacement.parteCuerpo).not.toBe('Pecho');
+    expect(replacement.parteCuerpo).not.toBe('Bíceps');
     expect(replacement.patronMovimiento).not.toBe('Empuje_H');
     expect(replacement.id).not.toMatch(/Bench_Press|Chest_Press/i);
   });
@@ -119,10 +121,12 @@ describe('exercise swap equivalence', () => {
     });
 
     expect(result.error).toBeUndefined();
-    expect(result.replacement.patronMovimiento).toBe('Traccion_V');
+    expect(result.replacement.parteCuerpo).toBe('Espalda');
+    expect(result.replacement.parteCuerpo).not.toBe('Bíceps');
     const swapped = result.mainBlock.find((e) => e.swappedFrom === source.id);
     expect(swapped).toBeTruthy();
-    expect(swapped.movementPattern).toBe('Traccion_V');
+    expect(swapped.muscleGroup).toBe('Espalda');
+    expect(['Traccion_V', 'Traccion_H']).toContain(swapped.movementPattern);
     expect(swapped.descripcion).toBe(result.replacement.descripcion);
     expect(swapped.exerciseId).toBe(result.replacement.id);
     expect(swapped.exerciseName).toBe(result.replacement.nombre);
@@ -198,6 +202,41 @@ describe('exercise swap equivalence', () => {
     expect(selected.length).toBeGreaterThanOrEqual(4);
     expect(selected.some((e) => e.patronMovimiento === 'Empuje_V')).toBe(true);
     expect(selected.some((e) => e.patronMovimiento === 'Traccion_V')).toBe(true);
+  });
+
+  it('does not offer Rack Delivery or biceps curls when swapping a vertical pull', () => {
+    const source = catalog.find((ex) => ex.id === 'Wide-Grip_Lat_Pulldown')
+      ?? catalog.find((ex) => ex.patronMovimiento === 'Traccion_V' && ex.parteCuerpo === 'Espalda');
+    expect(source).toBeTruthy();
+
+    const replacement = findEquivalentSwapReplacement(catalog, source, {
+      excludeIds: ['Leverage_Chest_Press', 'Bent_Over_Two-Dumbbell_Row', 'Seated_Cable_Shoulder_Press'],
+      unavailableEquipment: ['Polea Alta', 'Barra de Dominadas'],
+      safetyProfile: { experienceLevel: 'Avanzado' },
+      weekNumber: 1,
+    });
+
+    expect(replacement).toBeTruthy();
+    expect(replacement.id).not.toBe('Rack_Delivery');
+    expect(replacement.parteCuerpo).not.toBe('Bíceps');
+    expect(replacement.dificultadTecnica).not.toBe('Alta');
+  });
+
+  it('never selects Rack Delivery or Gorilla Chin for Upper (Fuerza)', () => {
+    const selected = selectExercises(
+      'Upper (Fuerza)',
+      catalog,
+      { experienceLevel: 'Avanzado' },
+      [],
+      'Hipertrofia',
+      {
+        weekNumber: 1,
+        sessionMuscles: ['Pecho', 'Espalda', 'Hombro'],
+        unavailableEquipment: ['Polea Alta', 'Smith Machine', 'Banco Ajustable'],
+      },
+    );
+    expect(selected.some((e) => e.id === 'Rack_Delivery')).toBe(false);
+    expect(selected.some((e) => e.id === 'Gorilla_Chin_Crunch')).toBe(false);
   });
 });
 
