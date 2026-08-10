@@ -4929,10 +4929,11 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 1,
+      "prioridad": 3,
       "patronMovimiento": "Traccion_V",
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Media",
+      "mainstream": false,
       "equipo": [
         "Barra de Dominadas"
       ],
@@ -8750,10 +8751,11 @@
       ],
       "categoriaBloque": "main_block",
       "faseRAMP": null,
-      "prioridad": 2,
-      "patronMovimiento": "Traccion_V",
+      "prioridad": 3,
+      "patronMovimiento": "Empuje_V",
       "parteCuerpo": "Hombro",
       "dificultadTecnica": "Alta",
+      "mainstream": false,
       "equipo": [
         "Barra Olímpica"
       ],

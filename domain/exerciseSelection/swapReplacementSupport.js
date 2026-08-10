@@ -43,7 +43,12 @@ export const AUTO_SELECT_EXCLUDE = new Set([
   'one_arm_pronated_dumbbell_triceps_extension',
   'one_arm_supinated_dumbbell_triceps_extension',
   'Dumbbell_One-Arm_Triceps_Extension',
+  'Rack_Delivery',
+  'Gorilla_Chin_Crunch',
 ]);
+
+/** Isolation muscles — must not replace compound pulls/pushes via pattern-only fallback. */
+export const ISOLATION_SWAP_MUSCLES = new Set(['Bíceps', 'Tríceps', 'Pantorrillas', 'Core']);
 
 export function isGymExercise(exercise) {
   const block = exercise.categoriaBloque;
@@ -72,7 +77,17 @@ export function passesMainstreamExerciseFilter(exercise) {
 }
 
 export function passesDifficultyFilter(exercise) {
-  return Boolean(exercise.dificultadTecnica);
+  // Align with auto-select: never offer Alta / unset technical difficulty in swaps.
+  return Boolean(exercise.dificultadTecnica) && exercise.dificultadTecnica !== 'Alta';
+}
+
+export function isCompatibleSwapMuscle(sourceMuscle, candidateMuscle) {
+  if (!sourceMuscle || !candidateMuscle) return true;
+  if (sourceMuscle === candidateMuscle) return true;
+  if (!ISOLATION_SWAP_MUSCLES.has(sourceMuscle) && ISOLATION_SWAP_MUSCLES.has(candidateMuscle)) {
+    return false;
+  }
+  return true;
 }
 
 export function passesConservativeFilter(exercise, safetyProfile, weekNumber) {
