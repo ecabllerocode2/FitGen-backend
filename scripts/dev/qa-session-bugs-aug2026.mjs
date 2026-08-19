@@ -123,6 +123,20 @@ async function assertDomain() {
       equipo: ['Peso Corporal', 'Cajón Pliométrico'],
       expect: 'bodyweight',
     },
+    {
+      id: 'Goblet_Squat',
+      nombre: 'Sentadilla Goblet',
+      equipo: ['Kettlebell'],
+      isUnilateral: false,
+      expect: 'barbell_total',
+    },
+    {
+      id: 'Dumbbell_Alternate_Bicep_Curl',
+      nombre: 'Curl de Bíceps Alterno con Mancuernas',
+      equipo: ['Mancuernas'],
+      isUnilateral: true,
+      expect: 'dumbbell_per_hand',
+    },
   ];
   for (const c of cases) {
     const got = resolveLoadConvention({

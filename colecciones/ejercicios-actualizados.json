@@ -134,7 +134,7 @@
     "parteCuerpo": "Bíceps",
     "dificultadTecnica": "Baja",
     "equipo": "Mancuernas",
-    "isUnilateral": true,
+    "isUnilateral": false,
     "isDynamic": true,
     "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Hammer_Curl_0.webp",
     "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Hammer_Curl_1.webp"
@@ -179,7 +179,7 @@
       "Mancuernas",
       "Banco Ajustable"
     ],
-    "isUnilateral": true,
+    "isUnilateral": false,
     "isDynamic": true,
     "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Incline_Dumbbell_Curl_0.webp",
     "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Alternate_Incline_Dumbbell_Curl_1.webp"
@@ -3974,7 +3974,7 @@
     "equipo": [
       "Mancuernas"
     ],
-    "isUnilateral": true,
+    "isUnilateral": false,
     "isDynamic": true,
     "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Alternate_Bicep_Curl_0.webp",
     "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Dumbbell_Alternate_Bicep_Curl_1.webp"
@@ -16117,8 +16117,8 @@
   },
   {
     "id": "wide_stance_stiff_legs",
-    "nombre": "Peso Muerto Piernas Rígidas Agarre Ancho",
-    "descripcion": "Con una postura ancha y piernas casi rectas, flexione la cadera para sujetar la barra. Lleve la cadera hacia adelante para levantarse y regrese lentamente manteniendo la espalda neutra.",
+    "nombre": "Peso Muerto Piernas Rígidas Postura Ancha",
+    "descripcion": "Con una postura ancha y piernas casi rectas, flexione la cadera y sujete la barra con las manos entre las rodillas (agarre a la anchura de los hombros o un poco más cerrado). Lleve la cadera hacia adelante para levantarse y regrese lentamente manteniendo la espalda neutra.",
     "correcciones": [
       "No curvar la espalda baja durante el descenso; mantener la columna en posición neutra.",
       "Mantener la barra pegada a las piernas para minimizar el brazo de palanca sobre la espalda."

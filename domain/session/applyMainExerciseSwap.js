@@ -1,4 +1,5 @@
 import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
+import { resolveIsUnilateral } from '../exerciseSelection/laterality.js';
 import { findEquivalentSwapReplacement } from '../exerciseSelection/swapReplacement.js';
 import { prescribeLoad, buildLoadHistoryFromSessions } from '../prescription/loadCalculator.js';
 import { EXERCISE_TYPES } from '../constants.js';
@@ -53,6 +54,7 @@ export function applyMainExerciseSwap({
       loadPerformanceLedger,
       experienceLevel,
     );
+    const isUnilateral = resolveIsUnilateral(replacement);
     const load = prescribeLoad({
       exerciseType,
       rirTarget: ex.rirTarget ?? 2,
@@ -62,8 +64,9 @@ export function applyMainExerciseSwap({
       movementPattern: replacement.patronMovimiento,
       isBodyweight: bodyweight,
       exerciseId: replacement.id,
+      exerciseName: replacement.nombre,
       equipo: replacement.equipo,
-      isUnilateral: Boolean(replacement.isUnilateral),
+      isUnilateral,
     });
 
     // Stryker disable all: load-field null coalescing is equivalent under prescribeLoad defaults
@@ -80,7 +83,7 @@ export function applyMainExerciseSwap({
       swappedFrom: exerciseIdToReplace,
       isBodyweight: bodyweight,
       equipo: replacement.equipo ?? [],
-      isUnilateral: Boolean(replacement.isUnilateral),
+      isUnilateral,
       loadMode: load.mode,
       loadConvention: load.loadConvention ?? null,
       prescribedLoadKg: load.prescribedLoadKg ?? null,
