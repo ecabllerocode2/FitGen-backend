@@ -1,10 +1,11 @@
-import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE } from '../constants.js';
+import { REP_RANGES, REST_SECONDS, EXERCISE_TYPES, MAX_SETS_PER_EXERCISE, DELOAD_MAX_SETS_PER_EXERCISE } from '../constants.js';
 import { getWeekPlan } from '../periodization/microcycle.js';
 import { applyReadiness } from '../autoregulation/readiness.js';
 import { selectExercises, getMesocycleRotationExclusions } from '../exerciseSelection/selector.js';
 import { resolveLoadConvention } from '../prescription/loadConvention.js';
 import { prescribeLoad, buildLoadHistoryFromSessions } from '../prescription/loadCalculator.js';
 import { isBodyweightExercise } from '../exerciseSelection/bodyweight.js';
+import { resolveIsUnilateral } from '../exerciseSelection/laterality.js';
 import {
   resolveSessionGoal,
   resolvePriorityLiftId,
@@ -158,6 +159,7 @@ export function generateSession(context) {
     readinessAdj,
     volumeByMuscle,
     sessionMuscles,
+    isDeload: Boolean(weekPlan?.isDeload),
     history,
     priorityLiftId: resolvedPriorityLiftId,
     splitType: mesocycle.splitType,
@@ -446,6 +448,7 @@ function buildMainBlock({
   readinessAdj,
   volumeByMuscle,
   sessionMuscles,
+  isDeload = false,
   history,
   priorityLiftId,
   splitType,
@@ -501,6 +504,7 @@ function buildMainBlock({
     sessionFocus,
     volumeByMuscle,
     weeklyMuscleSlotCounts,
+    isDeload,
   });
 
   const priorityExerciseIds = new Set(
@@ -512,12 +516,14 @@ function buildMainBlock({
     }),
   );
 
-  applyMusclePrioritySetBonus({
-    setsByExerciseId,
-    exercises,
-    musclePriorities,
-    sessionMuscles,
-  });
+  if (!isDeload) {
+    applyMusclePrioritySetBonus({
+      setsByExerciseId,
+      exercises,
+      musclePriorities,
+      sessionMuscles,
+    });
+  }
 
   applyConservativeSessionCap(setsByExerciseId, exercises, safetyProfile);
 
@@ -577,6 +583,7 @@ function buildMainBlock({
     );
 
     const bodyweight = isBodyweightExercise(ex, catalog);
+    const isUnilateral = resolveIsUnilateral(ex);
     const load = prescribeLoad({
       exerciseType,
       rirTarget,
@@ -588,17 +595,16 @@ function buildMainBlock({
       exerciseId: ex.id,
       exerciseName: ex.nombre,
       equipo: ex.equipo,
-      isUnilateral: ex.isUnilateral === true,
+      isUnilateral,
     });
 
     const adjustedSets = Math.max(
       1,
       Math.round((setsByExerciseId[ex.id] ?? 3) * readinessAdj.volumeMultiplier),
     );
+    const caps = isDeload ? DELOAD_MAX_SETS_PER_EXERCISE : MAX_SETS_PER_EXERCISE;
     const setCap =
-      exerciseType === EXERCISE_TYPES.COMPOUND
-        ? MAX_SETS_PER_EXERCISE.compound
-        : MAX_SETS_PER_EXERCISE.isolation;
+      exerciseType === EXERCISE_TYPES.COMPOUND ? caps.compound : caps.isolation;
     const cappedSets = Math.min(
       adjustedSets,
       isFuerzaPullBiceps ? 2 : setCap,
@@ -616,7 +622,7 @@ function buildMainBlock({
       muscleGroup: ex.parteCuerpo,
       movementPattern: ex.patronMovimiento,
       equipo: ex.equipo ?? [],
-      isUnilateral: ex.isUnilateral === true,
+      isUnilateral,
       sets: cappedSets,
       repRange: load.repRange ?? repRange,
       repRangeOverride: ex.repRangeOverride ?? null,
@@ -628,7 +634,7 @@ function buildMainBlock({
       loadConvention: load.loadConvention
         ?? resolveLoadConvention({
           equipo: ex.equipo,
-          isUnilateral: ex.isUnilateral,
+          isUnilateral,
           isBodyweight: bodyweight,
           exerciseId: ex.id,
           exerciseName: ex.nombre,

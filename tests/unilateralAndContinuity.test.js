@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateWarmup } from '../domain/session/rampGenerator.js';
+import { resolveIsUnilateral } from '../domain/exerciseSelection/laterality.js';
 import {
   applyContinuityReplacements,
   setContinuityReplacement,
@@ -196,5 +197,23 @@ describe('continuity preferences', () => {
     );
     expect(resolved[0].id).toBe('Wide_Grip_Lat_Pulldown');
     expect(resolved[0].swappedFromUser).toBe('Underhand_Cable_Pulldowns');
+  });
+});
+
+describe('alternating vs true unilateral', () => {
+  it('does not treat alternating dumbbell curls as one-side-then-the-other', () => {
+    expect(resolveIsUnilateral({
+      id: 'Dumbbell_Alternate_Bicep_Curl',
+      nombre: 'Curl de Bíceps Alterno con Mancuernas',
+      isUnilateral: true,
+    })).toBe(false);
+  });
+
+  it('keeps true one-arm work unilateral', () => {
+    expect(resolveIsUnilateral({
+      id: 'Dumbbell_One-Arm_Row',
+      nombre: 'Remo a un brazo con mancuerna',
+      isUnilateral: true,
+    })).toBe(true);
   });
 });

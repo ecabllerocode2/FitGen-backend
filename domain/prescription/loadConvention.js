@@ -1,4 +1,5 @@
 import { DEFAULT_PLATE_INCREMENT_KG } from '../constants.js';
+import { resolveIsUnilateral } from '../exerciseSelection/laterality.js';
 
 export const LOAD_CONVENTIONS = {
   BARBELL_TOTAL: 'barbell_total',
@@ -18,21 +19,22 @@ function normalizeEquipo(equipo) {
  * @param {object} exercise
  * @returns {string|null}
  */
+function isSingleImplementHeldWithBothHands(haystack) {
+  // `\b` fails on Goblet_Squat because `_` is a word character.
+  return /goblet|plie|plié|vertical[_\s-]?swing|swing vertical/i.test(haystack);
+}
+
 function inferConventionFromMetadata(exercise = {}) {
   const nombre = String(exercise.exerciseName ?? exercise.nombre ?? exercise.name ?? '');
   const exerciseId = String(exercise.exerciseId ?? exercise.id ?? '');
   const haystack = `${nombre} ${exerciseId}`;
 
-  if (/\b(unilateral|una mano|un brazo|una pierna|single[-_ ]arm|one[-_ ]arm|single[-_ ]leg|one[-_ ]leg)\b/i.test(haystack)) {
-    return LOAD_CONVENTIONS.UNILATERAL;
+  if (isSingleImplementHeldWithBothHands(haystack)) {
+    return LOAD_CONVENTIONS.BARBELL_TOTAL;
   }
 
-  // One implement held with both hands (goblet / plié / vertical swing).
-  if (
-    /\b(goblet|plie|plié|vertical[_\s-]?swing|swing vertical)\b/i.test(haystack)
-    && /mancuerna|dumbbell|kettlebell/i.test(haystack)
-  ) {
-    return LOAD_CONVENTIONS.BARBELL_TOTAL;
+  if (/\b(unilateral|una mano|un brazo|una pierna|single[-_ ]arm|one[-_ ]arm|single[-_ ]leg|one[-_ ]leg)\b/i.test(haystack)) {
+    return LOAD_CONVENTIONS.UNILATERAL;
   }
 
   // Bilateral dumbbells: plural name or dumbbell_* exercise id.
@@ -49,7 +51,7 @@ function inferConventionFromMetadata(exercise = {}) {
   }
 
   if (/\bmancuerna\b|\bdumbbell\b|\bkettlebell\b/i.test(haystack)) {
-    return exercise.isUnilateral === true
+    return resolveIsUnilateral(exercise)
       ? LOAD_CONVENTIONS.UNILATERAL
       : LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
   }
@@ -72,7 +74,8 @@ function inferConventionFromMetadata(exercise = {}) {
  */
 export function resolveLoadConvention(exercise = {}) {
   const nameHaystack = `${exercise.exerciseName ?? exercise.nombre ?? exercise.name ?? ''} ${exercise.exerciseId ?? exercise.id ?? ''}`;
-  const isSingleImplementDb = /\b(goblet|plie|plié|vertical[_\s-]?swing|swing vertical)\b/i.test(nameHaystack);
+  const isSingleImplementDb = isSingleImplementHeldWithBothHands(nameHaystack);
+  const isUnilateral = resolveIsUnilateral(exercise);
 
   if (exercise.loadConvention && Object.values(LOAD_CONVENTIONS).includes(exercise.loadConvention)) {
     const stored = exercise.loadConvention;
@@ -83,7 +86,7 @@ export function resolveLoadConvention(exercise = {}) {
         && !/barra|barbell|smith/i.test(equipo);
       if (isDumbbellOnly || inferConventionFromMetadata(exercise) === LOAD_CONVENTIONS.DUMBBELL_PER_HAND) {
         if (isSingleImplementDb) return LOAD_CONVENTIONS.BARBELL_TOTAL;
-        if (exercise.isUnilateral === true) return LOAD_CONVENTIONS.UNILATERAL;
+        if (isUnilateral) return LOAD_CONVENTIONS.UNILATERAL;
         return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
       }
     }
@@ -91,7 +94,14 @@ export function resolveLoadConvention(exercise = {}) {
     if (stored === LOAD_CONVENTIONS.DUMBBELL_PER_HAND && isSingleImplementDb) {
       return LOAD_CONVENTIONS.BARBELL_TOTAL;
     }
-    return stored;
+    if (stored === LOAD_CONVENTIONS.UNILATERAL && isSingleImplementDb) {
+      return LOAD_CONVENTIONS.BARBELL_TOTAL;
+    }
+    if (stored === LOAD_CONVENTIONS.UNILATERAL && !isUnilateral) {
+      // Alternate curls: catalog/session marked unilateral but both sides work in one set.
+    } else {
+      return stored;
+    }
   }
   if (exercise.loadMode === 'bodyweight' || exercise.isBodyweight === true) {
     return LOAD_CONVENTIONS.BODYWEIGHT;
@@ -104,7 +114,7 @@ export function resolveLoadConvention(exercise = {}) {
     return LOAD_CONVENTIONS.BODYWEIGHT;
   }
 
-  if (exercise.isUnilateral === true) {
+  if (isUnilateral) {
     return LOAD_CONVENTIONS.UNILATERAL;
   }
 

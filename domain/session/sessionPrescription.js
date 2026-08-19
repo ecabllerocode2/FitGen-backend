@@ -264,7 +264,11 @@ export function enforceSessionVolumeFloors({
   sessionFocus = '',
   volumeByMuscle = {},
   weeklyMuscleSlotCounts = {},
+  isDeload = false,
 }) {
+  // Hypertrophy floors (min 4 / min 8 back) would undo the ~50% deload cut.
+  if (isDeload) return;
+
   const absoluteMin = SESSION_MUSCLE_MIN_SETS[sessionGoal] ?? 4;
   const dedicated =
     isPushBiasedSession(sessionMuscles, sessionFocus) ||

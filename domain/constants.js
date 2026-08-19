@@ -184,6 +184,12 @@ export const MAX_SETS_PER_EXERCISE = {
   isolation: 4,
 };
 
+/** Deload week: isolation often has 1 slot and would otherwise stay at the 4-set cap. */
+export const DELOAD_MAX_SETS_PER_EXERCISE = {
+  compound: 3,
+  isolation: 2,
+};
+
 /** Muscles that benefit from a second accessory exercise when volume is split across one session */
 export const SPLIT_VOLUME_ACCESSORY_MUSCLES = new Set([
   'Bíceps',

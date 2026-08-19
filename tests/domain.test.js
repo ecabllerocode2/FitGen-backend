@@ -160,6 +160,40 @@ describe('loadConvention', () => {
     })).toBe('barbell_total');
   });
 
+  it('treats goblet squat as total implement load, not per hand', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Goblet_Squat',
+      equipo: ['Kettlebell'],
+      isUnilateral: false,
+    })).toBe('barbell_total');
+    expect(resolveLoadConvention({
+      exerciseName: 'Sentadilla Goblet',
+      equipo: ['Mancuernas'],
+      loadConvention: 'dumbbell_per_hand',
+    })).toBe('barbell_total');
+    const load = prescribeLoad({
+      exerciseType: 'compound',
+      rirTarget: 3,
+      repRange: '9-13',
+      exerciseId: 'Goblet_Squat',
+      exerciseName: 'Sentadilla Goblet',
+      equipo: ['Kettlebell'],
+      history: [],
+    });
+    expect(load.loadConvention).toBe('barbell_total');
+    expect(load.explanation).not.toMatch(/por mano/i);
+  });
+
+  it('treats alternating dumbbell curls as bilateral per-hand, not unilateral', () => {
+    expect(resolveLoadConvention({
+      exerciseId: 'Dumbbell_Alternate_Bicep_Curl',
+      exerciseName: 'Curl de Bíceps Alterno con Mancuernas',
+      equipo: ['Mancuernas'],
+      isUnilateral: true,
+      loadConvention: 'unilateral',
+    })).toBe('dumbbell_per_hand');
+  });
+
   it('marks inverted row / step-up / box jump as bodyweight via equipo', () => {
     expect(resolveLoadConvention({
       exerciseId: 'Inverted_Row',
@@ -235,6 +269,83 @@ describe('deload volume', () => {
     expect(deloadPlan.volumeByMuscle[muscle]).toBe(
       applyDeloadVolume(lastPlan.volumeByMuscle[muscle]),
     );
+  });
+
+  it('does not keep isolation at 4 sets while compounds drop on a deload pull', () => {
+    const catalog = {
+      entrenamiento: [
+        {
+          id: 'lat_pulldown',
+          nombre: 'Jalón al pecho',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_V',
+          parteCuerpo: 'Espalda',
+          prioridad: 1,
+          equipo: ['Polea Alta'],
+          isUnilateral: false,
+        },
+        {
+          id: 'barbell_row',
+          nombre: 'Remo con barra',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_H',
+          parteCuerpo: 'Espalda',
+          prioridad: 1,
+          equipo: ['Barra Olímpica'],
+          isUnilateral: false,
+        },
+        {
+          id: 'seated_row',
+          nombre: 'Remo sentado',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_H',
+          parteCuerpo: 'Espalda',
+          prioridad: 2,
+          equipo: ['Polea Baja'],
+          isUnilateral: false,
+        },
+        {
+          id: 'Dumbbell_Alternate_Bicep_Curl',
+          nombre: 'Curl de Bíceps Alterno con Mancuernas',
+          categoriaBloque: 'main_block',
+          patronMovimiento: 'Traccion_H',
+          parteCuerpo: 'Bíceps',
+          prioridad: 3,
+          equipo: ['Mancuernas'],
+          isUnilateral: true,
+        },
+      ],
+      calentamiento: [],
+      enfriamiento: [],
+    };
+    const mesocycle = generateMesocycle(
+      { ...baseProfile, trainingDaysPerWeek: 4, fitnessGoal: 'Hipertrofia' },
+      '2026-07-07',
+    );
+    const session = generateSession({
+      profile: { ...baseProfile, fitnessGoal: 'Hipertrofia', currentWeightKg: 75 },
+      mesocycle,
+      weekNumber: mesocycle.durationWeeks,
+      sessionFocus: 'Pull',
+      sessionMuscles: ['Espalda', 'Bíceps', 'Hombro'],
+      patterns: ['Traccion_H', 'Traccion_V'],
+      catalog,
+      referenceDate: '2026-08-03',
+    });
+    expect(session.isDeload).toBe(true);
+    const back = session.mainBlock.filter((e) => e.muscleGroup === 'Espalda');
+    const biceps = session.mainBlock.filter((e) => e.muscleGroup === 'Bíceps');
+    expect(biceps.length).toBeGreaterThan(0);
+    for (const ex of biceps) {
+      expect(ex.sets).toBeLessThanOrEqual(2);
+      expect(ex.isUnilateral).toBe(false);
+      expect(ex.loadConvention).toBe('dumbbell_per_hand');
+    }
+    if (back.length) {
+      const maxBack = Math.max(...back.map((e) => e.sets));
+      const maxBi = Math.max(...biceps.map((e) => e.sets));
+      expect(maxBi).toBeLessThanOrEqual(maxBack + 1);
+    }
   });
 });
 
