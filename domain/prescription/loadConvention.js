@@ -114,6 +114,17 @@ export function resolveLoadConvention(exercise = {}) {
     return LOAD_CONVENTIONS.BODYWEIGHT;
   }
 
+  const isDumbbellLike = /mancuerna|dumbbell|kettlebell|kettelbell/i.test(joined);
+  const isBarbellLike = /barra|barbell|smith/i.test(joined);
+  const isMachineLike = /máquina|maquina|polea|cable|selectorizado|stack|máquina de palancas/i.test(joined)
+    || /máquina|maquina/i.test(nameHaystack);
+
+  // Machine stack wins over catalog isUnilateral (e.g. iso-lateral row machines log pin weight,
+  // not per-hand dumbbell load — treating them as unilateral under-prescribes by ~55%).
+  if (isMachineLike && !isBarbellLike && !isDumbbellLike) {
+    return LOAD_CONVENTIONS.MACHINE_STACK;
+  }
+
   if (isUnilateral) {
     return LOAD_CONVENTIONS.UNILATERAL;
   }
@@ -123,17 +134,10 @@ export function resolveLoadConvention(exercise = {}) {
     return LOAD_CONVENTIONS.UNILATERAL;
   }
 
-  const isDumbbellLike = /mancuerna|dumbbell|kettlebell|kettelbell/i.test(joined);
-  const isBarbellLike = /barra|barbell|smith/i.test(joined);
-  const isMachineLike = /máquina|maquina|polea|cable|selectorizado|stack|máquina de palancas/i.test(joined);
-
   if (isDumbbellLike && !isBarbellLike) {
     // Single DB held with both hands → total load, not per-hand.
     if (isSingleImplementDb) return LOAD_CONVENTIONS.BARBELL_TOTAL;
     return LOAD_CONVENTIONS.DUMBBELL_PER_HAND;
-  }
-  if (isMachineLike && !isBarbellLike && !isDumbbellLike) {
-    return LOAD_CONVENTIONS.MACHINE_STACK;
   }
   if (isBarbellLike) {
     return LOAD_CONVENTIONS.BARBELL_TOTAL;

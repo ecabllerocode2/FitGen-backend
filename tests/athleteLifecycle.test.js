@@ -85,6 +85,63 @@ describe('loadPerformanceLedger', () => {
     expect(entry.e1RM).toBeGreaterThan(80);
   });
 
+  it('prefers basic-tier pattern for priority-2 compounds over weak accessory history', () => {
+    const ledger = {
+      byExerciseId: {},
+      byPattern: {
+        'Empuje_H:basic': {
+          e1RM: 52,
+          lastWeightKg: 40,
+          loadConvention: 'barbell_total',
+          updatedAt: new Date().toISOString(),
+        },
+        'Empuje_H:accessory': {
+          e1RM: 26,
+          lastWeightKg: 15,
+          loadConvention: 'machine_stack',
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    };
+
+    const [entry] = ledgerEntriesForPrescription(
+      ledger,
+      'Leverage_Incline_Chest_Press',
+      'Empuje_H',
+      2,
+      'Intermedio',
+    );
+    expect(entry.fromPatternFallback).toBe(true);
+    expect(entry.e1RM).toBeGreaterThan(50);
+  });
+
+  it('prefers accessory-tier pattern for priority-3 isolations', () => {
+    const ledger = {
+      byExerciseId: {},
+      byPattern: {
+        'Empuje_V:basic': {
+          e1RM: 40,
+          lastWeightKg: 30,
+          updatedAt: new Date().toISOString(),
+        },
+        'Empuje_V:accessory': {
+          e1RM: 22,
+          lastWeightKg: 12,
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    };
+
+    const [entry] = ledgerEntriesForPrescription(
+      ledger,
+      'Triceps_Pushdown',
+      'Empuje_V',
+      3,
+      'Intermedio',
+    );
+    expect(entry.e1RM).toBeLessThan(25);
+  });
+
   it('prunes entries older than LEDGER_MAX_AGE_MONTHS', () => {
     const stale = new Date();
     stale.setMonth(stale.getMonth() - (LEDGER_MAX_AGE_MONTHS + 2));

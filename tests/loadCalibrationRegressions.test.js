@@ -6,7 +6,7 @@ import {
   E1RM_MAX_EFFECTIVE_REPS,
   PATTERN_TRANSFER_E1RM_FACTOR,
 } from '../domain/prescription/loadCalculator.js';
-import { updateLoadPerformanceLedger } from '../domain/athlete/loadPerformanceLedger.js';
+import { updateLoadPerformanceLedger, ledgerEntriesForPrescription } from '../domain/athlete/loadPerformanceLedger.js';
 import { resolveLoadConvention } from '../domain/prescription/loadConvention.js';
 
 /**
@@ -159,5 +159,105 @@ describe('load calibration regressions (audit fixes)', () => {
         equipo: ['Mancuernas'],
       }),
     ).toBe('unilateral');
+  });
+
+  it('machine iso-row uses machine_stack even when catalog marks isUnilateral', () => {
+    expect(
+      resolveLoadConvention({
+        exerciseId: 'Leverage_Iso_Row',
+        exerciseName: 'Remo Isolateral en Máquina',
+        equipo: ['Máquina'],
+        isUnilateral: true,
+      }),
+    ).toBe('machine_stack');
+  });
+
+  it('does not under-prescribe new mesocycle machine row from pattern transfer (Carlos audit)', () => {
+    const ledger = {
+      byExerciseId: {},
+      byPattern: {
+        'Traccion_H:basic': {
+          e1RM: 58.3,
+          lastWeightKg: 35,
+          loadConvention: 'barbell_total',
+          updatedAt: new Date().toISOString(),
+        },
+        'Traccion_H:accessory': {
+          e1RM: 25.9,
+          lastWeightKg: 20,
+          loadConvention: 'machine_stack',
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    };
+
+    const history = ledgerEntriesForPrescription(
+      ledger,
+      'Leverage_Iso_Row',
+      'Traccion_H',
+      2,
+      'Intermedio',
+    );
+    const load = prescribeLoad({
+      exerciseType: 'isolation',
+      rirTarget: 2,
+      repRange: '9-13',
+      history,
+      bodyWeightKg: 70,
+      movementPattern: 'Traccion_H',
+      exerciseId: 'Leverage_Iso_Row',
+      exerciseName: 'Remo Isolateral en Máquina',
+      equipo: ['Máquina'],
+      isUnilateral: false,
+      loadConvention: 'machine_stack',
+    });
+
+    expect(load.mode).toBe('pattern_transfer');
+    expect(load.loadConvention).toBe('machine_stack');
+    expect(load.prescribedLoadKg).toBeGreaterThanOrEqual(15);
+    expect(load.prescribedLoadKg).not.toBe(6);
+  });
+
+  it('does not under-prescribe new mesocycle incline machine from weak accessory pattern', () => {
+    const ledger = {
+      byExerciseId: {},
+      byPattern: {
+        'Empuje_H:basic': {
+          e1RM: 51.9,
+          lastWeightKg: 40,
+          loadConvention: 'barbell_total',
+          updatedAt: new Date().toISOString(),
+        },
+        'Empuje_H:accessory': {
+          e1RM: 38.9,
+          lastWeightKg: 30,
+          loadConvention: 'machine_stack',
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    };
+
+    const history = ledgerEntriesForPrescription(
+      ledger,
+      'Leverage_Incline_Chest_Press',
+      'Empuje_H',
+      2,
+      'Intermedio',
+    );
+    const load = prescribeLoad({
+      exerciseType: 'isolation',
+      rirTarget: 2,
+      repRange: '9-13',
+      history,
+      bodyWeightKg: 70,
+      movementPattern: 'Empuje_H',
+      exerciseId: 'Leverage_Incline_Chest_Press',
+      exerciseName: 'Press de Pecho Inclinado en Máquina',
+      equipo: ['Máquina'],
+      loadConvention: 'machine_stack',
+    });
+
+    expect(load.prescribedLoadKg).toBeGreaterThanOrEqual(25);
+    expect(load.prescribedLoadKg).not.toBe(15);
   });
 });

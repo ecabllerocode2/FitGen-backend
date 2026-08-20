@@ -6568,9 +6568,9 @@
       "parteCuerpo": "Espalda",
       "dificultadTecnica": "Baja",
       "equipo": [
-        "Prensa de Piernas"
+        "Máquina"
       ],
-      "isUnilateral": true,
+      "isUnilateral": false,
       "isDynamic": true,
       "url_img_0": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Leverage_Iso_Row_0.webp",
       "url_img_1": "https://pub-8d5fa4786e4142aab39adba9d49ee865.r2.dev/Leverage_Iso_Row_1.webp",

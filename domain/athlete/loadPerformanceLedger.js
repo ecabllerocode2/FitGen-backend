@@ -172,8 +172,17 @@ export function ledgerEntriesForPrescription(
     ];
   }
 
-  const patternEntry = store.byPattern[`${movementPattern}:${tier}`];
-  if (patternEntry?.e1RM) {
+  // Priority 1–2 (compounds): prefer basic-tier pattern history so a new mesocycle
+  // machine press inherits bench e1RM, not a weak accessory isolation from the same pattern.
+  // Priority 3+ (isolations): prefer accessory tier first.
+  const tierOrder = priority === 1 || priority === 2
+    ? ['basic', 'accessory']
+    : ['accessory', 'basic'];
+
+  for (const patternTier of tierOrder) {
+    const patternEntry = store.byPattern[`${movementPattern}:${patternTier}`];
+    if (!patternEntry?.e1RM) continue;
+
     const months = monthsBetween(patternEntry.updatedAt, now);
     return [
       {
